@@ -1,0 +1,5 @@
+.container{
+    max-width: map-get($grid-breakpoints, xxl );
+    margin-left: auto;
+    margin-right: auto;
+}
