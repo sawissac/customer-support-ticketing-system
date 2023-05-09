@@ -26,5 +26,5 @@ Route::middleware(['cors'])->group(function () {
     Route::post('/auth/login', [AuthController::class, 'loginUser']);
 
     // Route::apiResource('user', UserController::class);
-    Route::apiResource('/user', UserController::class);
+    Route::apiResource('/user', UserController::class)->middleware('auth:sanctm');
 });
