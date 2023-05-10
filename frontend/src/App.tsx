@@ -2,9 +2,6 @@ import React from "react";
 import { NavLink, Routes, Route } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./redux/hook";
 import { darkTheme } from "./redux/feature_slice/ThemeSlice";
-<<<<<<< HEAD
-import LoginPage from "./pages/LoginPage";
-=======
 import AdminDashboard from "./pages/AdminPage";
 
 
