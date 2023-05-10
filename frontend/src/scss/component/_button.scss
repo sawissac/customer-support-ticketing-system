@@ -1,14 +1,44 @@
-.btn-square-primary {
-  @include interactive("blue");
-  width: 50px;
-  height: 50px;
-  display: grid;
-  padding-left: map-get($spacers, 3);
-  padding-right: map-get($spacers, 3);
-  place-items: center;
-  border-radius: $border-radius-lg;
-  outline: transparent;
-  border: transparent;
-  font-size: $h3-font-size;
-  color: $white;
+// .btn-square-primary {
+//   @include interactive("blue");
+//   width: 50px;
+//   height: 50px;
+//   display: grid;
+//   padding-left: map-get($spacers, 3);
+//   padding-right: map-get($spacers, 3);
+//   place-items: center;
+//   border-radius: $border-radius-lg;
+//   outline: transparent;
+//   border: transparent;
+//   font-size: $h3-font-size;
+//   color: $white;
+// }
+.btn_container{
+  display: flex;
 }
+.btn{
+  border: none;
+  height: 40px;
+  color: white;
+  font-weight: bold;
+  @include interactive('orange');
+
+  &--block{
+    background-color: $orange;
+    font-size: 15px;
+    width: 300px;
+    border-radius: 5px;
+  }
+  &--block2{
+    background-color: $white;
+    border: 1px solid $gray-400;
+    width: 300px;
+    color: $gray-900;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: map-get($spacers , 2 );
+  }
+  
+}
+
