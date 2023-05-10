@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CustomerSoftware;
+use App\Http\Controllers\Api\CustomerSoftwareController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SoftwareController;
 
@@ -28,4 +30,5 @@ Route::middleware(['cors'])->group(function () {
 
     Route::apiResource('/user', UserController::class)->middleware('auth:sanctum');
     Route::apiResource('/software', SoftwareController::class)->middleware('auth:sanctum');
+    Route::apiResource('/customer-software', CustomerSoftwareController::class);
 });
