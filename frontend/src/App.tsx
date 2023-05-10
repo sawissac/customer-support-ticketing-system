@@ -2,8 +2,11 @@ import React from "react";
 import { NavLink, Routes, Route } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./redux/hook";
 import { darkTheme } from "./redux/feature_slice/ThemeSlice";
+<<<<<<< HEAD
+import LoginPage from "./pages/LoginPage";
+=======
 import AdminDashboard from "./pages/AdminPage";
-import SideBar from "./components/SideBar";
+
 
 function App() {
   const dispatch = useAppDispatch();
@@ -15,11 +18,10 @@ function App() {
 
   return (
     <React.Fragment>
-      <SideBar route="/admin-dashboard" />
-      <Routes>
-        <Route path="/" element={<React.Fragment />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<React.Fragment />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        </Routes>
     </React.Fragment>
   );
 }
