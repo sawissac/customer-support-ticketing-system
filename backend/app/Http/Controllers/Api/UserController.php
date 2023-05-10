@@ -9,8 +9,11 @@ use App\Http\Requests\UserRequest;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use App\Service\User\UserServiceInterface;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
+
 use App\Repository\User\UserRepositoryInterface;
+use App\Service\User\UserServiceInterface;
 
 class UserController extends Controller
 {
@@ -30,22 +33,20 @@ class UserController extends Controller
 
     public function index()
     {
-        try
-        {
+        try {
             $data = $this->userRepo->get();
             return response()->json([
                 'status' => 'success',
-                'message' => 'Blog List All',
+                'message' => 'User List All',
                 'data' => $data
             ], 200);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
                 'data' => $data
             ], 500);
         }
-
     }
 
     /**
@@ -54,20 +55,37 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(Request $request)
     {
-        try
-        {
+        try {
 
-            $data = $this->userService->store($request->validated());
+            $validateUser = Validator::make(
+                $request->all(),
+                [
+                    'name' => 'required',
+                    'email' => 'required|email|unique:users,email',
+                    'password' => 'required|confirmed',
+                    // 'password_confirmation' => 'required',
+                ]
+            );
+
+            if ($validateUser->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'validation error',
+                    'errors' => $validateUser->errors()
+                ], 401);
+            }
+
+            $data = $this->userService->store($request->all());
+            // $data = $this->userService->store($request->validated());
 
             return response()->json([
                 'stauts' => 'success',
-                'message' => 'User Created Success',
+                'message' => 'User Created Successfully',
                 'data' => $data,
             ], 200);
-
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
@@ -84,14 +102,14 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        try{
+        try {
             $result = $this->userRepo->show($id);
             return response()->json([
                 'status' => 'success',
-                'message' => 'User Show Success',
+                'message' => 'User Detail List',
                 'data' => $result,
             ], 200);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
@@ -107,17 +125,38 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        try{
-            $data = $this->userService->update($id, $request->validated());
+        try {
+
+            $validateUser = Validator::make(
+                $request->all(),
+                [
+                    'name' => 'required',
+                    'email' => 'required|email',
+                    'password' => 'required|confirmed',
+                    // 'password_confirmation' => 'required',
+                ]
+            );
+
+            if ($validateUser->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'validation error',
+                    'errors' => $validateUser->errors()
+                ], 401);
+            }
+
+            $data = $this->userService->update($id, $request->all());
+
+            // $data = $this->userService->update($id, $request->validated());
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User Edited Success',
+                'message' => 'User Edited Successfully',
                 'data' => $data
             ], 200);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
@@ -136,13 +175,13 @@ class UserController extends Controller
     {
         $data = $this->userService->delete($id);
 
-        try{
+        try {
             return response()->json([
                 'status' => 'success',
-                'message' => 'User Delete Success',
+                'message' => 'User Deleted Successfully',
                 'data' => $data
             ], 200);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),

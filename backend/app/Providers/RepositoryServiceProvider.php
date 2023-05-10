@@ -10,6 +10,11 @@ use App\Repository\User\UserRepositoryInterface;
 use App\Service\User\UserService;
 use App\Service\User\UserServiceInterface;
 
+use App\Repository\Software\SoftwareRepository;
+use App\Repository\Software\SoftwareRepositoryInterface;
+use App\Service\Software\SoftwareService;
+use App\Service\Software\SoftwareServiceInterface;
+
 class RepositoryServiceProvider extends ServiceProvider
 {
     /**
@@ -31,6 +36,9 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(UserServiceInterface::class, UserService::class);
+
+        $this->app->bind(SoftwareRepositoryInterface::class, SoftwareRepository::class);
+        $this->app->bind(SoftwareServiceInterface::class, SoftwareService::class);
 
     }
 }
