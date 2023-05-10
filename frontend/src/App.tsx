@@ -1,33 +1,27 @@
-import React from "react"
+import React from "react";
 import { NavLink, Routes, Route } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./redux/hook";
 import { darkTheme } from "./redux/feature_slice/ThemeSlice";
 import AdminDashboard from "./pages/AdminPage";
-
+import SideBar from "./components/SideBar";
 
 function App() {
   const dispatch = useAppDispatch();
-  const ThemeRedux = useAppSelector(state=>state.theme);
+  const ThemeRedux = useAppSelector((state) => state.theme);
 
-  function ChangeDarkTheme(){
+  function ChangeDarkTheme() {
     dispatch(darkTheme());
   }
-  
+
   return (
     <React.Fragment>
-        <NavLink 
-           to={`/hello`}
-           relative="path"
-           className={({ isActive }) => {
-             return isActive ? "active" : ""
-           }}
-        />
-        <Routes>
-          <Route path="/" element={<React.Fragment />} />
-          <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        </Routes>
+      <SideBar route="/admin-dashboard" />
+      <Routes>
+        <Route path="/" element={<React.Fragment />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+      </Routes>
     </React.Fragment>
-  )
+  );
 }
 
-export default App
+export default App;
