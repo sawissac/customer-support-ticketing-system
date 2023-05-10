@@ -34,9 +34,9 @@ class AdminSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-        // $admin -> assignRole('Admin');
-        // $dev -> assignRole('Dev');
-        // $customer -> assignRole('Customer');
+        $admin -> assignRole('Admin');
+        $dev -> assignRole('Dev');
+        $customer -> assignRole('Customer');
 
     }
 }
