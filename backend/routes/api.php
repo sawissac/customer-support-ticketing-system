@@ -26,7 +26,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware(['cors'])->group(function () {
     Route::post('/auth/login', [AuthController::class, 'loginUser']);
-
     Route::apiResource('/user', UserController::class)->middleware('auth:sanctum');
     Route::apiResource('/software', SoftwareController::class)->middleware('auth:sanctum');
     Route::apiResource('/customer-software', CustomerSoftwareController::class);

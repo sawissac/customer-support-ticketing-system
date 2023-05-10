@@ -16,14 +16,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
-
         Software::create([
             'name' => 'AcePlusSolution',
         ]);
@@ -34,7 +26,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        $this->call(AdminSeeder::class);
         $this->call(RoleAndPermissionSeeder::class);
+        $this->call(AdminSeeder::class);
     }
 }
