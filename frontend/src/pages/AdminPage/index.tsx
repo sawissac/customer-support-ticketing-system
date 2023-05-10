@@ -1,9 +1,12 @@
 import React from 'react'
+import SideBar from '../../components/SideBar'
 
-const index = () => {
+const AdminDashboard = () => {
   return (
-    <div></div>
+    <div>
+        <SideBar />
+    </div>
   )
 }
 
-export default index
+export default AdminDashboard
