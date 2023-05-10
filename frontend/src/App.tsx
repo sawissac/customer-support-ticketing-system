@@ -2,6 +2,7 @@ import React from "react"
 import { NavLink, Routes, Route } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./redux/hook";
 import { darkTheme } from "./redux/feature_slice/ThemeSlice";
+import LoginPage from "./pages/LoginPage";
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
            }}
         />
         <Routes>
-          <Route path="/" element={<React.Fragment />} />
+          <Route path="/login" element={< LoginPage />} />
           <Route path="/:root" element={<React.Fragment />} />
         </Routes>
     </React.Fragment>

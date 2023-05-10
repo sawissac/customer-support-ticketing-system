@@ -6,6 +6,7 @@ import { store } from "./redux/store.ts";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClientProvider} from 'react-query'
 import { queryClient } from "./routes/queryClient.ts";
+import './scss/index.scss';
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
