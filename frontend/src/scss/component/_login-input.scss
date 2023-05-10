@@ -1,0 +1,45 @@
+// .login_input_inner{
+//     display: flex;
+//     border: 1px solid $orange;
+//     width: 300px;
+//     height: 45px;
+// }
+// .icon{
+//     width: 15%;
+//     border: 1px solid green;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     color: $white;
+//     background-color: $orange;
+
+// }
+// input{
+//     width: 85%;
+//     border: none;
+//     outline: none;
+// }
+.login_input_container {
+  
+  .login_input_inner {
+    border: 1px solid $orange;
+    border-radius: $border-radius-sm;
+    display: flex;
+    width: 300px;
+    height: 45px;
+    .icon {
+      width: 15%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $white;
+      background-color: $orange;
+    }
+    input{
+            width: 85%;
+            height: 100%;
+            border: none;
+            outline: none;
+        }
+  }
+}

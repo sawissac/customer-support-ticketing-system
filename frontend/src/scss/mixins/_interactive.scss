@@ -1,4 +1,10 @@
 @mixin interactive($color) {
+  // @if($color=='gray'){
+  //   background-color: $gray-100;
+  // }
+  // @else{
+  //   background-color: use-color_pallette(#($color)-500);
+  // }
   background-color: use-color-pallette(#{$color}-500);
   box-shadow: $box-shadow-inset;
   transition-property: background;
