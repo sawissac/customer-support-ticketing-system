@@ -27,13 +27,16 @@ function Dropdown({
     setIsOpen((prevState) => !prevState);
   };
 
+  function mouseHander(){
+    toggleDropdown();
+  }
   return (
     <>
       <button className={buttonClassName} ref={setReferenceElement} onClick={toggleDropdown}>
         {buttonChildren}
       </button>
       {isOpen && (
-        <div className={dropdownClassName} ref={setPopperElement} style={styles.popper} {...attributes.popper}>
+        <div onMouseLeave={mouseHander} className={dropdownClassName} ref={setPopperElement} style={styles.popper} {...attributes.popper}>
           {dropdownChildren}
         </div>
       )}
