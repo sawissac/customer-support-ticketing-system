@@ -7,7 +7,7 @@ import SideBar from "./components/SideBar";
 function App() {
   return (
     <React.Fragment>
-      <SideBar route="/admin-dashboard" />
+      {/* <SideBar route="/admin-dashboard" /> */}
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />

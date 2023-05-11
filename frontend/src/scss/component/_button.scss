@@ -5,9 +5,9 @@
   border-color: transparent;
   outline-color: transparent;
   width: max-content;
-  font-size: $h5-font-size;
+  font-size: $h6-font-size;
   border-radius: $border-radius-sm;
-  padding: map-get($spacers, 3);
+  padding: 1rem * .7; 
   display: flex;
   justify-content: center;
   align-items: center;
