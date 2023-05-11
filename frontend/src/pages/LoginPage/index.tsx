@@ -1,9 +1,11 @@
 import React from "react";
 import LoginInput from "../../components/LoginInput";
 import Button from "../../components/Button";
-import { IconMoon2, IconSunFilled, IconKey, IconLanguageHiragana, IconUser, IconMoonFilled } from "@tabler/icons-react";
+import { IconMoon2, IconSunFilled, IconKey, IconLanguageHiragana, IconUser, IconMoonFilled, IconTicket } from "@tabler/icons-react";
 import DropDown from "../../components/DropDown";
 import axios from "axios";
+import Nav from "../../components/Nav";
+import Status from "../../components/Status";
 
 const LoginPage = () => {
   const [input, setInput] = React.useState({
@@ -42,6 +44,8 @@ const LoginPage = () => {
 
   return (
     <div className="login_container">
+      <Nav icon={<IconTicket/>} label="Tickets Request"/>
+      <Status/>
       <form action="/auth/login" className="login-form" onSubmit={onSubmitHandle}>
         <h1 className="login-form__header">Welcome Back User!</h1>
         <LoginInput

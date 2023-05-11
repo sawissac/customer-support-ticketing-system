@@ -1,0 +1,13 @@
+.user_form{
+    form{
+        padding: map-get($spacers, 5);
+        .user-dropdown{
+            width: 300px;
+            color:$dark;
+            box-shadow: $box-shadow-sm;
+            border-radius: $border-radius-sm;
+            background-color: $white;
+            border:1px solid $gray-300;
+        }
+    }
+}
