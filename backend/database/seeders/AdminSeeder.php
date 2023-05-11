@@ -33,7 +33,6 @@ class AdminSeeder extends Seeder
             'email' => 'customer@gmail.com',
             'password' => Hash::make('password'),
         ]);
-
         $admin -> assignRole('admin','guest');
         $dev -> assignRole('developer','guest');
         $customer -> assignRole('Customer','guest');
