@@ -6,13 +6,15 @@ import {
   IconUsers,
   IconBrandVisualStudio,
   IconFileTime,
-  IconCalendarPlus
+  IconCalendarPlus,
 } from "@tabler/icons-react";
 import Avatar from "react-avatar";
 import { NavLink } from "react-router-dom";
+import Dropdown from "../DropDown";
+import Button from "../Button";
 
-interface SideBarInterface{
-    route: string;
+interface SideBarInterface {
+  route: string;
 }
 
 const SideBar = (props: SideBarInterface) => {
@@ -70,9 +72,13 @@ SideBar.Profile = function (props: SideBarProfile) {
         <h5>{props.name.length > 10 ? props.name.substring(0, 10) + "..." : props.name}</h5>
         <h6>{props.email.length > 15 ? props.email.substring(0, 15) + "..." : props.email}</h6>
       </div>
-      <button title="setting">
-        <IconSettings />
-      </button>
+      <Dropdown
+        offset={[-180, 30]}
+        placement="top-start"
+        buttonChildren={<IconSettings />}
+        dropdownClassName="sidebar-dropdown"
+        dropdownChildren={<></>}
+      />
     </div>
   );
 };

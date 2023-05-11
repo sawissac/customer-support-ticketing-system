@@ -9,3 +9,15 @@
     border:1px solid $gray-300;
     color:$dark;
 }
+
+.sidebar-dropdown{
+    padding: map-get($spacers, 3);
+    padding-bottom: map-get($spacers, 2);
+    background-color: $white;
+    box-shadow: $box-shadow-sm;
+    width: 247px;
+    border-radius: $border-radius-sm;
+    border:1px solid $gray-300;
+    color:$dark;
+
+}
