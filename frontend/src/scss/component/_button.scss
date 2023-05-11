@@ -5,9 +5,8 @@
   border-color: transparent;
   outline-color: transparent;
   width: max-content;
-  font-size: $h5-font-size;
+  font-size: $h6-font-size;
   border-radius: $border-radius-sm;
-  padding: map-get($spacers, 3);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,15 +15,25 @@
   &--primary {
     @include interactive("orange");
     color:$white;
+    padding: map-get($spacers, 3);
   }
 
   &--light {
     @include interactive("gray");
     border:1px solid $gray-300;
     color:$dark;
+    padding: map-get($spacers, 3);
   }
 
   &--block {
     width: 100%;
+  }
+
+  &--user_create{
+    @include interactive("orange");
+    background-color:$orange;
+    color: $white;
+    width: 150px;
+    height: 45px;
   }
 }
