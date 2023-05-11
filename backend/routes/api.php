@@ -30,5 +30,5 @@ Route::middleware(['cors'])->group(function () {
     Route::apiResource('/user', UserController::class)->middleware('auth:sanctum');
     Route::apiResource('/software', SoftwareController::class)->middleware('auth:sanctum');
     Route::apiResource('/customer-software', CustomerSoftwareController::class)->middleware('auth:sanctum');
-    Route::apiResource('/assign-employee', AssignedEmployeeController::class);
+    Route::apiResource('/assign-employee', AssignedEmployeeController::class)->middleware('auth:sanctum');
 });
