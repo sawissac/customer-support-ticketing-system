@@ -1,30 +1,19 @@
 .login_container {
-  width: 500px;
-  height: 400px;
-  margin: 0 auto;
-  margin-top: 150px;
-
-  .login_form {
+  width: 100%;
+  padding-top: 150px;
+  .login-form {
+    width: 350px;
     margin: 0 auto;
-    width: 300px;
     height: 100%;
-    .login_input {
-      margin-bottom: map-get($spacers, 3);
-      height: 70px;
-    }
-    .welcome {
+    &__header {
       font-weight: bold;
-      font-size: 25px;
+      font-size: $h2-font-size;
       display: flex;
       justify-content: center;
-      margin-bottom: map-get($spacers, 3);
-      margin-top: map-get($spacers, 3);
+      margin-bottom: map-get($spacers, 5);
+      color:$dark;
     }
-    .login_input{
-        margin-bottom: map-get($spacers, 2);
-    }
-    .line {
-      width: 300px;
+    &__line {
       margin-top: map-get($spacers, 3);
       margin-bottom: map-get($spacers, 3);
     }

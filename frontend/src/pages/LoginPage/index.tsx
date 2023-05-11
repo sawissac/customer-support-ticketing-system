@@ -1,47 +1,37 @@
 import React from "react";
 import LoginInput from "../../components/LoginInput";
 import Button from "../../components/Button";
-import {
-  IconBrush,
-  IconHash,
-  IconKey,
-  IconLanguageHiragana,
-  IconUser,
-} from "@tabler/icons-react";
+import { IconBrush, IconKey, IconLanguageHiragana, IconUser } from "@tabler/icons-react";
 
 const LoginPage = () => {
-  return (
-    <div>
-      <div className="login_container">
-        <form action="" className="login_form">
-          <h1 className="welcome">Welcome Back User!</h1>
-          
-          <div className="login_input">
-            <LoginInput icon={<IconUser size={25} />} placeholder="email..." />
-          </div>
-          <div className="login_input">
-            <LoginInput
-              icon={<IconKey size={25} />}
-              placeholder="password..."
-            />
-          </div>
+  function onSubmitHandle(ev: React.FormEvent<HTMLFormElement>) {
+    ev.preventDefault();
+  }
 
-          <Button className="btn btn--block" type="submit" label="login" />
-          <hr className="line" />
-          <Button
-            className="btn btn--block2"
-            type="submit"
-            icon={<IconLanguageHiragana />}
-            label="Select Language"
-          />
-          <Button
-            className="btn btn--block2"
-            type="submit"
-            icon={<IconBrush />}
-            label="Select Theme"
-          />
-        </form>
-      </div>
+  function onClickHandle() {}
+  return (
+    <div className="login_container">
+      <form action="/auth/login" className="login-form" onSubmit={onSubmitHandle}>
+        <h1 className="login-form__header">Welcome Back User!</h1>
+        <LoginInput icon={<IconUser size={25} />} placeholder="Enter your email..." />
+        <LoginInput icon={<IconKey size={25} />} placeholder="Enter your password..." />
+        <Button className="btn btn--primary btn--block" type="submit" label="LOGIN" />
+        <hr className="login-form__line" color="#e9ecef"/>
+        <Button
+          className="btn btn--light btn--block"
+          type="button"
+          onClick={onClickHandle}
+          icon={<IconLanguageHiragana style={{ marginRight: "10px" }} />}
+          label="Select Language"
+        />
+        <Button
+          className="btn btn--light btn--block"
+          type="button"
+          onClick={onClickHandle}
+          icon={<IconBrush style={{ marginRight: "10px" }} />}
+          label="Select Theme"
+        />
+      </form>
     </div>
   );
 };
