@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Spatie\Permission\Models\Permission;
 
@@ -17,7 +16,6 @@ class RoleAndPermissionSeeder extends Seeder
      */
     public function run()
     {
-
         $admin = Role::create(['name' => 'admin']);
         $developer = Role::create(['name' => 'developer']);
         $customer = Role::create(['name' => 'customer']);
