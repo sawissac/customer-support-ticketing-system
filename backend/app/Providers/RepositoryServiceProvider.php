@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Repository\AssignedEmployee\AssEmployeeRepository;
-use App\Repository\AssignedEmployee\AssEmployeeRepositoryInterface;
+use App\Repository\CustomerSoftware\CustomerSoftwareRepoInterface;
+use App\Repository\CustomerSoftware\CustomerSoftwareRepository;
 use Illuminate\Support\ServiceProvider;
 
 use App\Repository\User\UserRepository;
@@ -14,8 +14,10 @@ use App\Service\User\UserServiceInterface;
 
 use App\Repository\Software\SoftwareRepository;
 use App\Repository\Software\SoftwareRepositoryInterface;
-use App\Service\AssignedEmployee\AssEmployeeService;
-use App\Service\AssignedEmployee\AssEmployeeServiceInterface;
+
+use App\Service\CustomerSoftware\CustomerSoftwareService;
+use App\Service\CustomerSoftware\CustomerSoftwareServiceInterface;
+
 use App\Service\Software\SoftwareService;
 use App\Service\Software\SoftwareServiceInterface;
 
@@ -44,8 +46,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(SoftwareRepositoryInterface::class, SoftwareRepository::class);
         $this->app->bind(SoftwareServiceInterface::class, SoftwareService::class);
 
-        $this->app->bind(AssEmployeeRepositoryInterface::class, AssEmployeeRepository::class);
-        $this->app->bind(AssEmployeeServiceInterface::class, AssEmployeeService::class);
+        // $this->app->bind(CustomerSoftwareRepoInterface::class, CustomerSoftwareRepository::class);
+        // $this->app->bind(CustomerSoftwareServiceInterface::class, CustomerSoftwareService::class);
 
+        $this->app->bind(CustomerSoftwareRepoInterface::class, CustomerSoftwareRepository::class);
+        $this->app->bind(CustomerSoftwareServiceInterface::class, CustomerSoftwareService::class);
     }
 }

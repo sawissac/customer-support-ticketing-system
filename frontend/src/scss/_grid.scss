@@ -1,0 +1,31 @@
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  @each $key, $val in $spacers {
+    &--gap-#{$key} > * {
+      padding: $val;
+    }
+  }
+}
+
+.col {
+  flex: 1 0 0%;
+}
+
+@each $val in $col-list {
+  .col-#{$val} {
+    flex: 0 0 auto;
+    width: calc(100% / (12 / $val));
+  }
+}
+
+@each $point in $breakpoints-list {
+  @include media-breakpoint-down($point) {
+    @each $col in $col-list {
+      .col-#{$point}-#{$col} {
+        flex: 0 0 auto;
+        width: calc(100% / (12 / $col));
+      }
+    }
+  }
+}

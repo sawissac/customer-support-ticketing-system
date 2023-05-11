@@ -10,4 +10,9 @@ class Software extends Model
     use HasFactory;
 
     protected $fillable = ['name'];
+
+    // public function AssginEmploye()
+    // {
+    //     return $this->belongsTo(Software::class);
+    // }
 }

@@ -1,0 +1,21 @@
+.login_container {
+  width: 100%;
+  padding-top: 150px;
+  .login-form {
+    width: 350px;
+    margin: 0 auto;
+    height: 100%;
+    &__header {
+      font-weight: bold;
+      font-size: $h2-font-size;
+      display: flex;
+      justify-content: center;
+      margin-bottom: map-get($spacers, 5);
+      color:$dark;
+    }
+    &__line {
+      margin-top: map-get($spacers, 3);
+      margin-bottom: map-get($spacers, 3);
+    }
+  }
+}

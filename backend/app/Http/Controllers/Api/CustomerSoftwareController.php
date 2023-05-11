@@ -2,50 +2,53 @@
 
 namespace App\Http\Controllers\Api;
 
-use Exception;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\CustomerSoftware;
+use App\Http\Requests\CustomerSoftwareRequest;
+use App\Repository\CustomerSoftware\CustomerSoftwareRepoInterface;
+use App\Service\CustomerSoftware\CustomerSoftwareServiceInterface;
+use Exception;
 
 class CustomerSoftwareController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    private $customerSoftwareRepo, $customerSoftwareService;
+
+    public function __construct(CustomerSoftwareRepoInterface $customerSoftwareRepo, CustomerSoftwareServiceInterface $customerSoftwareService)
     {
-        //
+        $this->customerSoftwareRepo = $customerSoftwareRepo;
+        $this->customerSoftwareService = $customerSoftwareService;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function index()
     {
-
-
         try {
-            $validatedData = $request->validate([
-                'user_id' => 'required',
-                'software_id' => 'required',
-            ]);
-
-            $data = CustomerSoftware::create([
-                'user_id' => $validatedData['user_id'],
-                'software_id' => $validatedData['software_id'],
-            ]);
+            $data = $this->customerSoftwareRepo->get();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Software Created Successfully',
-                'data' => $data,
+                'message' => 'Customer Software List All',
+                'data' => $data
             ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'data' => $data
+            ], 500);
+        }
+    }
 
+    public function store(CustomerSoftwareRequest $request)
+    {
+        try {
+
+            $data = $this->customerSoftwareService->store($request->validated());
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Customer Software Create Data',
+                'data' => $data
+            ], 200);
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
@@ -55,37 +58,61 @@ class CustomerSoftwareController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        try {
+            $result = $this->customerSoftwareRepo->show($id);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Customer Software Detail List',
+                'data' => $result,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'data' => $result,
+            ], 500);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(CustomerSoftwareRequest $request, $id)
     {
-        //
+        try {
+            $data = $this->customerSoftwareService->update($id, $request->validated());
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Customer Software Edited Successfully',
+                'data' => $data
+            ], 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'data' => $data,
+            ], 500);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $data = $this->customerSoftwareService->delete($id);
+
+        try {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Customer Software Deleted Successfully',
+                'data' => $data
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'data' => $data,
+            ], 500);
+        }
     }
 }
