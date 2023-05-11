@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Service\AssignedEmployee;
+namespace App\Service\EmployeeProject;
 
-interface AssEmployeeServiceInterface
+
+interface EmployeeProjectServiceInterface
 {
     public function store($data);
 

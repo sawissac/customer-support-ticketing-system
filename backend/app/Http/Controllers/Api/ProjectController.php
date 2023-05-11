@@ -2,37 +2,34 @@
 
 namespace App\Http\Controllers\Api;
 
-use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Api\BaseController;
-use Illuminate\Support\Facades\Validator;
+use App\Service\Project\ProjectServiceInterface;
+use App\Repository\Project\ProjectRepositoryInterface;
 
-use App\Repository\User\UserRepositoryInterface;
-use App\Service\User\UserServiceInterface;
-
-class UserController extends BaseController
+class ProjectController extends BaseController
 {
+    private $projectRepo, $projectServcie;
 
-    private $userRepo, $userService;
-
-    public function __construct(UserRepositoryInterface $userRepo, UserServiceInterface $userService)
+    public function __construct(ProjectRepositoryInterface $projectRepo, ProjectServiceInterface $projectServcie)
     {
-        $this->userRepo = $userRepo;
-        $this->userService = $userService;
+        $this->projectRepo = $projectRepo;
+        $this->projectServcie = $projectServcie;
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
     public function index()
     {
-        $data = $this->userRepo->get();
+        $data = $this->projectRepo->get();
 
-        return $this->sendResponse($data, 'Users retrieved successfully.');
+        return $this->sendResponse($data, 'Projects retrieved successfully.');
     }
 
     /**
@@ -48,9 +45,10 @@ class UserController extends BaseController
         $validator = Validator::make(
             $validate,
             [
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|max:255|email|unique:users,email',
-                'password' => 'required|confirmed',
+                'project_id' => 'required|string',
+                'name' => 'required|string',
+                'manage_start_date' => 'required|date_format:Y-m-d',
+                'manage_end_date' => 'required|date_format:Y-m-d',
             ]
         );
 
@@ -58,9 +56,10 @@ class UserController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        $data = $this->userService->store($validate);
+        $data = $this->projectServcie->store($validate);
 
-        return $this->sendResponse($data, 'User created successfully.');
+        return $this->sendResponse($data, 'Project created successfully.');
+
     }
 
     /**
@@ -71,13 +70,13 @@ class UserController extends BaseController
      */
     public function show($id)
     {
-        $result = $this->userRepo->show($id);
+        $result = $this->projectRepo->show($id);
 
         if (is_null($result)) {
-            return $this->sendError('User not found.');
+            return $this->sendError('Project not found.');
         }
 
-        return $this->sendResponse($result, 'User retrieved successfully.');
+        return $this->sendResponse($result, 'Project retrieved successfully.');
     }
 
     /**
@@ -94,8 +93,10 @@ class UserController extends BaseController
         $validator = Validator::make(
             $validate,
             [
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|max:255|email|unique:users,email',
+                'project_id' => 'required|integer',
+                'name' => 'required|string',
+                'manage_start_date' => 'required|date_format:Y-m-d',
+                'manage_end_date' => 'required|date_format:Y-m-d',
             ]
         );
 
@@ -103,9 +104,9 @@ class UserController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        $data = $this->userService->update($id, $validate);
+        $data = $this->projectServcie->update($id, $validate);
 
-        return $this->sendResponse($data, 'User updated successfully.');
+        return $this->sendResponse($data, 'Project updated successfully.');
     }
 
     /**
@@ -116,8 +117,9 @@ class UserController extends BaseController
      */
     public function destroy($id)
     {
-        $this->userService->delete($id);
+        $this->projectServcie->delete($id);
 
-        return $this->sendResponse([], 'User deleted successfully.');
+        return $this->sendResponse([], 'Project deleted successfully.');
+
     }
 }
