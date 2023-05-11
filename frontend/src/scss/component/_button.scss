@@ -7,6 +7,7 @@
   width: max-content;
   font-size: $h6-font-size;
   border-radius: $border-radius-sm;
+  padding: 1rem * .7; 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,14 +16,14 @@
   &--primary {
     @include interactive("orange");
     color:$white;
-    padding: map-get($spacers, 3);
+    
   }
 
   &--light {
     @include interactive("gray");
     border:1px solid $gray-300;
     color:$dark;
-    padding: map-get($spacers, 3);
+   
   }
 
   &--block {
