@@ -84,7 +84,6 @@ class UserController extends Controller
                 'message' => 'User Created Successfully',
                 'data' => $data,
             ], 200);
-
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
@@ -109,7 +108,6 @@ class UserController extends Controller
                 'message' => 'User Detail List',
                 'data' => $result,
             ], 200);
-            
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
@@ -135,6 +133,8 @@ class UserController extends Controller
                 [
                     'name' => 'required',
                     'email' => 'required|email',
+                    // 'password' => 'required|confirmed',
+                    // 'password_confirmation' => 'required',
                 ]
             );
 
@@ -153,7 +153,6 @@ class UserController extends Controller
                 'message' => 'User Edited Successfully',
                 'data' => $data
             ], 200);
-
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
@@ -179,7 +178,6 @@ class UserController extends Controller
                 'message' => 'User Deleted Successfully',
                 'data' => $data
             ], 200);
-
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',

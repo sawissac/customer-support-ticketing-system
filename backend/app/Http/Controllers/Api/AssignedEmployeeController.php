@@ -12,7 +12,7 @@ use App\Service\AssignedEmployee\AssEmployeeServiceInterface;
 class AssignedEmployeeController extends Controller
 {
     private $assEmployeeRepo, $assEmployeeService;
-    public function __construct(AssEmployeeRepositoryInterface $assEmployeeRepo,AssEmployeeServiceInterface $assEmployeeService)
+    public function __construct(AssEmployeeRepositoryInterface $assEmployeeRepo, AssEmployeeServiceInterface $assEmployeeService)
     {
         $this->assEmployeeRepo = $assEmployeeRepo;
         $this->assEmployeeService = $assEmployeeService;
@@ -33,7 +33,7 @@ class AssignedEmployeeController extends Controller
                 'message' => 'Employee List All',
                 'data' => $data
             ], 200);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
@@ -63,11 +63,11 @@ class AssignedEmployeeController extends Controller
                 'message' => 'AssEmployee Created Successfully',
                 'data' => $data,
             ], 200);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-                'data' => []
+                'data' => $data
             ], 500);
         }
     }
@@ -88,7 +88,7 @@ class AssignedEmployeeController extends Controller
                 'message' => 'AssEmployee Detail List',
                 'data' => $result,
             ], 200);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),

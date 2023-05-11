@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SoftwareController;
 use App\Http\Controllers\Api\CustomerSoftwareController;
+use App\Models\AssignedEmployee;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,5 +29,6 @@ Route::middleware(['cors'])->group(function () {
     Route::post('/auth/login', [AuthController::class, 'loginUser']);
     Route::apiResource('/user', UserController::class)->middleware('auth:sanctum');
     Route::apiResource('/software', SoftwareController::class)->middleware('auth:sanctum');
-    Route::apiResource('/customer-software', CustomerSoftwareController::class);
+    Route::apiResource('/customer-software', CustomerSoftwareController::class)->middleware('auth:sanctum');
+    Route::apiResource('/assgin-employee', AssignedEmployee::class);
 });
