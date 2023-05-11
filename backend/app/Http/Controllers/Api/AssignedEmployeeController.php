@@ -3,49 +3,41 @@
 namespace App\Http\Controllers\Api;
 
 use Exception;
-use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Requests\UserRequest;
-
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\AssignedEmployeeRequest;
+use App\Repository\AssignedEmployee\AssEmployeeRepositoryInterface;
+use App\Service\AssignedEmployee\AssEmployeeServiceInterface;
 
-use App\Repository\User\UserRepositoryInterface;
-use App\Service\User\UserServiceInterface;
-use Spatie\Permission\Models\Permission;
-
-class UserController extends Controller
+class AssignedEmployeeController extends Controller
 {
-
-    private $userRepo, $userService;
-
-    public function __construct(UserRepositoryInterface $userRepo, UserServiceInterface $userService)
+    private $assEmployeeRepo, $assEmployeeService;
+    public function __construct(AssEmployeeRepositoryInterface $assEmployeeRepo,AssEmployeeServiceInterface $assEmployeeService)
     {
-        $this->userRepo = $userRepo;
-        $this->userService = $userService;
+        $this->assEmployeeRepo = $assEmployeeRepo;
+        $this->assEmployeeService = $assEmployeeService;
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
     public function index()
     {
         try {
-            $data = $this->userRepo->get();
+            $data = $this->assEmployeeRepo->get();
+
             return response()->json([
                 'status' => 'success',
-                'message' => 'User List All',
+                'message' => 'Employee List All',
                 'data' => $data
             ], 200);
-        } catch (Exception $e) {
+        }catch(Exception $e){
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-                'data' => $data
+                'data' => []
             ], 500);
         }
     }
@@ -56,40 +48,26 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AssignedEmployeeRequest $request)
     {
         try {
-
-            $validateUser = Validator::make(
-                $request->all(),
-                [
-                    'name' => 'required',
-                    'email' => 'required|email|unique:users,email',
-                    'password' => 'required|confirmed',
-                ]
-            );
-
-            if ($validateUser->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
+            if ($request->has('status')) {
+                $data['status'] = true;
+            } else {
+                $data['status'] = false;
             }
-
-            $data = $this->userService->store($request->all());
+            $data = $this->assEmployeeService->store($request->validated());
 
             return response()->json([
-                'stauts' => 'success',
-                'message' => 'User Created Successfully',
+                'status' => 'success',
+                'message' => 'AssEmployee Created Successfully',
                 'data' => $data,
             ], 200);
-
-        } catch (Exception $e) {
+        }catch(Exception $e){
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-                'data' => $data,
+                'data' => []
             ], 500);
         }
     }
@@ -103,18 +81,18 @@ class UserController extends Controller
     public function show($id)
     {
         try {
-            $result = $this->userRepo->show($id);
+            $result = $this->assEmployeeRepo->show($id);
+
             return response()->json([
                 'status' => 'success',
-                'message' => 'User Detail List',
+                'message' => 'AssEmployee Detail List',
                 'data' => $result,
             ], 200);
-            
-        } catch (Exception $e) {
+        }catch(Exception $e){
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-                'data' => $result,
+                'data' => []
             ], 500);
         }
     }
@@ -126,39 +104,21 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AssignedEmployeeRequest $request, $id)
     {
         try {
-
-            $validateUser = Validator::make(
-                $request->all(),
-                [
-                    'name' => 'required',
-                    'email' => 'required|email',
-                ]
-            );
-
-            if ($validateUser->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
-            }
-
-            $data = $this->userService->update($id, $request->all());
+            $data = $this->assEmployeeService->update($id, $request->validated());
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'User Edited Successfully',
                 'data' => $data
             ], 200);
-
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-                'data' => $data,
+                'data' => [],
             ], 500);
         }
     }
@@ -171,20 +131,19 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $data = $this->userService->delete($id);
+        $data = $this->assEmployeeService->delete($id);
 
         try {
             return response()->json([
                 'status' => 'success',
-                'message' => 'User Deleted Successfully',
+                'message' => 'Software Deleted Successfully',
                 'data' => $data
             ], 200);
-
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-                'data' => $data,
+                'data' => [],
             ], 500);
         }
     }

@@ -1,13 +1,24 @@
 @mixin interactive($color) {
-  background-color: use-color-pallette(#{$color}-500);
-  box-shadow: $box-shadow-inset;
+  @if ($color == "gray") {
+    background-color: $gray-100;
+  }@else{
+    background-color: use-color-pallette(#{$color}-500);
+    box-shadow: $box-shadow-inset;
+  }
   transition-property: background;
   transition-duration: 0.3s;
-  background-color: "#{$color}-600";
-  &:hover{
-    background-color: use-color-pallette(#{$color}-600);
+  &:hover {
+    @if ($color == "gray") {
+      background-color: $gray-200;
+    }@else{
+      background-color: use-color-pallette(#{$color}-600);
+    }
   }
   &:active {
-    background-color: use-color-pallette(#{$color}-700);
+    @if ($color == "gray") {
+      background-color: $gray-300;
+    }@else{
+      background-color: use-color-pallette(#{$color}-700);
+    }
   }
 }

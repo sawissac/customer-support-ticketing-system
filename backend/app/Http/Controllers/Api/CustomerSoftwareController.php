@@ -87,7 +87,7 @@ class CustomerSoftwareController extends Controller
                 'message' => 'Customer Software Edited Successfully',
                 'data' => $data
             ], 200);
-            
+
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
