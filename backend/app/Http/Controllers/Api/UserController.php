@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Repository\User\UserRepositoryInterface;
 use App\Service\User\UserServiceInterface;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {

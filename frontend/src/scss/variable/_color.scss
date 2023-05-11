@@ -1,0 +1,86 @@
+// scss-docs-start gray-color-variables
+$white: #fff;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black: #000;
+// scss-docs-end gray-color-variables
+
+// scss-docs-start colors-individual
+$blue: #0d6efd;
+$indigo: #6610f2;
+$purple: #6f42c1;
+$pink: #d63384;
+$red: #dc3545;
+$orange: #F37021;
+$yellow: #ffc107;
+$green: #198754;
+$teal: #20c997;
+$cyan: #0dcaf0;
+// scss-docs-end colors-individual
+
+$min-contrast-ratio: 4.5 !default;
+$color-contrast-dark: $black !default;
+$color-contrast-light: $white !default;
+
+// scss-docs-start colors-map
+$colors: (
+  "blue": $blue,
+  "indigo": $indigo,
+  "purple": $purple,
+  "pink": $pink,
+  "red": $red,
+  "orange": $orange,
+  "yellow": $yellow,
+  "green": $green,
+  "teal": $teal,
+  "cyan": $cyan,
+);
+// scss-docs-end colors-map
+
+$color-pallette: ();
+
+@each $color, $val in $colors {
+  $generated-color-pallette: (
+    #{$color}-100: #{tint-color($val, 80%)},
+    #{$color}-200: #{tint-color($val, 60%)},
+    #{$color}-300: #{tint-color($val, 40%)},
+    #{$color}-400: #{tint-color($val, 20%)},
+    #{$color}-500: #{$val},
+    #{$color}-600: #{shade-color($val, 20%)},
+    #{$color}-700: #{shade-color($val, 40%)},
+    #{$color}-800: #{shade-color($val, 60%)},
+    #{$color}-900: #{shade-color($val, 80%)}
+  );
+  $color-pallette: map-merge($color-pallette, $generated-color-pallette);
+}
+
+$primary: $pink;
+$secondary: $gray-600;
+$success: $green;
+$info: $cyan;
+$warning: $yellow;
+$danger: $red;
+$light: $gray-100;
+$dark: $gray-900;
+
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "info": $info,
+  "warning": $warning,
+  "danger": $danger,
+  "light": $light,
+  "dark": $dark,
+);
+
+$body-bg: $white !default;
+$body-color: $gray-900 !default;
+$body-text-align: null !default;

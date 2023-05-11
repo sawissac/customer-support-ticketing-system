@@ -1,0 +1,24 @@
+@mixin interactive($color) {
+  @if ($color == "gray") {
+    background-color: $gray-100;
+  }@else{
+    background-color: use-color-pallette(#{$color}-500);
+    box-shadow: $box-shadow-inset;
+  }
+  transition-property: background;
+  transition-duration: 0.3s;
+  &:hover {
+    @if ($color == "gray") {
+      background-color: $gray-200;
+    }@else{
+      background-color: use-color-pallette(#{$color}-600);
+    }
+  }
+  &:active {
+    @if ($color == "gray") {
+      background-color: $gray-300;
+    }@else{
+      background-color: use-color-pallette(#{$color}-700);
+    }
+  }
+}

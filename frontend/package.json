@@ -10,10 +10,22 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
+    "@tabler/icons-react": "^2.17.0",
+    "axios": "^1.4.0",
+    "debounce": "^1.2.1",
+    "framer-motion": "^10.12.9",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-avatar": "^5.0.3",
+    "react-data-table-component": "^7.5.3",
+    "react-dom": "^18.2.0",
+    "react-editor-js": "^2.1.0",
+    "react-query": "^3.39.3",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.11.1"
   },
   "devDependencies": {
+    "@types/debounce": "^1.2.1",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
@@ -22,6 +34,8 @@
     "eslint": "^8.38.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
+    "prop-types": "^15.8.1",
+    "sass": "^1.62.1",
     "typescript": "^5.0.2",
     "vite": "^4.3.2"
   }

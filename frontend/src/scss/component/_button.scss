@@ -1,0 +1,30 @@
+.btn_container {
+  display: flex;
+}
+.btn {
+  border-color: transparent;
+  outline-color: transparent;
+  width: max-content;
+  font-size: $h5-font-size;
+  border-radius: $border-radius-sm;
+  padding: map-get($spacers, 3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: map-get($spacers, 2);
+
+  &--primary {
+    @include interactive("orange");
+    color:$white;
+  }
+
+  &--light {
+    @include interactive("gray");
+    border:1px solid $gray-300;
+    color:$dark;
+  }
+
+  &--block {
+    width: 100%;
+  }
+}

@@ -1,0 +1,9 @@
+@function gen-number($to) {
+  $num: 1;
+  $temp: ();
+  @while $num <= $to {
+    $temp: append($temp, $num);
+    $num: $num + 1;
+  }
+  @return $temp;
+}
