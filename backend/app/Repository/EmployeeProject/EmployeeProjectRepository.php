@@ -8,7 +8,7 @@ class EmployeeProjectRepository implements EmployeeProjectRepositoryInterface
 {
     public function get()
     {
-        $data = EmployeeProject::all();
+        $data = EmployeeProject::with('user')->get();
 
         return $data;
     }
