@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\Api\AssignedEmployeeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\EmployeeProjectController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\SoftwareController;
-use App\Http\Controllers\Api\CustomerSoftwareController;
+use App\Http\Controllers\Api\ProjectController;
+use App\Http\Controllers\Api\TicketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +27,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware(['cors'])->group(function () {
     Route::post('/auth/login', [AuthController::class, 'loginUser']);
+
     Route::apiResource('/user', UserController::class)->middleware('auth:sanctum');
-    Route::apiResource('/software', SoftwareController::class)->middleware('auth:sanctum');
-    Route::apiResource('/customer-software', CustomerSoftwareController::class)->middleware('auth:sanctum');
-    Route::apiResource('/assign-employee', AssignedEmployeeController::class)->middleware('auth:sanctum');
+    Route::apiResource('/project', ProjectController::class)->middleware('auth:sanctum');
+    Route::apiResource('/employee-project', EmployeeProjectController::class)->middleware('auth:sanctum');
+    Route::apiResource('/ticket', TicketController::class)->middleware('auth:sanctum');
 });

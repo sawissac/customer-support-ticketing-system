@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\AssignedEmployee;
+namespace App\Service\Ticket;
 
-interface AssEmployeeServiceInterface
+interface TicketServiceInterface
 {
     public function store($data);
 

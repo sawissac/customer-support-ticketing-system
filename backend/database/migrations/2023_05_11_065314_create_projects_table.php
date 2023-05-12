@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('software', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $table->id();
+            $table->string('project_id');
             $table->string('name');
+            $table->date('manage_start_date')->default(date('Y-m-d'));
+            $table->date('manage_end_date')->default(date('Y-m-d'));
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('software');
+        Schema::dropIfExists('projects');
     }
 };

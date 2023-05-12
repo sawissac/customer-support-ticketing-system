@@ -22,7 +22,7 @@ class AdminSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-        $dev = User::create([
+        $employee = User::create([
             'name' => 'dev',
             'email' => 'dev@gmail.com',
             'password' => Hash::make('password'),
@@ -34,7 +34,7 @@ class AdminSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
         $admin -> assignRole('admin','guest');
-        $dev -> assignRole('developer','guest');
-        $customer -> assignRole('Customer','guest');
+        $employee -> assignRole('employee','guest');
+        $customer -> assignRole('customer','guest');
     }
 }
