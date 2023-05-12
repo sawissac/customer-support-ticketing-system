@@ -10,6 +10,10 @@ import {
   IconSunFilled,
   IconMoonFilled,
   IconLogout,
+  IconMessage2,
+  IconCalendarUp,
+  IconUserUp,
+  IconArrowNarrowUp,
 } from "@tabler/icons-react";
 import Avatar from "react-avatar";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -17,6 +21,7 @@ import Dropdown from "../DropDown";
 import Button from "../Button";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { resetAuth } from "../../redux/feature_slice/AuthSlice";
+import { IconUserPlus } from "@tabler/icons-react";
 
 interface SideBarInterface {
   route: string;
@@ -33,19 +38,21 @@ const SideBar = (props: SideBarInterface) => {
       </div>
       <div className="sidebar__list">
         <h5>Ticket</h5>
-        <SideBar.Link routeName={props.route + "/tickets-show"} icon={<IconMessage2Up />} label="Show" type="header"/>
+        <SideBar.Link routeName={props.route + "/tickets-show"} icon={<IconMessage2 />} label="Show" type="header"/>
         <SideBar.Link routeName={props.route + "/ticket-create"} icon={<IconMessage2Plus />} label="Create" type="mid" />
         <SideBar.Link routeName={props.route + "/ticket-update"} icon={<IconMessage2Up />} label="Update" type="footer"/>
         <h5>Employee Assignment</h5>
-        <SideBar.Link routeName={props.route + "/assign-dev"} icon={<IconCalendarPlus />} label="Assign" />
+        <SideBar.Link routeName={props.route + "/employee-show"} icon={<IconCalendarPlus />} label="Show" type="header"/>
+        <SideBar.Link routeName={props.route + "/employee-create"} icon={<IconCalendarPlus />} label="Create" type="mid" />
+        <SideBar.Link routeName={props.route + "/employee-update"} icon={<IconCalendarUp />} label="Update" type="footer"/>
         <h5>Users</h5>
         <SideBar.Link routeName={props.route + "/users"} icon={<IconUsers />} label="Show" type="header"/>
-        <SideBar.Link routeName={props.route + "/user-create"} icon={<IconUsers />} label="Create" type="mid"/>
-        <SideBar.Link routeName={props.route + "/users-update"} icon={<IconUsers />} label="Update" type="footer"/>
+        <SideBar.Link routeName={props.route + "/user-create"} icon={<IconUserPlus />} label="Create" type="mid"/>
+        <SideBar.Link routeName={props.route + "/users-update"} icon={<IconUserUp />} label="Update" type="footer"/>
         <h5>Software</h5>
         <SideBar.Link routeName={props.route + "/software"} icon={<IconBrandVisualStudio />} label="Show" type="header"/>
         <SideBar.Link routeName={props.route + "/software-create"} icon={<IconBrandVisualStudio />} label="Create" type="mid"/>
-        <SideBar.Link routeName={props.route + "/software-update"} icon={<IconBrandVisualStudio />} label="Update" type="footer"/>
+        <SideBar.Link routeName={props.route + "/software-update"} icon={<IconArrowNarrowUp />} label="Update" type="footer"/>
         <h5>History</h5>
         <SideBar.Link routeName={props.route + "/report-history"} icon={<IconFileTime />} label="Report History" />
       </div>
