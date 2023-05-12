@@ -1,24 +1,29 @@
-.com_input_container {
-    margin-bottom: map-get($spacers, 3 );
-  .lable_container {
+.form-container{
+  padding: map-get($spacers, 4);
+}
+
+.form-input {
+  margin-bottom: map-get($spacers, 3);
+  &__label {
     display: flex;
     align-items: center;
     height: 35px;
     label {
+      font-weight: $font-weight-bolder;
       font-size: 18px;
       text-align: center;
     }
-    .error_message {
-      color: red;
-      margin-left: map-get($spacers, 3);
-      text-align: center;
-    }
   }
-  .input_container {
-    width: 300px;
+  &__error {
+    color: red;
+    margin-left: map-get($spacers, 3);
+    text-align: center;
+  }
+  &__container {
     height: 45px;
-    // border-color: $gray-200;
     input {
+      border:1px solid $gray-200;
+      border-radius: $border-radius-sm;
       width: 100%;
       height: 100%;
       outline: none;

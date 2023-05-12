@@ -1,19 +1,24 @@
 import React from "react";
 import LoginInput from "../../components/LoginInput";
 import Button from "../../components/Button";
-import { IconMoon2, IconSunFilled, IconKey, IconLanguageHiragana, IconUser, IconMoonFilled, IconTicket } from "@tabler/icons-react";
+import { IconMoon2, IconSunFilled, IconKey, IconUser, IconMoonFilled, IconTicket } from "@tabler/icons-react";
 import DropDown from "../../components/DropDown";
-import axios from "axios";
-import Nav from "../../components/Nav";
-import Status from "../../components/Status";
+import { getUserData } from "../../requests/loginRequest";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { setAuth } from "../../redux/feature_slice/AuthSlice";
+import { useNavigate } from "react-router-dom";
+import { AuthRole } from "../../redux/variable/AuthVariable";
 
 const LoginPage = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [input, setInput] = React.useState({
     email: "",
     password: "",
   });
 
   const [status, setStatus] = React.useState("LOGIN");
+  const authRedux = useAppSelector((state) => state.auth);
 
   function onSubmitHandle(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
@@ -21,31 +26,39 @@ const LoginPage = () => {
 
   async function onClickHandle() {
     setStatus("PROCESSING...");
-    async function getUserData() {
-      const data = await axios
-        .post("http://127.0.0.1:8000/api/auth/login", null, {
-          params: {
-            email: input.email,
-            password: input.password,
-          },
-        })
-        .then(function (response) {
-          setStatus("Success");
-          return response.data;
-        })
-        .catch((reason) => {
-          setStatus("Error");
-        });
-      return data;
-    }
-    const data = await getUserData();
-    console.log(data);
+    getUserData(input)
+      .then((res: any) => {
+        setStatus("Success");
+        dispatch(
+          setAuth({
+            auth: true,
+            role: res.role,
+            token: res.token,
+            user: {
+              id: res.user.id,
+              email: res.user.email,
+              name: res.user.name,
+            },
+          })
+        );
+        navigate(`/${res.role}-dashboard`);
+      })
+      .catch((reason) => {
+        setStatus("Error");
+        console.log(reason);
+      });
   }
+
+  React.useEffect(() => {
+    if (authRedux.auth === true) {
+      if (authRedux.role === AuthRole.ADMIN) navigate("/admin-dashboard");
+      if (authRedux.role === AuthRole.EMPLOYEE) navigate("/employee-dashboard");
+      if (authRedux.role === AuthRole.CUSTOMER) navigate("/customer-dashboard");
+    }
+  }, [authRedux.auth]);
 
   return (
     <div className="login_container">
-      <Nav icon={<IconTicket/>} label="Tickets Request"/>
-      <Status/>
       <form action="/auth/login" className="login-form" onSubmit={onSubmitHandle}>
         <h1 className="login-form__header">Welcome Back User!</h1>
         <LoginInput

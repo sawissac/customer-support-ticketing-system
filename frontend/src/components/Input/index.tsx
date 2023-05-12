@@ -5,12 +5,12 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const Input = ({ label, errorMessage, ...props }: InputProps) => {
   return (
-    <div className="com_input_container">
-      <div className="lable_container">
+    <div className="form-input">
+      <div className="form-input__label">
         <label htmlFor={props.id}>{label}</label>
-        {errorMessage && <div className="error_message">{errorMessage}</div>}
+        {errorMessage && <div className="form-input__error">{errorMessage}</div>}
       </div>
-      <div className="input_container">
+      <div className="form-input__container">
         <input {...props} />
       </div>
     </div>

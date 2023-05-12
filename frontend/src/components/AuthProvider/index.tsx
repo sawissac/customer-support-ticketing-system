@@ -1,7 +1,8 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { authBoot } from "../../redux/feature_slice/AuthSlice";
-import { useNavigate } from "react-router-dom";
+import { useMatch, useNavigate } from "react-router-dom";
+import { AuthRole } from "../../redux/variable/AuthVariable";
 
 interface AuthProviderInterface {
   children: any;
@@ -9,23 +10,12 @@ interface AuthProviderInterface {
 
 const AuthProvider = ({ children }: AuthProviderInterface) => {
   const dispatch = useAppDispatch();
-
+  
   React.useEffect(() => {
     dispatch(authBoot());
   }, []);
 
   return <>{children}</>;
-};
-
-AuthProvider.LoginChecker = () => {
-  const authRedux = useAppSelector((s) => s.auth);
-  const navigate = useNavigate();
-
-  React.useEffect(() => {
-    if (!authRedux.auth) navigate("/login");
-  }, [authRedux]);
-
-  return <React.Fragment />;
 };
 
 export default AuthProvider;

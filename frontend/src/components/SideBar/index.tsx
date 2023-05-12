@@ -7,11 +7,14 @@ import {
   IconBrandVisualStudio,
   IconFileTime,
   IconCalendarPlus,
+  IconSunFilled,
 } from "@tabler/icons-react";
 import Avatar from "react-avatar";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Dropdown from "../DropDown";
 import Button from "../Button";
+import { useAppDispatch } from "../../redux/hook";
+import { resetAuth } from "../../redux/feature_slice/AuthSlice";
 
 interface SideBarInterface {
   route: string;
@@ -65,6 +68,8 @@ interface SideBarProfile {
 }
 
 SideBar.Profile = function (props: SideBarProfile) {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   return (
     <div className="sidebar__profile">
       <Avatar color="#F37021" name={props.name} size="40" textSizeRatio={1.75} round={"7px"} />
@@ -73,11 +78,24 @@ SideBar.Profile = function (props: SideBarProfile) {
         <h6>{props.email.length > 15 ? props.email.substring(0, 15) + "..." : props.email}</h6>
       </div>
       <Dropdown
-        offset={[-180, 30]}
+        offset={[-250, 10]}
         placement="top-start"
         buttonChildren={<IconSettings />}
         dropdownClassName="sidebar-dropdown"
-        dropdownChildren={<></>}
+        dropdownChildren={
+          <>
+            <Button
+              className="btn btn--light btn--block"
+              type="button"
+              onClick={() => {
+                dispatch(resetAuth());
+                navigate('/login');
+              }}
+              icon={<IconSunFilled style={{ marginRight: "10px" }} />}
+              label="Light Mode"
+            />
+          </>
+        }
       />
     </div>
   );
