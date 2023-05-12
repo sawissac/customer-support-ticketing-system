@@ -7,17 +7,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
 
-use App\Service\EmployeeProject\EmployeeProjectServiceInterface;
-use App\Repository\EmployeeProject\EmployeeProjectRepositoryInterface;
+use App\Service\EmployeeReport\EmployeeReportServiceInterface;
+use App\Repository\EmployeeReport\EmployeeReportRepositoryInterface;
 
-class EmployeeProjectController extends BaseController
+class EmployeeReportController extends BaseController
 {
-    private $employeeprojectRepo, $employeeprojectService;
-    public function __construct(EmployeeProjectRepositoryInterface $employeeprojectRepo, EmployeeProjectServiceInterface $employeeprojectService)
+    private $employeereportRepo, $employeereportService;
+
+    public function __construct(EmployeeReportRepositoryInterface $employeereportRepo, EmployeeReportServiceInterface $employeereportService)
     {
-        $this->employeeprojectRepo = $employeeprojectRepo;
-        $this->employeeprojectService = $employeeprojectService;
+        $this->employeereportRepo = $employeereportRepo;
+        $this->employeereportService = $employeereportService;
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,9 +27,9 @@ class EmployeeProjectController extends BaseController
      */
     public function index()
     {
-        $data = $this->employeeprojectRepo->get();
+        $data = $this->employeereportRepo->get();
 
-        return $this->sendResponse($data, 'EmployeeProjects retrieved successfully.');
+        return $this->sendResponse($data, 'EmployeeReports retrieved successfully.');
     }
 
     /**
@@ -43,8 +45,9 @@ class EmployeeProjectController extends BaseController
         $validator = Validator::make(
             $validate,
             [
-                'project_id' => 'required|string',
                 'user_id' => 'required|integer',
+                'ticket_id' => 'required|string',
+                'description' => 'required',
             ]
         );
 
@@ -52,9 +55,9 @@ class EmployeeProjectController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        $data = $this->employeeprojectService->store($validate);
+        $data = $this->employeereportService->store($validate);
 
-        return $this->sendResponse($data, 'EmployeeProject created successfully.');
+        return $this->sendResponse($data, 'EmployeeReport created successfully.');
     }
 
     /**
@@ -65,13 +68,13 @@ class EmployeeProjectController extends BaseController
      */
     public function show($id)
     {
-        $result = $this->employeeprojectRepo->show($id);
+        $result = $this->employeereportRepo->show($id);
 
         if (is_null($result)) {
-            return $this->sendError('Project not found.');
+            return $this->sendError('EmployeeReport not found.');
         }
 
-        return $this->sendResponse($result, 'EmployeeProject retrieved successfully.');
+        return $this->sendResponse($result, 'EmployeeReports retrieved successfully.');
     }
 
     /**
@@ -88,8 +91,9 @@ class EmployeeProjectController extends BaseController
         $validator = Validator::make(
             $validate,
             [
-                'project_id' => 'required|string',
                 'user_id' => 'required|integer',
+                'ticket_id' => 'required|string',
+                'description' => 'required',
             ]
         );
 
@@ -97,9 +101,9 @@ class EmployeeProjectController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        $data = $this->employeeprojectService->update($id, $validate);
+        $data = $this->employeereportService->update($id, $validate);
 
-        return $this->sendResponse($data, 'EmployeeProject updated successfully.');
+        return $this->sendResponse($data, 'EmployeeReport updated successfully.');
     }
 
     /**
@@ -110,8 +114,8 @@ class EmployeeProjectController extends BaseController
      */
     public function destroy($id)
     {
-        $this->employeeprojectService->delete($id);
+        $this->employeereportService->delete($id);
 
-        return $this->sendResponse([], 'EmployeeProject deleted successfully.');
+        return $this->sendResponse([], 'EmployeeReport deleted successfully.');
     }
 }
