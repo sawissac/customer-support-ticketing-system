@@ -3,6 +3,7 @@ import Nav from "../../components/Nav";
 import { Route, Routes } from "react-router-dom";
 import FormInput from "../../components/FormInput";
 import SideBar from "../../components/SideBar";
+import EmployeeSideBar from "../../components/EmployeeSideBar";
 
 const AdminDashboard = () => {
   return (
@@ -14,6 +15,7 @@ const AdminDashboard = () => {
           <Route path="/users" element={<FormInput />} />
         </Routes>
       </div>
+      <EmployeeSideBar/>
     </>
   );
 };

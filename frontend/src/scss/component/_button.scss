@@ -38,4 +38,10 @@
     height: 45px;
     margin-top: map-get($spacers, 3 );
   }
+  &--assign-employee{
+    background-color: $orange;
+    color: $white;
+    width: 80%;
+    @include interactive("orange");
+  }
 }
