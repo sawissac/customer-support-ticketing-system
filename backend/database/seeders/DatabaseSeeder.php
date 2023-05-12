@@ -16,7 +16,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/tta-dev
         $this->call(RoleAndPermissionSeeder::class);
         $this->call(AdminSeeder::class);
     }
