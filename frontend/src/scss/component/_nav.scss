@@ -1,17 +1,14 @@
-.nav_container{
-    border-bottom:1px solid $gray-300;
-    height: 50px;
-    nav{
-        display: flex;
-        height: 100%;
-        align-items: center;
-        .icon{
-            margin-left: map-get($spacers, 4 );
-        }
-        .text{
-            margin-left: map-get($spacers, 2 );
-            font-size: $h5-font-size;
-            font-weight: bold;
-        }
-    }
+.nav_container {
+  border-bottom: 1px solid $gray-300;
+  display: flex;
+  min-height: 60px;
+  align-items: center;
+  .icon {
+    margin-left: map-get($spacers, 4);
+  }
+  .text {
+    margin-left: map-get($spacers, 2);
+    font-size: $h5-font-size;
+    font-weight: bold;
+  }
 }
