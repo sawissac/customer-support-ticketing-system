@@ -10,6 +10,7 @@ const AdminDashboard = () => {
       <Routes>
         <Route path="/users" element={<UserCreatePage />} />
       </Routes>
+      <EmployeeSideBar />
     </>
   );
 };
