@@ -1,37 +1,81 @@
-.login-dropdown{
-    margin-top: map-get($spacers,1);
-    padding: map-get($spacers, 3);
-    padding-bottom: map-get($spacers, 2);
-    background-color: $white;
-    box-shadow: $box-shadow-sm;
-    width: 350px;
-    border-radius: $border-radius-sm;
-    border:1px solid $gray-300;
-    color:$dark;
+.login-dropdown {
+  margin-top: map-get($spacers, 1);
+  padding: map-get($spacers, 3);
+  padding-bottom: map-get($spacers, 2);
+  background-color: $white;
+  box-shadow: $box-shadow-sm;
+  width: 350px;
+  border-radius: $border-radius-sm;
+  border: 1px solid $gray-300;
+  color: $dark;
 }
 
-.sidebar-dropdown{
-    padding: map-get($spacers, 3);
-    padding-bottom: map-get($spacers, 2);
-    background-color: $white;
-    box-shadow: $box-shadow-sm;
-    width: 300px;
-    border-radius: $border-radius-sm;
-    border:1px solid $gray-300;
-    color:$dark;
-
-}
-.form-dropdown-btn{
+.sidebar-dropdown {
+  padding: map-get($spacers, 3);
+  padding-bottom: map-get($spacers, 2);
+  background-color: $white;
+  box-shadow: $box-shadow-sm;
+  width: 300px;
+  border-radius: $border-radius-sm;
+  border: 1px solid $gray-300;
+  color: $dark;
+  & > button {
     width: 100%;
-    height: 35px;
-    display: flex;
-    
-}
-.form-dropdown{
+    outline-color: transparent;
     background-color: $white;
-    box-shadow: $box-shadow-sm;
-    width: 300px;
-    border-radius: $border-radius-sm;
-    border:1px solid $gray-300;
-    color:$dark;
+    border: none;
+    height: 40px;
+    border-bottom: 1px solid $gray-300;
+    color: $dark;
+    font-size: $h6-font-size;
+    text-align: left;
+    padding: 0px map-get($spacers, 3);
+    &:hover{
+        background-color: $gray-200;
+    }
+    &:last-child {
+      border: none;
+    }
+  }
+}
+.form-dropdown-btn {
+  width: 100%;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: $dark;
+  background-color: $gray-100;
+  border: 1px solid $gray-300;
+  border-radius: $border-radius-sm;
+  font-size: $h6-font-size;
+  font-weight: $font-weight-bolder;
+  padding: 0px map-get($spacers, 3);
+}
+.form-dropdown {
+  background-color: $white;
+  box-shadow: $box-shadow-sm;
+  width: 300px;
+  border-radius: $border-radius-sm;
+  border: 1px solid $gray-300;
+  color: $dark;
+  overflow: hidden;
+  & > button {
+    width: 100%;
+    outline-color: transparent;
+    background-color: $white;
+    border: none;
+    height: 40px;
+    border-bottom: 1px solid $gray-300;
+    color: $dark;
+    font-size: $h6-font-size;
+    text-align: left;
+    padding: 0px map-get($spacers, 3);
+    &:hover{
+        background-color: $gray-200;
+    }
+    &:last-child {
+      border: none;
+    }
+  }
 }

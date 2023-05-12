@@ -85,7 +85,24 @@ SideBar.Profile = function (props: SideBarProfile) {
         dropdownChildren={
           <>
             <Button
-              className="btn btn--light btn--block"
+              type="button"
+              onClick={() => {
+                dispatch(resetAuth());
+                navigate('/login');
+              }}
+              icon={<IconSunFilled style={{ marginRight: "10px" }} />}
+              label="Light Mode"
+            />
+            <Button
+              type="button"
+              onClick={() => {
+                dispatch(resetAuth());
+                navigate('/login');
+              }}
+              icon={<IconSunFilled style={{ marginRight: "10px" }} />}
+              label="Light Mode"
+            />
+            <Button
               type="button"
               onClick={() => {
                 dispatch(resetAuth());
