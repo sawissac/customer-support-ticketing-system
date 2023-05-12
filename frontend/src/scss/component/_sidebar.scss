@@ -48,6 +48,21 @@
     &--active {
       border-left: map-get($border-widths, 5) solid $orange !important;
     }
+    &--header {
+      margin-bottom: 0px !important;
+      border-bottom-left-radius: 0px !important;
+      border-bottom-right-radius: 0px !important;
+    }
+    &--mid {
+      margin-top: 0px !important;
+      margin-bottom: 0px !important;
+      border-radius: 0px !important;
+    }
+    &--footer {
+      margin-top: 0px !important;
+      border-top-left-radius: 0px !important;
+      border-top-right-radius: 0px !important;
+    }
   }
   &__profile {
     position: absolute;
