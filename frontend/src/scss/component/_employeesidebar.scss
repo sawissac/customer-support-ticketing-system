@@ -9,7 +9,7 @@
   &__header {
     display: flex;
     align-items: center;
-    height: 60px;
+    min-height: 60px;
     font-weight: $font-weight-bold;
     padding: 0px map-get($spacers, 3);
     border-bottom: map-get($border-widths, 1) solid $gray-200;

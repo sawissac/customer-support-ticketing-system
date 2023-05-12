@@ -9,7 +9,7 @@
   &__header {
     display: flex;
     align-items: center;
-    height: 60px;
+    min-height: 60px;
     font-weight: $font-weight-bold;
     padding: 0px map-get($spacers, 3);
     border-bottom: map-get($border-widths, 1) solid $gray-200;
@@ -47,6 +47,21 @@
     }
     &--active {
       border-left: map-get($border-widths, 5) solid $orange !important;
+    }
+    &--header {
+      margin-bottom: 0px !important;
+      border-bottom-left-radius: 0px !important;
+      border-bottom-right-radius: 0px !important;
+    }
+    &--mid {
+      margin-top: 0px !important;
+      margin-bottom: 0px !important;
+      border-radius: 0px !important;
+    }
+    &--footer {
+      margin-top: 0px !important;
+      border-top-left-radius: 0px !important;
+      border-top-right-radius: 0px !important;
     }
   }
   &__profile {

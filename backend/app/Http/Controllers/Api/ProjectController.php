@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Api\BaseController;
 
-use App\Service\Project\ProjectServiceInterface;
 use App\Repository\Project\ProjectRepositoryInterface;
+use App\Service\Project\ProjectServiceInterface;
 
 class ProjectController extends BaseController
 {

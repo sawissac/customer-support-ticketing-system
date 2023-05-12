@@ -10,6 +10,10 @@ import {
   IconSunFilled,
   IconMoonFilled,
   IconLogout,
+  IconMessage2,
+  IconCalendarUp,
+  IconUserUp,
+  IconArrowNarrowUp,
 } from "@tabler/icons-react";
 import Avatar from "react-avatar";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -17,6 +21,7 @@ import Dropdown from "../DropDown";
 import Button from "../Button";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { resetAuth } from "../../redux/feature_slice/AuthSlice";
+import { IconUserPlus } from "@tabler/icons-react";
 
 interface SideBarInterface {
   route: string;
@@ -33,13 +38,23 @@ const SideBar = (props: SideBarInterface) => {
       </div>
       <div className="sidebar__list">
         <h5>Ticket</h5>
-        <SideBar.Link routeName={props.route + "/client-request"} icon={<IconMessage2Up />} label="Client Request" />
-        <SideBar.Link routeName={props.route + "/new-request"} icon={<IconMessage2Plus />} label="New Request" />
-        <h5>Manage</h5>
-        <SideBar.Link routeName={props.route + "/users"} icon={<IconUsers />} label="Users" />
-        <SideBar.Link routeName={props.route + "/software"} icon={<IconBrandVisualStudio />} label="Software" />
+        <SideBar.Link routeName={props.route + "/tickets-show"} icon={<IconMessage2 />} label="Show" type="header"/>
+        <SideBar.Link routeName={props.route + "/ticket-create"} icon={<IconMessage2Plus />} label="Create" type="mid" />
+        <SideBar.Link routeName={props.route + "/ticket-update"} icon={<IconMessage2Up />} label="Update" type="footer"/>
+        <h5>Employee Assignment</h5>
+        <SideBar.Link routeName={props.route + "/employee-show"} icon={<IconCalendarPlus />} label="Show" type="header"/>
+        <SideBar.Link routeName={props.route + "/employee-create"} icon={<IconCalendarPlus />} label="Create" type="mid" />
+        <SideBar.Link routeName={props.route + "/employee-update"} icon={<IconCalendarUp />} label="Update" type="footer"/>
+        <h5>Users</h5>
+        <SideBar.Link routeName={props.route + "/users"} icon={<IconUsers />} label="Show" type="header"/>
+        <SideBar.Link routeName={props.route + "/user-create"} icon={<IconUserPlus />} label="Create" type="mid"/>
+        <SideBar.Link routeName={props.route + "/users-update"} icon={<IconUserUp />} label="Update" type="footer"/>
+        <h5>Software</h5>
+        <SideBar.Link routeName={props.route + "/software"} icon={<IconBrandVisualStudio />} label="Show" type="header"/>
+        <SideBar.Link routeName={props.route + "/software-create"} icon={<IconBrandVisualStudio />} label="Create" type="mid"/>
+        <SideBar.Link routeName={props.route + "/software-update"} icon={<IconArrowNarrowUp />} label="Update" type="footer"/>
+        <h5>History</h5>
         <SideBar.Link routeName={props.route + "/report-history"} icon={<IconFileTime />} label="Report History" />
-        <SideBar.Link routeName={props.route + "/assign-dev"} icon={<IconCalendarPlus />} label="Assign Dev" />
       </div>
       <SideBar.Profile name={authRedux.user.name} email={authRedux.user.email} />
     </div>
@@ -50,14 +65,32 @@ interface SideBarLink {
   routeName: string;
   label: string;
   icon: any;
+  type?: "header" | "mid" | "footer";
 }
 
 SideBar.Link = function (props: SideBarLink) {
+  let type = "";
+
+  switch (props.type) {
+    case "header":
+      type = "sidebar__list--header";
+      break;
+    case "mid":
+      type = "sidebar__list--mid";
+      break;
+    case "footer":
+      type = "sidebar__list--footer";
+      break;
+    default:
+      type = "";
+  }
+
   return (
     <NavLink
       to={props.routeName}
       className={({ isActive }) => {
-        return isActive ? "sidebar__list--active" : "";
+        let className = isActive ? "sidebar__list--active " : "";
+        return className + type;
       }}
     >
       {props.icon}
@@ -95,7 +128,7 @@ SideBar.Profile = function (props: SideBarProfile) {
                 dispatch(resetAuth());
                 navigate("/login");
               }}
-              icon={<IconMoonFilled size={20}  style={{ marginRight: "10px" }} />}
+              icon={<IconMoonFilled size={20} style={{ marginRight: "10px" }} />}
               label="Dark Mode"
             />
             <Button
@@ -104,7 +137,7 @@ SideBar.Profile = function (props: SideBarProfile) {
                 dispatch(resetAuth());
                 navigate("/login");
               }}
-              icon={<IconSunFilled  size={20} style={{ marginRight: "10px" }} />}
+              icon={<IconSunFilled size={20} style={{ marginRight: "10px" }} />}
               label="Light Mode"
             />
             <h6>Account</h6>
