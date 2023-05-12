@@ -44,4 +44,8 @@
     width: 80%;
     @include interactive("orange");
   }
+  &--ticket-view{
+    width: 80px;
+    @include interactive("gray");
+  }
 }
