@@ -6,6 +6,6 @@ use App\Models\EmployeeProject;
 
 interface EmployeeProjectRepoInterface
 {
-    public function index();
+    public function get();
     public function show($id);
 }

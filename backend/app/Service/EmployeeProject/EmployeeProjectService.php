@@ -10,17 +10,6 @@ class EmployeeProjectService implements EmployeeProjectServiceInterface
     {
         return EmployeeProject::create($data);
     }
-<<<<<<< HEAD
-    public function update($id, $data)
-    {
-        $result = EmployeeProject::where('id', $id)->first();
-        return $result->update($data);
-    }
-    public function delete($id)
-    {
-        $result = EmployeeProject::where('id', $id)->first();
-        return $result->delete();
-=======
 
     public function update($id, $data)
     {
@@ -34,6 +23,5 @@ class EmployeeProjectService implements EmployeeProjectServiceInterface
         $data = EmployeeProject::where('id', $id)->first();
 
         return $data->delete();
->>>>>>> main
     }
 }
