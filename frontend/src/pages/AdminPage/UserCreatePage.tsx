@@ -7,6 +7,10 @@ import Dropdown from "../../components/DropDown";
 import { IconMenuOrder } from "@tabler/icons-react";
 import TicketList from "../../components/TicketList";
 import UserUpdatePage from "./UserUpdatePage";
+import EmployeeProjectsCreate from "../EmployeeProjects/EmployeeProjectsCreate";
+import EmployeeProjectsUpdate from "../EmployeeProjects/EmployeeProjectsUpdate";
+import CustomerProjectsCreate from "../CustomerProjects/CustomerProjectsCreate";
+import CustomerProjectsUpdate from "../CustomerProjects/CustomerProjectsUpdate";
 
 const UserCreatePage = () => {
   function onSubmitHandle(ev: React.FormEvent<HTMLFormElement>) {
@@ -25,6 +29,10 @@ const UserCreatePage = () => {
         day="1 day ago"
       />
       <UserUpdatePage/>
+      <EmployeeProjectsCreate/>
+      <EmployeeProjectsUpdate/>
+      <CustomerProjectsCreate/>
+      <CustomerProjectsUpdate/>
       <form action="" onClick={onSubmitHandle} className="form-container">
         <Input label="Name" errorMessage="*require" placeholder="Name..." />
         <Input label="Email" errorMessage="*require" placeholder="Email.." />
@@ -46,7 +54,7 @@ const UserCreatePage = () => {
             </>
           }
         />
-        <Button type="button" label="Create" className="btn btn--user_create" onClick={onClickHandle} />
+        <Button type="button" label="Create" className="btn btn--form" onClick={onClickHandle} />
       </form>
     </div>
   );

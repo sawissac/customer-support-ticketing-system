@@ -28,15 +28,7 @@
     width: 100%;
   }
 
-  &--user_create {
-    @include interactive("orange");
-    background-color: $orange;
-    color: $white;
-    width: 150px;
-    height: 45px;
-    margin-top: map-get($spacers, 3);
-  }
-  &--user-update {
+  &--form {
     @include interactive("orange");
     background-color: $orange;
     color: $white;

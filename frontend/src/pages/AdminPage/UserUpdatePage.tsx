@@ -1,6 +1,6 @@
 import React from "react";
 import Nav from "../../components/Nav";
-import { IconUserPlus, IconUserUp } from "@tabler/icons-react";
+import {  IconUserUp } from "@tabler/icons-react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Dropdown from "../../components/DropDown";
@@ -33,7 +33,7 @@ const UserUpdatePage = () => {
             </>
           }
         />
-        <Button type="button" label="Update" className="btn btn--user-update" onClick={onClickHandle} />
+        <Button type="button" label="Update" className="btn btn--form" onClick={onClickHandle} />
       </form>
     </div>
   );
