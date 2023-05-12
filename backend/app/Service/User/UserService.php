@@ -17,7 +17,7 @@ class UserService implements UserServiceInterface
 
     public function update($id, $data)
     {
-        $data = array_merge($data,['password' => Hash::make($data['password'])]);
+        // $data = array_merge($data,['password' => Hash::make($data['password'])]);
 
         $result = User::where('id', $id)->first();
 

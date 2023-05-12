@@ -2,11 +2,12 @@ import { useState } from "react";
 import { usePopper } from "react-popper";
 
 interface DropdownInterface {
-  placement?: "top" | "bottom" | "left" | "right";
+  placement?: "top" | "bottom" | "left" | "right" | "top-start";
   buttonChildren?: any;
   dropdownChildren?: any;
   buttonClassName?: string;
   dropdownClassName?: string;
+  offset?: any;
 }
 
 function Dropdown({
@@ -15,19 +16,28 @@ function Dropdown({
   dropdownChildren,
   buttonClassName,
   dropdownClassName,
+  offset,
 }: DropdownInterface) {
   const [isOpen, setIsOpen] = useState(false);
   const [referenceElement, setReferenceElement] = useState<any>(null);
   const [popperElement, setPopperElement] = useState<any>(null);
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement,
+    modifiers: [
+      {
+        name: "offset",
+        options: {
+          offset: offset ? offset : [0,0],
+        },
+      },
+    ],
   });
 
   const toggleDropdown = () => {
     setIsOpen((prevState) => !prevState);
   };
 
-  function mouseHander(){
+  function mouseHander() {
     toggleDropdown();
   }
   return (
@@ -36,7 +46,13 @@ function Dropdown({
         {buttonChildren}
       </button>
       {isOpen && (
-        <div onMouseLeave={mouseHander} className={dropdownClassName} ref={setPopperElement} style={styles.popper} {...attributes.popper}>
+        <div
+          onMouseLeave={mouseHander}
+          className={dropdownClassName}
+          ref={setPopperElement}
+          style={styles.popper}
+          {...attributes.popper}
+        >
           {dropdownChildren}
         </div>
       )}

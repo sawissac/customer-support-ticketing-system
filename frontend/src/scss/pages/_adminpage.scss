@@ -1,0 +1,14 @@
+.admin-container {
+  flex: 1;
+  overflow-y: scroll;
+  form {
+    width: 350px;
+    .user-dropdown {
+      color: $dark;
+      box-shadow: $box-shadow-sm;
+      border-radius: $border-radius-sm;
+      background-color: $white;
+      border: 1px solid $gray-300;
+    }
+  }
+}

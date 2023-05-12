@@ -1,17 +1,23 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import AdminDashboard from "./pages/AdminPage";
 import LoginPage from "./pages/LoginPage";
-import SideBar from "./components/SideBar";
+import AuthProvider from "./components/AuthProvider";
+import { useAppSelector } from "./redux/hook";
+import { AuthRole } from "./redux/variable/AuthVariable";
 
 function App() {
+  const authRedux = useAppSelector((state) => state.auth);
   return (
     <React.Fragment>
-      {/* <SideBar route="/admin-dashboard" /> */}
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" replace={true} />} />
+          <Route path="/login" element={<LoginPage />} />
+          {authRedux.role === AuthRole.ADMIN && <Route path="/admin-dashboard/*" element={<AdminDashboard />} />}
+          <Route path="*" element={<div>hello</div>} />
+        </Routes>
+      </AuthProvider>
     </React.Fragment>
   );
 }

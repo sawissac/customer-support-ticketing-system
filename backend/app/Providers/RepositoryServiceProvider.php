@@ -2,35 +2,42 @@
 
 namespace App\Providers;
 
-use App\Models\EmployeeProject;
 use Illuminate\Support\ServiceProvider;
 
 use App\Repository\User\UserRepository;
 use App\Repository\User\UserRepositoryInterface;
-
 use App\Service\User\UserService;
 use App\Service\User\UserServiceInterface;
 
-use App\Repository\Software\SoftwareRepository;
-use App\Repository\Software\SoftwareRepositoryInterface;
+use App\Repository\Project\ProjectRepository;
+use App\Repository\Project\ProjectRepositoryInterface;
+use App\Service\Project\ProjectService;
+use App\Service\Project\ProjectServiceInterface;
 
-use App\Service\Software\SoftwareService;
-use App\Service\Software\SoftwareServiceInterface;
-
-use App\Repository\AssignedEmployee\AssEmployeeRepository;
-use App\Repository\AssignedEmployee\AssEmployeeRepositoryInterface;
-
-use App\Service\AssignedEmployee\AssEmployeeService;
-use App\Service\AssignedEmployee\AssEmployeeServiceInterface;
-
-use App\Repository\CustomerSoftware\CustomerSoftwareRepoInterface;
-use App\Repository\CustomerSoftware\CustomerSoftwareRepository;
-use App\Repository\EmployeeProject\EmployeeProjectRepoInterface;
 use App\Repository\EmployeeProject\EmployeeProjectRepository;
-use App\Service\CustomerSoftware\CustomerSoftwareService;
-use App\Service\CustomerSoftware\CustomerSoftwareServiceInterface;
+use App\Repository\EmployeeProject\EmployeeProjectRepositoryInterface;
 use App\Service\EmployeeProject\EmployeeProjectService;
 use App\Service\EmployeeProject\EmployeeProjectServiceInterface;
+
+use App\Repository\CustomerProject\CustomerProjectRepoInterface;
+use App\Repository\CustomerProject\CustomerProjectRepository;
+use App\Service\CustomerProject\CustomerProjectService;
+use App\Service\CustomerProject\CustomerProjectServiceInterface;
+
+use App\Repository\Ticket\TicketRepository;
+use App\Repository\Ticket\TicketRepositoryInterface;
+use App\Service\Ticket\TicketService;
+use App\Service\Ticket\TicketServiceInterface;
+
+use App\Repository\EmployeeReport\EmployeeReportRepository;
+use App\Repository\EmployeeReport\EmployeeReportRepositoryInterface;
+use App\Service\EmployeeReport\EmployeeReportService;
+use App\Service\EmployeeReport\EmployeeReportServiceInterface;
+
+use App\Repository\EmployeeAssign\EmployeeAssignRepository;
+use App\Repository\EmployeeAssign\EmployeeAssignRepoInterface;
+use App\Service\EmployeeAssign\EmployeeAssignService;
+use App\Service\EmployeeAssign\EmployeeAssignServiceInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -54,16 +61,22 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(UserServiceInterface::class, UserService::class);
 
-        $this->app->bind(SoftwareRepositoryInterface::class, SoftwareRepository::class);
-        $this->app->bind(SoftwareServiceInterface::class, SoftwareService::class);
+        $this->app->bind(ProjectRepositoryInterface::class, ProjectRepository::class);
+        $this->app->bind(ProjectServiceInterface::class, ProjectService::class);
 
-        $this->app->bind(CustomerSoftwareRepoInterface::class, CustomerSoftwareRepository::class);
-        $this->app->bind(CustomerSoftwareServiceInterface::class, CustomerSoftwareService::class);
-
-        $this->app->bind(AssEmployeeRepositoryInterface::class, AssEmployeeRepository::class);
-        $this->app->bind(AssEmployeeServiceInterface::class, AssEmployeeService::class);
-
-        $this->app->bind(EmployeeProjectRepoInterface::class, EmployeeProjectRepository::class);
+        $this->app->bind(EmployeeProjectRepositoryInterface::class, EmployeeProjectRepository::class);
         $this->app->bind(EmployeeProjectServiceInterface::class, EmployeeProjectService::class);
+
+        $this->app->bind(CustomerProjectRepoInterface::class, CustomerProjectRepository::class);
+        $this->app->bind(CustomerProjectServiceInterface::class, CustomerProjectService::class);
+
+        $this->app->bind(TicketRepositoryInterface::class, TicketRepository::class);
+        $this->app->bind(TicketServiceInterface::class, TicketService::class);
+
+        $this->app->bind(EmployeeReportRepositoryInterface::class, EmployeeReportRepository::class);
+        $this->app->bind(EmployeeReportServiceInterface::class, EmployeeReportService::class);
+
+        $this->app->bind(EmployeeAssignRepoInterface::class, EmployeeAssignRepository::class);
+        $this->app->bind(EmployeeAssignServiceInterface::class, EmployeeAssignService::class);
     }
 }

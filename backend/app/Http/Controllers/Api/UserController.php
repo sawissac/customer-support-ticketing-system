@@ -3,20 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use Exception;
-use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Requests\UserRequest;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Api\BaseController;
 use Illuminate\Support\Facades\Validator;
 
 use App\Repository\User\UserRepositoryInterface;
 use App\Service\User\UserServiceInterface;
-use Spatie\Permission\Models\Permission;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
 
     private $userRepo, $userService;
@@ -34,20 +30,9 @@ class UserController extends Controller
 
     public function index()
     {
-        try {
-            $data = $this->userRepo->get();
-            return response()->json([
-                'status' => 'success',
-                'message' => 'User List All',
-                'data' => $data
-            ], 200);
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-                'data' => $data
-            ], 500);
-        }
+        $data = $this->userRepo->get();
+
+        return $this->sendResponse($data, 'Users retrieved successfully.');
     }
 
     /**
@@ -58,41 +43,24 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        try {
+        $validate = $request->all();
 
-            $validateUser = Validator::make(
-                $request->all(),
-                [
-                    'name' => 'required',
-                    'email' => 'required|email|unique:users,email',
-                    'password' => 'required|confirmed',
-                    // 'password_confirmation' => 'required',
-                ]
-            );
+        $validator = Validator::make(
+            $validate,
+            [
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|max:255|email|unique:users,email',
+                'password' => 'required|confirmed',
+            ]
+        );
 
-            if ($validateUser->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
-            }
-
-            $data = $this->userService->store($request->all());
-            // $data = $this->userService->store($request->validated());
-
-            return response()->json([
-                'stauts' => 'success',
-                'message' => 'User Created Successfully',
-                'data' => $data,
-            ], 200);
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-                'data' => $data,
-            ], 500);
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
         }
+
+        $data = $this->userService->store($validate);
+
+        return $this->sendResponse($data, 'User created successfully.');
     }
 
     /**
@@ -103,20 +71,13 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        try {
-            $result = $this->userRepo->show($id);
-            return response()->json([
-                'status' => 'success',
-                'message' => 'User Detail List',
-                'data' => $result,
-            ], 200);
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-                'data' => $result,
-            ], 500);
+        $result = $this->userRepo->show($id);
+
+        if (is_null($result)) {
+            return $this->sendError('User not found.');
         }
+
+        return $this->sendResponse($result, 'User retrieved successfully.');
     }
 
     /**
@@ -128,42 +89,23 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
+        $validate = $request->all();
 
-            $validateUser = Validator::make(
-                $request->all(),
-                [
-                    'name' => 'required',
-                    'email' => 'required|email',
-                    // 'password' => 'required|confirmed',
-                    // 'password_confirmation' => 'required',
-                ]
-            );
+        $validator = Validator::make(
+            $validate,
+            [
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|max:255|email|unique:users,email',
+            ]
+        );
 
-            if ($validateUser->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
-            }
-
-            $data = $this->userService->update($id, $request->all());
-
-            // $data = $this->userService->update($id, $request->validated());
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'User Edited Successfully',
-                'data' => $data
-            ], 200);
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-                'data' => $data,
-            ], 500);
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
         }
+
+        $data = $this->userService->update($id, $validate);
+
+        return $this->sendResponse($data, 'User updated successfully.');
     }
 
     /**
@@ -174,20 +116,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $data = $this->userService->delete($id);
+        $this->userService->delete($id);
 
-        try {
-            return response()->json([
-                'status' => 'success',
-                'message' => 'User Deleted Successfully',
-                'data' => $data
-            ], 200);
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-                'data' => $data,
-            ], 500);
-        }
+        return $this->sendResponse([], 'User deleted successfully.');
     }
 }

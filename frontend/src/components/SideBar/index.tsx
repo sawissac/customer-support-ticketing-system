@@ -6,16 +6,25 @@ import {
   IconUsers,
   IconBrandVisualStudio,
   IconFileTime,
-  IconCalendarPlus
+  IconCalendarPlus,
+  IconSunFilled,
+  IconMoonFilled,
+  IconLogout,
 } from "@tabler/icons-react";
 import Avatar from "react-avatar";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import Dropdown from "../DropDown";
+import Button from "../Button";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { resetAuth } from "../../redux/feature_slice/AuthSlice";
 
-interface SideBarInterface{
-    route: string;
+interface SideBarInterface {
+  route: string;
 }
 
 const SideBar = (props: SideBarInterface) => {
+  const authRedux = useAppSelector((state) => state.auth);
+
   return (
     <div className="sidebar">
       <div className="sidebar__header">
@@ -32,7 +41,7 @@ const SideBar = (props: SideBarInterface) => {
         <SideBar.Link routeName={props.route + "/report-history"} icon={<IconFileTime />} label="Report History" />
         <SideBar.Link routeName={props.route + "/assign-dev"} icon={<IconCalendarPlus />} label="Assign Dev" />
       </div>
-      <SideBar.Profile name="Super Man" email="iz@gmail.com" />
+      <SideBar.Profile name={authRedux.user.name} email={authRedux.user.email} />
     </div>
   );
 };
@@ -63,6 +72,8 @@ interface SideBarProfile {
 }
 
 SideBar.Profile = function (props: SideBarProfile) {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   return (
     <div className="sidebar__profile">
       <Avatar color="#F37021" name={props.name} size="40" textSizeRatio={1.75} round={"7px"} />
@@ -70,9 +81,46 @@ SideBar.Profile = function (props: SideBarProfile) {
         <h5>{props.name.length > 10 ? props.name.substring(0, 10) + "..." : props.name}</h5>
         <h6>{props.email.length > 15 ? props.email.substring(0, 15) + "..." : props.email}</h6>
       </div>
-      <button title="setting">
-        <IconSettings />
-      </button>
+      <Dropdown
+        offset={[-200, 10]}
+        placement="top-start"
+        buttonChildren={<IconSettings />}
+        dropdownClassName="sidebar-dropdown"
+        dropdownChildren={
+          <>
+            <h6>Ui Mode</h6>
+            <Button
+              type="button"
+              onClick={() => {
+                dispatch(resetAuth());
+                navigate("/login");
+              }}
+              icon={<IconMoonFilled size={20}  style={{ marginRight: "10px" }} />}
+              label="Dark Mode"
+            />
+            <Button
+              type="button"
+              onClick={() => {
+                dispatch(resetAuth());
+                navigate("/login");
+              }}
+              icon={<IconSunFilled  size={20} style={{ marginRight: "10px" }} />}
+              label="Light Mode"
+            />
+            <h6>Account</h6>
+            <Button
+              type="button"
+              className="text-danger"
+              onClick={() => {
+                dispatch(resetAuth());
+                navigate("/login");
+              }}
+              icon={<IconLogout style={{ marginRight: "10px" }} />}
+              label="Logout"
+            />
+          </>
+        }
+      />
     </div>
   );
 };

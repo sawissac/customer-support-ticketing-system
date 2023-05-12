@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Software;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

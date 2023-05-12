@@ -1,0 +1,34 @@
+.form-container{
+  padding: map-get($spacers, 4);
+}
+
+.form-input {
+  margin-bottom: map-get($spacers, 3);
+  &__label {
+    display: flex;
+    align-items: center;
+    height: 35px;
+    label {
+      font-weight: $font-weight-bolder;
+      font-size: 18px;
+      text-align: center;
+    }
+  }
+  &__error {
+    color: red;
+    margin-left: map-get($spacers, 3);
+    text-align: center;
+  }
+  &__container {
+    height: 45px;
+    input {
+      border:1px solid $gray-200;
+      border-radius: $border-radius-sm;
+      width: 100%;
+      height: 100%;
+      outline: none;
+      font-size: 15px;
+      padding: 0px map-get($spacers, 3);
+    }
+  }
+}

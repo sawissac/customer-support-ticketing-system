@@ -1,11 +1,18 @@
-import React from 'react'
-import SideBar from '../../components/SideBar'
+import { Route, Routes } from "react-router-dom";
+import SideBar from "../../components/SideBar";
+import UserCreatePage from "./UserCreatePage";
+import EmployeeSideBar from "../../components/EmployeeSideBar";
 
 const AdminDashboard = () => {
   return (
-    <div>
-    </div>
-  )
-}
+    <>
+      <SideBar route={`/admin-dashboard`} />
+      <Routes>
+        <Route path="/users" element={<UserCreatePage />} />
+      </Routes>
+      <EmployeeSideBar />
+    </>
+  );
+};
 
-export default AdminDashboard
+export default AdminDashboard;

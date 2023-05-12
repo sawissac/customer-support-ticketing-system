@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\EmployeeProjectRequest;
-use App\Repository\EmployeeProject\EmployeeProjectRepoInterface;
-use App\Service\EmployeeProject\EmployeeProjectServiceInterface;
-use Exception;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Api\BaseController;
 
-class EmployeeProjectController extends Controller
+use App\Service\EmployeeProject\EmployeeProjectServiceInterface;
+use App\Repository\EmployeeProject\EmployeeProjectRepositoryInterface;
+
+class EmployeeProjectController extends BaseController
 {
-    private $EmployeeProjectRepo, $EmployeeProjectService;
-    public function __construct(EmployeeProjectRepoInterface $EmployeeProjectRepo, EmployeeProjectServiceInterface $EmployeeProjectService)
+    private $employeeprojectRepo, $employeeprojectService;
+    public function __construct(EmployeeProjectRepositoryInterface $employeeprojectRepo, EmployeeProjectServiceInterface $employeeprojectService)
     {
-        $this->EmployeeProjectRepo = $EmployeeProjectRepo;
-        $this->EmployeeProjectService = $EmployeeProjectService;
+        $this->employeeprojectRepo = $employeeprojectRepo;
+        $this->employeeprojectService = $employeeprojectService;
     }
     /**
      * Display a listing of the resource.
@@ -24,21 +25,9 @@ class EmployeeProjectController extends Controller
      */
     public function index()
     {
-        try {
-            $data = $this->EmployeeProjectRepo->index();
-            return response()->json([
-                'status' => true,
-                'message' => 'Employee Project List All',
-                'data' => $data
-            ], 200);
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Employee Project List All',
-                'error' => $e->getMessage(),
-                'data' => []
-            ], 500);
-        }
+        $data = $this->employeeprojectRepo->get();
+
+        return $this->sendResponse($data, 'EmployeeProjects retrieved successfully.');
     }
 
     /**
@@ -47,23 +36,25 @@ class EmployeeProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(EmployeeProjectRequest $request)
+    public function store(Request $request)
     {
-        try {
-            $data = $this->EmployeeProjectService->store($request->validated());
-            return response()->json([
-                'status' => true,
-                'message' => 'Employee Project Create',
-                'data' => $data
-            ], 200);
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Employee Project Create',
-                'error' => $e->getMessage(),
-                'data' => []
-            ], 500);
+        $validate = $request->all();
+
+        $validator = Validator::make(
+            $validate,
+            [
+                'project_id' => 'required|string',
+                'user_id' => 'required|integer',
+            ]
+        );
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
         }
+
+        $data = $this->employeeprojectService->store($validate);
+
+        return $this->sendResponse($data, 'EmployeeProject created successfully.');
     }
 
     /**
@@ -74,22 +65,15 @@ class EmployeeProjectController extends Controller
      */
     public function show($id)
     {
-        try {
-            $data = $this->EmployeeProjectRepo->show($id);
-            return response()->json([
-                'status' => true,
-                'message' => 'Employee Project show',
-                'data' => $data
-            ], 200);
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Employee Project show',
-                'error' => $e->getMessage(),
-                'data' => []
-            ], 500);
+        $result = $this->employeeprojectRepo->show($id);
+
+        if (is_null($result)) {
+            return $this->sendError('Project not found.');
         }
+
+        return $this->sendResponse($result, 'EmployeeProject retrieved successfully.');
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -97,23 +81,25 @@ class EmployeeProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(EmployeeProjectRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        try {
-            $data = $this->EmployeeProjectService->update($id, $request->validated());
-            return response()->json([
-                'status' => true,
-                'message' => 'Employee Project Update',
-                'data' => $data
-            ], 200);
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Employee Project Update',
-                'error' => $e->getMessage(),
-                'data' => []
-            ], 500);
+        $validate = $request->all();
+
+        $validator = Validator::make(
+            $validate,
+            [
+                'project_id' => 'required|string',
+                'user_id' => 'required|integer',
+            ]
+        );
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
         }
+
+        $data = $this->employeeprojectService->update($id, $validate);
+
+        return $this->sendResponse($data, 'EmployeeProject updated successfully.');
     }
 
     /**
@@ -124,19 +110,8 @@ class EmployeeProjectController extends Controller
      */
     public function destroy($id)
     {
-        $data = $this->EmployeeProjectService->delete($id);
-        try {
-            return response()->json([
-                'status' => true,
-                'message' => 'Employee Project Deleted Successfully',
-                'data' => $data
-            ], 200);
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => $e->getMessage(),
-                'data' => $data,
-            ], 500);
-        }
+        $this->employeeprojectService->delete($id);
+
+        return $this->sendResponse([], 'EmployeeProject deleted successfully.');
     }
 }
