@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\User;
+namespace App\Service\CustomerProject;
 
-interface UserServiceInterface
+interface CustomerProjectServiceInterface
 {
     public function store($data);
 

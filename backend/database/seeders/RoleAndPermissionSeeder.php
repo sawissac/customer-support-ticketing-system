@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Spatie\Permission\Models\Permission;
 
@@ -19,7 +18,7 @@ class RoleAndPermissionSeeder extends Seeder
     {
 
         $admin = Role::create(['name' => 'admin']);
-        $developer = Role::create(['name' => 'developer']);
+        $employee = Role::create(['name' => 'employee']);
         $customer = Role::create(['name' => 'customer']);
         $guest = Role::create(['name' => 'guest']);
 
@@ -73,7 +72,7 @@ class RoleAndPermissionSeeder extends Seeder
             $canDeleteAssignDev,
             $canShowAssignDev,
         ]);
-        $developer->givePermissionTo([
+        $employee->givePermissionTo([
             $canShowUser,
             $canShowSoftwareList,
             $canShowCustomerSoftwareList,

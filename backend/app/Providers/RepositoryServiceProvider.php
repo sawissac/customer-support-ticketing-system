@@ -2,28 +2,19 @@
 
 namespace App\Providers;
 
-use App\Repository\AssignedEmployee\AssEmployeeRepository;
-use App\Repository\AssignedEmployee\AssEmployeeRepositoryInterface;
-use App\Repository\CustomerSoftware\CustomerSoftwareRepoInterface;
-use App\Repository\CustomerSoftware\CustomerSoftwareRepository;
+use App\Repository\CustomerProject\CustomerProjectRepoInterface;
+use App\Repository\CustomerProject\CustomerProjectRepository;
+
+use App\Repository\EmployeeAssgin\EmployeeAssginRepository;
+use App\Repository\EmployeeAssgin\EmployeeAssginRepoInterface;
+
 use Illuminate\Support\ServiceProvider;
 
-use App\Repository\User\UserRepository;
-use App\Repository\User\UserRepositoryInterface;
+use App\Service\CustomerProject\CustomerProjectService;
+use App\Service\CustomerProject\CustomerProjectServiceInterface;
 
-use App\Service\User\UserService;
-use App\Service\User\UserServiceInterface;
-
-use App\Repository\Software\SoftwareRepository;
-use App\Repository\Software\SoftwareRepositoryInterface;
-use App\Service\AssignedEmployee\AssEmployeeService;
-use App\Service\AssignedEmployee\AssEmployeeServiceInterface;
-use App\Service\CustomerSoftware\CustomerSoftwareService;
-use App\Service\CustomerSoftware\CustomerSoftwareServiceInterface;
-
-use App\Service\Software\SoftwareService;
-use App\Service\Software\SoftwareServiceInterface;
-use Illuminate\Testing\Fluent\AssertableJson;
+use App\Service\EmployeeAssgin\EmployeeAssginService;
+use App\Service\EmployeeAssgin\EmployeeAssginServiceInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -44,16 +35,10 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
-        $this->app->bind(UserServiceInterface::class, UserService::class);
+        $this->app->bind(CustomerProjectRepoInterface::class, CustomerProjectRepository::class);
+        $this->app->bind(CustomerProjectServiceInterface::class, CustomerProjectService::class);
 
-        $this->app->bind(SoftwareRepositoryInterface::class, SoftwareRepository::class);
-        $this->app->bind(SoftwareServiceInterface::class, SoftwareService::class);
-
-        $this->app->bind(AssEmployeeRepositoryInterface::class, AssEmployeeRepository::class);
-        $this->app->bind(AssEmployeeServiceInterface::class, AssEmployeeService::class);
-
-        $this->app->bind(CustomerSoftwareRepoInterface::class, CustomerSoftwareRepository::class);
-        $this->app->bind(CustomerSoftwareServiceInterface::class, CustomerSoftwareService::class);
+        $this->app->bind(EmployeeAssginRepoInterface::class, EmployeeAssginRepository::class);
+        $this->app->bind(EmployeeAssginServiceInterface::class, EmployeeAssginService::class);
     }
 }

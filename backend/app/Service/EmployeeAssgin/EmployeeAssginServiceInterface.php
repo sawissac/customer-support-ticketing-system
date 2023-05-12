@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\Software;
+namespace App\Service\EmployeeAssgin;
 
-interface SoftwareServiceInterface
+interface EmployeeAssginServiceInterface
 {
     public function store($data);
 
