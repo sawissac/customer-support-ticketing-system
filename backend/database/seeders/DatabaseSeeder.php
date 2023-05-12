@@ -16,15 +16,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Software::create([
-            'name' => 'AcePlusSolution',
-        ]);
-
-        Software::create([
-            'name' => 'AceDataSystem',
-
-        ]);
-
 
         $this->call(RoleAndPermissionSeeder::class);
         $this->call(AdminSeeder::class);
