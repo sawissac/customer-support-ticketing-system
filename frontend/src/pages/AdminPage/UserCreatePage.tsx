@@ -1,6 +1,6 @@
 import React from "react";
 import Nav from "../../components/Nav";
-import { IconTicket } from "@tabler/icons-react";
+import { IconUserPlus } from "@tabler/icons-react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Dropdown from "../../components/DropDown";
@@ -14,7 +14,7 @@ const UserCreatePage = () => {
   function onClickHandle() {}
   return (
     <div className="admin-container">
-      <Nav icon={<IconTicket />} label="Tickets Request" />
+      <Nav icon={<IconUserPlus />} label="User Create Page" />
       <form action="" onClick={onSubmitHandle} className="form-container">
         <Input label="Name" errorMessage="*require" placeholder="Name..." />
         <Input label="Email" errorMessage="*require" placeholder="Email.." />
