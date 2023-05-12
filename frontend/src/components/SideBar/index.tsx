@@ -8,12 +8,14 @@ import {
   IconFileTime,
   IconCalendarPlus,
   IconSunFilled,
+  IconMoonFilled,
+  IconLogout,
 } from "@tabler/icons-react";
 import Avatar from "react-avatar";
 import { NavLink, useNavigate } from "react-router-dom";
 import Dropdown from "../DropDown";
 import Button from "../Button";
-import { useAppDispatch } from "../../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { resetAuth } from "../../redux/feature_slice/AuthSlice";
 
 interface SideBarInterface {
@@ -21,6 +23,8 @@ interface SideBarInterface {
 }
 
 const SideBar = (props: SideBarInterface) => {
+  const authRedux = useAppSelector((state) => state.auth);
+
   return (
     <div className="sidebar">
       <div className="sidebar__header">
@@ -37,7 +41,7 @@ const SideBar = (props: SideBarInterface) => {
         <SideBar.Link routeName={props.route + "/report-history"} icon={<IconFileTime />} label="Report History" />
         <SideBar.Link routeName={props.route + "/assign-dev"} icon={<IconCalendarPlus />} label="Assign Dev" />
       </div>
-      <SideBar.Profile name="Super Man" email="iz@gmail.com" />
+      <SideBar.Profile name={authRedux.user.name} email={authRedux.user.email} />
     </div>
   );
 };
@@ -78,38 +82,41 @@ SideBar.Profile = function (props: SideBarProfile) {
         <h6>{props.email.length > 15 ? props.email.substring(0, 15) + "..." : props.email}</h6>
       </div>
       <Dropdown
-        offset={[-250, 10]}
+        offset={[-200, 10]}
         placement="top-start"
         buttonChildren={<IconSettings />}
         dropdownClassName="sidebar-dropdown"
         dropdownChildren={
           <>
+            <h6>Ui Mode</h6>
             <Button
               type="button"
               onClick={() => {
                 dispatch(resetAuth());
-                navigate('/login');
+                navigate("/login");
               }}
-              icon={<IconSunFilled style={{ marginRight: "10px" }} />}
-              label="Light Mode"
+              icon={<IconMoonFilled size={20}  style={{ marginRight: "10px" }} />}
+              label="Dark Mode"
             />
             <Button
               type="button"
               onClick={() => {
                 dispatch(resetAuth());
-                navigate('/login');
+                navigate("/login");
               }}
-              icon={<IconSunFilled style={{ marginRight: "10px" }} />}
+              icon={<IconSunFilled  size={20} style={{ marginRight: "10px" }} />}
               label="Light Mode"
             />
+            <h6>Account</h6>
             <Button
               type="button"
+              className="text-danger"
               onClick={() => {
                 dispatch(resetAuth());
-                navigate('/login');
+                navigate("/login");
               }}
-              icon={<IconSunFilled style={{ marginRight: "10px" }} />}
-              label="Light Mode"
+              icon={<IconLogout style={{ marginRight: "10px" }} />}
+              label="Logout"
             />
           </>
         }

@@ -3,3 +3,9 @@
     font-size: #{$value};
   }
 }
+
+@each $key, $value in $theme-colors {
+  .text-#{$key} {
+    color: #{$value};
+  }
+}
