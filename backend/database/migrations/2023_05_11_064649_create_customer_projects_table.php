@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('customer_projects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->integer('user_id');
             $table->string('project_id');
             $table->timestamps();
         });
