@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Ticket;
 use Illuminate\Support\ServiceProvider;
 
 use App\Repository\User\UserRepository;
@@ -25,6 +24,11 @@ use App\Repository\Ticket\TicketRepository;
 use App\Repository\Ticket\TicketRepositoryInterface;
 use App\Service\Ticket\TicketService;
 use App\Service\Ticket\TicketServiceInterface;
+
+use App\Repository\EmployeeReport\EmployeeReportRepository;
+use App\Repository\EmployeeReport\EmployeeReportRepositoryInterface;
+use App\Service\EmployeeReport\EmployeeReportService;
+use App\Service\EmployeeReport\EmployeeReportServiceInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -56,5 +60,9 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(TicketRepositoryInterface::class, TicketRepository::class);
         $this->app->bind(TicketServiceInterface::class, TicketService::class);
+
+        $this->app->bind(EmployeeReportRepositoryInterface::class, EmployeeReportRepository::class);
+        $this->app->bind(EmployeeReportServiceInterface::class, EmployeeReportService::class);
+
     }
 }
