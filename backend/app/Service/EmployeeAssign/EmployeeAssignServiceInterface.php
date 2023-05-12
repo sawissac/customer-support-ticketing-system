@@ -2,7 +2,7 @@
 
 namespace App\Service\EmployeeAssign;
 
-interface EmployeeAssginServiceInterface
+interface EmployeeAssignServiceInterface
 {
     public function store($data);
 

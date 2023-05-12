@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\EmployeeProjectController;
 use App\Http\Controllers\Api\TicketController;
 use App\Http\Controllers\Api\EmployeeReportController;
-use App\Http\Controllers\Api\EmployeeAssginController;
+use App\Http\Controllers\Api\EmployeeAssignController;
 use App\Http\Controllers\Api\CustomerProjectController;
 
 
@@ -39,7 +39,7 @@ Route::middleware(['cors'])->group(function(){
     Route::apiResource('/employee-project', EmployeeProjectController::class)->middleware('auth:sanctum');
     Route::apiResource('/ticket', TicketController::class)->middleware('auth:sanctum');
     Route::apiResource('/employee-report', EmployeeReportController::class)->middleware('auth:sanctum');
-    Route::apiResource('employee-assgin', EmployeeAssginController::class)->middleware('auth:sanctum');
+    Route::apiResource('employee-assgin', EmployeeAssignController::class)->middleware('auth:sanctum');
     Route::apiResource('customer-project', CustomerProjectController::class)->middleware('auth:sanctum');
 
 });

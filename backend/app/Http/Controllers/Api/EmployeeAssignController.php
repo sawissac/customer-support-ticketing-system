@@ -4,24 +4,24 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Api\BaseController;
-use App\Repository\EmployeeAssgin\EmployeeAssginRepoInterface;
-use App\Service\EmployeeAssgin\EmployeeAssginServiceInterface;
+use App\Repository\EmployeeAssign\EmployeeAssignRepoInterface;
+use App\Service\EmployeeAssign\EmployeeAssignServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class EmployeeAssginController extends BaseController
+class EmployeeAssignController extends BaseController
 {
-    private $employeeAssginRepo, $employeeAssginService;
+    private $employeeAssignRepo, $employeeAssignService;
 
-    public function __construct(EmployeeAssginRepoInterface $employeeAssginRepo, EmployeeAssginServiceInterface $employeeAssginService)
+    public function __construct(EmployeeAssignRepoInterface $employeeAssignRepo, EmployeeAssignServiceInterface $employeeAssignService)
     {
-        $this->employeeAssginRepo = $employeeAssginRepo;
-        $this->employeeAssginService = $employeeAssginService;
+        $this->employeeAssignRepo = $employeeAssignRepo;
+        $this->employeeAssignService = $employeeAssignService;
     }
 
     public function index()
     {
-        $data = $this->employeeAssginRepo->get();
+        $data = $this->employeeAssignRepo->get();
 
         return $this->sendResponse($data, 'Employee Assgin List successfully.');
     }
@@ -39,7 +39,7 @@ class EmployeeAssginController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        $result = $this->employeeAssginService->store($data);
+        $result = $this->employeeAssignService->store($data);
 
         return $this->sendResponse($result, 'Employee Assgin created successfully.');
     }
@@ -47,7 +47,7 @@ class EmployeeAssginController extends BaseController
     public function show($id)
     {
 
-        $data = $this->employeeAssginRepo->show($id);
+        $data = $this->employeeAssignRepo->show($id);
 
         if (is_null($id)) {
 
@@ -70,14 +70,14 @@ class EmployeeAssginController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        $result = $this->employeeAssginService->update($id, $data);
+        $result = $this->employeeAssignService->update($id, $data);
 
         return $this->sendResponse($result, 'Employee Assgin Update successfully.');
     }
 
     public function destroy($id)
     {
-        $data = $this->employeeAssginService->delete($id);
+        $data = $this->employeeAssignService->delete($id);
 
         if (is_null($data)) {
             return $this->sendError('Employee Assgin Not found.');

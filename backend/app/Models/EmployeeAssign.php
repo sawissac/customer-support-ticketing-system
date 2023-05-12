@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EmployeeAssgin extends Model
+class EmployeeAssign extends Model
 {
     use HasFactory;
     protected $fillable = ['user_id', 'tickets_id'];

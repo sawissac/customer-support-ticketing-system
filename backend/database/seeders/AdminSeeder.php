@@ -33,14 +33,8 @@ class AdminSeeder extends Seeder
             'email' => 'customer@gmail.com',
             'password' => Hash::make('password'),
         ]);
-<<<<<<< HEAD
         $admin->assignRole('admin');
         $employee->assignRole('employee');
         $customer->assignRole('customer');
-=======
-        $admin -> assignRole('admin','guest');
-        $employee -> assignRole('employee','guest');
-        $customer -> assignRole('Customer','guest');
->>>>>>> origin/tta-dev
     }
 }
