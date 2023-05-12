@@ -2,8 +2,7 @@
 
 namespace App\Providers;
 
-
-
+use App\Models\EmployeeProject;
 use Illuminate\Support\ServiceProvider;
 
 use App\Repository\User\UserRepository;
@@ -26,11 +25,12 @@ use App\Service\AssignedEmployee\AssEmployeeServiceInterface;
 
 use App\Repository\CustomerSoftware\CustomerSoftwareRepoInterface;
 use App\Repository\CustomerSoftware\CustomerSoftwareRepository;
-
+use App\Repository\EmployeeProject\EmployeeProjectRepoInterface;
+use App\Repository\EmployeeProject\EmployeeProjectRepository;
 use App\Service\CustomerSoftware\CustomerSoftwareService;
 use App\Service\CustomerSoftware\CustomerSoftwareServiceInterface;
-
-
+use App\Service\EmployeeProject\EmployeeProjectService;
+use App\Service\EmployeeProject\EmployeeProjectServiceInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -62,5 +62,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(AssEmployeeRepositoryInterface::class, AssEmployeeRepository::class);
         $this->app->bind(AssEmployeeServiceInterface::class, AssEmployeeService::class);
+
+        $this->app->bind(EmployeeProjectRepoInterface::class, EmployeeProjectRepository::class);
+        $this->app->bind(EmployeeProjectServiceInterface::class, EmployeeProjectService::class);
     }
 }
