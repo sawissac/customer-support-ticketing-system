@@ -2,7 +2,7 @@ import { useState } from "react";
 import { usePopper } from "react-popper";
 
 interface DropdownInterface {
-  placement?: "top" | "bottom" | "left" | "right" | "top-start";
+  placement?: "top" | "bottom" | "left" | "right" | "top-start" | "right-start";
   buttonChildren?: any;
   dropdownChildren?: any;
   buttonClassName?: string;

@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import AdminDashboard from "./pages/AdminPage";
+import AdminDashboard from "./pages/AdminDashboard";
 import LoginPage from "./pages/LoginPage";
 import AuthProvider from "./components/AuthProvider";
 import { useAppSelector } from "./redux/hook";

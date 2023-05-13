@@ -1,14 +1,15 @@
 import { Route, Routes } from "react-router-dom";
-import SideBar from "../../components/SideBar";
 import UserCreatePage from "./UserCreatePage";
-import EmployeeSideBar from "../../components/EmployeeSideBar";
+import SideBar from "./Sidebar";
+import TicketsPage from "./TicketsPage";
 
 const AdminDashboard = () => {
   return (
     <>
       <SideBar route={`/admin-dashboard`} />
       <Routes>
-        <Route path="/users" element={<UserCreatePage />} />
+        <Route path="/tickets" element={<TicketsPage />} />
+        <Route path="/user-create" element={<UserCreatePage />} />
       </Routes>
     </>
   );

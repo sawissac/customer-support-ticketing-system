@@ -8,14 +8,16 @@ const themeSlice = createSlice({
   initialState,
   reducers: {
     darkTheme: (state) => {
-        state = Theme.Dark;
+      state = Theme.Dark;
+      return state;
     },
-    lightTheme: (state)=>{
-        state = Theme.Light;
-    }
+    lightTheme: (state) => {
+      state = Theme.Light;
+      return state;
+    },
   },
 });
 
-export const {darkTheme, lightTheme} = themeSlice.actions;
+export const { darkTheme, lightTheme } = themeSlice.actions;
 
 export default themeSlice.reducer;

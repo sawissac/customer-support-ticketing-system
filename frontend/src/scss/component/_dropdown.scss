@@ -44,6 +44,9 @@
       border: none;
     }
   }
+  &--active{
+    border-left: map-get($border-widths, 5) solid $orange !important;
+  }
 }
 .form-dropdown-btn {
   @include interactive('gray');
