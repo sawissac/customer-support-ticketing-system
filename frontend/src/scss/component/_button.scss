@@ -7,7 +7,7 @@
   width: max-content;
   font-size: $h6-font-size;
   border-radius: $border-radius-sm;
-  padding: 1rem * .7; 
+  padding: 1rem * 0.7;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,36 +15,34 @@
 
   &--primary {
     @include interactive("orange");
-    color:$white;
-    
+    color: $white;
   }
 
   &--light {
     @include interactive("gray");
-    border:1px solid $gray-300;
-    color:$dark;
-    
+    border: 1px solid $gray-300;
+    color: $dark;
   }
 
   &--block {
     width: 100%;
   }
 
-  &--user_create{
+  &--form {
     @include interactive("orange");
-    background-color:$orange;
+    background-color: $orange;
     color: $white;
     width: 150px;
     height: 45px;
-    margin-top: map-get($spacers, 3 );
+    margin-top: map-get($spacers, 3);
   }
-  &--assign-employee{
+  &--assign-employee {
     background-color: $orange;
     color: $white;
     width: 80%;
     @include interactive("orange");
   }
-  &--ticket-view{
+  &--ticket-view {
     width: 80px;
     @include interactive("gray");
   }
