@@ -50,8 +50,8 @@ class TicketController extends BaseController
                 'description' => 'required',
                 'status' => 'required|string',
                 'priority' => 'required|string',
-                'ticket_start_date' => 'required|date_format:Y-m-d',
-                'ticket_end_date' => 'required|date_format:Y-m-d',
+                'ticket_start_date' => 'required|date_format:Y-m-d H:i:s',
+                'ticket_end_date' => 'required|date_format:Y-m-d H:i:s',
             ]
         );
 
@@ -101,8 +101,8 @@ class TicketController extends BaseController
                 'description' => 'required',
                 'status' => 'required|string',
                 'priority' => 'required|string',
-                'ticket_start_date' => 'required|date_format:Y-m-d',
-                'ticket_end_date' => 'required|date_format:Y-m-d',
+                'ticket_start_date' => 'required|date_format:Y-m-d H:i:s',
+                'ticket_end_date' => 'required|date_format:Y-m-d H:i:s',
             ]
         );
 

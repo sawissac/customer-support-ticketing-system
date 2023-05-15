@@ -8,14 +8,14 @@ class CustomerProjectRepository implements CustomerProjectRepoInterface
 {
     public function get()
     {
-        $data = CustomerProject::all();
+        $data = CustomerProject::with('user', 'project', 'ticket')->get();
 
         return $data;
     }
 
     public function show($id)
     {
-        $result = CustomerProject::where('id', $id)->first();
+        $result = CustomerProject::with('user', 'project', 'ticket')->where('id', $id)->first();
 
         return $result;
     }
