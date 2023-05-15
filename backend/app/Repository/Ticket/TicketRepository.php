@@ -8,14 +8,14 @@ class TicketRepository implements TicketRepositoryInterface
 {
     public function get()
     {
-        $data = Ticket::all();
+        $data = Ticket::with('customer_project')->get();
 
         return $data;
     }
 
     public function show($id)
     {
-        $result = Ticket::where('id', $id)->first();
+        $result = Ticket::with('customerProject')->where('id', $id)->first();
 
         return $result;
     }

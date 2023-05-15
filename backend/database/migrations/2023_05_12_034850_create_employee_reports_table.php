@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('employee_reports', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->string('ticket_id');
+            $table->foreignId('user_id');
+            $table->foreignId('tickets_id');
             $table->text('description');
             $table->timestamps();
         });

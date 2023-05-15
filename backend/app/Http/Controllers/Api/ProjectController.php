@@ -48,8 +48,8 @@ class ProjectController extends BaseController
             [
                 'project_id' => 'required|string',
                 'name' => 'required|string',
-                'manage_start_date' => 'required|date_format:Y-m-d',
-                'manage_end_date' => 'required|date_format:Y-m-d',
+                'manage_start_date' => 'required|date_format:Y-m-d H:i:s',
+                'manage_end_date' => 'required|date_format:Y-m-d H:i:s',
             ]
         );
 
@@ -96,8 +96,8 @@ class ProjectController extends BaseController
             [
                 'project_id' => 'required|integer',
                 'name' => 'required|string',
-                'manage_start_date' => 'required|date_format:Y-m-d',
-                'manage_end_date' => 'required|date_format:Y-m-d',
+                'manage_start_date' => 'required|date_format:Y-m-d H:i:s',
+                'manage_end_date' => 'required|date_format:Y-m-d H:i:s',
             ]
         );
 
