@@ -42,7 +42,7 @@ class AuthController extends Controller
                 'message' => 'User Logged In Successfully',
                 'token' => $user->createToken("API TOKEN")->plainTextToken,
                 'role'=>$user->getRoleNames()->first(),
-                'user'=>$user
+                'user'=>$user,
             ], 200);
 
         } catch (Throwable $th) {

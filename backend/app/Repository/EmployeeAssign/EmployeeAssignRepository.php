@@ -9,14 +9,14 @@ class EmployeeAssignRepository implements EmployeeAssignRepoInterface
 {
     public function get()
     {
-        $data = EmployeeAssign::all();
+        $data = EmployeeAssign::with('admin', 'employee', 'ticket')->get();
 
         return $data;
     }
 
     public function show($id)
     {
-        $result = EmployeeAssign::where('id', $id)->first();
+        $result = EmployeeAssign::with('user', 'ticket')->where('id', $id)->first();
 
         return $result;
     }
