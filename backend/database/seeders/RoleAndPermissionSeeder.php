@@ -93,5 +93,6 @@ class RoleAndPermissionSeeder extends Seeder
             $canShowTickets,
             $canShowAssignDev,
         ]);
+
     }
 }
