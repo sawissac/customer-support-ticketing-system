@@ -1,8 +1,10 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import Nav from "../../components/Nav";
 import { IconUsers } from "@tabler/icons-react";
 import RouteSetter from "./RouteSetter";
+import axios from "axios";
+import { useQuery } from "react-query";
 
 const columns = [
   {
@@ -11,8 +13,8 @@ const columns = [
     sortable: true,
   },
   {
-    name: "Title",
-    selector: (row: any) => row.title,
+    name: "Name",
+    selector: (row: any) => row.name,
     sortable: true,
   },
   {
@@ -22,25 +24,8 @@ const columns = [
   },
   {
     name: "Role",
-    selector: (row: any) => row.role,
+    selector: (row: any) => row.id,
     sortable: true,
-  },
-];
-
-
-const data = [
-  {
-    id: 1,
-    title: "Beetlejuice",
-    email: "sawissac@gmail.com",
-    role: "admin"
-  },
-  {
-    id: 2,
-    title: "Ghostbusters",
-    year: "1984",
-    email: "zayartunjob@gmail.com",
-    role: "admin"
   },
 ];
 
@@ -70,6 +55,23 @@ const Users = () => {
   const handleChange = useCallback((state:any) => {
 		setSelectedRows(state.selectedRows);
 	}, []);
+
+    const token = "6|rG0SwLeROYrLLbrOWeGoAIZooWBkrAiIVCw02D45";
+    const getFacts = async () => {
+      const res = await axios
+        .get("http://127.0.0.1:8000/api/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          return response.data.data;
+        });
+        console.log(res)
+      return res;
+    };
+  
+    const { data } = useQuery("name", getFacts);
 
   return (
     <div className="admin-container">
