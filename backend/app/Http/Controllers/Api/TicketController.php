@@ -44,18 +44,18 @@ class TicketController extends BaseController
         $validator = Validator::make(
             $validate,
             [
-                'tickets_id' => 'required|string',
+                'tickets_id' => 'string',
                 'customer_project_id' => 'required|integer',
                 'subject' => 'required|string',
                 'description' => 'required',
                 'status' => 'required|string',
                 'priority' => 'required|string',
-                'ticket_start_date' => 'required|date_format:Y-m-d H:i:s',
-                'ticket_end_date' => 'required|date_format:Y-m-d H:i:s',
+                'ticket_start_date' => 'nullable|date_format:Y-m-d H:i:s',
+                'ticket_end_date' => 'nullable|date_format:Y-m-d H:i:s',
             ]
         );
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
@@ -95,18 +95,18 @@ class TicketController extends BaseController
         $validator = Validator::make(
             $validate,
             [
-                'tickets_id' => 'required|string',
+                'tickets_id' => 'string',
                 'customer_project_id' => 'required|integer',
                 'subject' => 'required|string',
                 'description' => 'required',
                 'status' => 'required|string',
                 'priority' => 'required|string',
-                'ticket_start_date' => 'required|date_format:Y-m-d H:i:s',
-                'ticket_end_date' => 'required|date_format:Y-m-d H:i:s',
+                'ticket_start_date' => 'nullable|date_format:Y-m-d H:i:s',
+                'ticket_end_date' => 'nullable|date_format:Y-m-d H:i:s',
             ]
         );
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
