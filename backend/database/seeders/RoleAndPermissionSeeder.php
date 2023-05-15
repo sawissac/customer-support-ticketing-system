@@ -19,7 +19,7 @@ class RoleAndPermissionSeeder extends Seeder
         $admin = Role::create(['name' => 'admin']);
         $employee = Role::create(['name' => 'employee']);
         $customer = Role::create(['name' => 'customer']);
-        $resign_employee = Role::create(['name' => 'guest']);
+        $resign_employee = Role::create(['name' => 'resign_employee']);
 
         $canCreateUser = Permission::create(['name' => 'canCreateUser']);
         $canUpdateUser = Permission::create(['name' => 'canUpdateUser']);
