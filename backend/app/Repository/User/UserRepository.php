@@ -8,7 +8,8 @@ class UserRepository implements UserRepositoryInterface
 {
     public function get()
     {
-        $data = User::all();
+
+        $data = User::with('roles')->get();
 
         return $data;
     }
