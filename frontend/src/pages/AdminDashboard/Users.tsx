@@ -19,7 +19,7 @@ const Users = () => {
       },
       {
         name: "Name",
-        selector: (row: any) => row.title,
+        selector: (row: any) => row.name,
         sortable: true,
       },
       {
@@ -29,7 +29,7 @@ const Users = () => {
       },
       {
         name: "Role",
-        selector: (row: any) => row.role,
+        selector: (row: any) => row.id,
         sortable: true,
       },
       {
