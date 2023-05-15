@@ -23,8 +23,8 @@ class AdminSeeder extends Seeder
         ]);
 
         $employee = User::create([
-            'name' => 'dev',
-            'email' => 'dev@gmail.com',
+            'name' => 'employee',
+            'email' => 'employee@gmail.com',
             'password' => Hash::make('password'),
         ]);
 

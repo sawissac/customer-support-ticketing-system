@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('employee_projects', function (Blueprint $table) {
             $table->id();
-            $table->string('project_id');
-            $table->integer('user_id');
+            $table->foreignId('project_id');
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }

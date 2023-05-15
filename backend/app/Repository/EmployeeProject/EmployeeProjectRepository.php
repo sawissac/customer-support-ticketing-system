@@ -8,14 +8,14 @@ class EmployeeProjectRepository implements EmployeeProjectRepoInterface
 {
     public function get()
     {
-        $data = EmployeeProject::with('user')->get();
+        $data = EmployeeProject::with('user', 'project')->get();
 
         return $data;
     }
 
     public function show($id)
     {
-        $result = EmployeeProject::where('id', $id)->first();
+        $result = EmployeeProject::with('user', 'project')->where('id', $id)->first();
 
         return $result;
     }
