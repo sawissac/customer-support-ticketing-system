@@ -86,5 +86,7 @@ class RoleAndPermissionSeeder extends Seeder
             $canShowTickets,
             $canShowAssignDev,
         ]);
+
+        $guest->givePermissionTo();
     }
 }

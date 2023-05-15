@@ -8,7 +8,9 @@ class ProjectService implements ProjectServiceInterface
 {
     public function store($data)
     {
-        return Project::create($data);
+        $data = Project::with('users')->get();
+
+        return $data;
     }
 
     public function update($id, $data)
