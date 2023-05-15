@@ -14,9 +14,17 @@ const UserUpdatePage = () => {
   return (
     <div className="admin-container">
       <Nav icon={<IconUserUp />} label="User Update Page" />
+      <Nav.Back
+        link="/admin-dashboard/users"
+        label="Create Update"
+      />
       <form action="" onClick={onSubmitHandle} className="form-container">
         <Input label="Name" errorMessage="*require" placeholder="Name..." />
         <Input label="Email" errorMessage="*require" placeholder="Email.." />
+        <div className="form-dropdown-label">
+          <label htmlFor="">Role</label>
+          <span>*require</span>
+        </div>
         <Dropdown
           placement="bottom"
           buttonClassName="form-dropdown-btn"

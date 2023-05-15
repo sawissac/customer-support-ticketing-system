@@ -68,6 +68,7 @@
   font-size: $h6-font-size;
   font-weight: $font-weight-bolder;
   padding: 0px map-get($spacers, 3);
+  margin-bottom: map-get($spacers, 2);
 }
 
 .form-dropdown-label {

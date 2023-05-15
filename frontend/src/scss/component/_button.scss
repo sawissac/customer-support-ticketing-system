@@ -15,7 +15,11 @@
   text-decoration: none;
   font-weight: $font-weight-normal;
   font-family: $font-family-roboto;
-
+  &--icon{
+    aspect-ratio: 1/1;
+    padding: map-get($spacers, 2);
+  }
+  
   &--no-m-bottom {
     margin-bottom: 0;
   }
