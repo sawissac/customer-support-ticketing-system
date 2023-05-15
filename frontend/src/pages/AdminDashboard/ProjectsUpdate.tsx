@@ -6,7 +6,7 @@ import Button from "../../components/Button";
 import Dropdown from "../../components/DropDown";
 import { IconMenuOrder } from "@tabler/icons-react";
 
-const UserCreatePage = () => {
+const ProjectUpdate = () => {
   function onSubmitHandle(
     ev: React.FormEvent<HTMLFormElement>
   ) {
@@ -33,13 +33,8 @@ const UserCreatePage = () => {
           errorMessage="*require"
           placeholder="Name..."
         />
-        <Input
-          label="Email"
-          errorMessage="*require"
-          placeholder="Email.."
-        />
         <div className="form-dropdown-label">
-          <label htmlFor="">Role</label>
+          <label htmlFor="">Start Date</label>
           <span>*require</span>
         </div>
         <Dropdown
@@ -66,17 +61,34 @@ const UserCreatePage = () => {
             </>
           }
         />
-        <Input
-          label="Password"
-          errorMessage="*require"
-          placeholder="Password..."
+        <div className="form-dropdown-label">
+          <label htmlFor="">End Date</label>
+          <span>*require</span>
+        </div>
+        <Dropdown
+          placement="bottom"
+          buttonClassName="form-dropdown-btn"
+          buttonChildren={
+            <>
+              Role <IconMenuOrder size={20} />
+            </>
+          }
+          dropdownClassName="form-dropdown"
+          dropdownChildren={
+            <>
+              <Button
+                type="button"
+                onClick={onClickHandle}
+                label="Admin"
+              />
+              <Button
+                type="button"
+                onClick={onClickHandle}
+                label="Admin"
+              />
+            </>
+          }
         />
-        <Input
-          label="Comfirm Password"
-          errorMessage="*require"
-          placeholder="Comfirm Password..."
-        />
-
         <Button
           type="button"
           label="Create"
@@ -88,4 +100,4 @@ const UserCreatePage = () => {
   );
 };
 
-export default UserCreatePage;
+export default ProjectUpdate;
