@@ -55,7 +55,7 @@ class TicketController extends BaseController
             ]
         );
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
@@ -106,7 +106,7 @@ class TicketController extends BaseController
             ]
         );
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
