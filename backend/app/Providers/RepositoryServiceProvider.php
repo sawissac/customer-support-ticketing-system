@@ -15,7 +15,7 @@ use App\Service\Project\ProjectService;
 use App\Service\Project\ProjectServiceInterface;
 
 use App\Repository\EmployeeProject\EmployeeProjectRepository;
-use App\Repository\EmployeeProject\EmployeeProjectRepoInterface;
+use App\Repository\EmployeeProject\EmployeeProjectRepositoryInterface;
 use App\Service\EmployeeProject\EmployeeProjectService;
 use App\Service\EmployeeProject\EmployeeProjectServiceInterface;
 
@@ -64,7 +64,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ProjectRepositoryInterface::class, ProjectRepository::class);
         $this->app->bind(ProjectServiceInterface::class, ProjectService::class);
 
-        $this->app->bind(EmployeeProjectRepoInterface::class, EmployeeProjectRepository::class);
+        $this->app->bind(EmployeeProjectRepositoryInterface::class, EmployeeProjectRepository::class);
         $this->app->bind(EmployeeProjectServiceInterface::class, EmployeeProjectService::class);
 
         $this->app->bind(CustomerProjectRepoInterface::class, CustomerProjectRepository::class);

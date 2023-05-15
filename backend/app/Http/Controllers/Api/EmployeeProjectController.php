@@ -6,13 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
-use App\Repository\EmployeeProject\EmployeeProjectRepoInterface;
+use App\Repository\EmployeeProject\EmployeeProjectRepositoryInterface;
 use App\Service\EmployeeProject\EmployeeProjectServiceInterface;
 
 class EmployeeProjectController extends BaseController
 {
     private $employeeprojectRepo, $employeeprojectService;
-    public function __construct(EmployeeProjectRepoInterface $employeeprojectRepo, EmployeeProjectServiceInterface $employeeprojectService)
+    public function __construct(EmployeeProjectRepositoryInterface $employeeprojectRepo, EmployeeProjectServiceInterface $employeeprojectService)
     {
         $this->employeeprojectRepo = $employeeprojectRepo;
         $this->employeeprojectService = $employeeprojectService;

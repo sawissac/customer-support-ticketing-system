@@ -4,7 +4,7 @@ namespace App\Repository\EmployeeProject;
 
 use App\Models\EmployeeProject;
 
-class EmployeeProjectRepository implements EmployeeProjectRepoInterface
+class EmployeeProjectRepository implements EmployeeProjectRepositoryInterface
 {
     public function get()
     {
