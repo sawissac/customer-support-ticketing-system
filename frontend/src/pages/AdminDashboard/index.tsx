@@ -13,6 +13,9 @@ import TicketView from "./TicketView";
 import TicketCreate from "./TicketCreate";
 import TicketUpdate from "./TicketUpdate";
 import EmployeeAssignment from "./EmployeeAssignment";
+import Projects from "./Projects";
+import ProjectCreate from "./ProjectsCreate";
+import ProjectUpdate from "./ProjectsUpdate";
 
 const AdminDashboard = () => {
   return (
@@ -23,6 +26,9 @@ const AdminDashboard = () => {
         <Route path="/ticket-view" element={<TicketView />} />
         <Route path="/ticket-create" element={<TicketCreate />} />
         <Route path="/ticket-update" element={<TicketUpdate />} />
+        <Route path="/project" element={<Projects />} />
+        <Route path="/project-create" element={<ProjectCreate />} />
+        <Route path="/project-update" element={<ProjectUpdate />} />
         <Route path="/users" element={<Users />} />
         <Route path="/user-create" element={<UserCreatePage />} />
         <Route path="/user-update" element={<UserUpdatePage />} />

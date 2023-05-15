@@ -10,7 +10,10 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 import RouteSetter from "./RouteSetter";
-import { NavLink, useNavigate } from "react-router-dom";
+import {
+  NavLink,
+  useNavigate,
+} from "react-router-dom";
 import { IconTrashFilled } from "@tabler/icons-react";
 
 const data = [
@@ -29,9 +32,9 @@ const data = [
   },
 ];
 
-const EmployeeProjects = () => {
+const Projects = () => {
   const navigate = useNavigate();
-  
+
   const columns = useMemo(
     () => [
       {
@@ -40,13 +43,23 @@ const EmployeeProjects = () => {
         sortable: true,
       },
       {
-        name: "Project Name",
+        name: "Project ID",
         selector: (row: any) => row.title,
         sortable: true,
       },
       {
-        name: "Employee Name",
+        name: "Name",
         selector: (row: any) => row.email,
+        sortable: true,
+      },
+      {
+        name: "Start Date",
+        selector: (row: any) => row.role,
+        sortable: true,
+      },
+      {
+        name: "End Date",
+        selector: (row: any) => row.role,
         sortable: true,
       },
       {
@@ -55,14 +68,16 @@ const EmployeeProjects = () => {
           <button
             title="row update"
             className="btn btn--light btn--icon btn--no-m-bottom text-info"
-            onClick={()=>{
-              navigate('/admin-dashboard/employee-project-update')
+            onClick={() => {
+              navigate(
+                "/admin-dashboard/user-update"
+              );
             }}
           >
             <IconEdit size={25} />
           </button>
         ),
-        button: true
+        button: true,
       },
       {
         name: "Delete",
@@ -74,7 +89,7 @@ const EmployeeProjects = () => {
             <IconTrashFilled />
           </button>
         ),
-        button: true
+        button: true,
       },
     ],
     []
@@ -103,7 +118,7 @@ const EmployeeProjects = () => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default EmployeeProjects
+export default Projects;
