@@ -15,8 +15,12 @@ return new class extends Migration
     {
         Schema::create('employee_assigns', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->string('tickets_id');
+            $table->foreignId('admin_id');
+            $table->foreignId('employee_id');
+            $table->foreignId('ticket_id');
+            $table->string('status');
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('end_date')->nullable();
             $table->timestamps();
         });
     }

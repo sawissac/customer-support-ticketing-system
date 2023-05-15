@@ -19,22 +19,22 @@ class RoleAndPermissionSeeder extends Seeder
         $admin = Role::create(['name' => 'admin']);
         $employee = Role::create(['name' => 'employee']);
         $customer = Role::create(['name' => 'customer']);
-        $guest = Role::create(['name' => 'guest']);
+        $resign_employee = Role::create(['name' => 'guest']);
 
         $canCreateUser = Permission::create(['name' => 'canCreateUser']);
         $canUpdateUser = Permission::create(['name' => 'canUpdateUser']);
         $canDeleteUser = Permission::create(['name' => 'canDeleteUser']);
         $canShowUser = Permission::create(['name' => 'canShowUser']);
 
-        $canCreateSoftwareList = Permission::create(['name' => 'canCreateSoftwareList']);
-        $canUpdateSoftwareList = Permission::create(['name' => 'canUpdateSoftwareList']);
-        $canDeleteSoftwareList = Permission::create(['name' => 'canDeleteSoftwareList']);
-        $canShowSoftwareList = Permission::create(['name' => 'canShowSoftwareList']);
+        $canCreateProjectList = Permission::create(['name' => 'canCreateProjectList']);
+        $canUpdateProjectList = Permission::create(['name' => 'canUpdateProjectList']);
+        $canDeleteProjectList = Permission::create(['name' => 'canDeleteProjectList']);
+        $canShowProjectList = Permission::create(['name' => 'canShowProjectList']);
 
-        $canCreateCustomerSoftwareList = Permission::create(['name' => 'canCreateCustomerSoftwareList']);
-        $canUpdateCustomerSoftwareList = Permission::create(['name' => 'canUpdateCustomerSoftwareList']);
-        $canDeleteCustomerSoftwareList = Permission::create(['name' => 'canDeleteCustomerSoftwareList']);
-        $canShowCustomerSoftwareList = Permission::create(['name' => 'canShowCustomerSoftwareList']);
+        $canCreateCustomerProjectList = Permission::create(['name' => 'canCreateCustomerProjectList']);
+        $canUpdateCustomerProjectList = Permission::create(['name' => 'canUpdateCustomerProjectList']);
+        $canDeleteCustomerProjectList = Permission::create(['name' => 'canDeleteCustomerProjectList']);
+        $canShowCustomerProjectList = Permission::create(['name' => 'canShowCustomerProjectList']);
 
         $canCreateTickets = Permission::create(['name' => 'canCreateTickets']);
         $canUpdateTickets = Permission::create(['name' => 'canUpdateTickets']);
@@ -53,40 +53,46 @@ class RoleAndPermissionSeeder extends Seeder
             $canUpdateUser,
             $canDeleteUser,
             $canShowUser,
-            $canCreateSoftwareList,
-            $canUpdateSoftwareList,
-            $canDeleteSoftwareList,
-            $canShowSoftwareList,
-            $canCreateCustomerSoftwareList,
-            $canUpdateCustomerSoftwareList,
-            $canDeleteCustomerSoftwareList,
-            $canShowCustomerSoftwareList,
+
+            $canCreateProjectList,
+            $canUpdateProjectList,
+            $canDeleteProjectList,
+            $canShowProjectList,
+
+            $canCreateCustomerProjectList,
+            $canUpdateCustomerProjectList,
+            $canDeleteCustomerProjectList,
+            $canShowCustomerProjectList,
+
             $canCreateTickets,
             $canUpdateTickets,
             $canDeleteTickets,
             $canShowTickets,
+
             $canShowReportHistory,
+
             $canCreateAssignDev,
             $canUpdateAssignDev,
             $canDeleteAssignDev,
             $canShowAssignDev,
         ]);
+
         $employee->givePermissionTo([
             $canShowUser,
-            $canShowSoftwareList,
-            $canShowCustomerSoftwareList,
+            $canShowProjectList,
+            $canShowCustomerProjectList,
             $canUpdateTickets,
             $canShowTickets,
             $canShowAssignDev,
         ]);
+
         $customer->givePermissionTo([
-            $canShowCustomerSoftwareList,
+            $canShowCustomerProjectList,
             $canCreateTickets,
             $canUpdateTickets,
             $canShowTickets,
             $canShowAssignDev,
         ]);
 
-        $guest->givePermissionTo();
     }
 }

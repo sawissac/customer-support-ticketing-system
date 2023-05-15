@@ -9,14 +9,14 @@ class ProjectRepository implements ProjectRepositoryInterface
 {
     public function get()
     {
-        $data = Project::all();
+        $data = Project::with('employee_project', 'customer_project')->get();
 
         return $data;
     }
 
     public function show($id)
     {
-        $result = Project::where('id', $id)->first();
+        $result = Project::with('employee_project', 'customer_project')->where('id', $id)->first();
 
         return $result;
     }
