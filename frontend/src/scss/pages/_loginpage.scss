@@ -6,12 +6,13 @@
     margin: 0 auto;
     height: 100%;
     &__header {
-      font-weight: bold;
+      font-family: $font-family-roboto;
+      font-weight: $font-weight-normal;
       font-size: $h2-font-size;
+      color: $dark;
       display: flex;
       justify-content: center;
       margin-bottom: map-get($spacers, 5);
-      color: $dark;
     }
     &__line {
       margin-top: map-get($spacers, 3);

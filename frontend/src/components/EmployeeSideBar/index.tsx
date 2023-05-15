@@ -1,24 +1,40 @@
-import { IconHash, IconSettings, IconSunFilled } from "@tabler/icons-react";
+import { IconHash } from "@tabler/icons-react";
 import Avatar from "react-avatar";
 import Button from "../Button";
 
-const EmployeeSideBar = () => {
+interface EmployeeSideBarInterface {
+  view?: boolean;
+}
+
+const EmployeeSideBar = ({
+  view,
+}: EmployeeSideBarInterface) => {
   return (
-    <div className="employeesidebar">
-      <div className="employeesidebar__header">
+    <div className="sidebar">
+      <div className="sidebar__header">
         <IconHash size={24} />
         <h5>Developer</h5>
       </div>
-      <div className="employeesidebar__list">
-        <EmployeeSideBar.Profile name="Dev Issac" email="iz@gmail.com" />
-        <EmployeeSideBar.Profile name="Dev Issac" email="iz@gmail.com" />
-        
-        <div className="employeesidebar__list__assign-employee">
-          <Button
-            label="Assign Employee"
-            className="btn btn--assign-employee"
-          />
-        </div>
+
+      <div className="sidebar__list">
+        <h5>Recent Employee</h5>
+        <EmployeeSideBar.Profile name="Dev Issac" />
+        <EmployeeSideBar.Profile name="Dev Issac" />
+      </div>
+
+      <div className="sidebar__action-list">
+        {view && (
+          <>
+            <Button
+              label="Assign Employee"
+              className="btn btn--primary btn--block"
+            />
+            <Button
+              label="Edit ticket"
+              className="btn btn--light btn--block btn--no-m-bottom"
+            />
+          </>
+        )}
       </div>
     </div>
   );
@@ -26,31 +42,25 @@ const EmployeeSideBar = () => {
 
 interface EmployeeSideBarProfile {
   name: string;
-  email: string;
 }
 
-EmployeeSideBar.Profile = function (props: EmployeeSideBarProfile) {
+EmployeeSideBar.Profile = function (
+  props: EmployeeSideBarProfile
+) {
   return (
-    <div className="employeesidebar__profile">
+    <div className="sidebar__profile-list">
       <Avatar
         color="#F37021"
         name={props.name}
         size="40"
         textSizeRatio={1.75}
-        round={"7px"}
+        round
       />
-      <div>
-        <h5>
-          {props.name.length > 10
-            ? props.name.substring(0, 10) + "..."
-            : props.name}
-        </h5>
-        <h6>
-          {props.email.length > 15
-            ? props.email.substring(0, 15) + "..."
-            : props.email}
-        </h6>
-      </div>
+      <h5>
+        {props.name.length > 10
+          ? props.name.substring(0, 10) + "..."
+          : props.name}
+      </h5>
     </div>
   );
 };

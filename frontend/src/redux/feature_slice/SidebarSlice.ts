@@ -1,23 +1,48 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { Sidebar } from "../variable/SidebarVariable";
+import {
+  PayloadAction,
+  createSlice,
+} from "@reduxjs/toolkit";
+import {
+  Sidebar,
+  SidebarInit,
+} from "../variable/SidebarVariable";
 
-const initialState = Sidebar.Simplify;
+const initialState = SidebarInit;
 
 const sidebarSlice = createSlice({
   name: "SidebarSlice",
   initialState,
   reducers: {
+    sidebarBoot: (state)=>{
+      let activeRoute: string | null = localStorage.getItem('activeRoute');
+      if(activeRoute){
+        state.activeRoute = activeRoute;
+      }
+    },
     detailMode: (state) => {
-      state = Sidebar.Detail;
+      state.mode = Sidebar.Detail;
       return state;
     },
     simplifyMode: (state) => {
-      state = Sidebar.Simplify;
+      state.mode = Sidebar.Simplify;
+      return state;
+    },
+    setActiveRoute: (
+      state,
+      action: PayloadAction<string>
+    ) => {
+      state.activeRoute = action.payload;
+      localStorage.setItem('activeRoute', action.payload);
       return state;
     },
   },
 });
 
-export const { detailMode, simplifyMode } = sidebarSlice.actions;
+export const {
+  detailMode,
+  sidebarBoot,
+  simplifyMode,
+  setActiveRoute,
+} = sidebarSlice.actions;
 
 export default sidebarSlice.reducer;

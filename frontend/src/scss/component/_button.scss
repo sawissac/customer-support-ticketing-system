@@ -12,6 +12,13 @@
   justify-content: center;
   align-items: center;
   margin-bottom: map-get($spacers, 2);
+  text-decoration: none;
+  font-weight: $font-weight-normal;
+  font-family: $font-family-roboto;
+
+  &--no-m-bottom {
+    margin-bottom: 0;
+  }
 
   &--primary {
     @include interactive("orange");

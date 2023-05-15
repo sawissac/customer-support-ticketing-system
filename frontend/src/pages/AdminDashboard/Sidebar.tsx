@@ -60,10 +60,10 @@ const SideBar = (props: SideBarInterface) => {
         <IconHash size={24} />
         <h5>Welcome User</h5>
       </div>
-      {sidebarRedux === Sidebar.Detail && (
+      {sidebarRedux.mode === Sidebar.Detail && (
         <SideBar.Detail route={props.route} />
       )}
-      {sidebarRedux === Sidebar.Simplify && (
+      {sidebarRedux.mode === Sidebar.Simplify && (
         <SideBar.Simplify route={props.route} />
       )}
       <SideBar.Profile
@@ -80,27 +80,34 @@ interface SideBarSimplify {
 SideBar.Simplify = function (
   props: SideBarSimplify
 ) {
+  const sidebarRedux = useAppSelector(
+    (state) => state.sidebar
+  );
   return (
     <div className="sidebar__list">
       <h5>Manage</h5>
       <SideBar.Link
         routeName={props.route + "/tickets"}
         icon={<IconMessage2 />}
+        check={sidebarRedux.activeRoute}
         label="Tickets"
       />
       <SideBar.Link
-        routeName={props.route + "/employee"}
+        routeName={props.route + "/employee-assignment"}
         icon={<IconCalendarEvent />}
+        check={sidebarRedux.activeRoute}
         label="Employee Assign"
       />
       <SideBar.Link
         routeName={props.route + "/users"}
         icon={<IconUsers />}
+        check={sidebarRedux.activeRoute}
         label="Users"
       />
       <SideBar.Link
         routeName={props.route + "/project"}
         icon={<IconFolder />}
+        check={sidebarRedux.activeRoute}
         label="Projects"
       />
       <SideBar.Link
@@ -108,6 +115,7 @@ SideBar.Simplify = function (
           props.route + "/employee-project"
         }
         icon={<IconFolder />}
+        check={sidebarRedux.activeRoute}
         label="Employee Projects"
       />
       <SideBar.Link
@@ -115,6 +123,7 @@ SideBar.Simplify = function (
           props.route + "/customer-project"
         }
         icon={<IconFolder />}
+        check={sidebarRedux.activeRoute}
         label="Customer Projects"
       />
       <SideBar.Link
@@ -122,6 +131,7 @@ SideBar.Simplify = function (
           props.route + "/report-history"
         }
         icon={<IconFileTime />}
+        check={sidebarRedux.activeRoute}
         label="Report History"
       />
     </div>
@@ -161,7 +171,7 @@ SideBar.Detail = function (props: SideBarDetail) {
       />
       <h5>Employee Assignment</h5>
       <SideBar.Link
-        routeName={props.route + "/employee"}
+        routeName={props.route + "/employee-assignment"}
         icon={<IconCalendarEvent />}
         label="Lists"
         type="header"
@@ -196,19 +206,13 @@ SideBar.Detail = function (props: SideBarDetail) {
         type="header"
       />
       <SideBar.Link
-        routeName={props.route + "/user-view"}
-        icon={<IconUsers />}
-        label="View"
-        type="mid"
-      />
-      <SideBar.Link
         routeName={props.route + "/user-create"}
         icon={<IconUserPlus />}
         label="Create"
         type="mid"
       />
       <SideBar.Link
-        routeName={props.route + "/users-update"}
+        routeName={props.route + "/user-update"}
         icon={<IconUserUp />}
         label="Update"
         type="footer"
@@ -219,12 +223,6 @@ SideBar.Detail = function (props: SideBarDetail) {
         icon={<IconFolder />}
         label="Lists"
         type="header"
-      />
-      <SideBar.Link
-        routeName={props.route + "/project-view"}
-        icon={<IconFolder />}
-        label="View"
-        type="mid"
       />
       <SideBar.Link
         routeName={
@@ -252,12 +250,6 @@ SideBar.Detail = function (props: SideBarDetail) {
         type="header"
       />
       <SideBar.Link
-        routeName={props.route + "/employee-view"}
-        icon={<IconFolder />}
-        label="View"
-        type="mid"
-      />
-      <SideBar.Link
         routeName={
           props.route + "/employee-project-create"
         }
@@ -281,12 +273,6 @@ SideBar.Detail = function (props: SideBarDetail) {
         icon={<IconFolder />}
         label="Lists"
         type="header"
-      />
-      <SideBar.Link
-        routeName={props.route + "/customer-project-view"}
-        icon={<IconFolder />}
-        label="View"
-        type="mid"
       />
       <SideBar.Link
         routeName={
@@ -318,9 +304,10 @@ SideBar.Detail = function (props: SideBarDetail) {
 
 interface SideBarLink {
   routeName: string;
-  label: string;
-  icon: any;
+  label?: string;
+  icon?: any;
   type?: "header" | "mid" | "footer";
+  check?: string;
 }
 
 SideBar.Link = function (props: SideBarLink) {
@@ -347,7 +334,11 @@ SideBar.Link = function (props: SideBarLink) {
         let className = isActive
           ? "sidebar__list--active "
           : "";
-        return className + type;
+        let check =
+          props.check === props.routeName
+            ? "sidebar__list--active "
+            : "";
+        return className + type + check;
       }}
     >
       {props.icon}
@@ -379,7 +370,7 @@ SideBar.Profile = function (
         name={props.name}
         size="40"
         textSizeRatio={1.75}
-        round={"7px"}
+        round
       />
       <div>
         <h5>
@@ -404,7 +395,8 @@ SideBar.Profile = function (
             <Button
               type="button"
               className={
-                sidebarRedux === Sidebar.Detail
+                sidebarRedux.mode ===
+                Sidebar.Detail
                   ? "sidebar-dropdown--active"
                   : ""
               }
@@ -422,7 +414,8 @@ SideBar.Profile = function (
             <Button
               type="button"
               className={
-                sidebarRedux === Sidebar.Simplify
+                sidebarRedux.mode ===
+                Sidebar.Simplify
                   ? "sidebar-dropdown--active"
                   : ""
               }

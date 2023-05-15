@@ -8,7 +8,25 @@
   }
   .text {
     margin-left: map-get($spacers, 2);
+    font-weight: $font-weight-semibold;
+    font-family: $font-family-roboto;
     font-size: $h5-font-size;
-    font-weight: bold;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+  }
+  .text--link {
+    margin-left: map-get($spacers, 4);
+    font-weight: $font-weight-normal;
+    font-family: $font-family-roboto;
+    font-size: $h5-font-size;
+    text-decoration: none;
+    color: $dark;
+    svg{
+      margin-right: map-get($spacers, 2);
+    }
+  }
+  .placer {
+    margin-right: map-get($spacers, 4);
   }
 }

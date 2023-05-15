@@ -1,5 +1,6 @@
-.form-container{
-  padding: map-get($spacers, 4);
+.form-container {
+  padding: map-get($spacers, 3)
+    map-get($spacers, 4);
 }
 
 .form-input {
@@ -9,8 +10,9 @@
     align-items: center;
     height: 35px;
     label {
-      font-weight: $font-weight-bolder;
-      font-size: 18px;
+      font-weight: $font-weight-semibold;
+      font-family: $font-family-poppins;
+      font-size: $h6-font-size;
       text-align: center;
     }
   }
@@ -21,14 +23,26 @@
   }
   &__container {
     height: 45px;
-    input {
-      border:1px solid $gray-200;
+    overflow: hidden;
+    input{
+      font-weight: $font-weight-normal;
+      font-family: $font-family-roboto !important;
       border-radius: $border-radius-sm;
+      font-size: $h6-font-size;
+      border: 1px solid $gray-200;
       width: 100%;
       height: 100%;
       outline: none;
-      font-size: 15px;
       padding: 0px map-get($spacers, 3);
     }
+  }
+  &__textarea {
+    border: 1px solid $gray-200;
+    border-radius: $border-radius-sm;
+    width: 100%;
+    outline: none;
+    font-size: 15px;
+    padding: map-get($spacers, 3);
+    resize: vertical;
   }
 }
