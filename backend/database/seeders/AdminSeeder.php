@@ -33,6 +33,13 @@ class AdminSeeder extends Seeder
             'email' => 'customer@gmail.com',
             'password' => Hash::make('password'),
         ]);
+
+        $guest = User::create([
+            'name' => 'guest',
+            'email' => 'guest@gmail.com',
+            'password' => Hash::make('password'),
+        ]);
+
         $admin->assignRole('admin');
         $employee->assignRole('employee');
         $customer->assignRole('customer');

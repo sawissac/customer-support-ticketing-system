@@ -19,12 +19,12 @@ class Project extends Model
         'manage_end_date',
     ];
 
-    public function employee_project(): HasMany
+    public function employee_project():HasMany
     {
         return $this->hasMany(EmployeeProject::class);
     }
 
-    public function customer_project(): HasMany
+    public function customer_project():HasMany
     {
         return $this->hasMany(CustomerProject::class);
     }
