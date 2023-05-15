@@ -3,11 +3,15 @@
 namespace App\Service\Ticket;
 
 use App\Models\Ticket;
+use Illuminate\Support\Str;
 
 class TicketService implements TicketServiceInterface
 {
     public function store($data)
     {
+        $tickets_id = Str::random(3) . mt_rand(10000, 99999);
+        $data['tickets_id'] = $tickets_id;
+
         return Ticket::create($data);
     }
 

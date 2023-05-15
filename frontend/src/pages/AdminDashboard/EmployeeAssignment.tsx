@@ -32,7 +32,7 @@ const EmployeeAssignment = () => {
             name="Momo sama"
             priority="critical"
             status="open"
-            links="/admin-dashboard/ticket-view"
+            links="/admin-dashboard/employee-view"
           />
         </div>
         <div className="col-4 col-sm-12 col-md-6">
@@ -43,7 +43,7 @@ const EmployeeAssignment = () => {
             name="Momo sama"
             priority="critical"
             status="open"
-            links="/admin-dashboard/ticket-view"
+            links="/admin-dashboard/employee-view"
           />
         </div>
         <div className="col-4 col-sm-12 col-md-6">
@@ -54,7 +54,7 @@ const EmployeeAssignment = () => {
             name="Momo sama"
             priority="critical"
             status="open"
-            links="/admin-dashboard/ticket-view"
+            links="/admin-dashboard/employee-view"
           />
         </div>
         <div className="col-4 col-sm-12 col-md-6">
@@ -65,7 +65,7 @@ const EmployeeAssignment = () => {
             name="Momo sama"
             priority="critical"
             status="open"
-            links="/admin-dashboard/ticket-view"
+            links="/admin-dashboard/employee-view"
           />
         </div>
       </div>

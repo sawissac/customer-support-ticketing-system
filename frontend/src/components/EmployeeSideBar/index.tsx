@@ -1,6 +1,6 @@
 import { IconHash } from "@tabler/icons-react";
 import Avatar from "react-avatar";
-import Button from "../Button";
+import { NavLink } from "react-router-dom";
 
 interface EmployeeSideBarInterface {
   view?: boolean;
@@ -25,14 +25,18 @@ const EmployeeSideBar = ({
       <div className="sidebar__action-list">
         {view && (
           <>
-            <Button
-              label="Assign Employee"
+            <NavLink
+              to={'/admin-dashboard/employee-create'}
               className="btn btn--primary btn--block"
-            />
-            <Button
-              label="Edit ticket"
+            >
+              Assign Employee
+            </NavLink>
+            <NavLink
+              to={'/admin-dashboard/ticket-update'}
               className="btn btn--light btn--block btn--no-m-bottom"
-            />
+            >
+              Edit Ticket
+            </NavLink>
           </>
         )}
       </div>
