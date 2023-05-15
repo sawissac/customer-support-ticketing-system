@@ -1,5 +1,8 @@
-$font-family-sans-serif: system-ui, -apple-system;
-$font-family-monospace: "Liberation Mono", "Courier New", monospace;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+$font-family-poppins:'Poppins', sans-serif;
+$font-family-roboto: 'Roboto', sans-serif;
 
 $font-size-base: 1rem; // Assumes the browser default, typically `16px`
 $font-size-sm: $font-size-base * 0.875;

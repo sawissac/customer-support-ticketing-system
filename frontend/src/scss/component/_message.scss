@@ -1,0 +1,40 @@
+.message {
+  &__header {
+    font-size: $h6-font-size;
+    font-weight: $font-weight-semibold;
+    font-family: $font-family-roboto;
+    margin-bottom: map-get($spacers, 2);
+    color: $dark;
+  }
+  &__description {
+    font-size: $h6-font-size;
+    font-weight: $font-weight-normal;
+    font-family: $font-family-roboto;
+    line-height: $line-height-base;
+    background-color: $gray-200;
+    border-radius: $border-radius-sm;
+    padding: map-get($spacers, 3);
+    width: 70%;
+  }
+}
+
+.message-file-attachment {
+  font-size: $h6-font-size;
+  background-color: $gray-200;
+  border-radius: $border-radius-sm;
+  padding: map-get($spacers, 3);
+  margin-top: map-get($spacers, 3);
+    width: max-content;
+  & svg{
+    margin-right: map-get($spacers, 2);
+  }
+  & > a {
+    display: flex;
+    align-items: center;
+    text-decoration: underline;
+    color: $dark;
+    font-size: $h6-font-size;
+    font-weight: $font-weight-normal;
+    font-family: $font-family-roboto;
+  }
+}

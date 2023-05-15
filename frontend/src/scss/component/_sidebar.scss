@@ -5,14 +5,18 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  border: map-get($border-widths, 1) solid $gray-200;
+  border: map-get($border-widths, 1) solid
+    $gray-200;
   &__header {
     display: flex;
     align-items: center;
     min-height: 60px;
-    font-weight: $font-weight-bold;
+    font-weight: $font-weight-semibold;
+    font-family: $font-family-poppins;
+    font-size: $h6-font-size;
     padding: 0px map-get($spacers, 3);
-    border-bottom: map-get($border-widths, 1) solid $gray-200;
+    border-bottom: map-get($border-widths, 1)
+      solid $gray-200;
     p {
       margin-left: map-get($spacers, 2);
     }
@@ -23,7 +27,8 @@
     height: 100%;
     padding-bottom: 150px;
     h5 {
-      font-weight: $font-weight-bolder;
+      font-weight: $font-weight-bold;
+      font-family: $font-family-roboto;
       margin-top: map-get($spacers, 2);
     }
     a {
@@ -40,13 +45,17 @@
       border-radius: $border-radius-sm;
       text-decoration: none;
       font-size: $h5-font-size;
-      border-left: map-get($border-widths, 5) solid $gray-400;
+      border-left: map-get($border-widths, 5)
+        solid $gray-400;
       span {
+        font-weight: $font-weight-normal;
+        font-family: $font-family-roboto;
         margin-left: map-get($spacers, 3);
       }
     }
     &--active {
-      border-left: map-get($border-widths, 5) solid $orange !important;
+      border-left: map-get($border-widths, 5)
+        solid $orange !important;
     }
     &--header {
       margin-bottom: 0px !important;
@@ -73,9 +82,11 @@
     align-items: center;
     background-color: $white;
     font-weight: $font-weight-bold;
-    padding: map-get($spacers, 3);
+    padding: 0px map-get($spacers, 3);
     border-top: map-get($border-widths, 1) solid $gray-200;
-
+    height: 70px;
+    font-weight: $font-weight-normal;
+    font-family: $font-family-roboto;
     div:nth-child(2) {
       margin-left: map-get($spacers, 3);
       margin-right: auto;
@@ -90,7 +101,29 @@
       border-color: transparent;
       outline-color: transparent;
       border-radius: $border-radius-sm;
-      border: map-get($border-widths, 1) solid $gray-200;
+      border: map-get($border-widths, 1) solid
+        $gray-200;
     }
+  }
+  &__profile-list {
+    display: flex;
+    align-items: center;
+    margin: map-get($spacers, 3) 0px;
+    h5 {
+      margin-top: 0px;
+      margin-left: map-get($spacers, 3);
+      font-weight: $font-weight-normal;
+      font-family: $font-family-roboto;
+    }
+  }
+  &__action-list {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: $white;
+    padding: map-get($spacers, 3);
+    border-top: map-get($border-widths, 1) solid
+      $gray-200;
   }
 }

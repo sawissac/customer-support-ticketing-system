@@ -1,36 +1,29 @@
 .ticket-list {
   border: map-get($border-widths, 1) solid $gray-200;
   border-radius: $border-radius-sm;
-  display: flex;
-  margin: map-get($spacers, 3);
   padding: map-get($spacers, 3);
-  height: 130px;
+  &__desc {
+    text-align: left;
+    font-size: $h4-font-size;
+    font-weight: $font-weight-bold;
+    font-family: $font-family-poppins;
+    text-transform: capitalize;
+    padding:0px map-get($spacers, 1);
+  }
   &__info {
-    width: 85%;
-    &__desc {
-      height: 60%;
-      display: flex;
-      align-items: center;
-    }
-    &__status {
-      display: flex;
-      height: 40%;
-      align-items: center;
-      div {
-        width: calc(70% / 5);
-        height: 100%;
-        display: flex;
-        align-items: center;
-        label {
-          margin-left: map-get($spacers, 2);
-        }
-      }
+    display: flex; 
+    align-items: end;
+    margin: map-get($spacers, 1);
+    font-size: $h6-font-size;
+    font-weight: $font-weight-normal;
+    font-family: $font-family-roboto;
+    svg{
+      margin-right: map-get($spacers, 1);
     }
   }
-  &__btn {
-    width: 15%;
+  &__status {
     display: flex;
-    justify-content: right;
-    align-items: center;
+    flex-wrap: wrap;  
+    margin: map-get($spacers, 3) 0px;
   }
 }

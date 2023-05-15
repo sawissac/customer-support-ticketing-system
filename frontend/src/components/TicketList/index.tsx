@@ -5,8 +5,13 @@ import {
   IconStarsFilled,
   IconUser,
 } from "@tabler/icons-react";
-import React from "react";
+import {
+  NavLink,
+  useNavigate,
+} from "react-router-dom";
 import Button from "../Button";
+import { useAppDispatch } from "../../redux/hook";
+import { setActiveRoute } from "../../redux/feature_slice/SidebarSlice";
 
 interface TicketListInterface {
   description: string;
@@ -15,6 +20,7 @@ interface TicketListInterface {
   priority: string;
   status: string;
   day: string;
+  links: string;
 }
 
 const TicketList = ({
@@ -24,39 +30,57 @@ const TicketList = ({
   priority,
   status,
   day,
+  links,
 }: TicketListInterface) => {
   return (
     <div className="ticket-list">
-      <div className="ticket-list__info">
-        <div className="ticket-list__info__desc">
-          <h3>{description}</h3>
+      <div className="ticket-list__desc">
+        {description}
+      </div>
+      <div className="ticket-list__status">
+        <div className="ticket-list__info">
+          <IconUser
+            size={20}
+            className="text-primary"
+          />
+          <label>{name}</label>
         </div>
-        <div className="ticket-list__info__status">
-          <div>
-            <IconUser size={20}/>
-            <label>{name}</label>
-          </div>
-          <div>
-            <IconBuildingSkyscraper size={20}/>
-            <label>{company}</label>
-          </div>
-          <div>
-            <IconStarsFilled size={20}/>
-            <label>{priority}</label>
-          </div>
-          <div>
-            <IconFlag3Filled size={20}/>
-            <label>{status}</label>
-          </div>
-          <div>
-            <IconClockHour3 size={20}/>
-            <label>{day}</label>
-          </div>
+        <div className="ticket-list__info">
+          <IconBuildingSkyscraper
+            size={20}
+            className="text-primary"
+          />
+          <label>{company}</label>
+        </div>
+        <div className="ticket-list__info">
+          <IconStarsFilled
+            size={20}
+            className="text-primary"
+          />
+          <label>{priority}</label>
+        </div>
+        <div className="ticket-list__info">
+          <IconFlag3Filled
+            size={20}
+            className="text-primary"
+          />
+          <label>{status}</label>
+        </div>
+        <div className="ticket-list__info">
+          <IconClockHour3
+            size={20}
+            className="text-primary"
+          />
+          <label>{day}</label>
         </div>
       </div>
-      <div className="ticket-list__btn">
-        <Button type="button" label="view" className="btn btn--ticket-view"/>
-      </div>    
+
+      <NavLink
+        to={links}
+        className="btn btn--light btn--block btn--no-m-bottom"
+      >
+        View
+      </NavLink>
     </div>
   );
 };
