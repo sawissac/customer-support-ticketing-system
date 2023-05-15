@@ -15,7 +15,7 @@ class TicketRepository implements TicketRepositoryInterface
 
     public function show($id)
     {
-        $result = Ticket::with('customerProject')->where('id', $id)->first();
+        $result = Ticket::with('customer_project')->where('id', $id)->first();
 
         return $result;
     }
