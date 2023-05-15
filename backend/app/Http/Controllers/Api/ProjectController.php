@@ -46,21 +46,20 @@ class ProjectController extends BaseController
         $validator = Validator::make(
             $validate,
             [
-                'project_id' => 'required|string',
+                'project_id' => 'string',
                 'name' => 'required|string',
-                'manage_start_date' => 'required|date_format:Y-m-d H:i:s',
-                'manage_end_date' => 'required|date_format:Y-m-d H:i:s',
+                'manage_start_date' => 'nullable|date_format:Y-m-d H:i:s',
+                'manage_end_date' => 'nullable|date_format:Y-m-d H:i:s',
             ]
         );
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
         $data = $this->projectServcie->store($validate);
 
         return $this->sendResponse($data, 'Project created successfully.');
-
     }
 
     /**
@@ -94,14 +93,14 @@ class ProjectController extends BaseController
         $validator = Validator::make(
             $validate,
             [
-                'project_id' => 'required|integer',
+                'project_id' => 'string',
                 'name' => 'required|string',
-                'manage_start_date' => 'required|date_format:Y-m-d H:i:s',
-                'manage_end_date' => 'required|date_format:Y-m-d H:i:s',
+                'manage_start_date' => 'nullable|date_format:Y-m-d H:i:s',
+                'manage_end_date' => 'nullable|date_format:Y-m-d H:i:s',
             ]
         );
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
@@ -121,6 +120,5 @@ class ProjectController extends BaseController
         $this->projectServcie->delete($id);
 
         return $this->sendResponse([], 'Project deleted successfully.');
-
     }
 }
