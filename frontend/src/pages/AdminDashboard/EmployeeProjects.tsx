@@ -1,28 +1,20 @@
-import React, {
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import DataTable from "react-data-table-component";
 import Nav from "../../components/Nav";
-import {
-  IconEdit,
-  IconUsers,
-} from "@tabler/icons-react";
+import { IconEdit, IconUsers } from "@tabler/icons-react";
 import RouteSetter from "./RouteSetter";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IconTrashFilled } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { useQuery } from "react-query";
 import axios from "axios";
+import { setEmployeeProject } from "../../redux/feature_slice/EmployeeProjectSlice";
 
 const EmployeeProjects = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const AuthRedux = useAppSelector(
-    (state) => state.auth
-  );
-  
+  const AuthRedux = useAppSelector((state) => state.auth);
+
   const columns = useMemo(
     () => [
       {
@@ -46,14 +38,23 @@ const EmployeeProjects = () => {
           <button
             title="row update"
             className="btn btn--light btn--icon btn--no-m-bottom text-info"
-            onClick={()=>{
-              navigate('/admin-dashboard/employee-project-update')
+            onClick={() => {
+              dispatch(
+                setEmployeeProject({
+                  id: row.id,
+                  employee_id: row.user.id,
+                  employee_name: row.user.name,
+                  project_id: row.project.id,
+                  project_name: row.project.name,
+                })
+              );
+              navigate("/admin-dashboard/employee-project-update");
             }}
           >
             <IconEdit size={25} />
           </button>
         ),
-        button: true
+        button: true,
       },
       {
         name: "Delete",
@@ -65,7 +66,7 @@ const EmployeeProjects = () => {
             <IconTrashFilled />
           </button>
         ),
-        button: true
+        button: true,
       },
     ],
     []
@@ -85,8 +86,10 @@ const EmployeeProjects = () => {
     return res;
   };
 
-  const { isLoading, error, data, isFetching } =
-    useQuery(["userData", url], getUsersData);
+  const { isLoading, error, data, isFetching } = useQuery(
+    ["userData", url],
+    getUsersData
+  );
 
   if (isLoading) return <p>"loading..."</p>;
   if (isFetching) return <p>"fetching"</p>;
@@ -116,7 +119,7 @@ const EmployeeProjects = () => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default EmployeeProjects
+export default EmployeeProjects;

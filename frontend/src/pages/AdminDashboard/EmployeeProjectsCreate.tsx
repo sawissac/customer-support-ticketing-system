@@ -3,18 +3,15 @@ import Dropdown from "../../components/DropDown";
 import Button from "../../components/Button";
 import { IconMenuOrder, IconUserUp } from "@tabler/icons-react";
 import Nav from "../../components/Nav";
-import { userRoles } from "../../redux/variable/UserSidebarVariable";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { useNavigate } from "react-router-dom";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
-import {
-  createEmployeeProject,
-} from "../../requests/employeeProjectsRequest";
+import { createEmployeeProject } from "../../requests/employeeProjectsRequest";
 import RouteSetter from "./RouteSetter";
 import FormWarper from "../../components/FormWarper";
 import { getAllProject } from "../../requests/projectRequest";
-import { getAllEmployee } from "../../requests/employeeRequest";
+import { getAllEmployee } from "../../requests/userRequest";
 
 const EmployeeProjectsCreate = () => {
   const navigate = useNavigate();
@@ -22,14 +19,16 @@ const EmployeeProjectsCreate = () => {
   const AuthRedux = useAppSelector((state) => state.auth);
   const [projectDropDownList, setProjectDropDownList] = useState([]);
   const [employeeList, setEmployeeList] = useState([]);
+
   const [dropdownProject, setDropdownProject] = React.useState({
     name: "Project",
     value: 0,
   });
-  const [dropdownEmpoyee, setDropDownEmployee] = React.useState({
+  const [dropdownEmployee, setDropDownEmployee] = React.useState({
     name: "Project",
     value: 0,
   });
+
   useEffect(() => {
     getAllProject({
       token: AuthRedux.token,
@@ -55,16 +54,9 @@ const EmployeeProjectsCreate = () => {
     });
   }, []);
 
-  const [dropdownBoxEmployee, setDropDownBoxEmployee] =
-    React.useState({
-      name: "Employee",
-      value: "",
-    });
-
   function onClickHandle() {
     const isEmpty =
-      Object.values(dropdownProject).filter((i) => i === "")
-        .length > 0 || dropdownBoxEmployee.value === "";
+      dropdownProject.value === 0 || dropdownEmployee.value === 0;
     if (isEmpty) {
       dispatch(
         setAlert({
@@ -74,9 +66,8 @@ const EmployeeProjectsCreate = () => {
       );
     } else {
       createEmployeeProject({
-        // ...inputField,
         project_id: dropdownProject.value,
-        employee_id: dropdownBoxEmployee.value,
+        user_id: dropdownEmployee.value,
         token: AuthRedux.token,
       })
         .then(() => {
@@ -86,7 +77,7 @@ const EmployeeProjectsCreate = () => {
               state: Alert.Success,
             })
           );
-          navigate("/admin-dashboard/users");
+          navigate("/admin-dashboard/employee-project");
         })
         .catch((reason) => {
           dispatch(
@@ -154,23 +145,23 @@ const EmployeeProjectsCreate = () => {
           buttonClassName="form-dropdown-btn"
           buttonChildren={
             <>
-              {dropdownBoxEmployee.name} <IconMenuOrder size={20} />
+              {dropdownEmployee.name} <IconMenuOrder size={20} />
             </>
           }
           dropdownClassName="form-dropdown"
           dropdownChildren={
             <>
-              {employeeList.map((employeeId: string) => {
+              {employeeList.map((employee: any) => {
                 return (
                   <Button
                     type="button"
                     onClick={() => {
-                      setDropDownBoxEmployee({
-                        name: employeeId,
-                        value: userRoles[employeeId],
+                      setDropDownEmployee({
+                        name: employee.name,
+                        value: employee.id,
                       });
                     }}
-                    label={employeeId}
+                    label={employee.name}
                   />
                 );
               })}

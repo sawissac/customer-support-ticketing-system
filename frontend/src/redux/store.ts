@@ -5,6 +5,7 @@ import sidebarSlice from "./feature_slice/SidebarSlice";
 import alertSlice from "./feature_slice/AlertSlice";
 import UserSidebarSlice from "./feature_slice/UserSidebarSlice";
 import ProjectSidebarSlice from "./feature_slice/ProjectSidebarSlice";
+import EmployeeProjectSlice from "./feature_slice/EmployeeProjectSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,11 +14,10 @@ export const store = configureStore({
     sidebar: sidebarSlice,
     alert: alertSlice,
     userSidebar: UserSidebarSlice,
-    projectSidebar: ProjectSidebarSlice
+    projectSidebar: ProjectSidebarSlice,
+    employeeProjectSidebar: EmployeeProjectSlice,
   },
 });
 
-export type RootState = ReturnType<
-  typeof store.getState
->;
+export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

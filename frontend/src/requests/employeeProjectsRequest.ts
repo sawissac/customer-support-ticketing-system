@@ -27,7 +27,7 @@ export function createEmployeeProject({
       });
   });
 }
-export function getEmployeeproject({ id, token }: any) {
+export function getEmployeeProject({ id, token }: any) {
   return new Promise((resolve, reject) => {
     axios
       .get(`http://127.0.0.1:8000/api/employee-project/${id}`, {
@@ -44,7 +44,7 @@ export function getEmployeeproject({ id, token }: any) {
   });
 }
 
-export function updateEmployeeproject({
+export function updateEmployeeProject({
   id,
   project_id,
   user_id,
