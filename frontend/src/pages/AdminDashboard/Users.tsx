@@ -9,22 +9,15 @@ import {
 import RouteSetter from "./RouteSetter";
 import axios from "axios";
 import { useQuery } from "react-query";
-import {
-  NavLink,
-  useNavigate,
-} from "react-router-dom";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../redux/hook";
-import { setUserSidebarId } from "../../redux/feature_slice/UserSidebarSlice";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { setUserSidebar } from "../../redux/feature_slice/UserSidebarSlice";
+import { serverRoles } from "../../redux/variable/UserSidebarVariable";
 
 const Users = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const AuthRedux = useAppSelector(
-    (state) => state.auth
-  );
+  const AuthRedux = useAppSelector((state) => state.auth);
 
   const columns = useMemo(
     () => [
@@ -57,7 +50,7 @@ const Users = () => {
               : "chip--light";
           return (
             <div className={`chip ${type}`}>
-              {row.roles[0].name}
+              {serverRoles[row.roles[0].name]}
             </div>
           );
         },
@@ -69,10 +62,15 @@ const Users = () => {
             title="row update"
             className="btn btn--light btn--icon btn--no-m-bottom text-info"
             onClick={() => {
-              dispatch(setUserSidebarId(row.id));
-              navigate(
-                "/admin-dashboard/user-update"
+              dispatch(
+                setUserSidebar({
+                  id: row.id,
+                  email: row.email,
+                  name: row.name,
+                  role: row.roles[0].name,
+                })
               );
+              navigate("/admin-dashboard/user-update");
             }}
           >
             <IconEdit size={25} />
@@ -96,6 +94,7 @@ const Users = () => {
     []
   );
   const url = "http://127.0.0.1:8000/api/user";
+
   const getUsersData = async () => {
     const res = await axios
       .get(url, {
@@ -109,8 +108,10 @@ const Users = () => {
     return res;
   };
 
-  const { isLoading, error, data, isFetching } =
-    useQuery(["userData", url], getUsersData);
+  const { isLoading, error, data, isFetching } = useQuery(
+    ["userData", url],
+    getUsersData
+  );
 
   if (isLoading) return <p>"loading..."</p>;
   if (isFetching) return <p>"fetching"</p>;

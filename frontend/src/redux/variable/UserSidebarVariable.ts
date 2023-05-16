@@ -16,4 +16,7 @@ export const serverRoles: {
 };
 export const userSidebarInit = {
   id: 0,
+  name: "",
+  email: "",
+  role: ""
 };

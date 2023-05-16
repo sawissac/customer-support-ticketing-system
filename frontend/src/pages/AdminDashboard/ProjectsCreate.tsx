@@ -3,99 +3,89 @@ import Nav from "../../components/Nav";
 import { IconUserPlus } from "@tabler/icons-react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import Dropdown from "../../components/DropDown";
-import { IconMenuOrder } from "@tabler/icons-react";
+import RouteSetter from "./RouteSetter";
+import FormWarper from "../../components/FormWarper";
+import { setAlert } from "../../redux/feature_slice/AlertSlice";
+import { Alert } from "../../redux/variable/AlertVariable";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { createProject } from "../../requests/projectRequest";
 
 const ProjectCreate = () => {
-  function onSubmitHandle(
-    ev: React.FormEvent<HTMLFormElement>
-  ) {
-    ev.preventDefault();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const authRedux = useAppSelector((state) => state.auth);
+
+  const [inputField, setInputField] = React.useState({
+    name: "",
+  });
+
+  function onButtonSubmitHandle() {
+    const isEmpty = inputField.name === "";
+    if (isEmpty) {
+      dispatch(
+        setAlert({
+          message: "Please fill the remaining...",
+          state: Alert.Warning,
+        })
+      );
+    } else {
+      createProject({
+        ...inputField,
+        token: authRedux.token,
+      })
+        .then(() => {
+          dispatch(
+            setAlert({
+              message: "Created Successfully",
+              state: Alert.Success,
+            })
+          );
+          navigate("/admin-dashboard/project");
+        })
+        .catch((reason) => {
+          dispatch(
+            setAlert({
+              message: "Fail to create",
+              state: Alert.Warning,
+            })
+          );
+        });
+    }
   }
-  function onClickHandle() {}
+  function onChangeHandler(ev: React.ChangeEvent<HTMLInputElement>) {
+    setInputField({
+      ...inputField,
+      [ev.currentTarget.id]: ev.target.value,
+    });
+  }
   return (
     <div className="admin-container">
+      <RouteSetter routeName="/admin-dashboard/project" />
       <Nav
         icon={<IconUserPlus />}
-        label="User Create"
+        label="Project - Create"
       />
       <Nav.Back
-        link="/admin-dashboard/users"
-        label="Create User"
+        link="/admin-dashboard/project"
+        label="Back"
       />
-      <form
-        action=""
-        onClick={onSubmitHandle}
-        className="form-container"
-      >
+      <FormWarper route="/api/project">
         <Input
           label="Name"
           errorMessage="*require"
           placeholder="Name..."
-        />
-        <div className="form-dropdown-label">
-          <label htmlFor="">Start Date</label>
-          <span>*require</span>
-        </div>
-        <Dropdown
-          placement="bottom"
-          buttonClassName="form-dropdown-btn"
-          buttonChildren={
-            <>
-              Role <IconMenuOrder size={20} />
-            </>
-          }
-          dropdownClassName="form-dropdown"
-          dropdownChildren={
-            <>
-              <Button
-                type="button"
-                onClick={onClickHandle}
-                label="Admin"
-              />
-              <Button
-                type="button"
-                onClick={onClickHandle}
-                label="Admin"
-              />
-            </>
-          }
-        />
-        <div className="form-dropdown-label">
-          <label htmlFor="">End Date</label>
-          <span>*require</span>
-        </div>
-        <Dropdown
-          placement="bottom"
-          buttonClassName="form-dropdown-btn"
-          buttonChildren={
-            <>
-              Role <IconMenuOrder size={20} />
-            </>
-          }
-          dropdownClassName="form-dropdown"
-          dropdownChildren={
-            <>
-              <Button
-                type="button"
-                onClick={onClickHandle}
-                label="Admin"
-              />
-              <Button
-                type="button"
-                onClick={onClickHandle}
-                label="Admin"
-              />
-            </>
-          }
+          id="name"
+          type="text"
+          onChange={onChangeHandler}
         />
         <Button
           type="button"
           label="Create"
           className="btn btn--form"
-          onClick={onClickHandle}
+          onClick={onButtonSubmitHandle}
         />
-      </form>
+      </FormWarper>
     </div>
   );
 };
