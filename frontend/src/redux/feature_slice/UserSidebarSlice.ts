@@ -7,16 +7,24 @@ const userSidebarSlice = createSlice({
   name: "userSidebarSlice",
   initialState,
   reducers: {
-    setUserSidebar: (
+    setUserState: (
       state,
-      action: PayloadAction<typeof userSidebarInit>
+      action: PayloadAction<{ id: number; email: string; name: string; role: string }>
     ) => {
-      state = action.payload;
+      state = { ...state, ...action.payload };
       return state;
     },
+    updateUserTableUrl: (state, action: PayloadAction<{message:string}>) => {
+      state.state = action.payload.message;
+      return state;
+    },
+    openRightSidebar:(state, action: PayloadAction<{name:string}>) => {
+      state.rightSidebar = action.payload.name;
+      return state;
+    }, 
   },
 });
 
-export const { setUserSidebar } = userSidebarSlice.actions;
+export const { setUserState, updateUserTableUrl, openRightSidebar } = userSidebarSlice.actions;
 
 export default userSidebarSlice.reducer;

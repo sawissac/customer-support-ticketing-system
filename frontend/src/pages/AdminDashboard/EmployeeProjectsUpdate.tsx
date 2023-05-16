@@ -8,8 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import {
-  createEmployeeProject,
-  getEmployeeProject,
   updateEmployeeProject,
 } from "../../requests/employeeProjectsRequest";
 import RouteSetter from "./RouteSetter";

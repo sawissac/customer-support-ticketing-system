@@ -26,7 +26,7 @@ const EmployeeProjectsCreate = () => {
     value: 0,
   });
   const [dropdownEmployee, setDropDownEmployee] = React.useState({
-    name: "Project",
+    name: "Employee",
     value: 0,
   });
 

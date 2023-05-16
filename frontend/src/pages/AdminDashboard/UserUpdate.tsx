@@ -7,20 +7,16 @@ import Dropdown from "../../components/DropDown";
 import { IconMenuOrder } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { getUser, updateUser } from "../../requests/userRequest";
-import {
-  serverRoles,
-  userRoles,
-} from "../../redux/variable/UserSidebarVariable";
+import { serverRoles, userRoles } from "../../redux/variable/UserSidebarVariable";
 import { useNavigate } from "react-router-dom";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import RouteSetter from "./RouteSetter";
 import FormWarper from "../../components/FormWarper";
+import { openRightSidebar, updateUserTableUrl } from "../../redux/feature_slice/UserSidebarSlice";
 
 const UserUpdatePage = () => {
-  const userSidebarRedux = useAppSelector(
-    (state) => state.userSidebar
-  );
+  const userSidebarRedux = useAppSelector((state) => state.userSidebar);
   const authRedux = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const [dropdownBox, setDropdownBox] = React.useState({
@@ -31,7 +27,6 @@ const UserUpdatePage = () => {
     name: "",
     email: "",
   });
-  const navigate = useNavigate();
   useEffect(() => {
     setInputField({
       name: userSidebarRedux.name,
@@ -52,8 +47,7 @@ const UserUpdatePage = () => {
 
   function onButtonSubmitHandle() {
     const isEmpty =
-      Object.values(inputField).filter((i) => i === "").length > 0 ||
-      dropdownBox.value === "";
+      Object.values(inputField).filter((i) => i === "").length > 0 || dropdownBox.value === "";
     if (isEmpty) {
       dispatch(
         setAlert({
@@ -75,9 +69,13 @@ const UserUpdatePage = () => {
               state: Alert.Success,
             })
           );
-          navigate("/admin-dashboard/users");
+          dispatch(
+            updateUserTableUrl({
+              message: inputField.name + inputField.email + dropdownBox.name,
+            })
+          );
         })
-        .catch((reason) => {
+        .catch(() => {
           dispatch(
             setAlert({
               message: "Fail to Update",
@@ -88,15 +86,13 @@ const UserUpdatePage = () => {
     }
   }
   return (
-    <div className="admin-container">
+    <div className="admin-container admin-container--no-flex-grow admin-container--form">
       <RouteSetter routeName="/admin-dashboard/users" />
-      <Nav
-        icon={<IconUserUp />}
-        label="User Update Page"
-      />
-      <Nav.Back
-        link="/admin-dashboard/users"
-        label="Create Update"
+      <Nav.BackButton
+        label="User Create"
+        onClick={() => {
+          dispatch(openRightSidebar({ name: "" }));
+        }}
       />
       <FormWarper route="/api/user">
         <Input

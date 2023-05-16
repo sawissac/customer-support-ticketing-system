@@ -56,7 +56,7 @@ function Dropdown({
   useEffect(() => {
     toggleDropdown();
   }, [toggle]);
-  
+
   return (
     <>
       <button
@@ -68,6 +68,7 @@ function Dropdown({
       </button>
       {isOpen && (
         <div
+          onClick={toggleDropdown}
           onMouseLeave={mouseHander}
           className={dropdownClassName}
           ref={setPopperElement}

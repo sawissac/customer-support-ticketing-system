@@ -1,16 +1,20 @@
 .admin-container {
   flex: 1;
   overflow-y: scroll;
-  form {
-    max-width: 350px;
+
+  &--form {
+    min-width: 400px;
   }
-&--textarea{
-  form{
-    max-width: 500px;
+
+  &--textarea {
+    form {
+      max-width: 500px;
+    }
   }
-}
+  &--no-flex-grow {
+    flex: none;
+  }
   &__inner {
-    padding: map-get($spacers, 3)
-      map-get($spacers, 4);
+    padding: map-get($spacers, 3) map-get($spacers, 4);
   }
 }

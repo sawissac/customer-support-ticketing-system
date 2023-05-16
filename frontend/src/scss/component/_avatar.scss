@@ -1,0 +1,17 @@
+.avatar-profile{
+  &__circle{
+    margin-right: map-get($spacers, 2);
+  }
+  &--primary {
+    background-color: $primary;
+    color: $white;
+  }
+  &--info {
+    background-color: $info;
+    color: $white;
+  }
+  &--light {
+    background-color: $light;
+    color: $dark;
+  }
+}

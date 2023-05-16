@@ -1,6 +1,5 @@
 import React from "react";
 import Nav from "../../components/Nav";
-import { IconUserPlus } from "@tabler/icons-react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Dropdown from "../../components/DropDown";
@@ -10,11 +9,10 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import { createUser } from "../../requests/userRequest";
-import { useNavigate } from "react-router-dom";
 import FormWarper from "../../components/FormWarper";
+import { openRightSidebar, updateUserTableUrl } from "../../redux/feature_slice/UserSidebarSlice";
 
 const UserCreatePage = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
   const [dropdownBox, setDropDownBox] = React.useState({
@@ -38,8 +36,7 @@ const UserCreatePage = () => {
 
   function onButtonSubmitHandle() {
     const isEmpty =
-      Object.values(inputField).filter((i) => i === "").length > 0 ||
-      dropdownBox.value === "";
+      Object.values(inputField).filter((i) => i === "").length > 0 || dropdownBox.value === "";
     if (isEmpty) {
       dispatch(
         setAlert({
@@ -47,9 +44,7 @@ const UserCreatePage = () => {
           state: Alert.Warning,
         })
       );
-    } else if (
-      inputField.password !== inputField.password_confirmation
-    ) {
+    } else if (inputField.password !== inputField.password_confirmation) {
       dispatch(
         setAlert({
           message: "Please write correct password confirmation",
@@ -64,12 +59,14 @@ const UserCreatePage = () => {
       })
         .then(() => {
           dispatch(
+            updateUserTableUrl({ message: inputField.name + inputField.email + dropdownBox.name })
+          );
+          dispatch(
             setAlert({
               message: "Created Successfully",
               state: Alert.Success,
             })
           );
-          navigate("/admin-dashboard/users");
         })
         .catch((reason) => {
           dispatch(
@@ -83,14 +80,12 @@ const UserCreatePage = () => {
   }
 
   return (
-    <div className="admin-container">
-      <Nav
-        icon={<IconUserPlus />}
+    <div className="admin-container admin-container--no-flex-grow admin-container--form">
+      <Nav.BackButton
         label="User Create"
-      />
-      <Nav.Back
-        link="/admin-dashboard/users"
-        label="Back"
+        onClick={() => {
+          dispatch(openRightSidebar({ name: "" }));
+        }}
       />
       <FormWarper route="/api/user">
         <Input

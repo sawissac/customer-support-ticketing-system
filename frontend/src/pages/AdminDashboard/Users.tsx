@@ -1,37 +1,50 @@
 import React, { useMemo } from "react";
 import DataTable from "react-data-table-component";
 import Nav from "../../components/Nav";
-import {
-  IconEdit,
-  IconTrashFilled,
-  IconUsers,
-} from "@tabler/icons-react";
+import { IconEdit, IconPlus, IconTrashFilled, IconUsers } from "@tabler/icons-react";
 import RouteSetter from "./RouteSetter";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { setUserSidebar } from "../../redux/feature_slice/UserSidebarSlice";
+import { openRightSidebar, setUserState } from "../../redux/feature_slice/UserSidebarSlice";
 import { serverRoles } from "../../redux/variable/UserSidebarVariable";
+import Avatar from "react-avatar";
+import UserCreatePage from "./UserCreate";
+import UserUpdatePage from "./UserUpdate";
+import ShowIf from "../../components/Helper";
+import Button from "../../components/Button";
 
 const Users = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const AuthRedux = useAppSelector((state) => state.auth);
+  const UserPageRedux = useAppSelector((state) => state.userSidebar);
 
   const columns = useMemo(
     () => [
       {
-        name: "ID",
-        selector: (row: any) => row.id,
-        sortable: true,
-      },
-      {
         name: "Name",
-        selector: (row: any) => {
-          return row.name;
+        cell: (row: any) => {
+          const color =
+            row.roles[0].name === "admin" || row.roles[0].name === "employee"
+              ? "#F37021"
+              : row.roles[0].name === "customer"
+              ? "#0d6efd"
+              : "#495057";
+          return (
+            <div className="avatar-profile">
+              <Avatar
+                className={`avatar-profile__circle`}
+                name={row.name}
+                color={color}
+                size="35"
+                textSizeRatio={1.75}
+                round
+              />
+              {row.name}
+            </div>
+          );
         },
-        sortable: true,
       },
       {
         name: "Email",
@@ -39,21 +52,9 @@ const Users = () => {
         sortable: true,
       },
       {
-        name: "Role",
-        cell: (row: any) => {
-          const type =
-            row.roles[0].name === "admin" ||
-            row.roles[0].name === "employee"
-              ? "chip--primary"
-              : row.roles[0].name === "customer"
-              ? "chip--info"
-              : "chip--light";
-          return (
-            <div className={`chip ${type}`}>
-              {serverRoles[row.roles[0].name]}
-            </div>
-          );
-        },
+        name: "Access Role",
+        selector: (row: any) => serverRoles[row.roles[0].name],
+        sortable: true,
       },
       {
         name: "Update",
@@ -63,14 +64,14 @@ const Users = () => {
             className="btn btn--light btn--icon btn--no-m-bottom text-info"
             onClick={() => {
               dispatch(
-                setUserSidebar({
+                setUserState({
                   id: row.id,
                   email: row.email,
                   name: row.name,
                   role: row.roles[0].name,
                 })
               );
-              navigate("/admin-dashboard/user-update");
+              dispatch(openRightSidebar({ name: "update" }));
             }}
           >
             <IconEdit size={25} />
@@ -108,39 +109,44 @@ const Users = () => {
     return res;
   };
 
-  const { isLoading, error, data, isFetching } = useQuery(
-    ["userData", url],
-    getUsersData
-  );
-
-  if (isLoading) return <p>"loading..."</p>;
-  if (isFetching) return <p>"fetching"</p>;
-  if (error) return <p>"An error has occurs"</p>;
+  const { data } = useQuery(["userData", UserPageRedux.state], getUsersData);
 
   return (
-    <div className="admin-container">
-      <RouteSetter routeName="/admin-dashboard/users" />
-      <Nav
-        icon={<IconUsers />}
-        label={"Users"}
-        rightPlacer={
-          <NavLink
-            to={"/admin-dashboard/user-create"}
-            className="btn btn--primary btn--block btn--no-m-bottom"
-          >
-            Create
-          </NavLink>
-        }
-      />
-      <div className="admin-container__inner">
-        <DataTable
-          columns={columns}
-          data={data}
-          responsive
-          pagination
+    <>
+      <div className="admin-container">
+        <RouteSetter routeName="/admin-dashboard/users" />
+        <Nav
+          icon={<IconUsers />}
+          label={"Users"}
+          rightPlacer={
+            <Button
+              label="Add User"
+              icon={<IconPlus size={20} />}
+              className="btn btn--light btn--block btn--no-m-bottom btn--sm"
+              onClick={() => {
+                dispatch(openRightSidebar({ name: "create" }));
+              }}
+            />
+          }
         />
+        <div className="admin-container__inner">
+          <DataTable
+            columns={columns}
+            data={data}
+            responsive
+            pagination
+          />
+        </div>
       </div>
-    </div>
+      <ShowIf
+        sif={UserPageRedux.rightSidebar === "create"}
+        show={<UserCreatePage />}
+      />
+      <ShowIf
+        sif={UserPageRedux.rightSidebar === "update"}
+        show={<UserUpdatePage />}
+      />
+    </>
   );
 };
 
