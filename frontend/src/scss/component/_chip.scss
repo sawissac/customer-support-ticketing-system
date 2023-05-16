@@ -1,0 +1,22 @@
+.chip {
+  padding: map-get($spacers, 1) map-get($spacers, 2);
+  border-radius: $border-radius-pill;
+  font-size: $h6-font-size;
+  font-family: $font-family-roboto;
+  text-transform: capitalize;
+  border: 1px solid $gray-200;
+  box-shadow: $box-shadow-sm;
+  min-width: max-content;
+  &--primary {
+    background-color: $primary;
+    color: $white;
+  }
+  &--info {
+    background-color: $info;
+    color: $white;
+  }
+  &--light {
+    background-color: $light;
+    color: $dark;
+  }
+}

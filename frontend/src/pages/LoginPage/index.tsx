@@ -10,7 +10,7 @@ import {
   IconTicket,
 } from "@tabler/icons-react";
 import DropDown from "../../components/DropDown";
-import { getUserData } from "../../requests/loginRequest";
+import { getLoginData } from "../../requests/loginRequest";
 import {
   useAppDispatch,
   useAppSelector,
@@ -18,6 +18,8 @@ import {
 import { setAuth } from "../../redux/feature_slice/AuthSlice";
 import { useNavigate } from "react-router-dom";
 import { AuthRole } from "../../redux/variable/AuthVariable";
+import { setAlert } from "../../redux/feature_slice/AlertSlice";
+import { Alert } from "../../redux/variable/AlertVariable";
 
 const LoginPage = () => {
   const dispatch = useAppDispatch();
@@ -41,9 +43,15 @@ const LoginPage = () => {
 
   async function onClickHandle() {
     setStatus("PROCESSING...");
-    getUserData(input)
+    getLoginData(input)
       .then((res: any) => {
         setStatus("Success");
+        dispatch(
+          setAlert({
+            message: `Authenticated: as ${res.user.email}`,
+            state: Alert.Success,
+          })
+        );
         dispatch(
           setAuth({
             auth: true,

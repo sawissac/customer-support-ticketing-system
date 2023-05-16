@@ -51,6 +51,7 @@ class UserController extends BaseController
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|max:255|email|unique:users,email',
                 'password' => 'required|confirmed',
+                'role' => 'required'
             ]
         );
 
@@ -95,7 +96,8 @@ class UserController extends BaseController
             $validate,
             [
                 'name' => 'required|string|max:255',
-                'email' => 'required|string|max:255|email|unique:users,email',
+                'email' => 'required|string|max:255|email',
+                'role' => 'required'
             ]
         );
 
