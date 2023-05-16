@@ -11,17 +11,19 @@ class UserService implements UserServiceInterface
     public function store($data)
     {
         $data = array_merge($data,['password' => Hash::make($data['password'])]);
-
-        return User::create($data);
+        $user = User::create($data);
+        $user ->assignRole($data['role']);
+        return $user;
     }
 
     public function update($id, $data)
     {
         // $data = array_merge($data,['password' => Hash::make($data['password'])]);
 
-        $result = User::where('id', $id)->first();
-
-        return $result->update($data);
+        $user = User::where('id', $id)->first();
+        $user->update($data);
+        $user->syncRoles($data['role']);
+        return $user;
     }
 
     public function delete($id)
