@@ -74,3 +74,21 @@ export function updateUser({ id, name, email, role, token }: any) {
       });
   });
 }
+
+export function getAllCustomer({ token }: any) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`http://127.0.0.1:8000/api/user/customer`,{}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(function (response) {
+        resolve(response.data);
+        console.log(response.data)
+      })
+      .catch((reason) => {
+        reject(reason);
+      });
+  });
+}
