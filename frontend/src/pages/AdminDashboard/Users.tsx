@@ -14,6 +14,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import {
+  
   useAppDispatch,
   useAppSelector,
 } from "../../redux/hook";
@@ -35,13 +36,9 @@ const Users = () => {
       },
       {
         name: "Name",
-<<<<<<< HEAD
-        selector: (row: any) => row.name,
-=======
         selector: (row: any) => {
           return row.name;
         },
->>>>>>> main
         sortable: true,
       },
       {
@@ -51,10 +48,6 @@ const Users = () => {
       },
       {
         name: "Role",
-<<<<<<< HEAD
-        selector: (row: any) => row.roles[0].name,
-        sortable: true,
-=======
         cell: (row: any) => {
           const type =
             row.roles[0].name === "admin" ||
@@ -69,7 +62,6 @@ const Users = () => {
             </div>
           );
         },
->>>>>>> main
       },
       {
         name: "Update",
