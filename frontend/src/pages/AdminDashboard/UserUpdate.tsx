@@ -43,10 +43,6 @@ const UserUpdatePage = () => {
     });
   }, [userSidebarRedux.id]);
 
-  function onSubmitHandle(ev: React.FormEvent<HTMLFormElement>) {
-    ev.preventDefault();
-  }
-
   function onChangeHandler(ev: React.ChangeEvent<HTMLInputElement>) {
     setInputField({
       ...inputField,

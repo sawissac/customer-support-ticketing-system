@@ -43,7 +43,13 @@ export function getEmployeeproject({ id, token }: any) {
       });
   });
 }
-export function updateEmployeeproject({ id, project_id, user_id, token }: any) {
+
+export function updateEmployeeproject({
+  id,
+  project_id,
+  user_id,
+  token,
+}: any) {
   return new Promise((resolve, reject) => {
     axios
       .put(
