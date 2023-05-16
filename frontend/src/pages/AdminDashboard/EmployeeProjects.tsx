@@ -87,7 +87,7 @@ const EmployeeProjects = () => {
         label={"Tickets"}
         rightPlacer={
           <NavLink
-            to={"/admin-dashboard/project-create"}
+            to={"/admin-dashboard/employee-project-create"}
             className="btn btn--primary btn--block btn--no-m-bottom"
           >
             Create

@@ -16,6 +16,7 @@ import EmployeeAssignment from "./EmployeeAssignment";
 import Projects from "./Projects";
 import ProjectCreate from "./ProjectsCreate";
 import ProjectUpdate from "./ProjectsUpdate";
+import CustomerProjects from "./CustomerProjects";
 
 const AdminDashboard = () => {
   return (
@@ -33,9 +34,12 @@ const AdminDashboard = () => {
         <Route path="/user-create" element={<UserCreatePage />} />
         <Route path="/user-update" element={<UserUpdatePage />} />
         <Route path="/employee-assignment" element={<EmployeeAssignment />} />
+        <Route path="/employee-assignment-create" element={<EmployeeAssignment />} />
+        <Route path="/employee-assignment-update" element={<EmployeeAssignment />} />
         <Route path="/employee-project" element={<EmployeeProjects />} />
         <Route path="/employee-project-create" element={<EmployeeProjectsCreate />} />
         <Route path="/employee-project-update" element={<EmployeeProjectsUpdate />} />
+        <Route path="/customer-project" element={<CustomerProjects />} />
         <Route path="/customer-project-create" element={<CustomerProjectsCreate />} />
         <Route path="/customer-project-update" element={<CustomerProjectsUpdate />} />
       </Routes>

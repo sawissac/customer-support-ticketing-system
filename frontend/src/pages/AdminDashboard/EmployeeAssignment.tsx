@@ -26,41 +26,8 @@ const EmployeeAssignment = () => {
       <div className="admin-container__inner row row--gap-1">
         <div className="col-4 col-sm-12 col-md-6">
           <TicketList
-            company="ace"
             day="9days"
-            description="the page is loading slower..!"
-            name="Momo sama"
-            priority="critical"
-            status="open"
-            links="/admin-dashboard/employee-view"
-          />
-        </div>
-        <div className="col-4 col-sm-12 col-md-6">
-          <TicketList
-            company="ace"
-            day="9days"
-            description="the page is loading slower..!"
-            name="Momo sama"
-            priority="critical"
-            status="open"
-            links="/admin-dashboard/employee-view"
-          />
-        </div>
-        <div className="col-4 col-sm-12 col-md-6">
-          <TicketList
-            company="ace"
-            day="9days"
-            description="the page is loading slower..!"
-            name="Momo sama"
-            priority="critical"
-            status="open"
-            links="/admin-dashboard/employee-view"
-          />
-        </div>
-        <div className="col-4 col-sm-12 col-md-6">
-          <TicketList
-            company="ace"
-            day="9days"
+            projectName="sub sub"
             description="the page is loading slower..!"
             name="Momo sama"
             priority="critical"
