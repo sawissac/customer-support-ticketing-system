@@ -78,7 +78,7 @@ const EmployeeProjectsUpdate = () => {
         />
         <Button
           type="button"
-          label="Create"
+          label="Update"
           className="btn btn--form"
           onClick={onClickHandle}
         />
