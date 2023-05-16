@@ -51,10 +51,11 @@ class UserController extends BaseController
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|max:255|email|unique:users,email',
                 'password' => 'required|confirmed',
+                'role' => 'required'
             ]
         );
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
@@ -95,11 +96,12 @@ class UserController extends BaseController
             $validate,
             [
                 'name' => 'required|string|max:255',
-                'email' => 'required|string|max:255|email|unique:users,email',
+                'email' => 'required|string|max:255|email',
+                'role' => 'required'
             ]
         );
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 

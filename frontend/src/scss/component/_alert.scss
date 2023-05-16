@@ -1,0 +1,28 @@
+.alert {
+  min-width: 200px;
+  padding: map-get($spacers, 3);
+  position: fixed;
+  left: calc(50% - 100px);
+  text-align: center;
+  top: 30px;
+  font-size: $h5-font-size;
+  border-radius: $border-radius-sm;
+  cursor: pointer;
+
+  &--success {
+    color: $white;
+    background-color: $success;
+  }
+  &--info {
+    color: $white;
+    background-color: $info;
+  }
+  &--danger {
+    color: $white;
+    background-color: $danger;
+  }
+  &--warning {
+    color: $dark;
+    background-color: $warning;
+  }
+}

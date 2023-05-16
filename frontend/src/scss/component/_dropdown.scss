@@ -11,6 +11,7 @@
 }
 
 .sidebar-dropdown {
+  z-index: $zindex-popover;
   background-color: $white;
   box-shadow: $box-shadow-sm;
   width: 250px;

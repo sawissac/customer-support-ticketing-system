@@ -15,11 +15,7 @@
   text-decoration: none;
   font-weight: $font-weight-normal;
   font-family: $font-family-roboto;
-  &--icon{
-    aspect-ratio: 1/1;
-    padding: map-get($spacers, 2);
-  }
-  
+
   &--no-m-bottom {
     margin-bottom: 0;
   }
@@ -56,5 +52,12 @@
   &--ticket-view {
     width: 80px;
     @include interactive("gray");
+  }
+  &--icon {
+    aspect-ratio: 1/1;
+    padding: map-get($spacers, 2);
+    border-radius: $border-radius-pill;
+    background-color: transparent;
+    border:0px;
   }
 }

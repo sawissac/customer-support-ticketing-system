@@ -1,37 +1,31 @@
-import React, {
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import React, { useMemo } from "react";
 import DataTable from "react-data-table-component";
 import Nav from "../../components/Nav";
 import {
   IconEdit,
+  IconTrashFilled,
   IconUsers,
 } from "@tabler/icons-react";
 import RouteSetter from "./RouteSetter";
-import { NavLink, useNavigate } from "react-router-dom";
-import { IconTrashFilled } from "@tabler/icons-react";
-
-const data = [
-  {
-    id: 1,
-    title: "Beetlejuice",
-    email: "sawissac@gmail.com",
-    role: "admin",
-  },
-  {
-    id: 2,
-    title: "Ghostbusters",
-    year: "1984",
-    email: "zayartunjob@gmail.com",
-    role: "admin",
-  },
-];
+import axios from "axios";
+import { useQuery } from "react-query";
+import {
+  NavLink,
+  useNavigate,
+} from "react-router-dom";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../redux/hook";
+import { setUserSidebarId } from "../../redux/feature_slice/UserSidebarSlice";
 
 const Users = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  
+  const AuthRedux = useAppSelector(
+    (state) => state.auth
+  );
+
   const columns = useMemo(
     () => [
       {
@@ -41,7 +35,9 @@ const Users = () => {
       },
       {
         name: "Name",
-        selector: (row: any) => row.title,
+        selector: (row: any) => {
+          return row.name;
+        },
         sortable: true,
       },
       {
@@ -51,8 +47,20 @@ const Users = () => {
       },
       {
         name: "Role",
-        selector: (row: any) => row.role,
-        sortable: true,
+        cell: (row: any) => {
+          const type =
+            row.roles[0].name === "admin" ||
+            row.roles[0].name === "employee"
+              ? "chip--primary"
+              : row.roles[0].name === "customer"
+              ? "chip--info"
+              : "chip--light";
+          return (
+            <div className={`chip ${type}`}>
+              {row.roles[0].name}
+            </div>
+          );
+        },
       },
       {
         name: "Update",
@@ -60,14 +68,17 @@ const Users = () => {
           <button
             title="row update"
             className="btn btn--light btn--icon btn--no-m-bottom text-info"
-            onClick={()=>{
-              navigate('/admin-dashboard/user-update')
+            onClick={() => {
+              dispatch(setUserSidebarId(row.id));
+              navigate(
+                "/admin-dashboard/user-update"
+              );
             }}
           >
             <IconEdit size={25} />
           </button>
         ),
-        button: true
+        button: true,
       },
       {
         name: "Delete",
@@ -79,17 +90,38 @@ const Users = () => {
             <IconTrashFilled />
           </button>
         ),
-        button: true
+        button: true,
       },
     ],
     []
   );
+  const url = "http://127.0.0.1:8000/api/user";
+  const getUsersData = async () => {
+    const res = await axios
+      .get(url, {
+        headers: {
+          Authorization: `Bearer ${AuthRedux.token}`,
+        },
+      })
+      .then((response) => {
+        return response.data.data;
+      });
+    return res;
+  };
+
+  const { isLoading, error, data, isFetching } =
+    useQuery(["userData", url], getUsersData);
+
+  if (isLoading) return <p>"loading..."</p>;
+  if (isFetching) return <p>"fetching"</p>;
+  if (error) return <p>"An error has occurs"</p>;
+
   return (
     <div className="admin-container">
       <RouteSetter routeName="/admin-dashboard/users" />
       <Nav
         icon={<IconUsers />}
-        label={"Tickets"}
+        label={"Users"}
         rightPlacer={
           <NavLink
             to={"/admin-dashboard/user-create"}

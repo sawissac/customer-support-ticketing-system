@@ -34,7 +34,7 @@ class AdminSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-        $guest = User::create([
+        $resignEmployee = User::create([
             'name' => 'guest',
             'email' => 'guest@gmail.com',
             'password' => Hash::make('password'),
@@ -43,5 +43,6 @@ class AdminSeeder extends Seeder
         $admin->assignRole('admin');
         $employee->assignRole('employee');
         $customer->assignRole('customer');
+        $resignEmployee->assignRole('resign_employee');
     }
 }

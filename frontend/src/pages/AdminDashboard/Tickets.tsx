@@ -1,10 +1,7 @@
-import React from "react";
 import { NavLink } from "react-router-dom";
 import Nav from "../../components/Nav";
 import TicketList from "../../components/TicketList";
 import { IconMessage2 } from "@tabler/icons-react";
-import { useAppDispatch } from "../../redux/hook";
-import { setActiveRoute } from "../../redux/feature_slice/SidebarSlice";
 import RouteSetter from "./RouteSetter";
 
 const TicketPage = () => {
@@ -25,41 +22,8 @@ const TicketPage = () => {
       />
       <div className="admin-container__inner row row--gap-1">
         <div className="col-4 col-sm-12 col-md-6">
-          <TicketList
-            company="ace"
-            day="9days"
-            description="the page is loading slower..!"
-            name="Momo sama"
-            priority="critical"
-            status="open"
-            links="/admin-dashboard/ticket-view"
-          />
-        </div>
-        <div className="col-4 col-sm-12 col-md-6">
-          <TicketList
-            company="ace"
-            day="9days"
-            description="the page is loading slower..!"
-            name="Momo sama"
-            priority="critical"
-            status="open"
-            links="/admin-dashboard/ticket-view"
-          />
-        </div>
-        <div className="col-4 col-sm-12 col-md-6">
-          <TicketList
-            company="ace"
-            day="9days"
-            description="the page is loading slower..!"
-            name="Momo sama"
-            priority="critical"
-            status="open"
-            links="/admin-dashboard/ticket-view"
-          />
-        </div>
-        <div className="col-4 col-sm-12 col-md-6">
-          <TicketList
-            company="ace"
+          <TicketList projectName="sub sub"
+            userView
             day="9days"
             description="the page is loading slower..!"
             name="Momo sama"
