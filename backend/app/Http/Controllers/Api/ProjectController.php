@@ -48,8 +48,6 @@ class ProjectController extends BaseController
             [
                 'project_id' => 'string',
                 'name' => 'required|string',
-                'manage_start_date' => 'nullable|date_format:Y-m-d H:i:s',
-                'manage_end_date' => 'nullable|date_format:Y-m-d H:i:s',
             ]
         );
 
@@ -95,8 +93,6 @@ class ProjectController extends BaseController
             [
                 'project_id' => 'string',
                 'name' => 'required|string',
-                'manage_start_date' => 'nullable|date_format:Y-m-d H:i:s',
-                'manage_end_date' => 'nullable|date_format:Y-m-d H:i:s',
             ]
         );
 
