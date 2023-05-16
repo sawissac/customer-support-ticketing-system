@@ -34,6 +34,8 @@ Route::middleware(['cors'])->group(function () {
 
     Route::post('/auth/login', [AuthController::class, 'loginUser']);
     Route::apiResource('/user', UserController::class)->middleware('auth:sanctum');
+    Route::post('/user/employee', [UserController::class, 'employee'])->middleware('auth:sanctum');
+    Route::post('/user/customer', [UserController::class, 'customer'])->middleware('auth:sanctum');
     Route::apiResource('/project', ProjectController::class)->middleware('auth:sanctum');
     Route::apiResource('/employee-project', EmployeeProjectController::class)->middleware('auth:sanctum');
     Route::apiResource('/ticket', TicketController::class)->middleware('auth:sanctum');
