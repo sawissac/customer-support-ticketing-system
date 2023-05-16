@@ -94,7 +94,7 @@ const EmployeeProjects = () => {
 
   return (
     <div className="admin-container">
-      <RouteSetter routeName="/admin-dashboard/users" />
+      <RouteSetter routeName="/admin-dashboard/employee-project" />
       <Nav
         icon={<IconUsers />}
         label={"Tickets"}

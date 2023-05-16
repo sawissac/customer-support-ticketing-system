@@ -40,6 +40,23 @@ export function getProject({ id, token }: any) {
   });
 }
 
+export function getAllProject({ token }: any) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`http://127.0.0.1:8000/api/project`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(function (response) {
+        resolve(response.data);
+      })
+      .catch((reason) => {
+        reject(reason);
+      });
+  });
+}
+
 export function updateProject({ id, name, token }: any) {
   return new Promise((resolve, reject) => {
     axios

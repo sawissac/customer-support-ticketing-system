@@ -49,6 +49,7 @@ export function getUser({ id, token }: any) {
       });
   });
 }
+
 export function updateUser({ id, name, email, role, token }: any) {
   return new Promise((resolve, reject) => {
     axios
