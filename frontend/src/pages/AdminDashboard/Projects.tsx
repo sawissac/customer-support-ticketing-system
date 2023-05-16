@@ -1,20 +1,15 @@
-import React, {
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import DataTable from "react-data-table-component";
 import Nav from "../../components/Nav";
-import {
-  IconEdit,
-  IconUsers,
-} from "@tabler/icons-react";
+import { IconEdit } from "@tabler/icons-react";
 import RouteSetter from "./RouteSetter";
-import {
-  NavLink,
-  useNavigate,
-} from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { IconTrashFilled } from "@tabler/icons-react";
+import axios from "axios";
+import { useQuery } from "react-query";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { IconFolder } from "@tabler/icons-react";
+import { setProjectSidebar } from "../../redux/feature_slice/ProjectSidebarSlice";
 
 const data = [
   {
@@ -33,8 +28,9 @@ const data = [
 ];
 
 const Projects = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  const AuthRedux = useAppSelector((state) => state.auth);
   const columns = useMemo(
     () => [
       {
@@ -44,22 +40,12 @@ const Projects = () => {
       },
       {
         name: "Project ID",
-        selector: (row: any) => row.title,
+        selector: (row: any) => row.project_id,
         sortable: true,
       },
       {
         name: "Name",
-        selector: (row: any) => row.email,
-        sortable: true,
-      },
-      {
-        name: "Start Date",
-        selector: (row: any) => row.role,
-        sortable: true,
-      },
-      {
-        name: "End Date",
-        selector: (row: any) => row.role,
+        selector: (row: any) => row.name,
         sortable: true,
       },
       {
@@ -69,9 +55,13 @@ const Projects = () => {
             title="row update"
             className="btn btn--light btn--icon btn--no-m-bottom text-info"
             onClick={() => {
-              navigate(
-                "/admin-dashboard/user-update"
+              dispatch(
+                setProjectSidebar({
+                  id: row.id,
+                  name: row.name,
+                })
               );
+              navigate("/admin-dashboard/project-update");
             }}
           >
             <IconEdit size={25} />
@@ -94,12 +84,37 @@ const Projects = () => {
     ],
     []
   );
+
+  const url = "http://127.0.0.1:8000/api/project";
+
+  const getUsersData = async () => {
+    const res = await axios
+      .get(url, {
+        headers: {
+          Authorization: `Bearer ${AuthRedux.token}`,
+        },
+      })
+      .then((response) => {
+        return response.data.data;
+      });
+    return res;
+  };
+
+  const { isLoading, error, data, isFetching } = useQuery(
+    ["userData", url],
+    getUsersData
+  );
+
+  if (isLoading) return <p>"loading..."</p>;
+  if (isFetching) return <p>"fetching"</p>;
+  if (error) return <p>"An error has occurs"</p>;
+
   return (
     <div className="admin-container">
-      <RouteSetter routeName="/admin-dashboard/users" />
+      <RouteSetter routeName="/admin-dashboard/project" />
       <Nav
-        icon={<IconUsers />}
-        label={"Tickets"}
+        icon={<IconFolder />}
+        label={"Projects"}
         rightPlacer={
           <NavLink
             to={"/admin-dashboard/project-create"}

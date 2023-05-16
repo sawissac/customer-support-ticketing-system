@@ -4,17 +4,17 @@ import { IconMessage2 } from "@tabler/icons-react";
 import EmployeeSideBar from "../../components/EmployeeSideBar";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
+import RouteSetter from "./RouteSetter";
 
 const TicketUpdate = () => {
-  function onSubmitHandle(
-    ev: React.FormEvent<HTMLFormElement>
-  ) {
+  function onSubmitHandle(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
   }
   function onClickHandle() {}
   return (
     <>
       <div className="admin-container admin-container--textarea">
+        <RouteSetter routeName="/admin-dashboard/tickets" />
         <Nav
           icon={<IconMessage2 />}
           label="Ticket - Create"

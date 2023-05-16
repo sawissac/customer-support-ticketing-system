@@ -17,8 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('project_id');
             $table->string('name');
-            $table->dateTime('manage_start_date')->nullable();
-            $table->dateTime('manage_end_date')->nullable();
             $table->timestamps();
         });
     }
