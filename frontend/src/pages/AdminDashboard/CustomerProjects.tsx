@@ -95,13 +95,13 @@ import { useQuery } from "react-query";
 
     return (
       <div className="admin-container">
-        <RouteSetter routeName="/admin-dashboard/users" />
+        <RouteSetter routeName="/admin-dashboard/customer-project" />
         <Nav
           icon={<IconUsers />}
           label={"Tickets"}
           rightPlacer={
             <NavLink
-              to={"/admin-dashboard/employee-project-create"}
+              to={"/admin-dashboard/customer-project-create"}
               className="btn btn--primary btn--block btn--no-m-bottom"
             >
               Create
