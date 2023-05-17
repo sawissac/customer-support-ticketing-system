@@ -83,10 +83,7 @@
     height: 70px;
     font-weight: $font-weight-normal;
     font-family: $font-family-roboto;
-    &--dark {
-      background-color: #232428;
-      color: $white;
-    }
+
     div:nth-child(2) {
       margin-left: map-get($spacers, 3);
       margin-right: auto;
@@ -123,17 +120,5 @@
     background-color: $white;
     padding: map-get($spacers, 3);
     border-top: map-get($border-widths, 1) solid $gray-200;
-  }
-  &--dark {
-    background-color: #2b2d31;
-    color: $white;
-  }
-  &--dark &__action-list{
-    background-color: #313338;
-    border: none;
-  }
-  &--dark &__list *{
-    background-color: #313338;
-    color: $white;
   }
 }

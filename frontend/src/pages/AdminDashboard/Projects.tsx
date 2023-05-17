@@ -170,16 +170,14 @@ const Projects = () => {
     getUsersData
   );
 
-  if (isFetching) return <div>isFetching</div>;
+  if (isFetching) return <div className="fetching">isFetching</div>;
 
   return (
     <>
       <ShowIf
         sif={projectPageRedux.view === ""}
         show={
-          <div className={`admin-container ${
-            themeRedux === Theme.Dark ? "admin-container--dark" : ""
-          }`}>
+          <div className="admin-container">
             <Nav
               icon={<IconFolder />}
               label={"Project"}
@@ -204,8 +202,7 @@ const Projects = () => {
                 data={data}
                 responsive
                 pagination
-                theme={`${
-                  themeRedux === Theme.Dark ? "table-dark" : ""}`}
+                theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}
               />
             </motion.div>
           </div>

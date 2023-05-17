@@ -6,15 +6,11 @@ import { IconMessage2 } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { setActiveRoute } from "../../redux/feature_slice/SidebarSlice";
 import RouteSetter from "./RouteSetter";
-import { Theme } from "../../redux/variable/ThemeVariable";
 
 const EmployeeAssignment = () => {
-  const themeRedux = useAppSelector((state) => state.theme);
   return (
-    <div  className={`admin-container ${
-      themeRedux === Theme.Dark ? "admin-container--dark" : ""
-    }`}>
-      <RouteSetter routeName="/admin-dashboard/employee-assignment" />
+    <div  className="admin-container">
+      <RouteSetter routeName="/admin-dashboard/employee-assignment"/>
       <Nav
         icon={<IconMessage2 />}
         label="Tickets"

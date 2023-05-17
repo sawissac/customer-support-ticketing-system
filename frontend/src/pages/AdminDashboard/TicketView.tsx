@@ -8,12 +8,9 @@ import { Theme } from "../../redux/variable/ThemeVariable";
 import { useAppSelector } from "../../redux/hook";
 
 const TicketView = () => {
-  const themeRedux = useAppSelector((state) => state.theme);
   return (
     <>
-      <div  className={`admin-container ${
-          themeRedux === Theme.Dark ? "admin-container--dark" : ""
-        }`}>
+      <div  className="admin-container">
         <RouteSetter routeName="/admin-dashboard/tickets" />
         <Nav
           icon={<IconMessage2 />}

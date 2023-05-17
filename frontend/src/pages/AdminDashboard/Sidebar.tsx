@@ -30,9 +30,9 @@ interface SideBarInterface {
 const SideBar = (props: SideBarInterface) => {
   const authRedux = useAppSelector((state) => state.auth);
   const sidebarRedux = useAppSelector((state) => state.sidebar);
-  const themeRedux = useAppSelector((state) => state.theme);
+
   return (
-    <div className={`sidebar ${themeRedux === Theme.Dark ? 'sidebar--dark': ''}`}>
+    <div className="sidebar">
       <div className="sidebar__header">
         <IconHash size={24} />
         <h5>Welcome User</h5>
@@ -51,7 +51,6 @@ interface SideBarSimplify {
   route: string;
 }
 SideBar.Simplify = function (props: SideBarSimplify) {
-  const sidebarRedux = useAppSelector((state) => state.sidebar);
 
   const themeRedux = useAppSelector((state) => state.theme);
 
@@ -121,7 +120,7 @@ SideBar.Profile = function (props: SideBarProfile) {
   const sidebarRedux = useAppSelector((state) => state.sidebar);
   const navigate = useNavigate();
   return (
-    <div className={`sidebar__profile ${themeRedux===Theme.Dark?'sidebar__profile--dark':''}`}>
+    <div className="sidebar__profile">
       <Avatar
         color="#F37021"
         name={props.name}

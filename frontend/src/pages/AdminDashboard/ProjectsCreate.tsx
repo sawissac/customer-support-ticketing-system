@@ -60,7 +60,7 @@ const ProjectCreate = () => {
     });
   }
   return (
-    <div className={`admin-container ${themeRedux === Theme.Dark ? 'admin-container--dark': ''}`}>
+    <div className="admin-container">
       
       <Nav.BackButton
         label="Project Create"

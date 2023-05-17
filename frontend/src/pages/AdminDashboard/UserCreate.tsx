@@ -82,15 +82,9 @@ const UserCreatePage = () => {
         });
     }
   }
-  const themeRedux = useAppSelector((state) => state.theme);
   return (
     <div
-      className={`admin-container admin-container--no-flex-grow admin-container--form ${
-        themeRedux === Theme.Dark
-          ? 'admin-container--dark admin-container--no-flex-grow admin-container--form'
-          : ''
-      }`}
-    >
+      className="admin-container admin-container--no-flex-grow admin-container--form">
       <Nav.BackButton
         label="User Create"
         onClick={() => {

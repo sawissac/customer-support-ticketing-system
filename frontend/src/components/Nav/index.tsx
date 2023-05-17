@@ -2,8 +2,6 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 import Button from "../Button";
-import { useAppSelector } from "../../redux/hook";
-import { Theme } from "../../redux/variable/ThemeVariable";
 
 interface NavProps {
   icon?: ReactNode;

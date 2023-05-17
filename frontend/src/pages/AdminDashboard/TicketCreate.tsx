@@ -14,12 +14,9 @@ const TicketCreate = () => {
     ev.preventDefault();
   }
   function onClickHandle() {}
-  const themeRedux = useAppSelector((state) => state.theme);
   return (
     <>
-      <div className={`admin-container admin-container--textarea ${
-          themeRedux === Theme.Dark ? "admin-container--dark admin-container--textarea--dark" : ""
-        }`}>
+      <div className="admin-container admin-container--textarea">
         <Nav
           icon={<IconMessage2 />}
           label="Ticket - Create"

@@ -159,10 +159,7 @@ const Users = () => {
   return (
     <>
       <div
-        className={`admin-container ${
-          themeRedux === Theme.Dark ? "admin-container--dark" : ""
-        }`}
-      >
+        className="admin-container">
         <Nav
           icon={<IconUsers />}
           label={"Users"}
