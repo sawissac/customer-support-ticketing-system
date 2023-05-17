@@ -13,12 +13,13 @@ import {
   getProject,
   updateProject,
 } from "../../requests/projectRequest";
+import { Theme } from "../../redux/variable/ThemeVariable";
 
 const ProjectUpdate = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
-
+  const themeRedux = useAppSelector((state) => state.theme);
   const projectSideRedux = useAppSelector(
     (state) => state.projectSidebar
   );
@@ -75,7 +76,7 @@ const ProjectUpdate = () => {
     });
   }
   return (
-    <div className="admin-container">
+    <div className={`admin-container ${themeRedux === Theme.Dark ? 'admin-container--dark': ''}`}>
       <RouteSetter routeName="/admin-dashboard/project" />
       <Nav
         icon={<IconUserPlus />}

@@ -14,6 +14,7 @@ import UserCreatePage from "./UserCreate";
 import UserUpdatePage from "./UserUpdate";
 import ShowIf from "../../components/Helper";
 import Button from "../../components/Button";
+import { Theme } from "../../redux/variable/ThemeVariable";
 
 const Users = () => {
   const dispatch = useAppDispatch();
@@ -31,6 +32,7 @@ const Users = () => {
               : row.roles[0].name === "customer"
               ? "#0d6efd"
               : "#495057";
+
           return (
             <div className="avatar-profile">
               <Avatar
@@ -110,10 +112,10 @@ const Users = () => {
   };
 
   const { data } = useQuery(["userData", UserPageRedux.state], getUsersData);
-
+  const themeRedux = useAppSelector((state) => state.theme);
   return (
     <>
-      <div className="admin-container">
+      <div className={`admin-container ${themeRedux === Theme.Dark ? 'admin-container--dark': ''}`}>
         <RouteSetter routeName="/admin-dashboard/users" />
         <Nav
           icon={<IconUsers />}

@@ -1,3 +1,19 @@
 .rdt_Table * {
-    font-size: $h6-font-size;
+  font-size: $h6-font-size;
+}
+
+.custom-table {
+  &--dark * {
+    background: #313338 !important;
+    color: white !important;
+  }
+  &--dark .rdt_Table{
+    background-color: #313338;
+  }
+  &--dark .text-info * {
+    color: $cyan !important;
+  }
+  &--dark .text-danger * {
+    color: $red !important;
+  }
 }

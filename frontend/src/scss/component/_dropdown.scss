@@ -55,6 +55,10 @@
     border-left: map-get($border-widths, 5) solid
       $orange !important;
   }
+  &--dark{
+    background-color: $dark;
+    color: $white
+  }
 }
 .form-dropdown-btn {
   @include interactive("gray");

@@ -5,8 +5,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  border: map-get($border-widths, 1) solid
-    $gray-200;
+  border: map-get($border-widths, 1) solid $gray-200;
   &__header {
     display: flex;
     align-items: center;
@@ -15,8 +14,7 @@
     font-family: $font-family-poppins;
     font-size: $h6-font-size;
     padding: 0px map-get($spacers, 3);
-    border-bottom: map-get($border-widths, 1)
-      solid $gray-200;
+    border-bottom: map-get($border-widths, 1) solid $gray-200;
     p {
       margin-left: map-get($spacers, 2);
     }
@@ -45,8 +43,7 @@
       border-radius: $border-radius-sm;
       text-decoration: none;
       font-size: $h5-font-size;
-      border-left: map-get($border-widths, 5)
-        solid $gray-400;
+      border-left: map-get($border-widths, 5) solid $gray-400;
       span {
         font-weight: $font-weight-normal;
         font-family: $font-family-roboto;
@@ -54,8 +51,7 @@
       }
     }
     &--active {
-      border-left: map-get($border-widths, 5)
-        solid $orange !important;
+      border-left: map-get($border-widths, 5) solid $orange !important;
     }
     &--header {
       margin-bottom: 0px !important;
@@ -87,6 +83,10 @@
     height: 70px;
     font-weight: $font-weight-normal;
     font-family: $font-family-roboto;
+    &--dark {
+      background-color: #232428;
+      color: $white;
+    }
     div:nth-child(2) {
       margin-left: map-get($spacers, 3);
       margin-right: auto;
@@ -101,8 +101,7 @@
       border-color: transparent;
       outline-color: transparent;
       border-radius: $border-radius-sm;
-      border: map-get($border-widths, 1) solid
-        $gray-200;
+      border: map-get($border-widths, 1) solid $gray-200;
     }
   }
   &__profile-list {
@@ -123,7 +122,10 @@
     right: 0;
     background-color: $white;
     padding: map-get($spacers, 3);
-    border-top: map-get($border-widths, 1) solid
-      $gray-200;
+    border-top: map-get($border-widths, 1) solid $gray-200;
+  }
+  &--dark {
+    background-color: #2b2d31;
+    color: $white;
   }
 }

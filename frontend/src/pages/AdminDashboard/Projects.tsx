@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
-import DataTable from "react-data-table-component";
+import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
 import { IconEdit } from "@tabler/icons-react";
 import RouteSetter from "./RouteSetter";
@@ -10,6 +10,7 @@ import { useQuery } from "react-query";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { IconFolder } from "@tabler/icons-react";
 import { setProjectSidebar } from "../../redux/feature_slice/ProjectSidebarSlice";
+import { Theme } from "../../redux/variable/ThemeVariable";
 
 const data = [
   {
@@ -27,10 +28,18 @@ const data = [
   },
 ];
 
+
+createTheme('dark', {
+  background: {
+    default: 'transparent',
+  },
+});
+
 const Projects = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const AuthRedux = useAppSelector((state) => state.auth);
+  const themeRedux = useAppSelector((state) => state.theme);
   const columns = useMemo(
     () => [
       {
@@ -110,7 +119,7 @@ const Projects = () => {
   if (error) return <p>"An error has occurs"</p>;
 
   return (
-    <div className="admin-container">
+    <div className={`admin-container ${themeRedux === Theme.Dark ? 'admin-container--dark': ''}`}>
       <RouteSetter routeName="/admin-dashboard/project" />
       <Nav
         icon={<IconFolder />}
@@ -124,12 +133,13 @@ const Projects = () => {
           </NavLink>
         }
       />
-      <div className="admin-container__inner">
+      <div className={`admin-container__inner custom-table ${themeRedux === Theme.Dark ? 'admin-container__inner custom-table--dark': ''}`}>
         <DataTable
           columns={columns}
           data={data}
           responsive
           pagination
+          theme="solarized"
         />
       </div>
     </div>

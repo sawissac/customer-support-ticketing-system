@@ -10,12 +10,13 @@ import { Alert } from "../../redux/variable/AlertVariable";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { createProject } from "../../requests/projectRequest";
+import { Theme } from "../../redux/variable/ThemeVariable";
 
 const ProjectCreate = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
-
+  const themeRedux = useAppSelector((state) => state.theme);
   const [inputField, setInputField] = React.useState({
     name: "",
   });
@@ -60,7 +61,7 @@ const ProjectCreate = () => {
     });
   }
   return (
-    <div className="admin-container">
+    <div className={`admin-container ${themeRedux === Theme.Dark ? 'admin-container--dark': ''}`}>
       <RouteSetter routeName="/admin-dashboard/project" />
       <Nav
         icon={<IconUserPlus />}

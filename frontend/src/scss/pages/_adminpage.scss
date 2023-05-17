@@ -1,7 +1,6 @@
 .admin-container {
   flex: 1;
   overflow-y: scroll;
-
   &--form {
     min-width: 400px;
   }
@@ -16,5 +15,9 @@
   }
   &__inner {
     padding: map-get($spacers, 3) map-get($spacers, 4);
+  }
+  &--dark {
+    background-color: #2b2d31;
+    color: $white;
   }
 }

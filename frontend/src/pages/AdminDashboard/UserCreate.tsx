@@ -10,7 +10,11 @@ import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import { createUser } from "../../requests/userRequest";
 import FormWarper from "../../components/FormWarper";
-import { openRightSidebar, updateUserTableUrl } from "../../redux/feature_slice/UserSidebarSlice";
+import {
+  openRightSidebar,
+  updateUserTableUrl,
+} from "../../redux/feature_slice/UserSidebarSlice";
+import { Theme } from "../../redux/variable/ThemeVariable";
 
 const UserCreatePage = () => {
   const dispatch = useAppDispatch();
@@ -36,7 +40,8 @@ const UserCreatePage = () => {
 
   function onButtonSubmitHandle() {
     const isEmpty =
-      Object.values(inputField).filter((i) => i === "").length > 0 || dropdownBox.value === "";
+      Object.values(inputField).filter((i) => i === "").length > 0 ||
+      dropdownBox.value === "";
     if (isEmpty) {
       dispatch(
         setAlert({
@@ -59,7 +64,9 @@ const UserCreatePage = () => {
       })
         .then(() => {
           dispatch(
-            updateUserTableUrl({ message: inputField.name + inputField.email + dropdownBox.name })
+            updateUserTableUrl({
+              message: inputField.name + inputField.email + dropdownBox.name,
+            })
           );
           dispatch(
             setAlert({
@@ -78,9 +85,15 @@ const UserCreatePage = () => {
         });
     }
   }
-
+  const themeRedux = useAppSelector((state) => state.theme);
   return (
-    <div className="admin-container admin-container--no-flex-grow admin-container--form">
+    <div
+      className={`admin-container admin-container--no-flex-grow admin-container--form ${
+        themeRedux === Theme.Dark
+          ? 'admin-container--dark admin-container--no-flex-grow admin-container--form'
+          : ''
+      }`}
+    >
       <Nav.BackButton
         label="User Create"
         onClick={() => {

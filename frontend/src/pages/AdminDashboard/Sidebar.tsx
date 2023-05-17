@@ -54,8 +54,10 @@ const SideBar = (props: SideBarInterface) => {
   const sidebarRedux = useAppSelector(
     (state) => state.sidebar
   );
+
+  const themeRedux  = useAppSelector(state=>state.theme);
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${themeRedux === Theme.Dark ? 'sidebar--dark': ''}`}>
       <div className="sidebar__header">
         <IconHash size={24} />
         <h5>Welcome User</h5>
@@ -83,8 +85,9 @@ SideBar.Simplify = function (
   const sidebarRedux = useAppSelector(
     (state) => state.sidebar
   );
+  const themeRedux  = useAppSelector(state=>state.theme);
   return (
-    <div className="sidebar__list">
+    <div className={`sidebar__list ${themeRedux===Theme.Dark?'sidebar__list--dark':''}`}>
       <h5>Manage</h5>
       <SideBar.Link
         routeName={props.route + "/tickets"}
@@ -364,7 +367,7 @@ SideBar.Profile = function (
   );
   const navigate = useNavigate();
   return (
-    <div className="sidebar__profile">
+    <div className={`sidebar__profile ${themeRedux===Theme.Dark?'sidebar__profile--dark':''}`}>
       <Avatar
         color="#F37021"
         name={props.name}
@@ -388,7 +391,7 @@ SideBar.Profile = function (
         offset={[0, 30]}
         placement="right-start"
         buttonChildren={<IconSettings />}
-        dropdownClassName="sidebar-dropdown"
+        dropdownClassName={`sidebar-dropdown ${themeRedux===Theme.Dark?'sidebar-dropdown--dark':''}`}
         dropdownChildren={
           <>
             <h6>Sidebar Mode</h6>
@@ -450,6 +453,7 @@ SideBar.Profile = function (
               label="Dark"
             />
             <Button
+            
               type="button"
               className={
                 themeRedux === Theme.Light
