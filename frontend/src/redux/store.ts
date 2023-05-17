@@ -3,7 +3,9 @@ import themeSlice from "./feature_slice/ThemeSlice";
 import authSlice from "./feature_slice/AuthSlice";
 import sidebarSlice from "./feature_slice/SidebarSlice";
 import alertSlice from "./feature_slice/AlertSlice";
-import UserSidebarSlice from "./feature_slice/UserSidebarSlice";
+import UserSidebarSlice from "./feature_slice/UserPageSlice";
+import ProjectSidebarSlice from "./feature_slice/ProjectPageSlice";
+import EmployeeProjectSlice from "./feature_slice/EmployeeProjectSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,11 +13,11 @@ export const store = configureStore({
     auth: authSlice,
     sidebar: sidebarSlice,
     alert: alertSlice,
-    userSidebar: UserSidebarSlice
+    userSidebar: UserSidebarSlice,
+    projectSidebar: ProjectSidebarSlice,
+    employeeProjectSidebar: EmployeeProjectSlice,
   },
 });
 
-export type RootState = ReturnType<
-  typeof store.getState
->;
+export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

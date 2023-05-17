@@ -11,10 +11,7 @@ import {
 } from "@tabler/icons-react";
 import DropDown from "../../components/DropDown";
 import { getLoginData } from "../../requests/loginRequest";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { setAuth } from "../../redux/feature_slice/AuthSlice";
 import { useNavigate } from "react-router-dom";
 import { AuthRole } from "../../redux/variable/AuthVariable";
@@ -29,15 +26,10 @@ const LoginPage = () => {
     password: "",
   });
 
-  const [status, setStatus] =
-    React.useState("LOGIN");
-  const authRedux = useAppSelector(
-    (state) => state.auth
-  );
+  const [status, setStatus] = React.useState("LOGIN");
+  const authRedux = useAppSelector((state) => state.auth);
 
-  function onSubmitHandle(
-    ev: React.FormEvent<HTMLFormElement>
-  ) {
+  function onSubmitHandle(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
   }
 
@@ -72,12 +64,9 @@ const LoginPage = () => {
 
   React.useEffect(() => {
     if (authRedux.auth === true) {
-      if (authRedux.role === AuthRole.ADMIN)
-        navigate("/admin-dashboard/tickets");
-      if (authRedux.role === AuthRole.EMPLOYEE)
-        navigate("/employee-dashboard");
-      if (authRedux.role === AuthRole.CUSTOMER)
-        navigate("/customer-dashboard");
+      if (authRedux.role === AuthRole.ADMIN) navigate("/admin-dashboard/tickets");
+      if (authRedux.role === AuthRole.EMPLOYEE) navigate("/employee-dashboard");
+      if (authRedux.role === AuthRole.CUSTOMER) navigate("/customer-dashboard");
     }
   }, [authRedux.auth]);
 
@@ -88,9 +77,7 @@ const LoginPage = () => {
         className="login-form"
         onSubmit={onSubmitHandle}
       >
-        <h1 className="login-form__header">
-          Welcome Back User!
-        </h1>
+        <h1 className="login-form__header">Welcome Back User!</h1>
         <LoginInput
           icon={<IconUser size={25} />}
           placeholder="Enter your email..."

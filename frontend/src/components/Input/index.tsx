@@ -6,19 +6,13 @@ interface InputProps
   errorMessage?: string;
 }
 
-const Input = ({
-  label,
-  errorMessage,
-  ...props
-}: InputProps) => {
+const Input = ({ label, errorMessage, ...props }: InputProps) => {
   return (
     <div className="form-input">
       <div className="form-input__label">
         <label htmlFor={props.id}>{label}</label>
         {errorMessage && (
-          <div className="form-input__error">
-            {errorMessage}
-          </div>
+          <div className="form-input__error">{errorMessage}</div>
         )}
       </div>
       <div className="form-input__container">
@@ -38,9 +32,7 @@ Input.Textarea = function ({
       <div className="form-input__label">
         <label htmlFor={props.id}>{label}</label>
         {errorMessage && (
-          <div className="form-input__error">
-            {errorMessage}
-          </div>
+          <div className="form-input__error">{errorMessage}</div>
         )}
       </div>
       <TextareaAutosize

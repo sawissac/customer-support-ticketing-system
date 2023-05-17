@@ -7,17 +7,20 @@
     margin-left: map-get($spacers, 4);
   }
   .text {
-    margin-left: map-get($spacers, 2);
+    margin:0px map-get($spacers, 2);
     font-weight: $font-weight-semibold;
     font-family: $font-family-roboto;
     font-size: $h5-font-size;
-    margin-right: auto;
     display: flex;
     align-items: center;
+    background-color: transparent;
+    outline-color: transparent;
+    border-color: transparent;
+    cursor: pointer;
   }
   .text--link {
     margin-left: map-get($spacers, 4);
-    font-weight: $font-weight-normal;
+    font-weight: $font-weight-semibold;
     font-family: $font-family-roboto;
     font-size: $h5-font-size;
     text-decoration: none;
@@ -27,6 +30,6 @@
     }
   }
   .placer {
-    margin-right: map-get($spacers, 4);
+    margin-right: map-get($spacers, 2);
   }
 }
