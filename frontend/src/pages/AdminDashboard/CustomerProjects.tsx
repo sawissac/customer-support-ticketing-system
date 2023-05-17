@@ -22,7 +22,6 @@ import CustomerProjectsCreate from "./CustomerProjectsCreate";
 import CustomerProjectsUpdate from "./CustomerProjectsUpdate";
 const CustomerProjects = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const AuthRedux = useAppSelector((state) => state.auth);
   const projectPageRedux = useAppSelector((state) => state.projectSidebar);
 

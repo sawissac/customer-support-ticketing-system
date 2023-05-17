@@ -41,7 +41,7 @@ const EmployeeProjects = () => {
                 textSizeRatio={1.75}
                 round
               />
-              {row.user.name}
+              {row.user.name}#{row.user.id}
             </div>
           );
         },

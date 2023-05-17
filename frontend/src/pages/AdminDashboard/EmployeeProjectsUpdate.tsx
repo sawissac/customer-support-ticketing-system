@@ -4,48 +4,27 @@ import Button from "../../components/Button";
 import { IconMenuOrder, IconUserUp } from "@tabler/icons-react";
 import Nav from "../../components/Nav";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { useNavigate } from "react-router-dom";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import { updateEmployeeProject } from "../../requests/employeeProjectsRequest";
-import RouteSetter from "./RouteSetter";
 import FormWarper from "../../components/FormWarper";
-import { getAllProject } from "../../requests/projectRequest";
 import { getAllEmployee } from "../../requests/userRequest";
 import {
   openProjectRightSidebar,
   updateEmployeeTableUrl,
-  updateProjectTableUrl,
 } from "../../redux/feature_slice/ProjectPageSlice";
 import { motion } from "framer-motion";
 const EmployeeProjectsUpdate = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
   const ProjectPageRedux = useAppSelector((state) => state.projectSidebar);
-  const [projectDropDownList, setProjectDropDownList] = useState([]);
   const [employeeList, setEmployeeList] = useState([]);
-
-  const [dropdownProject, setDropdownProject] = React.useState({
-    name: "Project",
-    value: 0,
-  });
   const [dropdownEmployee, setDropDownEmployee] = React.useState({
-    name: "Project",
+    name: "Select",
     value: 0,
   });
 
   useEffect(() => {
-    getAllProject({
-      token: AuthRedux.token,
-    }).then((res: any) => {
-      const filteredData = res.data.map((i: any) => {
-        return {
-          id: i.id,
-          name: i.name,
-        };
-      });
-      setProjectDropDownList(filteredData);
-    });
     getAllEmployee({
       token: AuthRedux.token,
     }).then((res: any) => {
@@ -59,18 +38,14 @@ const EmployeeProjectsUpdate = () => {
     });
   }, []);
   useEffect(() => {
-    setDropdownProject({
-      name: ProjectPageRedux.project_name,
-      value: ProjectPageRedux.project_id,
-    });
     setDropDownEmployee({
       name: ProjectPageRedux.employee_name,
       value: ProjectPageRedux.employee_id,
     });
-  }, [ProjectPageRedux.project_id, ProjectPageRedux.employee_id]);
+  }, [ProjectPageRedux.employee_id]);
 
   function onClickHandle() {
-    const isEmpty = dropdownProject.value === 0 || dropdownEmployee.value === 0;
+    const isEmpty = dropdownEmployee.value === 0;
     if (isEmpty) {
       dispatch(
         setAlert({
@@ -81,7 +56,7 @@ const EmployeeProjectsUpdate = () => {
     } else {
       updateEmployeeProject({
         id: ProjectPageRedux.id,
-        project_id: dropdownProject.value,
+        project_id: ProjectPageRedux.project_id,
         user_id: dropdownEmployee.value,
         token: AuthRedux.token,
       })
@@ -147,7 +122,7 @@ const EmployeeProjectsUpdate = () => {
                           value: employee.id,
                         });
                       }}
-                      label={employee.name}
+                      label={employee.name + `#${employee.id}`}
                     />
                   );
                 })}

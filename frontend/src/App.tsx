@@ -12,7 +12,7 @@ function App() {
   const authRedux = useAppSelector((state) => state.auth);
   const alertRedux = useAppSelector((state) => state.alert);
   return (
-    <React.Fragment>
+    <div className="app">
       <UiBoot>
         <Routes>
           <Route path="/" element={<Navigate to="/login" replace={true} />} />
@@ -21,9 +21,8 @@ function App() {
           <Route path="*" element={<div>hello</div>} />
         </Routes>
         <ShowIf sif={alertRedux.show} show={<AppAlert />}/>
-        
       </UiBoot>
-    </React.Fragment>
+    </div>
   );
 }
 

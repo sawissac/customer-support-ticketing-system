@@ -23,7 +23,7 @@ const EmployeeProjectsCreate = () => {
   const ProjectPageRedux = useAppSelector((state) => state.projectSidebar);
   const [employeeList, setEmployeeList] = useState([]);
   const [dropdownEmployee, setDropDownEmployee] = React.useState({
-    name: "Employee",
+    name: "Select",
     value: 0,
   });
 
@@ -83,7 +83,7 @@ const EmployeeProjectsCreate = () => {
   return (
     <div className="admin-container admin-container--no-flex-grow admin-container--form">
       <Nav.BackButton
-        label="User Create"
+        label="Employee Create"
         onClick={() => {
           dispatch(openProjectRightSidebar({ name: "" }));
         }}
@@ -118,7 +118,7 @@ const EmployeeProjectsCreate = () => {
                           value: employee.id,
                         });
                       }}
-                      label={employee.name}
+                      label={employee.name + `#${employee.id}`}
                     />
                   );
                 })}
@@ -127,7 +127,7 @@ const EmployeeProjectsCreate = () => {
           />
           <Button
             type="button"
-            label="Create"
+            label="Add"
             className="btn btn--form"
             onClick={onClickHandle}
           />

@@ -6,16 +6,18 @@ import alertSlice from "./feature_slice/AlertSlice";
 import UserSidebarSlice from "./feature_slice/UserPageSlice";
 import ProjectSidebarSlice from "./feature_slice/ProjectPageSlice";
 import EmployeeProjectSlice from "./feature_slice/EmployeeProjectSlice";
+import TicketSlice from "./feature_slice/TicketSlice";
 
 export const store = configureStore({
   reducer: {
-    theme: themeSlice,
+    theme: themeSlice, 
     auth: authSlice,
     sidebar: sidebarSlice,
     alert: alertSlice,
     userSidebar: UserSidebarSlice,
     projectSidebar: ProjectSidebarSlice,
     employeeProjectSidebar: EmployeeProjectSlice,
+    ticket: TicketSlice,
   },
 });
 

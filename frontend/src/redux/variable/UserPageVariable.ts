@@ -7,7 +7,6 @@ export const userRoles: {
   "Resign Employee": "resign_employee",
 };
 
-
 export const serverRoles: {
   [key: string]: string;
 } = {
@@ -17,7 +16,6 @@ export const serverRoles: {
   resign_employee: "Resign Employee",
 };
 
-
 export const userSidebarInit = {
   id: 0,
   name: "",
@@ -25,4 +23,5 @@ export const userSidebarInit = {
   role: "",
   rightSidebar: "",
   state: "",
+  view: "",
 };
