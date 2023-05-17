@@ -158,7 +158,10 @@ const Projects = () => {
     return res;
   };
 
-  const { isFetching, data } = useQuery(["project", projectPageRedux.state], getUsersData);
+  const { isFetching, data } = useQuery(
+    ["project", projectPageRedux.projectURLState],
+    getUsersData
+  );
 
   if (isFetching) return <div>isFetching</div>;
 

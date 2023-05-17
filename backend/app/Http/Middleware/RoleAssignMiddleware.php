@@ -20,6 +20,5 @@ class RoleAssignMiddleware
             return $next($request);
         }
         return response()->json(['message' => 'Unauthorized'], 403);
-
     }
 }

@@ -32,7 +32,6 @@ const AdminDashboard = () => {
         <Route path="/employee-project-create" element={<EmployeeProjectsCreate />} />
         <Route path="/employee-project-update" element={<EmployeeProjectsUpdate />} />
         <Route path="/customer-project" element={<CustomerProjects />} />
-        
       </Routes>
     </>
   );

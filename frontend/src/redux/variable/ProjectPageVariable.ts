@@ -1,5 +1,8 @@
 export const projectSidebarInit = {
-  state: "",
+  id: 0,
+  projectURLState: '',
+  employeeUrlState: '',
+  customerUrlState: '',
   view: "",
   rightSidebar: "",
   project_id: 0,
@@ -7,5 +10,5 @@ export const projectSidebarInit = {
   employee_id: 0,
   employee_name: "",
   customer_id: 0,
-  customer_name: "", 
+  customer_name: "",
 };

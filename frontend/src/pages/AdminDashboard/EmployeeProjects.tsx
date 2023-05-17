@@ -51,11 +51,11 @@ const EmployeeProjects = () => {
         cell: (row: any) => (
           <button
             title="row update"
-            className="btn btn--light btn--icon btn--no-m-bottom text-info"
+            className="btn btn--light btn--icon btn--no-m-bottom text-success"
             onClick={() => {
-              console.log(row)
               dispatch(
                 setProjectEmployee({
+                  id: row.id,
                   employee_id: row.user.id,
                   employee_name: row.user.name,
                 })
@@ -100,7 +100,7 @@ const EmployeeProjects = () => {
     return res;
   };
 
-  const { isLoading, error, data, isFetching } = useQuery(["employee", projectPageRedux.state], getUsersData);
+  const { isLoading, error, data, isFetching } = useQuery(["employee", projectPageRedux.employeeUrlState], getUsersData);
 
   if (isLoading) return <p>"loading..."</p>;
   if (isFetching) return <p>"fetching"</p>;
