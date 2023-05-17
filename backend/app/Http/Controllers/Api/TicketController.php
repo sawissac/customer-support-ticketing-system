@@ -50,7 +50,7 @@ class TicketController extends BaseController
                 'description' => 'required',
                 'status' => 'required|string',
                 'priority' => 'required|string',
-                'zip_file' => 'file',
+                'drive_link' => 'file',
                 'ticket_start_date' => 'nullable|date_format:Y-m-d',
                 'ticket_end_date' => 'nullable|date_format:Y-m-d',
             ]
