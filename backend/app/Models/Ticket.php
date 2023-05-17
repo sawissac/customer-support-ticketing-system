@@ -16,6 +16,8 @@ class Ticket extends Model
         'customer_project_id',
         'subject',
         'description',
+        'zip_file',
+        'url',
         'status',
         'priority',
         'drive_link',
@@ -23,9 +25,8 @@ class Ticket extends Model
         'ticket_end_date',
     ];
 
-    public function customer_project():BelongsTo
+    public function customer_project(): BelongsTo
     {
         return $this->belongsTo(CustomerProject::class);
     }
-
 }

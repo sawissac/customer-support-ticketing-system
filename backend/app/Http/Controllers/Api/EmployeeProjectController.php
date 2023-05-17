@@ -18,6 +18,10 @@ class EmployeeProjectController extends BaseController
     {
         $this->employeeprojectRepo = $employeeprojectRepo;
         $this->employeeprojectService = $employeeprojectService;
+        $this->middleware('permission:canShowEmployeeProjectList', ['only' => ['index', 'show']]);
+        $this->middleware('permission:canCreateEmployeeProjectList', ['only' => ['create,store']]);
+        $this->middleware('permission:canUpdateEmployeeProjectList', ['only' => ['edit,update']]);
+        $this->middleware('permission:canDeleteEmployeeProjectList', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.

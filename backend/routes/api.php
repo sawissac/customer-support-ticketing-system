@@ -31,27 +31,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware(['cors'])->group(function () {
+
     Route::post('/auth/login', [AuthController::class, 'loginUser']);
 
-    Route::middleware('roles:admin')->group(function () {
-        Route::apiResource('/user', UserController::class)->middleware('auth:sanctum');
-        Route::get('/employee', [UserController::class, 'employee'])->middleware('auth:sanctum');
-        Route::get('/customer', [UserController::class, 'customer'])->middleware('auth:sanctum');
-        Route::apiResource('/project', ProjectController::class)->middleware('auth:sanctum');
-        Route::apiResource('/employee-project', EmployeeProjectController::class)->middleware('auth:sanctum');
-        Route::apiResource('/ticket', TicketController::class)->middleware('auth:sanctum');
-        Route::apiResource('/employee-report', EmployeeReportController::class)->middleware('auth:sanctum');
-        Route::apiResource('/employee-assign', EmployeeAssignController::class)->middleware('auth:sanctum');
-        Route::apiResource('/customer-project', CustomerProjectController::class)->middleware('auth:sanctum');
-    });
-
-    Route::middleware('roles:employee')->group(function () {
-        Route::apiResource('/employee-project', EmployeeProjectController::class)->middleware('auth:sanctum');
-        Route::apiResource('/employee-report', EmployeeReportController::class)->middleware('auth:sanctum');
-    });
-
-    Route::middleware('roles:customer')->group(function () {
-        Route::apiResource('/customer-project', CustomerProjectController::class)->middleware('auth:sanctum');
-        Route::apiResource('/ticket', TicketController::class)->middleware('auth:sanctum');
-    });
+    Route::apiResource('/user', UserController::class)->middleware('auth:sanctum');
+    Route::get('/employee', [UserController::class, 'employee'])->middleware('auth:sanctum');
+    Route::get('/customer', [UserController::class, 'customer'])->middleware('auth:sanctum');
+    Route::apiResource('/project', ProjectController::class)->middleware('auth:sanctum');
+    Route::apiResource('/employee-project', EmployeeProjectController::class)->middleware('auth:sanctum');
+    Route::apiResource('/ticket', TicketController::class)->middleware('auth:sanctum');
+    Route::get('/tickets', [TicketController::class, 'getTickets'])->middleware('auth:sanctum');;
+    Route::apiResource('/employee-report', EmployeeReportController::class)->middleware('auth:sanctum');
+    Route::apiResource('/employee-assign', EmployeeAssignController::class)->middleware('auth:sanctum');
+    Route::apiResource('/customer-project', CustomerProjectController::class)->middleware('auth:sanctum');
 });

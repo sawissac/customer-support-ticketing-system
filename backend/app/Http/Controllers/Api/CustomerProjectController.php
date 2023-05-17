@@ -20,6 +20,10 @@ class CustomerProjectController extends BaseController
     {
         $this->customerProjectRepo = $customerProjectRepo;
         $this->customerProjectService = $customerProjectService;
+        $this->middleware('permission:canShowCustomerProjectList', ['only' => ['index', 'show']]);
+        $this->middleware('permission:canCreateCustomerProjectList', ['only' => ['create,store']]);
+        $this->middleware('permission:canUpdateCustomerProjectList', ['only' => ['edit,update']]);
+        $this->middleware('permission:canDeleteCustomerProjectList', ['only' => ['destroy']]);
     }
 
     public function index()
@@ -35,7 +39,8 @@ class CustomerProjectController extends BaseController
 
         $validator = Validator::make($data, [
             'user_id' => 'required',
-            'project_id' => 'required'
+            'project_id' => 'required',
+
         ]);
 
         if ($validator->fails()) {

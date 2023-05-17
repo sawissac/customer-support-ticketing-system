@@ -17,6 +17,10 @@ class EmployeeAssignController extends BaseController
     {
         $this->employeeAssignRepo = $employeeAssignRepo;
         $this->employeeAssignService = $employeeAssignService;
+        $this->middleware('permission:canShowAssignEmplyee', ['only' => ['index', 'show']]);
+        $this->middleware('permission:canCreateAssignEmplyee', ['only' => ['create,store']]);
+        $this->middleware('permission:canUpdateAssignEmplyee', ['only' => ['edit,update']]);
+        $this->middleware('permission:canDeleteAssignEmplyee', ['only' => ['destroy']]);
     }
 
     public function index()

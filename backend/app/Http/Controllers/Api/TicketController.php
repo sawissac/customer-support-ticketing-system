@@ -17,6 +17,10 @@ class TicketController extends BaseController
     {
         $this->ticketRepo = $ticketRepo;
         $this->ticketService = $ticketService;
+        $this->middleware('permission:canShowTickets', ['only' => ['index', 'show', 'getTickets']]);
+        $this->middleware('permission:canCreateTickets', ['only' => ['create,store']]);
+        $this->middleware('permission:canUpdateTickets', ['only' => ['edit,update']]);
+        $this->middleware('permission:canDeleteTickets', ['only' => ['destroy']]);
     }
 
     /**
@@ -31,12 +35,6 @@ class TicketController extends BaseController
         return $this->sendResponse($data, 'Tickets retrieved successfully.');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $validate = $request->all();
@@ -48,6 +46,7 @@ class TicketController extends BaseController
                 'customer_project_id' => 'required|integer',
                 'subject' => 'required|string',
                 'description' => 'required',
+                'zip_file' => 'nullable|file|mimes:zip|max:2048',
                 'status' => 'required|string',
                 'priority' => 'required|string',
                 'drive_link' => 'file',
@@ -65,12 +64,7 @@ class TicketController extends BaseController
         return $this->sendResponse($data, 'Ticket created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         $result = $this->ticketRepo->show($id);
@@ -82,13 +76,7 @@ class TicketController extends BaseController
         return $this->sendResponse($result, 'Ticket retrieved successfully.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         $validate = $request->all();
@@ -100,6 +88,7 @@ class TicketController extends BaseController
                 'customer_project_id' => 'required|integer',
                 'subject' => 'required|string',
                 'description' => 'required',
+                'zip_file' => 'nullable|file|mimes:zip|max:2048',
                 'status' => 'required|string',
                 'priority' => 'required|string',
                 'ticket_start_date' => 'nullable|date_format:Y-m-d',
@@ -116,16 +105,17 @@ class TicketController extends BaseController
         return $this->sendResponse($data, 'Ticket updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $this->ticketService->delete($id);
 
         return $this->sendResponse([], 'Ticket deleted successfully.');
+    }
+
+    public function getTickets(Request $request)
+    {
+        $data = $this->ticketRepo->getTickets($request);
+
+        return $this->sendResponse($data, 'Tickets pagination....');
     }
 }
