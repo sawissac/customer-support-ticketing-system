@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
-
+use App\Models\Ticket;
 use App\Service\Ticket\TicketServiceInterface;
 use App\Repository\Ticket\TicketRepositoryInterface;
 
@@ -38,12 +38,20 @@ class TicketController extends BaseController
                 'customer_project_id' => 'required|integer',
                 'subject' => 'required|string',
                 'description' => 'required',
+                'zip_file' => 'nullable|file|mimes:zip|max:2048',
                 'status' => 'required|string',
                 'priority' => 'required|string',
                 'ticket_start_date' => 'nullable|date_format:Y-m-d',
                 'ticket_end_date' => 'nullable|date_format:Y-m-d',
             ]
         );
+
+        // if ($request->hasFile('zip_file')) {
+        //     $zipFile = $request->file('zip_file');
+        //     $zipFileName = $zipFile->getClientOriginalName();
+        //     $zipFile->storeAs('zip_files', $zipFileName, 'public');
+        //     $validate['zip_file'] = $zipFileName;
+        // };
 
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
@@ -78,6 +86,7 @@ class TicketController extends BaseController
                 'customer_project_id' => 'required|integer',
                 'subject' => 'required|string',
                 'description' => 'required',
+                'zip_file' => 'nullable|file|mimes:zip|max:2048',
                 'status' => 'required|string',
                 'priority' => 'required|string',
                 'ticket_start_date' => 'nullable|date_format:Y-m-d',
@@ -99,5 +108,12 @@ class TicketController extends BaseController
         $this->ticketService->delete($id);
 
         return $this->sendResponse([], 'Ticket deleted successfully.');
+    }
+
+    public function getTickets(Request $request)
+    {
+        $data = $this->ticketRepo->getTickets($request);
+
+        return $this->sendResponse($data, 'Tickets pagination....');
     }
 }
