@@ -22,6 +22,10 @@ class UserController extends BaseController
     {
         $this->userRepo = $userRepo;
         $this->userService = $userService;
+        $this->middleware('permission:canShowUser', ['only' => ['index','show','employee','customer']]);
+        $this->middleware('permission:canCreateUser', ['only' => ['create,store']]);
+        $this->middleware('permission:canUpdateUser', ['only' => ['edit,update']]);
+        $this->middleware('permission:canDeleteUser', ['only' => ['destroy']]);
     }
 
     public function index()
@@ -100,7 +104,6 @@ class UserController extends BaseController
 
             $data = $this->userService->update($id, $validate);
             return $this->sendResponse($data, 'User updated successfully.');
-
         } catch (ValidationException $e) {
             return $this->sendError('Validation Error.', $e->errors(), 422);
         } catch (Exception $e) {

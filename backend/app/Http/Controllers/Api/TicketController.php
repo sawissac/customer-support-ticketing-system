@@ -17,6 +17,10 @@ class TicketController extends BaseController
     {
         $this->ticketRepo = $ticketRepo;
         $this->ticketService = $ticketService;
+        $this->middleware('permission:canShowTickets', ['only' => ['index', 'show', 'getTickets']]);
+        $this->middleware('permission:canCreateTickets', ['only' => ['create,store']]);
+        $this->middleware('permission:canUpdateTickets', ['only' => ['edit,update']]);
+        $this->middleware('permission:canDeleteTickets', ['only' => ['destroy']]);
     }
 
     /**
@@ -50,13 +54,6 @@ class TicketController extends BaseController
                 'ticket_end_date' => 'nullable|date_format:Y-m-d',
             ]
         );
-
-        // if ($request->hasFile('zip_file')) {
-        //     $zipFile = $request->file('zip_file');
-        //     $zipFileName = $zipFile->getClientOriginalName();
-        //     $zipFile->storeAs('zip_files', $zipFileName, 'public');
-        //     $validate['zip_file'] = $zipFileName;
-        // };
 
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
