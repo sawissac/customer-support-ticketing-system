@@ -19,11 +19,7 @@ class TicketController extends BaseController
         $this->ticketRepo = $ticketRepo;
         $this->ticketService = $ticketService;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $data = $this->ticketRepo->get();
@@ -31,12 +27,6 @@ class TicketController extends BaseController
         return $this->sendResponse($data, 'Tickets retrieved successfully.');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $validate = $request->all();
@@ -64,12 +54,7 @@ class TicketController extends BaseController
         return $this->sendResponse($data, 'Ticket created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         $result = $this->ticketRepo->show($id);
@@ -81,13 +66,7 @@ class TicketController extends BaseController
         return $this->sendResponse($result, 'Ticket retrieved successfully.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         $validate = $request->all();
@@ -115,12 +94,6 @@ class TicketController extends BaseController
         return $this->sendResponse($data, 'Ticket updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $this->ticketService->delete($id);
