@@ -27,7 +27,7 @@ export function createCustomerProject({
       });
   });
 }
-export function getCustomerproject({ id, token }: any) {
+export function getCustomerProject({ id, token }: any) {
   return new Promise((resolve, reject) => {
     axios
       .get(`http://127.0.0.1:8000/api/customer-project/${id}`, {
@@ -43,7 +43,14 @@ export function getCustomerproject({ id, token }: any) {
       });
   });
 }
-export function updateCustomerproject({ id, project_id, user_id, token }: any) {
+
+
+export function updateCustomerproject({
+  id,
+  project_id,
+  user_id,
+  token,
+}: any) {
   return new Promise((resolve, reject) => {
     axios
       .put(

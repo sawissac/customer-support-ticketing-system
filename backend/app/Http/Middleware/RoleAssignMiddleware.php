@@ -24,6 +24,13 @@ class RoleAssignMiddleware
             return $next($request);
         }
 
+        // Check if the user has any of the required roles
+        // foreach ($roles as $role) {
+            if ($user && $user->hasRole($roles)) {
+                return $next($request);
+            }
+        // }
+
         // User does not have the required role
         return response()->json(['message' => 'Unauthorized'], 403);
     }

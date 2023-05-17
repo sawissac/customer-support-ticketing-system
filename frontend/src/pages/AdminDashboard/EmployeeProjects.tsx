@@ -1,44 +1,50 @@
-import React, {
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import DataTable from "react-data-table-component";
 import Nav from "../../components/Nav";
-import {
-  IconEdit,
-  IconUsers,
-} from "@tabler/icons-react";
+import { IconArrowLeft, IconEdit, IconUsers } from "@tabler/icons-react";
 import RouteSetter from "./RouteSetter";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IconTrashFilled } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { useQuery } from "react-query";
 import axios from "axios";
-
+import { setEmployeeProject } from "../../redux/feature_slice/EmployeeProjectSlice";
+import Button from "../../components/Button";
+import { IconPlus } from "@tabler/icons-react";
+import {
+  openProjectRightSidebar,
+  setProjectEmployee,
+  setProjectView,
+} from "../../redux/feature_slice/ProjectPageSlice";
+import { motion } from "framer-motion";
+import Avatar from "react-avatar";
+import EmployeeProjectsCreate from "./EmployeeProjectsCreate";
+import ShowIf from "../../components/Helper";
+import EmployeeProjectsUpdate from "./EmployeeProjectsUpdate";
 const EmployeeProjects = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const AuthRedux = useAppSelector(
-    (state) => state.auth
-  );
-  
+  const AuthRedux = useAppSelector((state) => state.auth);
+  const projectPageRedux = useAppSelector((state) => state.projectSidebar);
+
   const columns = useMemo(
     () => [
       {
-        name: "ID",
-        selector: (row: any) => row.id,
-        sortable: true,
-      },
-      {
-        name: "Project Name",
-        selector: (row: any) => row.project.name,
-        sortable: true,
-      },
-      {
-        name: "Employee Name",
-        selector: (row: any) => row.user.name,
-        sortable: true,
+        name: "Employee",
+        cell: (row: any) => {
+          return (
+            <div className="avatar-profile">
+              <Avatar
+                className={`avatar-profile__circle`}
+                name={row.user.name}
+                color={"#F37021"}
+                size="35"
+                textSizeRatio={1.75}
+                round
+              />
+              {row.user.name}
+            </div>
+          );
+        },
       },
       {
         name: "Update",
@@ -46,14 +52,21 @@ const EmployeeProjects = () => {
           <button
             title="row update"
             className="btn btn--light btn--icon btn--no-m-bottom text-info"
-            onClick={()=>{
-              navigate('/admin-dashboard/employee-project-update')
+            onClick={() => {
+              console.log(row)
+              dispatch(
+                setProjectEmployee({
+                  employee_id: row.user.id,
+                  employee_name: row.user.name,
+                })
+              );
+              dispatch(openProjectRightSidebar({ name: "employee-update" }));
             }}
           >
             <IconEdit size={25} />
           </button>
         ),
-        button: true
+        button: true,
       },
       {
         name: "Delete",
@@ -65,7 +78,7 @@ const EmployeeProjects = () => {
             <IconTrashFilled />
           </button>
         ),
-        button: true
+        button: true,
       },
     ],
     []
@@ -80,43 +93,64 @@ const EmployeeProjects = () => {
         },
       })
       .then((response) => {
-        return response.data.data;
+        return response.data.data.filter((i: any) => {
+          return i.project_id === projectPageRedux.project_id;
+        });
       });
     return res;
   };
 
-  const { isLoading, error, data, isFetching } =
-    useQuery(["userData", url], getUsersData);
+  const { isLoading, error, data, isFetching } = useQuery(["employee", projectPageRedux.state], getUsersData);
 
   if (isLoading) return <p>"loading..."</p>;
   if (isFetching) return <p>"fetching"</p>;
   if (error) return <p>"An error has occurs"</p>;
 
   return (
-    <div className="admin-container">
-      <RouteSetter routeName="/admin-dashboard/employee-project" />
-      <Nav
-        icon={<IconUsers />}
-        label={"Tickets"}
-        rightPlacer={
-          <NavLink
-            to={"/admin-dashboard/employee-project-create"}
-            className="btn btn--primary btn--block btn--no-m-bottom"
-          >
-            Create
-          </NavLink>
-        }
-      />
-      <div className="admin-container__inner">
-        <DataTable
-          columns={columns}
-          data={data}
-          responsive
-          pagination
+    <>
+      <div className="admin-container">
+        <Nav
+          icon={<IconArrowLeft size={25} />}
+          label={projectPageRedux.project_name}
+          onClick={() => {
+            dispatch(setProjectView({ name: "" }));
+          }}
+          rightPlacer={
+            <Button
+              label="Add Employee"
+              icon={<IconPlus size={20} />}
+              className="btn btn--light btn--block btn--no-m-bottom btn--sm"
+              onClick={() => {
+                dispatch(openProjectRightSidebar({ name: "employee-create" }));
+              }}
+            />
+          }
         />
+        <motion.div
+          initial={{ y: "30px", opacity: 0 }}
+          animate={{ y: "0px", opacity: 1 }}
+          className="admin-container__inner"
+        >
+          <div className="admin-container__inner">
+            <DataTable
+              columns={columns}
+              data={data}
+              responsive
+              pagination
+            />
+          </div>
+        </motion.div>
       </div>
-    </div>
-  )
-}
+      <ShowIf
+        sif={projectPageRedux.rightSidebar === "employee-create"}
+        show={<EmployeeProjectsCreate />}
+      />
+      <ShowIf
+        sif={projectPageRedux.rightSidebar === "employee-update"}
+        show={<EmployeeProjectsUpdate />}
+      />
+    </>
+  );
+};
 
-export default EmployeeProjects
+export default EmployeeProjects;
