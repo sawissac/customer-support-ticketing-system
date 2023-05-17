@@ -42,8 +42,8 @@ class EmployeeProjectController extends BaseController
         $validator = Validator::make(
             $validate,
             [
-                'project_id' => 'required|string',
-                'user_id' => 'required|integer',
+                'project_id' => 'required',
+                'user_id' => 'required',
             ]
         );
 
@@ -87,8 +87,8 @@ class EmployeeProjectController extends BaseController
         $validator = Validator::make(
             $validate,
             [
-                'project_id' => 'required|string',
-                'user_id' => 'required|integer',
+                'project_id' => 'required',
+                'user_id' => 'required',
             ]
         );
 

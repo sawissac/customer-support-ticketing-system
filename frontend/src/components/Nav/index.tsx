@@ -1,23 +1,23 @@
 import { IconArrowLeft } from "@tabler/icons-react";
 import { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
+import Button from "../Button";
 
 interface NavProps {
   icon?: ReactNode;
   label: string;
   rightPlacer?: any;
+  links?: any;
+  onClick?:any;
 }
 
-const Nav = ({
-  label,
-  icon,
-  rightPlacer,
-}: NavProps) => {
+const Nav = ({ label, icon, rightPlacer, links,onClick }: NavProps) => {
   return (
     <div className="nav_container">
       <div className="icon">{icon}</div>
-      <div className="text">{label}</div>
+      <div className="text" onClick={onClick}>{label}</div>
       <div className="placer">{rightPlacer}</div>
+      <div className="links">{links}</div>
     </div>
   );
 };
@@ -37,6 +37,23 @@ Nav.Back = ({ label, link }: NavBack) => {
         <IconArrowLeft size={25} />
         {label}
       </NavLink>
+    </div>
+  );
+};
+
+interface NavBackButton {
+  label: string;
+  onClick: any;
+}
+Nav.BackButton = ({ label, onClick }: NavBackButton) => {
+  return (
+    <div className="nav_container">
+      <Button
+        label={label}
+        icon={<IconArrowLeft size={25} />}
+        onClick={onClick}
+        className="text text--link"
+      />
     </div>
   );
 };

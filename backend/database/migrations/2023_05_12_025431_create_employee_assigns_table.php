@@ -19,8 +19,8 @@ return new class extends Migration
             $table->foreignId('employee_id');
             $table->foreignId('ticket_id');
             $table->string('status');
-            $table->dateTime('start_date')->nullable();
-            $table->dateTime('end_date')->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->timestamps();
         });
     }

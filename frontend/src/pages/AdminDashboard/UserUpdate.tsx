@@ -1,76 +1,46 @@
-import React, {
-  useEffect,
-} from "react";
+import React, { useEffect } from "react";
 import Nav from "../../components/Nav";
 import { IconUserUp } from "@tabler/icons-react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Dropdown from "../../components/DropDown";
 import { IconMenuOrder } from "@tabler/icons-react";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../redux/hook";
-import {
-  getUser,
-  updateUser,
-} from "../../requests/userRequest";
-import {
-  serverRoles,
-  userRoles,
-} from "../../redux/variable/UserSidebarVariable";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { getUser, updateUser } from "../../requests/userRequest";
+import { serverRoles, userRoles } from "../../redux/variable/UserPageVariable";
 import { useNavigate } from "react-router-dom";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
-
+import RouteSetter from "./RouteSetter";
+import FormWarper from "../../components/FormWarper";
+import { openUserRightSidebar, updateUserTableUrl } from "../../redux/feature_slice/UserPageSlice";
+import { motion } from "framer-motion";
 const UserUpdatePage = () => {
-  const userSidebarRedux = useAppSelector(
-    (state) => state.userSidebar
-  );
-  const authRedux = useAppSelector(
-    (state) => state.auth
-  );
+  const userSidebarRedux = useAppSelector((state) => state.userSidebar);
+  const authRedux = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-  const [dropdownBox, setDropdownBox] =
-    React.useState({
-      name: "Role",
-      value: "",
-    });
-  const [inputField, setInputField] =
-    React.useState({
-      name: "",
-      email: "",
-    });
-  const navigate = useNavigate();
+  const [dropdownBox, setDropdownBox] = React.useState({
+    name: "Role",
+    value: "",
+  });
+  
+  const [inputField, setInputField] = React.useState({
+    name: "",
+    email: "",
+  });
+
   useEffect(() => {
-    getUser({
-      id: userSidebarRedux.id,
-      token: authRedux.token,
-    })
-      .then((response: any) => {
-        const { name, email, roles } =
-          response.data;
-        setInputField({
-          name,
-          email,
-        });
-        setDropdownBox({
-          name: serverRoles[roles[0].name],
-          value: roles[0].name,
-        });
-      })
-      .catch(() => {});
+    setInputField({
+      name: userSidebarRedux.name,
+      email: userSidebarRedux.email,
+    });
+    setDropdownBox({
+      name: serverRoles[userSidebarRedux.role],
+      value: userSidebarRedux.role,
+    });
   }, [userSidebarRedux.id]);
 
-  function onSubmitHandle(
-    ev: React.FormEvent<HTMLFormElement>
-  ) {
-    ev.preventDefault();
-  }
-
-  function onChangeHandler(
-    ev: React.ChangeEvent<HTMLInputElement>
-  ) {
+  function onChangeHandler(ev: React.ChangeEvent<HTMLInputElement>) {
     setInputField({
       ...inputField,
       [ev.currentTarget.id]: ev.target.value,
@@ -79,9 +49,7 @@ const UserUpdatePage = () => {
 
   function onButtonSubmitHandle() {
     const isEmpty =
-      Object.values(inputField).filter(
-        (i) => i === ""
-      ).length > 0 || dropdownBox.value === "";
+      Object.values(inputField).filter((i) => i === "").length > 0 || dropdownBox.value === "";
     if (isEmpty) {
       dispatch(
         setAlert({
@@ -103,9 +71,13 @@ const UserUpdatePage = () => {
               state: Alert.Success,
             })
           );
-          navigate("/admin-dashboard/users");
+          dispatch(
+            updateUserTableUrl({
+              message: inputField.name + inputField.email + dropdownBox.name,
+            })
+          );
         })
-        .catch((reason) => {
+        .catch(() => {
           dispatch(
             setAlert({
               message: "Fail to Update",
@@ -116,54 +88,52 @@ const UserUpdatePage = () => {
     }
   }
   return (
-    <div className="admin-container">
-      <Nav
-        icon={<IconUserUp />}
-        label="User Update Page"
+    <div className="admin-container admin-container--no-flex-grow admin-container--form">
+      <RouteSetter routeName="/admin-dashboard/users" />
+      <Nav.BackButton
+        label="User Update"
+        onClick={() => {
+          dispatch(openUserRightSidebar({ name: "" }));
+        }}
       />
-      <Nav.Back
-        link="/admin-dashboard/users"
-        label="Create Update"
-      />
-      <form
-        action="/user-create"
-        onClick={onSubmitHandle}
-        className="form-container"
+      <motion.div
+        initial={{ x: "20px", opacity: 0 }}
+        animate={{ x: "0px", opacity: 1 }}
       >
-        <Input
-          label="Name"
-          id="name"
-          errorMessage="*require"
-          placeholder="Name..."
-          value={inputField.name}
-          onChange={onChangeHandler}
-        />
-        <Input
-          label="Email"
-          id="email"
-          errorMessage="*require"
-          placeholder="Email.."
-          value={inputField.email}
-          onChange={onChangeHandler}
-        />
-        <div className="form-dropdown-label">
-          <label htmlFor="">Role</label>
-          <span>*require</span>
-        </div>
-        <Dropdown
-          placement="bottom"
-          buttonClassName="form-dropdown-btn"
-          buttonChildren={
-            <>
-              {dropdownBox.name}
-              <IconMenuOrder size={20} />
-            </>
-          }
-          dropdownClassName="form-dropdown"
-          dropdownChildren={
-            <>
-              {Object.keys(userRoles).map(
-                (role: string) => {
+        <FormWarper route="/api/user">
+          <Input
+            label="Name"
+            id="name"
+            errorMessage="*require"
+            placeholder="Name..."
+            value={inputField.name}
+            onChange={onChangeHandler}
+          />
+          <Input
+            label="Email"
+            id="email"
+            errorMessage="*require"
+            placeholder="Email.."
+            value={inputField.email}
+            onChange={onChangeHandler}
+          />
+          <div className="form-dropdown-label">
+            <label htmlFor="">Role</label>
+            <span>*require</span>
+          </div>
+          <Dropdown
+            placement="bottom"
+            buttonClassName="form-dropdown-btn"
+            buttonChildren={
+              <>
+                {dropdownBox.name}
+                <IconMenuOrder size={20} />
+              </>
+            }
+            dropdownClassName="form-dropdown"
+            dropdownChildren={
+              <>
+                {Object.keys(userRoles).map((role: string) => {
                   return (
                     <Button
                       type="button"
@@ -176,18 +146,18 @@ const UserUpdatePage = () => {
                       label={role}
                     />
                   );
-                }
-              )}
-            </>
-          }
-        />
-        <Button
-          type="button"
-          label="Update"
-          className="btn btn--form"
-          onClick={onButtonSubmitHandle}
-        />
-      </form>
+                })}
+              </>
+            }
+          />
+          <Button
+            type="button"
+            label="Update"
+            className="btn btn--form"
+            onClick={onButtonSubmitHandle}
+          />
+        </FormWarper>
+      </motion.div>
     </div>
   );
 };

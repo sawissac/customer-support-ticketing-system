@@ -1,23 +1,12 @@
 import axios from "axios";
 
-export function createUser({
-  name,
-  email,
-  password,
-  password_confirmation,
-  role,
-  token,
-}: any) {
+export function createProject({ name, token }: any) {
   return new Promise((resolve, reject) => {
     axios
       .post(
-        "http://127.0.0.1:8000/api/user",
+        "http://127.0.0.1:8000/api/project",
         {
           name,
-          email,
-          password,
-          password_confirmation,
-          role,
         },
         {
           headers: {
@@ -33,10 +22,11 @@ export function createUser({
       });
   });
 }
-export function getUser({ id, token }: any) {
+
+export function getProject({ id, token }: any) {
   return new Promise((resolve, reject) => {
     axios
-      .get(`http://127.0.0.1:8000/api/user/${id}`, {
+      .get(`http://127.0.0.1:8000/api/project/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -50,58 +40,31 @@ export function getUser({ id, token }: any) {
   });
 }
 
-export function updateUser({ id, name, email, role, token }: any) {
+export function getAllProject({ token }: any) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`http://127.0.0.1:8000/api/project`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(function (response) {
+        resolve(response.data);
+      })
+      .catch((reason) => {
+        reject(reason);
+      });
+  });
+}
+
+export function updateProject({ id, name, token }: any) {
   return new Promise((resolve, reject) => {
     axios
       .put(
-        `http://127.0.0.1:8000/api/user/${id}`,
+        `http://127.0.0.1:8000/api/project/${id}`,
         {
           name,
-          email,
-          role,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then(function (response) {
-        resolve(response.data);
-      })
-      .catch((reason) => {
-        reject(reason);
-      });
-  });
-}
-
-export function getAllEmployee({ token }: any) {
-  return new Promise((resolve, reject) => {
-    axios
-      .post(
-        `http://127.0.0.1:8000/api/user/employee`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then(function (response) {
-        resolve(response.data);
-      })
-      .catch((reason) => {
-        reject(reason);
-      });
-  });
-}
-
-export function getAllCustomer({ token }: any) {
-  return new Promise((resolve, reject) => {
-    axios
-      .post(
-        `http://127.0.0.1:8000/api/user/customer`,
-        {},
         {
           headers: {
             Authorization: `Bearer ${token}`,

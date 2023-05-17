@@ -2,7 +2,7 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\CheckRoles;
+use App\Http\Middleware\RoleAssignMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -66,7 +66,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
-        'cors'          => \App\Http\Middleware\Cors::class, // added
-        'roles' => \App\Http\Middleware\AssignRole::class,
+        'cors' => \App\Http\Middleware\Cors::class, // added
+        'roles'=>\App\Http\Middleware\RoleAssignMiddleware::class
     ];
 }

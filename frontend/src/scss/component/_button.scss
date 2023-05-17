@@ -60,4 +60,7 @@
     background-color: transparent;
     border:0px;
   }
+  &--sm{
+    padding: map-get($spacers, 1);
+  }
 }

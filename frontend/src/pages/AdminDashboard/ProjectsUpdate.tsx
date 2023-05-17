@@ -1,101 +1,109 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Nav from "../../components/Nav";
 import { IconUserPlus } from "@tabler/icons-react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import Dropdown from "../../components/DropDown";
-import { IconMenuOrder } from "@tabler/icons-react";
+import RouteSetter from "./RouteSetter";
+import FormWarper from "../../components/FormWarper";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { setAlert } from "../../redux/feature_slice/AlertSlice";
+import { Alert } from "../../redux/variable/AlertVariable";
+import { updateProject } from "../../requests/projectRequest";
+import { motion } from "framer-motion";
+import {
+  openProjectRightSidebar,
+  updateProjectTableUrl,
+} from "../../redux/feature_slice/ProjectPageSlice";
 
 const ProjectUpdate = () => {
-  function onSubmitHandle(
-    ev: React.FormEvent<HTMLFormElement>
-  ) {
-    ev.preventDefault();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const authRedux = useAppSelector((state) => state.auth);
+
+  const projectSideRedux = useAppSelector((state) => state.projectSidebar);
+
+  const [inputField, setInputField] = React.useState({
+    name: "",
+  });
+
+  useEffect(() => {
+    setInputField({
+      ...inputField,
+      name: projectSideRedux.project_name,
+    });
+  }, [projectSideRedux.project_id]);
+
+  function onButtonSubmitHandle() {
+    const isEmpty = inputField.name === "";
+    if (isEmpty) {
+      dispatch(
+        setAlert({
+          message: "Please fill the remaining...",
+          state: Alert.Warning,
+        })
+      );
+    } else {
+      updateProject({
+        ...inputField,
+        id: projectSideRedux.project_id,
+        token: authRedux.token,
+      })
+        .then(() => {
+          dispatch(
+            setAlert({
+              message: "Updated Successfully",
+              state: Alert.Success,
+            })
+          );
+          dispatch(updateProjectTableUrl({ message: inputField.name }));
+        })
+        .catch((reason) => {
+          dispatch(
+            setAlert({
+              message: "Fail to create",
+              state: Alert.Warning,
+            })
+          );
+        });
+    }
   }
-  function onClickHandle() {}
+  function onChangeHandler(ev: React.ChangeEvent<HTMLInputElement>) {
+    setInputField({
+      ...inputField,
+      [ev.currentTarget.id]: ev.target.value,
+    });
+  }
   return (
-    <div className="admin-container">
-      <Nav
-        icon={<IconUserPlus />}
-        label="User Create"
+    <div className="admin-container admin-container--no-flex-grow admin-container--form">
+      <RouteSetter routeName="/admin-dashboard/project" />
+      <Nav.BackButton
+        label="Project Update"
+        onClick={() => {
+          dispatch(openProjectRightSidebar({ name: "" }));
+        }}
       />
-      <Nav.Back
-        link="/admin-dashboard/users"
-        label="Create User"
-      />
-      <form
-        action=""
-        onClick={onSubmitHandle}
-        className="form-container"
+      <motion.div
+        initial={{ x: "20px", opacity: 0 }}
+        animate={{ x: "0px", opacity: 1 }}
       >
-        <Input
-          label="Name"
-          errorMessage="*require"
-          placeholder="Name..."
-        />
-        <div className="form-dropdown-label">
-          <label htmlFor="">Start Date</label>
-          <span>*require</span>
-        </div>
-        <Dropdown
-          placement="bottom"
-          buttonClassName="form-dropdown-btn"
-          buttonChildren={
-            <>
-              Role <IconMenuOrder size={20} />
-            </>
-          }
-          dropdownClassName="form-dropdown"
-          dropdownChildren={
-            <>
-              <Button
-                type="button"
-                onClick={onClickHandle}
-                label="Admin"
-              />
-              <Button
-                type="button"
-                onClick={onClickHandle}
-                label="Admin"
-              />
-            </>
-          }
-        />
-        <div className="form-dropdown-label">
-          <label htmlFor="">End Date</label>
-          <span>*require</span>
-        </div>
-        <Dropdown
-          placement="bottom"
-          buttonClassName="form-dropdown-btn"
-          buttonChildren={
-            <>
-              Role <IconMenuOrder size={20} />
-            </>
-          }
-          dropdownClassName="form-dropdown"
-          dropdownChildren={
-            <>
-              <Button
-                type="button"
-                onClick={onClickHandle}
-                label="Admin"
-              />
-              <Button
-                type="button"
-                onClick={onClickHandle}
-                label="Admin"
-              />
-            </>
-          }
-        />
-        <Button
-          type="button"
-          label="Create"
-          className="btn btn--form"
-          onClick={onClickHandle}
-        />
-      </form>
+        <FormWarper route="/api/project">
+          <Input
+            label="Name"
+            errorMessage="*require"
+            placeholder="Name..."
+            id="name"
+            value={inputField.name}
+            onChange={onChangeHandler}
+          />
+          <Button
+            type="button"
+            label="Update"
+            className="btn btn--form"
+            onClick={onButtonSubmitHandle}
+          />
+        </FormWarper>
+      </motion.div>
     </div>
   );
 };

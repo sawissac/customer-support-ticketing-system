@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Exception;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
@@ -34,7 +33,6 @@ class UserController extends BaseController
 
         return $this->sendResponse($data, 'Users retrieved successfully.');
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -121,5 +119,19 @@ class UserController extends BaseController
         $this->userService->delete($id);
 
         return $this->sendResponse([], 'User deleted successfully.');
+    }
+
+
+    public function employee()
+    {
+        $employeeData = $this->userRepo->employee();
+        return $this->sendResponse($employeeData, 'Employees retrieved successfully.');
+    }
+
+    public function customer()
+    {
+        $customerData = $this->userRepo->customer();
+
+        return $this->sendResponse($customerData, 'Customers retrieved successfully.');
     }
 }
