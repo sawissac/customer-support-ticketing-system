@@ -13,36 +13,21 @@ import FormWarper from "../../components/FormWarper";
 import { getAllProject } from "../../requests/projectRequest";
 import { getAllEmployee } from "../../requests/userRequest";
 import { motion } from "framer-motion";
-import { openProjectRightSidebar, updateProjectTableUrl } from "../../redux/feature_slice/ProjectPageSlice";
+import {
+  openProjectRightSidebar,
+  updateProjectTableUrl,
+} from "../../redux/feature_slice/ProjectPageSlice";
 const EmployeeProjectsCreate = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
   const ProjectPageRedux = useAppSelector((state) => state.projectSidebar);
-
-  const [projectDropDownList, setProjectDropDownList] = useState([]);
   const [employeeList, setEmployeeList] = useState([]);
-
-  const [dropdownProject, setDropdownProject] = React.useState({
-    name: "Project",
-    value: 0,
-  });
   const [dropdownEmployee, setDropDownEmployee] = React.useState({
     name: "Employee",
     value: 0,
   });
 
-  useEffect(() => { 
-    getAllProject({
-      token: AuthRedux.token,
-    }).then((res: any) => {
-      const filteredData = res.data.map((i: any) => {
-        return {
-          id: i.id,
-          name: i.name,
-        };
-      });
-      setProjectDropDownList(filteredData);
-    });
+  useEffect(() => {
     getAllEmployee({
       token: AuthRedux.token,
     }).then((res: any) => {
@@ -54,14 +39,10 @@ const EmployeeProjectsCreate = () => {
       });
       setEmployeeList(filteredData);
     });
-    setDropdownProject({
-      name: ProjectPageRedux.project_name,
-      value: ProjectPageRedux.project_id
-    })
   }, []);
 
   function onClickHandle() {
-    const isEmpty = dropdownProject.value === 0 || dropdownEmployee.value === 0;
+    const isEmpty = dropdownEmployee.value === 0;
     if (isEmpty) {
       dispatch(
         setAlert({
@@ -71,7 +52,7 @@ const EmployeeProjectsCreate = () => {
       );
     } else {
       createEmployeeProject({
-        project_id: dropdownProject.value,
+        project_id: ProjectPageRedux.project_id,
         user_id: dropdownEmployee.value,
         token: AuthRedux.token,
       })
@@ -82,9 +63,11 @@ const EmployeeProjectsCreate = () => {
               state: Alert.Success,
             })
           );
-          dispatch(updateProjectTableUrl({
-            message: dropdownProject.name + dropdownEmployee.name
-          }))
+          dispatch(
+            updateProjectTableUrl({
+              message: `updated:${Date()}`,
+            })
+          );
         })
         .catch((reason) => {
           dispatch(
@@ -110,39 +93,6 @@ const EmployeeProjectsCreate = () => {
         animate={{ x: "0px", opacity: 1 }}
       >
         <FormWarper route="/api/employee-project">
-          <div className="form-dropdown-label">
-            <label htmlFor="">Project</label>
-            <span>*require</span>
-          </div>
-          <Dropdown
-            placement="bottom"
-            buttonClassName="form-dropdown-btn"
-            buttonChildren={
-              <>
-                {dropdownProject.name} <IconMenuOrder size={20} />
-              </>
-            }
-            dropdownClassName="form-dropdown"
-            dropdownChildren={
-              <>
-                {projectDropDownList.map((project: any) => {
-                  return (
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        setDropdownProject({
-                          name: project.name,
-                          value: project.id,
-                        });
-                      }}
-                      label={project.name}
-                    />
-                  );
-                })}
-              </>
-            }
-          />
-
           <div className="form-dropdown-label">
             <label htmlFor="">Employee</label>
             <span>*require</span>

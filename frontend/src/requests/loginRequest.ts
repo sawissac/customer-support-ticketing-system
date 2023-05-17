@@ -14,7 +14,7 @@ export function getLoginData({
         }
       )
       .then(function (response) {
-        resolve(response.data);
+        resolve(response.data  );
       })
       .catch((reason) => {
         reject(reason);

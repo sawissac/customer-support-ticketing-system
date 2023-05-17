@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
-use App\Models\Ticket;
 use App\Service\Ticket\TicketServiceInterface;
 use App\Repository\Ticket\TicketRepositoryInterface;
 
@@ -20,9 +19,14 @@ class TicketController extends BaseController
         $this->ticketService = $ticketService;
     }
 
-    public function index()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
     {
-        $data = $this->ticketRepo->get();
+        $data = $this->ticketRepo->get($request);
 
         return $this->sendResponse($data, 'Tickets retrieved successfully.');
     }
@@ -34,13 +38,14 @@ class TicketController extends BaseController
         $validator = Validator::make(
             $validate,
             [
-                'tickets_id' => 'string',
+                'tickets_id' => 'string|unique',
                 'customer_project_id' => 'required|integer',
                 'subject' => 'required|string',
                 'description' => 'required',
                 'zip_file' => 'nullable|file|mimes:zip|max:2048',
                 'status' => 'required|string',
                 'priority' => 'required|string',
+                'zip_file' => 'file',
                 'ticket_start_date' => 'nullable|date_format:Y-m-d',
                 'ticket_end_date' => 'nullable|date_format:Y-m-d',
             ]

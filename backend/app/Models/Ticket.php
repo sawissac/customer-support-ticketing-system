@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\EmployeeAssign;
-use App\Models\EmployeeReport;
 use App\Models\CustomerProject;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,6 +20,7 @@ class Ticket extends Model
         'url',
         'status',
         'priority',
+        'drive_link',
         'ticket_start_date',
         'ticket_end_date',
     ];

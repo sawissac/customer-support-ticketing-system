@@ -45,7 +45,7 @@ export function getCustomerProject({ id, token }: any) {
 }
 
 
-export function updateCustomerproject({
+export function updateCustomerProject({
   id,
   project_id,
   user_id,

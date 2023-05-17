@@ -26,6 +26,7 @@ class UserController extends BaseController
 
     public function index()
     {
+
         $data = $this->userRepo->get();
 
         try {
@@ -99,7 +100,7 @@ class UserController extends BaseController
 
             $data = $this->userService->update($id, $validate);
             return $this->sendResponse($data, 'User updated successfully.');
-            
+
         } catch (ValidationException $e) {
             return $this->sendError('Validation Error.', $e->errors(), 422);
         } catch (Exception $e) {
@@ -125,17 +126,10 @@ class UserController extends BaseController
 
     public function employee()
     {
-        try {
-            $employeeData = $this->userRepo->employee();
+        // dd('here');
+        $employeeData = $this->userRepo->employee();
 
-            if (!empty($employeeData)) {
-                return $this->sendResponse($employeeData, 'Employees retrieved successfully.');
-            } else {
-                return $this->sendError('No employees found.', 404);
-            }
-        } catch (Exception $e) {
-            return $this->handleException($e);
-        }
+        return $this->sendResponse($employeeData, 'Employees retrieved successfully.');
     }
 
     public function customer()
