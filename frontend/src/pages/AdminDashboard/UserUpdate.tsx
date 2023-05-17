@@ -13,14 +13,9 @@ import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import RouteSetter from "./RouteSetter";
 import FormWarper from "../../components/FormWarper";
-<<<<<<< HEAD
-import { openRightSidebar, updateUserTableUrl } from "../../redux/feature_slice/UserSidebarSlice";
-import { Theme } from "../../redux/variable/ThemeVariable";
-
-=======
 import { openUserRightSidebar, updateUserTableUrl } from "../../redux/feature_slice/UserPageSlice";
 import { motion } from "framer-motion";
->>>>>>> main
+import { Theme } from "../../redux/variable/ThemeVariable";
 const UserUpdatePage = () => {
   const userSidebarRedux = useAppSelector((state) => state.userSidebar);
   const authRedux = useAppSelector((state) => state.auth);

@@ -1,6 +1,8 @@
 import { IconHash } from "@tabler/icons-react";
 import Avatar from "react-avatar";
 import { NavLink } from "react-router-dom";
+import { useAppSelector } from "../../redux/hook";
+import { Theme } from "../../redux/variable/ThemeVariable";
 
 interface EmployeeSideBarInterface {
   view?: boolean;
@@ -9,8 +11,9 @@ interface EmployeeSideBarInterface {
 const EmployeeSideBar = ({
   view,
 }: EmployeeSideBarInterface) => {
+  const themeRedux = useAppSelector((state) => state.theme);
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${themeRedux === Theme.Dark ? 'sidebar--dark': ''}`}>
       <div className="sidebar__header">
         <IconHash size={24} />
         <h5>Developer</h5>

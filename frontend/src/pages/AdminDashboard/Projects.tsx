@@ -22,11 +22,27 @@ import EmployeeProjects from "./EmployeeProjects";
 import CustomerProjects from "./CustomerProjects";
 import ProjectUpdate from "./ProjectsUpdate";
 
-createTheme('dark', {
-  background: {
-    default: 'transparent',
+createTheme('table-dark', {
+  text: {
+    primary: 'white',
+    secondary: 'white',
   },
-});
+  background: {
+    default: '#313338',
+  },
+  context: {
+    background: '#cb4b16',
+    text: '#FFFFFF',
+  },
+  divider: {
+    default: 'white',
+  },
+  action: {
+    button: 'rgba(0,0,0,.54)',
+    hover: 'rgba(0,0,0,.08)',
+    disabled: 'rgba(0,0,0,.12)',
+  },
+}, 'dark');
 
 const Projects = () => {
   const dispatch = useAppDispatch();
@@ -161,7 +177,9 @@ const Projects = () => {
       <ShowIf
         sif={projectPageRedux.view === ""}
         show={
-          <div className="admin-container">
+          <div className={`admin-container ${
+            themeRedux === Theme.Dark ? "admin-container--dark" : ""
+          }`}>
             <Nav
               icon={<IconFolder />}
               label={"Project"}
@@ -186,6 +204,8 @@ const Projects = () => {
                 data={data}
                 responsive
                 pagination
+                theme={`${
+                  themeRedux === Theme.Dark ? "table-dark" : ""}`}
               />
             </motion.div>
           </div>

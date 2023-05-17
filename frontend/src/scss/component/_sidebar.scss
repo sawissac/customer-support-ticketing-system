@@ -128,4 +128,12 @@
     background-color: #2b2d31;
     color: $white;
   }
+  &--dark &__action-list{
+    background-color: #313338;
+    border: none;
+  }
+  &--dark &__list *{
+    background-color: #313338;
+    color: $white;
+  }
 }

@@ -28,19 +28,9 @@ interface SideBarInterface {
 }
 
 const SideBar = (props: SideBarInterface) => {
-<<<<<<< HEAD
-  const authRedux = useAppSelector(
-    (state) => state.auth
-  );
-  const sidebarRedux = useAppSelector(
-    (state) => state.sidebar
-  );
-
-  const themeRedux  = useAppSelector(state=>state.theme);
-=======
   const authRedux = useAppSelector((state) => state.auth);
   const sidebarRedux = useAppSelector((state) => state.sidebar);
->>>>>>> main
+  const themeRedux = useAppSelector((state) => state.theme);
   return (
     <div className={`sidebar ${themeRedux === Theme.Dark ? 'sidebar--dark': ''}`}>
       <div className="sidebar__header">
@@ -60,18 +50,11 @@ const SideBar = (props: SideBarInterface) => {
 interface SideBarSimplify {
   route: string;
 }
-<<<<<<< HEAD
-SideBar.Simplify = function (
-  props: SideBarSimplify
-) {
-  const sidebarRedux = useAppSelector(
-    (state) => state.sidebar
-  );
-  const themeRedux  = useAppSelector(state=>state.theme);
-=======
 SideBar.Simplify = function (props: SideBarSimplify) {
   const sidebarRedux = useAppSelector((state) => state.sidebar);
->>>>>>> main
+
+  const themeRedux = useAppSelector((state) => state.theme);
+
   return (
     <div className={`sidebar__list ${themeRedux===Theme.Dark?'sidebar__list--dark':''}`}>
       <h5>Manage</h5>

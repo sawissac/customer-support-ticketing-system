@@ -4,10 +4,16 @@ import TicketList from "../../components/TicketList";
 import { IconMessage2, IconPlus } from "@tabler/icons-react";
 import RouteSetter from "./RouteSetter";
 import Button from "../../components/Button";
+import { useAppSelector } from "../../redux/hook";
+import { Theme } from "../../redux/variable/ThemeVariable";
+
 
 const TicketPage = () => {
+  const themeRedux = useAppSelector((state) => state.theme);
   return (
-    <div className="admin-container">
+    <div  className={`admin-container ${
+      themeRedux === Theme.Dark ? "admin-container--dark" : ""
+    }`}>
       <Nav
         icon={<IconMessage2 />}
         label={"Tickets"}

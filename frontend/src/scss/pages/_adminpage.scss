@@ -21,4 +21,16 @@
     background-color: #2b2d31;
     color: $white;
   }
+  &--dark .text {
+    color: white !important;
+  }
+  &--dark .fieldset-timer *{
+    color: white !important;
+  }
+  &--dark .message__description{
+    background-color: #313338;
+  }
+  &--dark .message-file-attachment{
+    background-color: #313338;
+  }
 }

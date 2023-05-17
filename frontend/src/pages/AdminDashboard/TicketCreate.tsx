@@ -4,6 +4,8 @@ import { IconMessage2 } from "@tabler/icons-react";
 import EmployeeSideBar from "../../components/EmployeeSideBar";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
+import { useAppSelector } from "../../redux/hook";
+import { Theme } from "../../redux/variable/ThemeVariable";
 
 const TicketCreate = () => {
   function onSubmitHandle(
@@ -12,9 +14,12 @@ const TicketCreate = () => {
     ev.preventDefault();
   }
   function onClickHandle() {}
+  const themeRedux = useAppSelector((state) => state.theme);
   return (
     <>
-      <div className="admin-container admin-container--textarea">
+      <div className={`admin-container admin-container--textarea ${
+          themeRedux === Theme.Dark ? "admin-container--dark admin-container--textarea--dark" : ""
+        }`}>
         <Nav
           icon={<IconMessage2 />}
           label="Ticket - Create"

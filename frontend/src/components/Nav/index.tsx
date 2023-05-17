@@ -13,12 +13,7 @@ interface NavProps {
   onClick?:any;
 }
 
-<<<<<<< HEAD
-const Nav = ({ label, icon, rightPlacer, links }: NavProps) => {
-  // const themeRedux  = useAppSelector(state=>state.theme);
-=======
 const Nav = ({ label, icon, rightPlacer, links,onClick }: NavProps) => {
->>>>>>> main
   return (
     <div className="nav_container">
       <div className="icon">{icon}</div>
