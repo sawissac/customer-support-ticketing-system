@@ -1,19 +1,18 @@
 import React from "react";
 import Nav from "../../components/Nav";
-import { IconUserPlus } from "@tabler/icons-react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import RouteSetter from "./RouteSetter";
 import FormWarper from "../../components/FormWarper";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { createProject } from "../../requests/projectRequest";
+import { openProjectRightSidebar, updateProjectTableUrl } from "../../redux/feature_slice/ProjectPageSlice";
+import { motion } from "framer-motion";
 import { Theme } from "../../redux/variable/ThemeVariable";
 
 const ProjectCreate = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
   const themeRedux = useAppSelector((state) => state.theme);
@@ -42,7 +41,7 @@ const ProjectCreate = () => {
               state: Alert.Success,
             })
           );
-          navigate("/admin-dashboard/project");
+          dispatch(updateProjectTableUrl({message: inputField.name}));
         })
         .catch((reason) => {
           dispatch(
@@ -62,31 +61,34 @@ const ProjectCreate = () => {
   }
   return (
     <div className={`admin-container ${themeRedux === Theme.Dark ? 'admin-container--dark': ''}`}>
-      <RouteSetter routeName="/admin-dashboard/project" />
-      <Nav
-        icon={<IconUserPlus />}
-        label="Project - Create"
+      
+      <Nav.BackButton
+        label="Project Create"
+        onClick={() => {
+          dispatch(openProjectRightSidebar({ name: "" }));
+        }}
       />
-      <Nav.Back
-        link="/admin-dashboard/project"
-        label="Back"
-      />
-      <FormWarper route="/api/project">
-        <Input
-          label="Name"
-          errorMessage="*require"
-          placeholder="Name..."
-          id="name"
-          type="text"
-          onChange={onChangeHandler}
-        />
-        <Button
-          type="button"
-          label="Create"
-          className="btn btn--form"
-          onClick={onButtonSubmitHandle}
-        />
-      </FormWarper>
+      <motion.div
+        initial={{ x: "20px", opacity: 0 }}
+        animate={{ x: "0px", opacity: 1 }}
+      >
+        <FormWarper route="/api/project">
+          <Input
+            label="Name"
+            errorMessage="*require"
+            placeholder="Name..."
+            id="name"
+            type="text"
+            onChange={onChangeHandler}
+          />
+          <Button
+            type="button"
+            label="Create"
+            className="btn btn--form"
+            onClick={onButtonSubmitHandle}
+          />
+        </FormWarper>
+      </motion.div>
     </div>
   );
 };

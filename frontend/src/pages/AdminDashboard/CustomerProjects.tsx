@@ -1,45 +1,66 @@
 import React, { useCallback, useMemo, useState } from "react";
 import DataTable from "react-data-table-component";
 import Nav from "../../components/Nav";
-import { IconEdit, IconUsers } from "@tabler/icons-react";
+import { IconEdit, IconPlus, IconUsers } from "@tabler/icons-react";
 import RouteSetter from "./RouteSetter";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IconTrashFilled } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import axios from "axios";
 import { useQuery } from "react-query";
-
+import { IconArrowLeft } from "@tabler/icons-react";
+import {
+  openProjectRightSidebar,
+  setProjectCustomer,
+  setProjectView,
+} from "../../redux/feature_slice/ProjectPageSlice";
+import Button from "../../components/Button";
+import Avatar from "react-avatar";
+import { motion } from "framer-motion";
+import ShowIf from "../../components/Helper";
+import CustomerProjectsCreate from "./CustomerProjectsCreate";
+import CustomerProjectsUpdate from "./CustomerProjectsUpdate";
 const CustomerProjects = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const AuthRedux = useAppSelector((state) => state.auth);
+  const projectPageRedux = useAppSelector((state) => state.projectSidebar);
 
   const columns = useMemo(
     () => [
       {
-        name: "ID",
-        selector: (row: any) => row.id,
-        sortable: true,
-      },
-      {
-        name: "Project Name",
-        selector: (row: any) => row.project.name,
-        sortable: true,
-      },
-      {
-        name: "Customer Name",
-        selector: (row: any) => row.user.name,
-        sortable: true,
+        name: "Customer",
+        cell: (row: any) => {
+          return (
+            <div className="avatar-profile">
+              <Avatar
+                className={`avatar-profile__circle`}
+                name={row.user.name}
+                color={"#0d6efd"}
+                size="35"
+                textSizeRatio={1.75}
+                round
+              />
+              {row.user.name}#{row.user.id}
+            </div>
+          );
+        },
       },
       {
         name: "Update",
         cell: (row: any) => (
           <button
             title="row update"
-            className="btn btn--light btn--icon btn--no-m-bottom text-info"
+            className="btn btn--light btn--icon btn--no-m-bottom text-success"
             onClick={() => {
-
-              navigate("/admin-dashboard/customer-project-update");
+              dispatch(
+                setProjectCustomer({
+                  id: row.id,
+                  customer_id: row.user.id,
+                  customer_name: row.user.name,
+                })
+              );
+              dispatch(openProjectRightSidebar({ name: "customer-update" }));
             }}
           >
             <IconEdit size={25} />
@@ -72,13 +93,15 @@ const CustomerProjects = () => {
         },
       })
       .then((response) => {
-        return response.data.data;
+        return response.data.data.filter((i: any) => {
+          return i.project_id === projectPageRedux.project_id;
+        });
       });
     return res;
   };
 
   const { isLoading, error, data, isFetching } = useQuery(
-    ["userData", url],
+    ["customer", projectPageRedux.customerUrlState],
     getUsersData
   );
 
@@ -87,29 +110,49 @@ const CustomerProjects = () => {
   if (error) return <p>"An error has occurs"</p>;
 
   return (
-    <div className="admin-container">
-      <RouteSetter routeName="/admin-dashboard/customer-project" />
-      <Nav
-        icon={<IconUsers />}
-        label={"Tickets"}
-        rightPlacer={
-          <NavLink
-            to={"/admin-dashboard/customer-project-create"}
-            className="btn btn--primary btn--block btn--no-m-bottom"
-          >
-            Create
-          </NavLink>
-        }
-      />
-      <div className="admin-container__inner">
-        <DataTable
-          columns={columns}
-          data={data}
-          responsive
-          pagination
+    <>
+      <div className="admin-container">
+        <Nav
+          icon={<IconArrowLeft size={25} />}
+          label={projectPageRedux.project_name}
+          onClick={() => {
+            dispatch(setProjectView({ name: "" }));
+          }}
+          rightPlacer={
+            <Button
+              label="Add Customer"
+              icon={<IconPlus size={20} />}
+              className="btn btn--light btn--block btn--no-m-bottom btn--sm"
+              onClick={() => {
+                dispatch(openProjectRightSidebar({ name: "customer-create" }));
+              }}
+            />
+          }
         />
+        <motion.div
+          initial={{ y: "30px", opacity: 0 }}
+          animate={{ y: "0px", opacity: 1 }}
+          className="admin-container__inner"
+        >
+          <div className="admin-container__inner">
+            <DataTable
+              columns={columns}
+              data={data}
+              responsive
+              pagination
+            />
+          </div>
+        </motion.div>
       </div>
-    </div>
+      <ShowIf
+        sif={projectPageRedux.rightSidebar === "customer-create"}
+        show={<CustomerProjectsCreate />}
+      />
+      <ShowIf
+        sif={projectPageRedux.rightSidebar === "customer-update"}
+        show={<CustomerProjectsUpdate />}
+      />
+    </>
   );
 };
 

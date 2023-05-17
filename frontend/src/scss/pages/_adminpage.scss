@@ -1,5 +1,6 @@
 .admin-container {
   flex: 1;
+  overflow-x: hidden;
   overflow-y: scroll;
   &--form {
     min-width: 400px;

@@ -29,6 +29,7 @@ class UserController extends BaseController
 
     public function index()
     {
+
         $data = $this->userRepo->get();
 
         return $this->sendResponse($data, 'Users retrieved successfully.');
@@ -124,7 +125,9 @@ class UserController extends BaseController
 
     public function employee()
     {
+        // dd('here');
         $employeeData = $this->userRepo->employee();
+
         return $this->sendResponse($employeeData, 'Employees retrieved successfully.');
     }
 

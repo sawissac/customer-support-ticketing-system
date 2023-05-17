@@ -9,20 +9,19 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
+import { updateProject } from "../../requests/projectRequest";
+import { motion } from "framer-motion";
 import {
-  getProject,
-  updateProject,
-} from "../../requests/projectRequest";
-import { Theme } from "../../redux/variable/ThemeVariable";
+  openProjectRightSidebar,
+  updateProjectTableUrl,
+} from "../../redux/feature_slice/ProjectPageSlice";
 
 const ProjectUpdate = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
-  const themeRedux = useAppSelector((state) => state.theme);
-  const projectSideRedux = useAppSelector(
-    (state) => state.projectSidebar
-  );
+
+  const projectSideRedux = useAppSelector((state) => state.projectSidebar);
 
   const [inputField, setInputField] = React.useState({
     name: "",
@@ -31,9 +30,9 @@ const ProjectUpdate = () => {
   useEffect(() => {
     setInputField({
       ...inputField,
-      name: projectSideRedux.name,
+      name: projectSideRedux.project_name,
     });
-  }, [projectSideRedux.id]);
+  }, [projectSideRedux.project_id]);
 
   function onButtonSubmitHandle() {
     const isEmpty = inputField.name === "";
@@ -47,7 +46,7 @@ const ProjectUpdate = () => {
     } else {
       updateProject({
         ...inputField,
-        id: projectSideRedux.id,
+        id: projectSideRedux.project_id,
         token: authRedux.token,
       })
         .then(() => {
@@ -57,7 +56,7 @@ const ProjectUpdate = () => {
               state: Alert.Success,
             })
           );
-          navigate("/admin-dashboard/project");
+          dispatch(updateProjectTableUrl({ message: inputField.name }));
         })
         .catch((reason) => {
           dispatch(
@@ -76,32 +75,35 @@ const ProjectUpdate = () => {
     });
   }
   return (
-    <div className={`admin-container ${themeRedux === Theme.Dark ? 'admin-container--dark': ''}`}>
+    <div className="admin-container admin-container--no-flex-grow admin-container--form">
       <RouteSetter routeName="/admin-dashboard/project" />
-      <Nav
-        icon={<IconUserPlus />}
-        label="Project - Update"
+      <Nav.BackButton
+        label="Project Update"
+        onClick={() => {
+          dispatch(openProjectRightSidebar({ name: "" }));
+        }}
       />
-      <Nav.Back
-        link="/admin-dashboard/project"
-        label="Back"
-      />
-      <FormWarper route="/api/project">
-        <Input
-          label="Name"
-          errorMessage="*require"
-          placeholder="Name..."
-          id="name"
-          value={inputField.name}
-          onChange={onChangeHandler}
-        />
-        <Button
-          type="button"
-          label="Update"
-          className="btn btn--form"
-          onClick={onButtonSubmitHandle}
-        />
-      </FormWarper>
+      <motion.div
+        initial={{ x: "20px", opacity: 0 }}
+        animate={{ x: "0px", opacity: 1 }}
+      >
+        <FormWarper route="/api/project">
+          <Input
+            label="Name"
+            errorMessage="*require"
+            placeholder="Name..."
+            id="name"
+            value={inputField.name}
+            onChange={onChangeHandler}
+          />
+          <Button
+            type="button"
+            label="Update"
+            className="btn btn--form"
+            onClick={onButtonSubmitHandle}
+          />
+        </FormWarper>
+      </motion.div>
     </div>
   );
 };

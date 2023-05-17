@@ -1,9 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { userSidebarInit } from "../variable/UserSidebarVariable";
+import { userSidebarInit } from "../variable/UserPageVariable";
 
 const initialState = userSidebarInit;
 
-const userSidebarSlice = createSlice({
+const userPageSlice = createSlice({
   name: "userSidebarSlice",
   initialState,
   reducers: {
@@ -14,17 +14,17 @@ const userSidebarSlice = createSlice({
       state = { ...state, ...action.payload };
       return state;
     },
-    updateUserTableUrl: (state, action: PayloadAction<{message:string}>) => {
+    updateUserTableUrl: (state, action: PayloadAction<{ message: string }>) => {
       state.state = action.payload.message;
       return state;
     },
-    openRightSidebar:(state, action: PayloadAction<{name:string}>) => {
+    openUserRightSidebar: (state, action: PayloadAction<{ name: string }>) => {
       state.rightSidebar = action.payload.name;
       return state;
-    }, 
+    },
   },
 });
 
-export const { setUserState, updateUserTableUrl, openRightSidebar } = userSidebarSlice.actions;
+export const { setUserState, updateUserTableUrl, openUserRightSidebar } = userPageSlice.actions;
 
-export default userSidebarSlice.reducer;
+export default userPageSlice.reducer;

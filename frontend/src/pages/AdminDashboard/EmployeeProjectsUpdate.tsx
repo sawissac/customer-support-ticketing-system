@@ -7,23 +7,24 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { useNavigate } from "react-router-dom";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
-import {
-  updateEmployeeProject,
-} from "../../requests/employeeProjectsRequest";
+import { updateEmployeeProject } from "../../requests/employeeProjectsRequest";
 import RouteSetter from "./RouteSetter";
 import FormWarper from "../../components/FormWarper";
 import { getAllProject } from "../../requests/projectRequest";
 import { getAllEmployee } from "../../requests/userRequest";
-
+import {
+  openProjectRightSidebar,
+  updateEmployeeTableUrl,
+  updateProjectTableUrl,
+} from "../../redux/feature_slice/ProjectPageSlice";
+import { motion } from "framer-motion";
 const EmployeeProjectsUpdate = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
-  const employeeProjectRedux = useAppSelector(
-    (state) => state.employeeProjectSidebar
-  );
+  const ProjectPageRedux = useAppSelector((state) => state.projectSidebar);
   const [projectDropDownList, setProjectDropDownList] = useState([]);
   const [employeeList, setEmployeeList] = useState([]);
+
   const [dropdownProject, setDropdownProject] = React.useState({
     name: "Project",
     value: 0,
@@ -34,14 +35,6 @@ const EmployeeProjectsUpdate = () => {
   });
 
   useEffect(() => {
-    setDropdownProject({
-      name: employeeProjectRedux.project_name,
-      value: employeeProjectRedux.id,
-    });
-    setDropDownEmployee({
-      name: employeeProjectRedux.employee_name,
-      value: employeeProjectRedux.employee_id,
-    });
     getAllProject({
       token: AuthRedux.token,
     }).then((res: any) => {
@@ -65,10 +58,19 @@ const EmployeeProjectsUpdate = () => {
       setEmployeeList(filteredData);
     });
   }, []);
+  useEffect(() => {
+    setDropdownProject({
+      name: ProjectPageRedux.project_name,
+      value: ProjectPageRedux.project_id,
+    });
+    setDropDownEmployee({
+      name: ProjectPageRedux.employee_name,
+      value: ProjectPageRedux.employee_id,
+    });
+  }, [ProjectPageRedux.project_id, ProjectPageRedux.employee_id]);
 
   function onClickHandle() {
-    const isEmpty =
-      dropdownProject.value === 0 || dropdownEmployee.value === 0;
+    const isEmpty = dropdownProject.value === 0 || dropdownEmployee.value === 0;
     if (isEmpty) {
       dispatch(
         setAlert({
@@ -78,7 +80,7 @@ const EmployeeProjectsUpdate = () => {
       );
     } else {
       updateEmployeeProject({
-        id: employeeProjectRedux.id,
+        id: ProjectPageRedux.id,
         project_id: dropdownProject.value,
         user_id: dropdownEmployee.value,
         token: AuthRedux.token,
@@ -86,14 +88,18 @@ const EmployeeProjectsUpdate = () => {
         .then(() => {
           dispatch(
             setAlert({
-              message: "Created Successfully",
+              message: "Updated Successfully",
               state: Alert.Success,
             })
           );
-          navigate("/admin-dashboard/employee-project");
+          dispatch(
+            updateEmployeeTableUrl({
+              message: `updated:${Date()}`,
+            })
+          );
         })
         .catch((reason) => {
-          console.log(reason)
+          console.log(reason);
           dispatch(
             setAlert({
               message: "Fail to create",
@@ -104,90 +110,58 @@ const EmployeeProjectsUpdate = () => {
     }
   }
   return (
-    <div className="admin-container">
-      <RouteSetter routeName="/admin-dashboard/employee-project" />
-      <Nav
-        icon={<IconUserUp />}
-        label="Employee Project Update"
+    <div className="admin-container admin-container--no-flex-grow admin-container--form">
+      <Nav.BackButton
+        label="User Update"
+        onClick={() => {
+          dispatch(openProjectRightSidebar({ name: "" }));
+        }}
       />
-      <Nav.Back
-        link="/admin-dashboard/employee-project"
-        label="Back"
-      />
-      <FormWarper route="/api/employee-project">
-        <div className="form-dropdown-label">
-          <label htmlFor="">Project</label>
-          <span>*require</span>
-        </div>
-
-        <Dropdown
-          placement="bottom"
-          buttonClassName="form-dropdown-btn"
-          buttonChildren={
-            <>
-              {dropdownProject.name} <IconMenuOrder size={20} />
-            </>
-          }
-          dropdownClassName="form-dropdown"
-          dropdownChildren={
-            <>
-              {projectDropDownList.map((project: any) => {
-                return (
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      setDropdownProject({
-                        name: project.name,
-                        value: project.id,
-                      });
-                    }}
-                    label={project.name}
-                  />
-                );
-              })}
-            </>
-          }
-        />
-
-        <div className="form-dropdown-label">
-          <label htmlFor="">Employee</label>
-          <span>*require</span>
-        </div>
-        <Dropdown
-          placement="bottom"
-          buttonClassName="form-dropdown-btn"
-          buttonChildren={
-            <>
-              {dropdownEmployee.name} <IconMenuOrder size={20} />
-            </>
-          }
-          dropdownClassName="form-dropdown"
-          dropdownChildren={
-            <>
-              {employeeList.map((employee: any) => {
-                return (
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      setDropDownEmployee({
-                        name: employee.name,
-                        value: employee.id,
-                      });
-                    }}
-                    label={employee.name}
-                  />
-                );
-              })}
-            </>
-          }
-        />
-        <Button
-          type="button"
-          label="Update"
-          className="btn btn--form"
-          onClick={onClickHandle}
-        />
-      </FormWarper>
+      <motion.div
+        initial={{ x: "20px", opacity: 0 }}
+        animate={{ x: "0px", opacity: 1 }}
+      >
+        <FormWarper route="/api/employee-project">
+          <div className="form-dropdown-label">
+            <label htmlFor="">Employee</label>
+            <span>*require</span>
+          </div>
+          <Dropdown
+            placement="bottom"
+            buttonClassName="form-dropdown-btn"
+            buttonChildren={
+              <>
+                {dropdownEmployee.name} <IconMenuOrder size={20} />
+              </>
+            }
+            dropdownClassName="form-dropdown"
+            dropdownChildren={
+              <>
+                {employeeList.map((employee: any) => {
+                  return (
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        setDropDownEmployee({
+                          name: employee.name,
+                          value: employee.id,
+                        });
+                      }}
+                      label={employee.name}
+                    />
+                  );
+                })}
+              </>
+            }
+          />
+          <Button
+            type="button"
+            label="Update"
+            className="btn btn--form"
+            onClick={onClickHandle}
+          />
+        </FormWarper>
+      </motion.div>
     </div>
   );
 };

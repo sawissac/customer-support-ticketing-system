@@ -1,20 +1,45 @@
-import React, { useMemo } from "react";
-import DataTable from "react-data-table-component";
+import { useMemo } from "react";
+import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
 import { IconEdit, IconPlus, IconTrashFilled, IconUsers } from "@tabler/icons-react";
 import RouteSetter from "./RouteSetter";
 import axios from "axios";
 import { useQuery } from "react-query";
-import { NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { openRightSidebar, setUserState } from "../../redux/feature_slice/UserSidebarSlice";
-import { serverRoles } from "../../redux/variable/UserSidebarVariable";
+import { openUserRightSidebar, setUserState } from "../../redux/feature_slice/UserPageSlice";
+import { serverRoles } from "../../redux/variable/UserPageVariable";
 import Avatar from "react-avatar";
 import UserCreatePage from "./UserCreate";
 import UserUpdatePage from "./UserUpdate";
 import ShowIf from "../../components/Helper";
 import Button from "../../components/Button";
+<<<<<<< HEAD
 import { Theme } from "../../redux/variable/ThemeVariable";
+=======
+import { motion } from "framer-motion";
+
+// createTheme('solarized', {
+//   text: {
+//     primary: '#268bd2',
+//     secondary: '#2aa198',
+//   },
+//   background: {
+//     default: '#002b36',
+//   },
+//   context: {
+//     background: '#cb4b16',
+//     text: '#FFFFFF',
+//   },
+//   divider: {
+//     default: '#073642',
+//   },
+//   action: {
+//     button: 'rgba(0,0,0,.54)',
+//     hover: 'rgba(0,0,0,.08)',
+//     disabled: 'rgba(0,0,0,.12)',
+//   },
+// }, 'dark');
+>>>>>>> main
 
 const Users = () => {
   const dispatch = useAppDispatch();
@@ -63,7 +88,7 @@ const Users = () => {
         cell: (row: any) => (
           <button
             title="row update"
-            className="btn btn--light btn--icon btn--no-m-bottom text-info"
+            className="btn btn--light btn--icon btn--no-m-bottom text-success"
             onClick={() => {
               dispatch(
                 setUserState({
@@ -73,7 +98,7 @@ const Users = () => {
                   role: row.roles[0].name,
                 })
               );
-              dispatch(openRightSidebar({ name: "update" }));
+              dispatch(openUserRightSidebar({ name: "update" }));
             }}
           >
             <IconEdit size={25} />
@@ -106,17 +131,26 @@ const Users = () => {
         },
       })
       .then((response) => {
-        return response.data.data;
+        return response.data.data.reverse();
       });
     return res;
   };
 
+<<<<<<< HEAD
   const { data } = useQuery(["userData", UserPageRedux.state], getUsersData);
   const themeRedux = useAppSelector((state) => state.theme);
   return (
     <>
       <div className={`admin-container ${themeRedux === Theme.Dark ? 'admin-container--dark': ''}`}>
         <RouteSetter routeName="/admin-dashboard/users" />
+=======
+  const {isFetching, data } = useQuery(["userData", UserPageRedux.state], getUsersData);
+  if (isFetching) return <div>isFetching</div>;
+
+  return (
+    <>
+      <div className="admin-container">
+>>>>>>> main
         <Nav
           icon={<IconUsers />}
           label={"Users"}
@@ -126,19 +160,24 @@ const Users = () => {
               icon={<IconPlus size={20} />}
               className="btn btn--light btn--block btn--no-m-bottom btn--sm"
               onClick={() => {
-                dispatch(openRightSidebar({ name: "create" }));
+                dispatch(openUserRightSidebar({ name: "create" }));
               }}
             />
           }
         />
-        <div className="admin-container__inner">
+        <motion.div
+          initial={{ opacity: 0, y: "30px" }}
+          animate={{ opacity: 1, y: "0px" }}
+          className="admin-container__inner"
+        >
           <DataTable
             columns={columns}
             data={data}
             responsive
             pagination
+            // theme="solarized"
           />
-        </div>
+        </motion.div>
       </div>
       <ShowIf
         sif={UserPageRedux.rightSidebar === "create"}
