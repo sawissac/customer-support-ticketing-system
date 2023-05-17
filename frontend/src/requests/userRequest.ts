@@ -78,9 +78,8 @@ export function updateUser({ id, name, email, role, token }: any) {
 export function getAllEmployee({ token }: any) {
   return new Promise((resolve, reject) => {
     axios
-      .post(
-        `http://127.0.0.1:8000/api/user/employee`,
-        {},
+      .get(
+        `http://127.0.0.1:8000/api/employee`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -99,9 +98,8 @@ export function getAllEmployee({ token }: any) {
 export function getAllCustomer({ token }: any) {
   return new Promise((resolve, reject) => {
     axios
-      .post(
-        `http://127.0.0.1:8000/api/user/customer`,
-        {},
+      .get(
+        `http://127.0.0.1:8000/api/customer`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

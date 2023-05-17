@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import DataTable from "react-data-table-component";
+import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
 import { IconEdit, IconPlus, IconTrashFilled, IconUsers } from "@tabler/icons-react";
 import RouteSetter from "./RouteSetter";
@@ -14,6 +14,28 @@ import UserUpdatePage from "./UserUpdate";
 import ShowIf from "../../components/Helper";
 import Button from "../../components/Button";
 import { motion } from "framer-motion";
+
+// createTheme('solarized', {
+//   text: {
+//     primary: '#268bd2',
+//     secondary: '#2aa198',
+//   },
+//   background: {
+//     default: '#002b36',
+//   },
+//   context: {
+//     background: '#cb4b16',
+//     text: '#FFFFFF',
+//   },
+//   divider: {
+//     default: '#073642',
+//   },
+//   action: {
+//     button: 'rgba(0,0,0,.54)',
+//     hover: 'rgba(0,0,0,.08)',
+//     disabled: 'rgba(0,0,0,.12)',
+//   },
+// }, 'dark');
 
 const Users = () => {
   const dispatch = useAppDispatch();
@@ -139,6 +161,7 @@ const Users = () => {
             data={data}
             responsive
             pagination
+            // theme="solarized"
           />
         </motion.div>
       </div>
