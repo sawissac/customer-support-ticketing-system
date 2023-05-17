@@ -10,12 +10,13 @@ import { Alert } from "../../redux/variable/AlertVariable";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { createProject } from "../../requests/projectRequest";
+import { openProjectRightSidebar, updateProjectTableUrl } from "../../redux/feature_slice/ProjectPageSlice";
+import { motion } from "framer-motion";
 
 const ProjectCreate = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
-
   const [inputField, setInputField] = React.useState({
     name: "",
   });
@@ -41,7 +42,7 @@ const ProjectCreate = () => {
               state: Alert.Success,
             })
           );
-          navigate("/admin-dashboard/project");
+          dispatch(updateProjectTableUrl({message: inputField.name}));
         })
         .catch((reason) => {
           dispatch(
@@ -60,32 +61,34 @@ const ProjectCreate = () => {
     });
   }
   return (
-    <div className="admin-container">
-      <RouteSetter routeName="/admin-dashboard/project" />
-      <Nav
-        icon={<IconUserPlus />}
-        label="Project - Create"
+    <div className="admin-container admin-container--no-flex-grow admin-container--form">
+      <Nav.BackButton
+        label="Project Create"
+        onClick={() => {
+          dispatch(openProjectRightSidebar({ name: "" }));
+        }}
       />
-      <Nav.Back
-        link="/admin-dashboard/project"
-        label="Back"
-      />
-      <FormWarper route="/api/project">
-        <Input
-          label="Name"
-          errorMessage="*require"
-          placeholder="Name..."
-          id="name"
-          type="text"
-          onChange={onChangeHandler}
-        />
-        <Button
-          type="button"
-          label="Create"
-          className="btn btn--form"
-          onClick={onButtonSubmitHandle}
-        />
-      </FormWarper>
+      <motion.div
+        initial={{ x: "20px", opacity: 0 }}
+        animate={{ x: "0px", opacity: 1 }}
+      >
+        <FormWarper route="/api/project">
+          <Input
+            label="Name"
+            errorMessage="*require"
+            placeholder="Name..."
+            id="name"
+            type="text"
+            onChange={onChangeHandler}
+          />
+          <Button
+            type="button"
+            label="Create"
+            className="btn btn--form"
+            onClick={onButtonSubmitHandle}
+          />
+        </FormWarper>
+      </motion.div>
     </div>
   );
 };

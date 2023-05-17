@@ -8,13 +8,14 @@ interface NavProps {
   label: string;
   rightPlacer?: any;
   links?: any;
+  onClick?:any;
 }
 
-const Nav = ({ label, icon, rightPlacer, links }: NavProps) => {
+const Nav = ({ label, icon, rightPlacer, links,onClick }: NavProps) => {
   return (
     <div className="nav_container">
       <div className="icon">{icon}</div>
-      <div className="text">{label}</div>
+      <div className="text" onClick={onClick}>{label}</div>
       <div className="placer">{rightPlacer}</div>
       <div className="links">{links}</div>
     </div>

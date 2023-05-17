@@ -1,4 +1,6 @@
 .avatar-profile{
+  display: flex;
+  align-items: center;
   &__circle{
     margin-right: map-get($spacers, 2);
   }

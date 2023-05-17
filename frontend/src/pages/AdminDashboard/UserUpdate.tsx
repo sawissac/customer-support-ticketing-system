@@ -7,14 +7,14 @@ import Dropdown from "../../components/DropDown";
 import { IconMenuOrder } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { getUser, updateUser } from "../../requests/userRequest";
-import { serverRoles, userRoles } from "../../redux/variable/UserSidebarVariable";
+import { serverRoles, userRoles } from "../../redux/variable/UserPageVariable";
 import { useNavigate } from "react-router-dom";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import RouteSetter from "./RouteSetter";
 import FormWarper from "../../components/FormWarper";
-import { openRightSidebar, updateUserTableUrl } from "../../redux/feature_slice/UserSidebarSlice";
-
+import { openUserRightSidebar, updateUserTableUrl } from "../../redux/feature_slice/UserPageSlice";
+import { motion } from "framer-motion";
 const UserUpdatePage = () => {
   const userSidebarRedux = useAppSelector((state) => state.userSidebar);
   const authRedux = useAppSelector((state) => state.auth);
@@ -23,10 +23,12 @@ const UserUpdatePage = () => {
     name: "Role",
     value: "",
   });
+  
   const [inputField, setInputField] = React.useState({
     name: "",
     email: "",
   });
+
   useEffect(() => {
     setInputField({
       name: userSidebarRedux.name,
@@ -89,68 +91,73 @@ const UserUpdatePage = () => {
     <div className="admin-container admin-container--no-flex-grow admin-container--form">
       <RouteSetter routeName="/admin-dashboard/users" />
       <Nav.BackButton
-        label="User Create"
+        label="User Update"
         onClick={() => {
-          dispatch(openRightSidebar({ name: "" }));
+          dispatch(openUserRightSidebar({ name: "" }));
         }}
       />
-      <FormWarper route="/api/user">
-        <Input
-          label="Name"
-          id="name"
-          errorMessage="*require"
-          placeholder="Name..."
-          value={inputField.name}
-          onChange={onChangeHandler}
-        />
-        <Input
-          label="Email"
-          id="email"
-          errorMessage="*require"
-          placeholder="Email.."
-          value={inputField.email}
-          onChange={onChangeHandler}
-        />
-        <div className="form-dropdown-label">
-          <label htmlFor="">Role</label>
-          <span>*require</span>
-        </div>
-        <Dropdown
-          placement="bottom"
-          buttonClassName="form-dropdown-btn"
-          buttonChildren={
-            <>
-              {dropdownBox.name}
-              <IconMenuOrder size={20} />
-            </>
-          }
-          dropdownClassName="form-dropdown"
-          dropdownChildren={
-            <>
-              {Object.keys(userRoles).map((role: string) => {
-                return (
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      setDropdownBox({
-                        name: role,
-                        value: userRoles[role],
-                      });
-                    }}
-                    label={role}
-                  />
-                );
-              })}
-            </>
-          }
-        />
-        <Button
-          type="button"
-          label="Update"
-          className="btn btn--form"
-          onClick={onButtonSubmitHandle}
-        />
-      </FormWarper>
+      <motion.div
+        initial={{ x: "20px", opacity: 0 }}
+        animate={{ x: "0px", opacity: 1 }}
+      >
+        <FormWarper route="/api/user">
+          <Input
+            label="Name"
+            id="name"
+            errorMessage="*require"
+            placeholder="Name..."
+            value={inputField.name}
+            onChange={onChangeHandler}
+          />
+          <Input
+            label="Email"
+            id="email"
+            errorMessage="*require"
+            placeholder="Email.."
+            value={inputField.email}
+            onChange={onChangeHandler}
+          />
+          <div className="form-dropdown-label">
+            <label htmlFor="">Role</label>
+            <span>*require</span>
+          </div>
+          <Dropdown
+            placement="bottom"
+            buttonClassName="form-dropdown-btn"
+            buttonChildren={
+              <>
+                {dropdownBox.name}
+                <IconMenuOrder size={20} />
+              </>
+            }
+            dropdownClassName="form-dropdown"
+            dropdownChildren={
+              <>
+                {Object.keys(userRoles).map((role: string) => {
+                  return (
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        setDropdownBox({
+                          name: role,
+                          value: userRoles[role],
+                        });
+                      }}
+                      label={role}
+                    />
+                  );
+                })}
+              </>
+            }
+          />
+          <Button
+            type="button"
+            label="Update"
+            className="btn btn--form"
+            onClick={onButtonSubmitHandle}
+          />
+        </FormWarper>
+      </motion.div>
     </div>
   );
 };
