@@ -15,77 +15,95 @@ const TicketCreate = () => {
     <>
       <div className="admin-container admin-container--textarea">
         <Nav.BackButton
-          label="User Create"
+          label="Ticket Create"
           onClick={() => {
             dispatch(setTicketView({ name: "" }));
           }}
         />
-        <motion.div
-          initial={{ y: "30px", opacity: 0 }}
-          animate={{ y: "0px", opacity: 1 }}
-        >
-          <FormWarper route="/api/ticket">
-            <Input
-              label="Subject"
-              errorMessage="*require"
-              placeholder="Name..."
-            />
-            <div className="form-dropdown-label">
-              <label htmlFor="">Role</label>
-              <span>*require</span>
-            </div>
-            <Dropdown
-              placement="bottom"
-              buttonClassName="form-dropdown-btn"
-              buttonChildren={
-                <>
-                  {/* {dropdownBox.name}
+        <FormWarper route="/api/ticket">
+          <motion.div
+            initial={{ y: "30px", opacity: 0 }}
+            animate={{ y: "0px", opacity: 1 }}
+          >
+            <div className="row row--gap-1">
+              <div className="col-12">
+                <Input
+                  label="Subject"
+                  errorMessage="*require"
+                  placeholder="Name..."
+                />
+              </div>
+              <div className="col-6">
+                <div className="form-dropdown-label">
+                  <label htmlFor="">Project</label>
+                  <span>*require</span>
+                </div>
+                <Dropdown
+                  placement="bottom"
+                  buttonClassName="form-dropdown-btn"
+                  offset={[65, 0]}
+                  buttonChildren={
+                    <>
+                      {/* {dropdownBox.name}
                 <IconMenuOrder size={20} /> */}
-                </>
-              }
-              dropdownClassName="form-dropdown"
-              dropdownChildren={
-                <>
-                  {Object.keys(userRoles).map((role: string) => {
-                    return (
-                      <Button
-                        type="button"
-                        onClick={() => {}}
-                        label={role}
-                      />
-                    );
-                  })}
-                </>
-              }
-            />
-            <div className="form-dropdown-label">
-              <label htmlFor="">Role</label>
-              <span>*require</span>
-            </div>
-            <Dropdown
-              placement="bottom"
-              buttonClassName="form-dropdown-btn"
-              buttonChildren={
-                <>
-                  {/* {dropdownBox.name}
+                    </>
+                  }
+                  dropdownClassName="form-dropdown"
+                  dropdownChildren={
+                    <>
+                      {Object.keys(userRoles).map((role: string) => {
+                        return (
+                          <Button
+                            type="button"
+                            onClick={() => {}}
+                            label={role}
+                          />
+                        );
+                      })}
+                    </>
+                  }
+                />
+              </div>
+              <div className="col-6">
+                <div className="form-dropdown-label">
+                  <label htmlFor="">Priority</label>
+                  <span>*require</span>
+                </div>
+                <Dropdown
+                  placement="bottom"
+                  buttonClassName="form-dropdown-btn"
+                  offset={[65, 0]}
+                  buttonChildren={
+                    <>
+                      {/* {dropdownBox.name}
                 <IconMenuOrder size={20} /> */}
-                </>
-              }
-              dropdownClassName="form-dropdown"
-              dropdownChildren={
-                <>
-                  {Object.keys(userRoles).map((role: string) => {
-                    return (
-                      <Button
-                        type="button"
-                        onClick={() => {}}
-                        label={role}
-                      />
-                    );
-                  })}
-                </>
-              }
-            />
+                    </>
+                  }
+                  dropdownClassName="form-dropdown"
+                  dropdownChildren={
+                    <>
+                      {Object.keys(userRoles).map((role: string) => {
+                        return (
+                          <Button
+                            type="button"
+                            onClick={() => {}}
+                            label={role}
+                          />
+                        );
+                      })}
+                    </>
+                  }
+                />
+              </div>
+              <div className="col-12">
+                <Input
+                  label="Google Drive Link"
+                  errorMessage="*optional"
+                  placeholder="https://drive.google.com/file/.."
+                />
+              </div>
+            </div>
+
             <Input.Textarea
               label="Description"
               errorMessage="*require"
@@ -97,8 +115,8 @@ const TicketCreate = () => {
               className="btn btn--form"
               onClick={onSubmitHandler}
             />
-          </FormWarper>
-        </motion.div>
+          </motion.div>
+        </FormWarper>
       </div>
     </>
   );

@@ -37,6 +37,7 @@ const EmployeeProjectsUpdate = () => {
       setEmployeeList(filteredData);
     });
   }, []);
+
   useEffect(() => {
     setDropDownEmployee({
       name: ProjectPageRedux.employee_name,

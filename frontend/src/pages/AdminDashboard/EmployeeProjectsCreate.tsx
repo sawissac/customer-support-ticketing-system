@@ -31,6 +31,7 @@ const EmployeeProjectsCreate = () => {
     getAllEmployee({
       token: AuthRedux.token,
     }).then((res: any) => {
+      console.log(res)
       const filteredData = res.data.map((i: any) => {
         return {
           id: i.id,
