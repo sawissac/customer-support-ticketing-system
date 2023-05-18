@@ -207,9 +207,7 @@ const Projects = () => {
                   icon={<IconPlus size={20} />}
                   className="btn btn--light btn--block btn--no-m-bottom btn--sm"
                   onClick={() => {
-                    dispatch(
-                      openProjectRightSidebar({ name: "project-create" })
-                    );
+                    dispatch(openProjectRightSidebar({ name: "project-create" }));
                   }}
                 />
               }
