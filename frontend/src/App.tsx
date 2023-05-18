@@ -14,15 +14,37 @@ function App() {
   const alertRedux = useAppSelector((state) => state.alert);
   const themeRedux = useAppSelector((state) => state.theme);
   return (
-    <div className={`app ${themeRedux===Theme.Dark?'app--dark':''}`}>
+    <div className={`app ${themeRedux === Theme.Dark ? "app--dark" : ""}`}>
       <UiBoot>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace={true} />} />
-          <Route path="/login" element={<LoginPage />} />
-          {authRedux.role === AuthRole.ADMIN && <Route path="/admin-dashboard/*" element={<AdminDashboard />} />}
-          <Route path="*" element={<div>hello</div>} />
+          <Route
+            path="/"
+            element={
+              <Navigate
+                to="/login"
+                replace={true}
+              />
+            }
+          />
+          <Route
+            path="/login"
+            element={<LoginPage />}
+          />
+          {authRedux.role === AuthRole.ADMIN && (
+            <Route
+              path="/admin-dashboard/*"
+              element={<AdminDashboard />}
+            />
+          )}
+          <Route
+            path="*"
+            element={<div>hello</div>}
+          />
         </Routes>
-        <ShowIf sif={alertRedux.show} show={<AppAlert />}/>
+        <ShowIf
+          sif={alertRedux.show}
+          show={<AppAlert />}
+        />
       </UiBoot>
     </div>
   );
