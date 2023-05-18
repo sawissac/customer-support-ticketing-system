@@ -40,7 +40,6 @@ class CustomerProjectController extends BaseController
         $validator = Validator::make($data, [
             'user_id' => 'required',
             'project_id' => 'required',
-
         ]);
 
         if ($validator->fails()) {
@@ -112,5 +111,11 @@ class CustomerProjectController extends BaseController
         $data = $this->customerProjectService->delete($id);
 
         return $this->sendResponse($data, 'CustomerProject Delete successfully.', 204);
+    }
+
+    public function paginate(){
+        $data = $this->customerProjectRepo->paginate();
+
+        return $this->sendResponse($data, 'CustomerProject retrieved successfully.');
     }
 }

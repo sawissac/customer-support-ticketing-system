@@ -8,7 +8,6 @@ import {
   IconTrashFilled,
   IconUsers,
 } from "@tabler/icons-react";
-import RouteSetter from "./RouteSetter";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";

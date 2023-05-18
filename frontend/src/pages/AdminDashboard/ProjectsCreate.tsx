@@ -60,7 +60,7 @@ const ProjectCreate = () => {
     });
   }
   return (
-    <div className="admin-container">
+    <div className="admin-container admin-container admin-container--no-flex-grow admin-container--form">
       
       <Nav.BackButton
         label="Project Create"
