@@ -11,7 +11,7 @@ const AdminDashboard = () => {
   return (
     <>
       <SideBar route={`/admin-dashboard`} />
-      <Routes>
+      <Routes> 
         <Route
           path="/tickets"
           element={<TicketsPage />}

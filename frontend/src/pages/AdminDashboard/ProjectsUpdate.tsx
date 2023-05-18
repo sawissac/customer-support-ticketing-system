@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
 import Nav from "../../components/Nav";
-import { IconUserPlus } from "@tabler/icons-react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import RouteSetter from "./RouteSetter";
 import FormWarper from "../../components/FormWarper";
-import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
@@ -75,7 +72,6 @@ const ProjectUpdate = () => {
   }
   return (
     <div className="admin-container admin-container--no-flex-grow admin-container--form">
-      <RouteSetter routeName="/admin-dashboard/project" />
       <Nav.BackButton
         label="Project Update"
         onClick={() => {

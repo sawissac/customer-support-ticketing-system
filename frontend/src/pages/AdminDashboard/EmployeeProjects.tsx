@@ -1,14 +1,11 @@
-import React, { useCallback, useMemo, useState } from "react";
+import  { useMemo } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
-import { IconArrowLeft, IconEdit, IconUsers } from "@tabler/icons-react";
-import RouteSetter from "./RouteSetter";
-import { NavLink, useNavigate } from "react-router-dom";
+import { IconArrowLeft, IconEdit } from "@tabler/icons-react";
 import { IconTrashFilled } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { useQuery } from "react-query";
 import axios from "axios";
-import { setEmployeeProject } from "../../redux/feature_slice/EmployeeProjectSlice";
 import Button from "../../components/Button";
 import { IconPlus } from "@tabler/icons-react";
 import {
@@ -123,7 +120,7 @@ const EmployeeProjects = () => {
     return res;
   };
 
-  const { isLoading, error, data, isFetching } = useQuery(["employee", projectPageRedux.employeeUrlState], getUsersData);
+  const {  error, data, isFetching } = useQuery(["employee", projectPageRedux.employeeUrlState], getUsersData);
 
   if (isFetching) return <div className="fetching">
     <Oval
