@@ -119,7 +119,7 @@ class UserController extends BaseController
     {
         $this->userService->delete($id);
 
-        return $this->sendResponse( 'User deleted successfully.', 204);
+        return $this->sendResponse( [],'User deleted successfully.', 204);
     }
 
 
