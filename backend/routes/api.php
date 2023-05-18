@@ -40,7 +40,7 @@ Route::middleware(['cors'])->group(function () {
     Route::apiResource('/project', ProjectController::class)->middleware('auth:sanctum');
     Route::apiResource('/employee-project', EmployeeProjectController::class)->middleware('auth:sanctum');
     Route::apiResource('/ticket', TicketController::class)->middleware('auth:sanctum');
-    Route::get('/tickets', [TicketController::class, 'getTickets'])->middleware('auth:sanctum');;
+    Route::get('/tickets', [TicketController::class, 'getTickets'])->middleware('auth:sanctum');
     Route::apiResource('/employee-report', EmployeeReportController::class)->middleware('auth:sanctum');
     Route::apiResource('/employee-assign', EmployeeAssignController::class)->middleware('auth:sanctum');
     Route::apiResource('/customer-project', CustomerProjectController::class)->middleware('auth:sanctum');
