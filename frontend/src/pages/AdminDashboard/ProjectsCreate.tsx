@@ -1,9 +1,7 @@
 import React from "react";
 import Nav from "../../components/Nav";
-import { IconUserPlus } from "@tabler/icons-react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import RouteSetter from "./RouteSetter";
 import FormWarper from "../../components/FormWarper";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
@@ -12,11 +10,12 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { createProject } from "../../requests/projectRequest";
 import { openProjectRightSidebar, updateProjectTableUrl } from "../../redux/feature_slice/ProjectPageSlice";
 import { motion } from "framer-motion";
+import { Theme } from "../../redux/variable/ThemeVariable";
 
 const ProjectCreate = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
+  const themeRedux = useAppSelector((state) => state.theme);
   const [inputField, setInputField] = React.useState({
     name: "",
   });
@@ -61,7 +60,8 @@ const ProjectCreate = () => {
     });
   }
   return (
-    <div className="admin-container admin-container--no-flex-grow admin-container--form">
+    <div className="admin-container">
+      
       <Nav.BackButton
         label="Project Create"
         onClick={() => {

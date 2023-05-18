@@ -15,6 +15,7 @@ interface DropdownInterface {
   dropdownClassName?: string;
   offset?: any;
   toggle?: boolean;
+  width?:number;
 }
 
 function Dropdown({
@@ -25,6 +26,7 @@ function Dropdown({
   dropdownClassName,
   offset,
   toggle,
+  width
 }: DropdownInterface) {
   const [isOpen, setIsOpen] = useState(false);
   const [referenceElement, setReferenceElement] = useState<any>(null);

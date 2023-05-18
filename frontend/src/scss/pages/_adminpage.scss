@@ -2,13 +2,13 @@
   flex: 1;
   overflow-x: hidden;
   overflow-y: scroll;
-
   &--form {
     min-width: 400px;
   }
 
   &--textarea {
     form {
+      margin: 0 auto;
       max-width: 500px;
     }
   }
@@ -18,4 +18,5 @@
   &__inner {
     padding: map-get($spacers, 3) map-get($spacers, 4);
   }
+ 
 }

@@ -30,6 +30,7 @@ interface SideBarInterface {
 const SideBar = (props: SideBarInterface) => {
   const authRedux = useAppSelector((state) => state.auth);
   const sidebarRedux = useAppSelector((state) => state.sidebar);
+
   return (
     <div className="sidebar">
       <div className="sidebar__header">
@@ -50,7 +51,8 @@ interface SideBarSimplify {
   route: string;
 }
 SideBar.Simplify = function (props: SideBarSimplify) {
-  const sidebarRedux = useAppSelector((state) => state.sidebar);
+
+
   return (
     <div className="sidebar__list">
       <h5>Manage</h5>
@@ -181,6 +183,7 @@ SideBar.Profile = function (props: SideBarProfile) {
               label="Dark"
             />
             <Button
+            
               type="button"
               className={themeRedux === Theme.Light ? "sidebar-dropdown--active" : ""}
               onClick={() => {

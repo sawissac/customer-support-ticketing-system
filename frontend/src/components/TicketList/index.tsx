@@ -7,6 +7,8 @@ import {
 import { NavLink } from "react-router-dom";
 import Avatar from "react-avatar";
 import ShowIf from "../Helper";
+import { useAppSelector } from "../../redux/hook";
+import { Theme } from "../../redux/variable/ThemeVariable";
 
 interface TicketListInterface {
   description: string;
@@ -19,6 +21,7 @@ interface TicketListInterface {
   projectName: string;
 }
 
+
 const TicketList = ({
   description,
   name,
@@ -29,8 +32,9 @@ const TicketList = ({
   userView,
   projectName
 }: TicketListInterface) => {
+  const themeRedux  = useAppSelector(state=>state.theme); 
   return (
-    <div className="ticket-list">
+    <div className={`ticket-list ${themeRedux === Theme.Dark ? 'ticket-list--dark': ''}`}>
       <div className="ticket-list__status ticket-list__status--mt-0">
         <div className="ticket-list__info ticket-list__info--center">
           <Avatar
@@ -69,7 +73,7 @@ const TicketList = ({
       <div className="ticket-list__desc">
         {description}
       </div>
-      <div className="ticket-list__sub-desc">
+      <div className={`ticket-list__sub-desc ${themeRedux === Theme.Dark ? 'ticket-list__sub-desc--dark': ''}`}>
         <IconFolder size={20} />{projectName}
       </div>
       <div className="ticket-list__status">

@@ -1,0 +1,54 @@
+.app {
+  display: flex;
+  width: 100%;
+  &--dark .fetching {
+    background-color: #2b2d31;
+    color: white;
+  }
+  &--dark .sidebar {
+    background-color: #2b2d31;
+    color: $white;
+  }
+  &--dark .sidebar__action-list {
+    background-color: #313338;
+    border: none;
+  }
+  &--dark .sidebar__profile{
+    background-color: #232428;
+  }
+  &--dark .sidebar-dropdown *{
+    background-color: #2b2d31;
+    color: $white;
+  }
+  &--dark .admin-container {
+    background-color: #2b2d31;
+    color: $white;
+  }
+  &--dark .text {
+    color: white !important;
+  }
+  &--dark .fieldset-timer * {
+    color: white !important;
+  }
+  &--dark .message__description {
+    background-color: #313338;
+  }
+  &--dark .message-file-attachment {
+    background-color: #313338;
+  }
+  &--dark textarea {
+    background-color: #313338;
+  }
+  &--dark input {
+    background-color: #313338;
+    color: $white;
+  }
+  &--dark .form-dropdown *{
+    background-color: #313338;
+    color: $white;
+  }
+  &--dark .form-dropdown-btn{
+    background-color: #313338;
+    color: $white;
+  }
+}

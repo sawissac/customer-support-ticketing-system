@@ -22,7 +22,7 @@ class UserController extends BaseController
     {
         $this->userRepo = $userRepo;
         $this->userService = $userService;
-        $this->middleware('permission:canShowUser', ['only' => ['index','show','employee','customer']]);
+        $this->middleware('permission:canShowUser', ['only' => ['index', 'show', 'employee', 'customer']]);
         $this->middleware('permission:canCreateUser', ['only' => ['create,store']]);
         $this->middleware('permission:canUpdateUser', ['only' => ['edit,update']]);
         $this->middleware('permission:canDeleteUser', ['only' => ['destroy']]);
@@ -33,97 +33,72 @@ class UserController extends BaseController
 
         $data = $this->userRepo->get();
 
-        try {
-            if ($data) {
-                return $this->sendResponse($data, 'User retrieved successfully.');
-            } else {
-                return $this->sendError('User not found.', 404);
-            }
-        } catch (Exception $e) {
-            return $this->handleException($e);
+        if ($data) {
+            return $this->sendResponse($data, 'User retrieved successfully.');
+        } else {
+            return $this->sendError('User not found.', 404);
         }
     }
 
     public function store(Request $request)
     {
-        try {
-            $validate = $request->all();
+        $validate = $request->all();
 
-            $validator = Validator::make(
-                $validate,
-                [
-                    'name' => 'required|string|max:255',
-                    'email' => 'required|string|max:255|email|unique:users,email',
-                    'password' => 'required|confirmed',
-                    'role' => 'required'
-                ]
-            );
+        $validator = Validator::make(
+            $validate,
+            [
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|max:255|email|unique:users,email',
+                'password' => 'required|confirmed',
+                'role' => 'required'
+            ]
+        );
 
-            if ($validator->fails()) {
-                throw new ValidationException($validator);
-            }
-
-            $data = $this->userService->store($validate);
-            return $this->sendResponse($data, 'User created successfully.');
-        } catch (ValidationException $e) {
-            return $this->sendError('Validation Error.', $e->errors(), 422);
-        } catch (Exception $e) {
-            return $this->handleException($e);
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
         }
-    }
 
+        $data = $this->userService->store($validate);
+
+        return $this->sendResponse($data, 'User created successfully.', 201);
+    }
     public function show($id)
     {
         $result = $this->userRepo->show($id);
 
-        try {
-            if ($result) {
-                return $this->sendResponse($result, 'User retrieved successfully.');
-            } else {
-                return $this->sendError('User not found.', 404);
-            }
-        } catch (Exception $e) {
-            return $this->handleException($e);
+        if (is_null($result)) {
+            return $this->sendError('User not found.');
         }
-    }
 
+        return $this->sendResponse($result, 'User retrieved successfully.');
+    }
     public function update(Request $request, $id)
     {
-        try {
-            $validate = $request->all();
+        $validate = $request->all();
 
-            $validator = Validator::make($validate, [
+        $validator = Validator::make(
+            $validate,
+            [
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|max:255|email',
                 'role' => 'required'
-            ]);
+            ]
+        );
 
-            if ($validator->fails()) {
-                throw new ValidationException($validator);
-            }
-
-            $data = $this->userService->update($id, $validate);
-            return $this->sendResponse($data, 'User updated successfully.');
-        } catch (ValidationException $e) {
-            return $this->sendError('Validation Error.', $e->errors(), 422);
-        } catch (Exception $e) {
-            return $this->handleException($e);
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
         }
-    }
 
+        $data = $this->userService->update($id, $validate);
+
+        return $this->sendResponse($data, 'User updated successfully.');
+    }
+    
     public function destroy($id)
     {
-        $result = $this->userService->delete($id);
+        $this->userService->delete($id);
 
-        try {
-            if ($result) {
-                return $this->sendResponse($result, 'User delete successfully.');
-            } else {
-                return $this->sendError('User not found.', 404);
-            }
-        } catch (Exception $e) {
-            return $this->handleException($e);
-        }
+        return $this->sendResponse([], 'User deleted successfully.', 204);
     }
 
 
@@ -137,17 +112,8 @@ class UserController extends BaseController
 
     public function customer()
     {
+        $customerData = $this->userRepo->customer();
 
-        try {
-            $customerData = $this->userRepo->customer();
-
-            if (!empty($customerData)) {
-                return $this->sendResponse($customerData, 'Customers retrieved successfully.');
-            } else {
-                return $this->sendError('No customers found.', 404);
-            }
-        } catch (Exception $e) {
-            return $this->handleException($e);
-        }
+        return $this->sendResponse($customerData, 'Customers retrieved successfully.');
     }
 }

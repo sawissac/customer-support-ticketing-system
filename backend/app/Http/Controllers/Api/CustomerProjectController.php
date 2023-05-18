@@ -48,6 +48,7 @@ class CustomerProjectController extends BaseController
         }
 
         $validated = $validator->validated();
+
         $existingData = CustomerProject::where('project_id', $validated['project_id'])
             ->where('user_id', $validated['user_id'])
             ->first();
@@ -58,7 +59,7 @@ class CustomerProjectController extends BaseController
 
         $result = $this->customerProjectService->store($data);
 
-        return $this->sendResponse($result, 'CustomerProject created successfully.');
+        return $this->sendResponse($result, 'CustomerProject created successfully.', 201);
     }
 
     public function show($id)
@@ -87,6 +88,16 @@ class CustomerProjectController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
+        $validated = $validator->validated();
+
+        $existingData = CustomerProject::where('project_id', $validated['project_id'])
+            ->where('user_id', $validated['user_id'])
+            ->first();
+
+        if ($existingData) {
+            return $this->sendError('Validation Error.', 'The combination of project_id and user_id already exists.');
+        }
+
         $result = $this->customerProjectService->update($id, $data);
 
         return $this->sendResponse($result, 'CustomerProject Update successfully.');
@@ -100,6 +111,6 @@ class CustomerProjectController extends BaseController
 
         $data = $this->customerProjectService->delete($id);
 
-        return $this->sendResponse($data, 'CustomerProject Delete successfully.');
+        return $this->sendResponse($data, 'CustomerProject Delete successfully.', 204);
     }
 }
