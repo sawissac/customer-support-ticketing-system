@@ -20,6 +20,11 @@ class CustomerProjectController extends BaseController
     {
         $this->customerProjectRepo = $customerProjectRepo;
         $this->customerProjectService = $customerProjectService;
+        $this->middleware('permission:canCreateCustomerProjectList', ['only' => 'create']);
+        $this->middleware('permission:canUpdateCustomerProjectList', ['only' => 'update']);
+        $this->middleware('permission:canDeleteCustomerProjectList', ['only' => 'delete']);
+        $this->middleware('permission:canShowCustomerProjectList', ['only' => 'index,show']);
+        // $this->middleware('auth');
     }
 
     public function index()

@@ -16,6 +16,10 @@ class EmployeeProjectController extends BaseController
     {
         $this->employeeprojectRepo = $employeeprojectRepo;
         $this->employeeprojectService = $employeeprojectService;
+        $this->middleware('permission:canCreateEmployeeProjectList', ['only' => 'create']);
+        $this->middleware('permission:canUpdateEmployeeProjectList', ['only' => 'edit,update']);
+        $this->middleware('permission:canDeleteEmployeeProjectList', ['only' => 'delete']);
+        $this->middleware('permission:canShowEmployeeProjectList', ['only' => 'index,show']);
     }
     /**
      * Display a listing of the resource.
@@ -47,7 +51,7 @@ class EmployeeProjectController extends BaseController
             ]
         );
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
@@ -92,7 +96,7 @@ class EmployeeProjectController extends BaseController
             ]
         );
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 

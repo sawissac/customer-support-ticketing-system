@@ -18,6 +18,10 @@ class EmployeeReportController extends BaseController
     {
         $this->employeereportRepo = $employeereportRepo;
         $this->employeereportService = $employeereportService;
+        $this->middleware('permission:canCreateReport', ['only' => 'create']);
+        $this->middleware('permission:canUpdateReport', ['only' => 'edit,update']);
+        $this->middleware('permission:canDeletetReport', ['only' => 'delete']);
+        $this->middleware('permission:canShowReport', ['only' => 'index,show']);
     }
 
     /**
@@ -51,7 +55,7 @@ class EmployeeReportController extends BaseController
             ]
         );
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
@@ -97,7 +101,7 @@ class EmployeeReportController extends BaseController
             ]
         );
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 

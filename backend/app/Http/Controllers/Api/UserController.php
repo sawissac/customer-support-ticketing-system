@@ -20,6 +20,10 @@ class UserController extends BaseController
     {
         $this->userRepo = $userRepo;
         $this->userService = $userService;
+        $this->middleware('permission:canCreateUser', ['only' => 'create']);
+        $this->middleware('permission:canUpdateUser', ['only' => 'edit,update']);
+        $this->middleware('permission:canDeleteUser', ['only' => 'delete']);
+        $this->middleware('permission:canShowUser', ['only' => 'index,show']);
     }
     /**
      * Display a listing of the resource.

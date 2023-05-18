@@ -18,6 +18,10 @@ class TicketController extends BaseController
     {
         $this->ticketRepo = $ticketRepo;
         $this->ticketService = $ticketService;
+        $this->middleware('permission:canCreateTickets', ['only' => 'create']);
+        $this->middleware('permission:canUpdateTickets', ['only' => 'edit,update']);
+        $this->middleware('permission:canDeleteTickets', ['only' => 'delete']);
+        $this->middleware('permission:canShowTickets', ['only' => 'index,show']);
     }
     /**
      * Display a listing of the resource.

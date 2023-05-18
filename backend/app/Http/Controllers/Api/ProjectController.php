@@ -19,6 +19,10 @@ class ProjectController extends BaseController
     {
         $this->projectRepo = $projectRepo;
         $this->projectServcie = $projectServcie;
+        $this->middleware('permission:canCreateReport', ['only' => 'create']);
+        $this->middleware('permission:canUpdateReport', ['only' => 'edit,update']);
+        $this->middleware('permission:canDeleteReport', ['only' => 'delete']);
+        $this->middleware('permission:canShowReport', ['only' => 'index,show']);
     }
 
     /**
