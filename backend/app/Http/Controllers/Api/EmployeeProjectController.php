@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use App\Models\EmployeeProject;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\Api\BaseController;
 
+use App\Http\Controllers\Api\BaseController;
 use App\Service\EmployeeProject\EmployeeProjectServiceInterface;
 use App\Repository\EmployeeProject\EmployeeProjectRepositoryInterface;
 
@@ -54,6 +55,15 @@ class EmployeeProjectController extends BaseController
 
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        $validated = $validator->validated();
+        $existingData = EmployeeProject::where('project_id', $validated['project_id'])
+            ->where('user_id', $validated['user_id'])
+            ->first();
+
+        if ($existingData) {
+            return $this->sendError('Validation Error.', 'The combination of project_id and user_id already exists.');
         }
 
         $data = $this->employeeprojectService->store($validate);

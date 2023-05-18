@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Api\BaseController;
-
+use App\Models\CustomerProject;
 use App\Repository\CustomerProject\CustomerProjectRepoInterface;
 use App\Service\CustomerProject\CustomerProjectServiceInterface;
 
@@ -45,6 +45,15 @@ class CustomerProjectController extends BaseController
 
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        $validated = $validator->validated();
+        $existingData = CustomerProject::where('project_id', $validated['project_id'])
+            ->where('user_id', $validated['user_id'])
+            ->first();
+
+        if ($existingData) {
+            return $this->sendError('Validation Error.', 'The combination of project_id and user_id already exists.');
         }
 
         $result = $this->customerProjectService->store($data);
