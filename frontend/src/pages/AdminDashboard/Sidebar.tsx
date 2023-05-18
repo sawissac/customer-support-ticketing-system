@@ -52,10 +52,9 @@ interface SideBarSimplify {
 }
 SideBar.Simplify = function (props: SideBarSimplify) {
 
-  const themeRedux = useAppSelector((state) => state.theme);
 
   return (
-    <div className={`sidebar__list ${themeRedux===Theme.Dark?'sidebar__list--dark':''}`}>
+    <div className="sidebar__list">
       <h5>Manage</h5>
       <SideBar.Link
         routeName={props.route + "/tickets"}
@@ -136,7 +135,7 @@ SideBar.Profile = function (props: SideBarProfile) {
         offset={[0, 30]}
         placement="right-start"
         buttonChildren={<IconSettings />}
-        dropdownClassName={`sidebar-dropdown ${themeRedux===Theme.Dark?'sidebar-dropdown--dark':''}`}
+        dropdownClassName="sidebar-dropdown"
         dropdownChildren={
           <>
             <h6>Sidebar Mode</h6>
