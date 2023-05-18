@@ -21,28 +21,32 @@ import ShowIf from "../../components/Helper";
 import EmployeeProjects from "./EmployeeProjects";
 import CustomerProjects from "./CustomerProjects";
 import ProjectUpdate from "./ProjectsUpdate";
-
-createTheme('table-dark', {
-  text: {
-    primary: 'white',
-    secondary: 'white',
+import { Oval } from "react-loader-spinner";
+createTheme(
+  "table-dark",
+  {
+    text: {
+      primary: "white",
+      secondary: "white",
+    },
+    background: {
+      default: "#313338",
+    },
+    context: {
+      background: "#cb4b16",
+      text: "#FFFFFF",
+    },
+    divider: {
+      default: "white",
+    },
+    action: {
+      button: "rgba(0,0,0,.54)",
+      hover: "rgba(0,0,0,.08)",
+      disabled: "rgba(0,0,0,.12)",
+    },
   },
-  background: {
-    default: '#313338',
-  },
-  context: {
-    background: '#cb4b16',
-    text: '#FFFFFF',
-  },
-  divider: {
-    default: 'white',
-  },
-  action: {
-    button: 'rgba(0,0,0,.54)',
-    hover: 'rgba(0,0,0,.08)',
-    disabled: 'rgba(0,0,0,.12)',
-  },
-}, 'dark');
+  "dark"
+);
 
 const Projects = () => {
   const dispatch = useAppDispatch();
@@ -170,7 +174,23 @@ const Projects = () => {
     getUsersData
   );
 
-  if (isFetching) return <div className="fetching">isFetching</div>;
+  if (isFetching)
+    return (
+      <div className="fetching">
+        <Oval
+          height={50}
+          width={50}
+          color="#F37021"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+          ariaLabel="oval-loading"
+          secondaryColor="#c97b4b"
+          strokeWidth={2}
+          strokeWidthSecondary={2}
+        />
+      </div>
+    );
 
   return (
     <>
@@ -187,7 +207,9 @@ const Projects = () => {
                   icon={<IconPlus size={20} />}
                   className="btn btn--light btn--block btn--no-m-bottom btn--sm"
                   onClick={() => {
-                    dispatch(openProjectRightSidebar({ name: "project-create" }));
+                    dispatch(
+                      openProjectRightSidebar({ name: "project-create" })
+                    );
                   }}
                 />
               }
