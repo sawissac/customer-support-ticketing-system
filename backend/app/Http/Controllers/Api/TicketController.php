@@ -119,3 +119,4 @@ class TicketController extends BaseController
         return $this->sendResponse($data, 'Tickets pagination....');
     }
 }
+}

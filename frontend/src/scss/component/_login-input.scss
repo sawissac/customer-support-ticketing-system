@@ -12,7 +12,7 @@
       width: 85%;
       height: 100%;
       border-color: transparent;
-      outline-color: transparent;
+      outline: none;
       font-size: $h6-font-size;
       padding: 0px map-get($spacers, 3);
     }

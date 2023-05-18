@@ -28,3 +28,5 @@ class TicketRepository implements TicketRepositoryInterface
         return $tickets;
     }
 }
+
+}
