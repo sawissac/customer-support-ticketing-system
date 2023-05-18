@@ -1,8 +1,9 @@
-import { useMemo, useState} from "react";
+import React, { useMemo, useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
 import {
   IconEdit,
+  IconMenuOrder,
   IconPlus,
   IconTrashFilled,
   IconUsers,
@@ -15,7 +16,7 @@ import {
   openUserRightSidebar,
   setUserState,
 } from "../../redux/feature_slice/UserPageSlice";
-import { serverRoles } from "../../redux/variable/UserPageVariable";
+import { serverRoles, userRoles } from "../../redux/variable/UserPageVariable";
 import Avatar from "react-avatar";
 import UserCreatePage from "./UserCreate";
 import UserUpdatePage from "./UserUpdate";
@@ -26,36 +27,42 @@ import { Theme } from "../../redux/variable/ThemeVariable";
 import { Oval } from "react-loader-spinner";
 import { debounce } from "debounce";
 import Input from "../../components/Input";
+import Dropdown from "../../components/DropDown";
 
-createTheme('table-dark', {
-  text: {
-    primary: 'white',
-    secondary: 'white',
+createTheme(
+  "table-dark",
+  {
+    text: {
+      primary: "white",
+      secondary: "white",
+    },
+    background: {
+      default: "#313338",
+    },
+    context: {
+      background: "#cb4b16",
+      text: "#FFFFFF",
+    },
+    divider: {
+      default: "white",
+    },
+    action: {
+      button: "rgba(0,0,0,.54)",
+      hover: "rgba(0,0,0,.08)",
+      disabled: "rgba(0,0,0,.12)",
+    },
   },
-  background: {
-    default: '#313338',
-  },
-  context: {
-    background: '#cb4b16',
-    text: '#FFFFFF',
-  },
-  divider: {
-    default: 'white',
-  },
-  action: {
-    button: 'rgba(0,0,0,.54)',
-    hover: 'rgba(0,0,0,.08)',
-    disabled: 'rgba(0,0,0,.12)',
-  },
-}, 'dark');
+  "dark"
+);
 
 const Users = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
   const UserPageRedux = useAppSelector((state) => state.userSidebar);
   const themeRedux = useAppSelector((state) => state.theme);
-  
+
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("");
   const [filteredData, setFilteredData] = useState([]);
 
   const columns = useMemo(
@@ -154,8 +161,7 @@ const Users = () => {
   );
   if (isFetching)
     return (
-      <div
-        className="fetching ">
+      <div className="fetching ">
         <Oval
           height={50}
           width={50}
@@ -171,22 +177,41 @@ const Users = () => {
       </div>
     );
 
-    const debouncedSearch = debounce((value: any) => {
-      const filtered = data.filter((item: any) => {
-        return item.name.toLowerCase().includes(value.toLowerCase());
-      });
-      setFilteredData(filtered);
-    }, 1000);
-  
-    const handleSearch = (event: any) => {
-      setSearchQuery(event.target.value);
-      debouncedSearch(event.target.value);
-    };
+  const debouncedSearch = debounce((value: any) => {
+    const filtered = data.filter((item: any) => {
+      return item.name.toLowerCase().includes(value.toLowerCase());
+    });
+    setFilteredData(filtered);
+  }, 1000);
 
+  const handleSearch = (event: any) => {
+    setSearchQuery(event.target.value);
+    debouncedSearch(event.target.value);
+  };
+
+  const handleFilterChange = (event: any) => {
+    const selectedValue = event.target.value;
+    setSelectedFilter(selectedValue);
+
+    let filtered = data;
+    if (selectedValue.name == "Admin") {
+      filtered = data.filter((item: any) => {
+        return item.roles[0].name == "admin";
+      });
+    } else if (selectedValue == "Employee") {
+      filtered = data.filter((item: any) => {
+        return item.roles[0].name == "employee";
+      });
+    } else if (selectedValue == "Customer") {
+      filtered = data.filter((item: any) => {
+        return item.roles[0].name == "customer";
+      });
+    }
+    setFilteredData(filtered);
+  };
   return (
     <>
-      <div
-        className="admin-container">
+      <div className="admin-container">
         <Nav
           icon={<IconUsers />}
           label={"Users"}
@@ -207,20 +232,27 @@ const Users = () => {
           className="admin-container__inner"
         >
           <Input
-                type="text"
-                label="Search"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={handleSearch}
-                className="search"
-              />
+            type="text"
+            label="Search"
+            placeholder="Search..."
+            value={searchQuery}
+            onChange={handleSearch}
+            className="search"
+          />
+
+          <select value={selectedFilter} onChange={handleFilterChange}>
+            <option value="">All</option>
+            <option value="Admin">Admin</option>
+            <option value="Employee">Employee</option>
+            <option value="Customer">Customer</option>
+          </select>
+
           <DataTable
             columns={columns}
             data={filteredData.length === 0 ? data : filteredData}
             responsive
             pagination
-            theme={`${
-              themeRedux === Theme.Dark ? "table-dark" : ""}`}
+            theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}
           />
         </motion.div>
       </div>
