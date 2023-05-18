@@ -60,7 +60,7 @@ class UserController extends BaseController
 
         $data = $this->userService->store($validate);
 
-        return $this->sendResponse($data, 'User created successfully.');
+        return $this->sendResponse($data, 'User created successfully.', 201);
     }
 
     /**
@@ -119,7 +119,7 @@ class UserController extends BaseController
     {
         $this->userService->delete($id);
 
-        return $this->sendResponse([], 'User deleted successfully.');
+        return $this->sendResponse( [],'User deleted successfully.', 204);
     }
 
 
