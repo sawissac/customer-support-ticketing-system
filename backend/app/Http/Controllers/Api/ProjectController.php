@@ -61,7 +61,7 @@ class ProjectController extends BaseController
 
         $data = $this->projectServcie->store($validate);
 
-        return $this->sendResponse($data, 'Project created successfully.');
+        return $this->sendResponse($data, 'Project created successfully.', 201);
     }
 
     /**
@@ -119,6 +119,6 @@ class ProjectController extends BaseController
     {
         $this->projectServcie->delete($id);
 
-        return $this->sendResponse([], 'Project deleted successfully.');
+        return $this->sendResponse([], 'Project deleted successfully.', 204);
     }
 }

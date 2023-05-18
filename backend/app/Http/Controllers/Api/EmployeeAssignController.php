@@ -45,7 +45,7 @@ class EmployeeAssignController extends BaseController
 
         $result = $this->employeeAssignService->store($data);
 
-        return $this->sendResponse($result, 'Employee Assgin created successfully.');
+        return $this->sendResponse($result, 'Employee Assgin created successfully.', 201);
     }
 
     public function show($id)
@@ -87,6 +87,6 @@ class EmployeeAssignController extends BaseController
             return $this->sendError('Employee Assgin Not found.');
         }
 
-        return $this->sendResponse($data, 'Employee Assgin Delete successfully.');
+        return $this->sendResponse($data, 'Employee Assgin Delete successfully.', 204);
     }
 }
