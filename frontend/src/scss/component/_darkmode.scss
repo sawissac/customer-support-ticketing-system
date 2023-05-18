@@ -51,4 +51,20 @@
     background-color: #313338;
     color: $white;
   }
+  &--dark .login_container{
+    background-color: #2b2d31;
+    color: $white;
+  }
+  &--dark .login-form{
+    h1{
+      color: $white;
+    }
+    input{
+      color: $white;
+      }
+      ::placeholder{
+        color: $white;
+        opacity: 60%;
+    }
+  }
 }
