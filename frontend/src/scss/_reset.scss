@@ -46,7 +46,8 @@ table {
 	border-spacing: 0;
 }
 
-#root{
+.app{
+	overflow: hidden;
 	display: flex;
 	height: 100vh;
 }

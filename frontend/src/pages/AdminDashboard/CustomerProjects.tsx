@@ -44,7 +44,6 @@ createTheme('table-dark', {
 }, 'dark');
 const CustomerProjects = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const AuthRedux = useAppSelector((state) => state.auth);
   const projectPageRedux = useAppSelector((state) => state.projectSidebar);
   const themeRedux = useAppSelector((state) => state.theme);

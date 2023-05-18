@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Database\QueryException;
+use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\Controller as Controller;
 
 class BaseController extends Controller
@@ -11,7 +13,7 @@ class BaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function sendResponse($result, $message)
+    public function sendResponse($result, $message, $code = 200)
     {
     	$response = [
             'success' => true,
@@ -19,13 +21,9 @@ class BaseController extends Controller
             'data'    => $result,
         ];
 
-        return response()->json($response, 200);
+        return response()->json($response, $code);
     }
-    /**
-     * return error response.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function sendError($error, $errorMessages = [], $code = 404)
     {
     	$response = [

@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
+use Exception;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Api\BaseController;
 use Illuminate\Support\Facades\Validator;
 
-use App\Repository\User\UserRepositoryInterface;
 use App\Service\User\UserServiceInterface;
+use App\Http\Controllers\Api\BaseController;
+use Illuminate\Validation\ValidationException;
+use App\Repository\User\UserRepositoryInterface;
 
 class UserController extends BaseController
 {
@@ -20,26 +22,24 @@ class UserController extends BaseController
     {
         $this->userRepo = $userRepo;
         $this->userService = $userService;
+        $this->middleware('permission:canShowUser', ['only' => ['index', 'show', 'employee', 'customer']]);
+        $this->middleware('permission:canCreateUser', ['only' => ['create,store']]);
+        $this->middleware('permission:canUpdateUser', ['only' => ['edit,update']]);
+        $this->middleware('permission:canDeleteUser', ['only' => ['destroy']]);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     public function index()
     {
 
         $data = $this->userRepo->get();
 
-        return $this->sendResponse($data, 'Users retrieved successfully.');
+        if ($data) {
+            return $this->sendResponse($data, 'User retrieved successfully.');
+        } else {
+            return $this->sendError('User not found.', 404);
+        }
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         $validate = $request->all();
@@ -60,15 +60,8 @@ class UserController extends BaseController
 
         $data = $this->userService->store($validate);
 
-        return $this->sendResponse($data, 'User created successfully.');
+        return $this->sendResponse($data, 'User created successfully.', 201);
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $result = $this->userRepo->show($id);
@@ -79,14 +72,6 @@ class UserController extends BaseController
 
         return $this->sendResponse($result, 'User retrieved successfully.');
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $validate = $request->all();
@@ -108,18 +93,12 @@ class UserController extends BaseController
 
         return $this->sendResponse($data, 'User updated successfully.');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy($id)
     {
         $this->userService->delete($id);
 
-        return $this->sendResponse([], 'User deleted successfully.');
+        return $this->sendResponse([], 'User deleted successfully.', 204);
     }
 
 

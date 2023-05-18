@@ -32,8 +32,8 @@ Input.Textarea = function ({ label, errorMessage, ...props }: InputProps) {
         )}
       </div>
       <TextareaAutosize
-        minRows={10}
-        maxRows={10}
+        minRows={5}
+        maxRows={5}
         placeholder="Write your problem here..."
         className="form-input__textarea"
       />

@@ -18,6 +18,10 @@ class EmployeeProjectController extends BaseController
     {
         $this->employeeprojectRepo = $employeeprojectRepo;
         $this->employeeprojectService = $employeeprojectService;
+        $this->middleware('permission:canShowEmployeeProjectList', ['only' => ['index', 'show']]);
+        $this->middleware('permission:canCreateEmployeeProjectList', ['only' => ['create,store']]);
+        $this->middleware('permission:canUpdateEmployeeProjectList', ['only' => ['edit,update']]);
+        $this->middleware('permission:canDeleteEmployeeProjectList', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -54,6 +58,7 @@ class EmployeeProjectController extends BaseController
         }
 
         $validated = $validator->validated();
+
         $existingData = EmployeeProject::where('project_id', $validated['project_id'])
             ->where('user_id', $validated['user_id'])
             ->first();
@@ -64,7 +69,7 @@ class EmployeeProjectController extends BaseController
 
         $data = $this->employeeprojectService->store($validate);
 
-        return $this->sendResponse($data, 'EmployeeProject created successfully.');
+        return $this->sendResponse($data, 'EmployeeProject created successfully.', 201);
     }
 
     /**
@@ -107,6 +112,16 @@ class EmployeeProjectController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
+        $validated = $validator->validated();
+
+        $existingData = EmployeeProject::where('project_id', $validated['project_id'])
+            ->where('user_id', $validated['user_id'])
+            ->first();
+
+        if ($existingData) {
+            return $this->sendError('Validation Error.', 'The combination of project_id and user_id already exists.');
+        }
+
         $data = $this->employeeprojectService->update($id, $validate);
 
         return $this->sendResponse($data, 'EmployeeProject updated successfully.');
@@ -122,6 +137,6 @@ class EmployeeProjectController extends BaseController
     {
         $this->employeeprojectService->delete($id);
 
-        return $this->sendResponse([], 'EmployeeProject deleted successfully.');
+        return $this->sendResponse([], 'EmployeeProject deleted successfully.', 204);
     }
 }

@@ -17,6 +17,10 @@ class EmployeeAssignController extends BaseController
     {
         $this->employeeAssignRepo = $employeeAssignRepo;
         $this->employeeAssignService = $employeeAssignService;
+        $this->middleware('permission:canShowAssignEmplyee', ['only' => ['index', 'show']]);
+        $this->middleware('permission:canCreateAssignEmplyee', ['only' => ['create,store']]);
+        $this->middleware('permission:canUpdateAssignEmplyee', ['only' => ['edit,update']]);
+        $this->middleware('permission:canDeleteAssignEmplyee', ['only' => ['destroy']]);
     }
 
     public function index()
@@ -41,7 +45,7 @@ class EmployeeAssignController extends BaseController
 
         $result = $this->employeeAssignService->store($data);
 
-        return $this->sendResponse($result, 'Employee Assgin created successfully.');
+        return $this->sendResponse($result, 'Employee Assgin created successfully.', 201);
     }
 
     public function show($id)
@@ -83,6 +87,6 @@ class EmployeeAssignController extends BaseController
             return $this->sendError('Employee Assgin Not found.');
         }
 
-        return $this->sendResponse($data, 'Employee Assgin Delete successfully.');
+        return $this->sendResponse($data, 'Employee Assgin Delete successfully.', 204);
     }
 }
