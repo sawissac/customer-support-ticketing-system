@@ -17,17 +17,10 @@ class TicketController extends BaseController
     {
         $this->ticketRepo = $ticketRepo;
         $this->ticketService = $ticketService;
-<<<<<<< HEAD
-        $this->middleware('permission:canCreateTickets', ['only' => 'create']);
-        $this->middleware('permission:canUpdateTickets', ['only' => 'edit,update']);
-        $this->middleware('permission:canDeleteTickets', ['only' => 'delete']);
-        $this->middleware('permission:canShowTickets', ['only' => 'index,show']);
-=======
         $this->middleware('permission:canShowTickets', ['only' => ['index', 'show', 'getTickets']]);
         $this->middleware('permission:canCreateTickets', ['only' => ['create,store']]);
         $this->middleware('permission:canUpdateTickets', ['only' => ['edit,update']]);
         $this->middleware('permission:canDeleteTickets', ['only' => ['destroy']]);
->>>>>>> main
     }
 
     /**
