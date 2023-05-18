@@ -20,7 +20,7 @@ class TicketService implements TicketServiceInterface
 
         //     $data['url'] = Storage::url('ticket_files/' . $fileName);
         // };
-        
+
         if($data['drive_link'])
         {
             $imageName = time(). '.' .$data['drive_link']->extension();
