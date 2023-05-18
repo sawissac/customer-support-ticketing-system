@@ -17,7 +17,7 @@ const TicketPage = () => {
   const [page, setPage] = React.useState(0);
   // const [page] = React.useState();
 
-  const url = "http://127.0.0.1:8000/api/employee-project";
+  const url = "http://127.0.0.1:8000/api/customer-paginate";
   const getUsersData = async () => {
     const res = await axios
       .get(url, {
@@ -33,15 +33,11 @@ const TicketPage = () => {
 
   const { error, data, isFetching } = useQuery(["employee", "hello"], getUsersData);
 
-
-  React.useEffect(()=>{
-      
-  },[data])
-
   if (isFetching) {
     return <div>isFetching</div>;
   }
-
+  console.log(data);
+  
   return (
     <>
       <ShowIf
@@ -64,6 +60,9 @@ const TicketPage = () => {
             />
 
             <div className="admin-container__inner row row--gap-1">
+              {
+
+              }
               <div className="col-4 col-lg-12">
                 <TicketList
                   projectName="sub sub"
