@@ -57,7 +57,7 @@ class EmployeeReportController extends BaseController
 
         $data = $this->employeereportService->store($validate);
 
-        return $this->sendResponse($data, 'EmployeeReport created successfully.');
+        return $this->sendResponse($data, 'EmployeeReport created successfully.', 201);
     }
 
     /**
@@ -116,6 +116,6 @@ class EmployeeReportController extends BaseController
     {
         $this->employeereportService->delete($id);
 
-        return $this->sendResponse([], 'EmployeeReport deleted successfully.');
+        return $this->sendResponse([], 'EmployeeReport deleted successfully.', 204);
     }
 }
