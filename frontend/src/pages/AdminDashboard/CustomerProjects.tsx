@@ -22,33 +22,43 @@ import CustomerProjectsCreate from "./CustomerProjectsCreate";
 import CustomerProjectsUpdate from "./CustomerProjectsUpdate";
 import { Theme } from "../../redux/variable/ThemeVariable";
 import { Oval } from "react-loader-spinner";
+import { debounce } from "debounce";
+import Input from "../../components/Input";
 
-createTheme('table-dark', {
-  text: {
-    primary: 'white',
-    secondary: 'white',
+createTheme(
+  "table-dark",
+  {
+    text: {
+      primary: "white",
+      secondary: "white",
+    },
+    background: {
+      default: "#313338",
+    },
+    context: {
+      background: "#cb4b16",
+      text: "#FFFFFF",
+    },
+    divider: {
+      default: "white",
+    },
+    action: {
+      button: "rgba(0,0,0,.54)",
+      hover: "rgba(0,0,0,.08)",
+      disabled: "rgba(0,0,0,.12)",
+    },
   },
-  background: {
-    default: '#313338',
-  },
-  context: {
-    background: '#cb4b16',
-    text: '#FFFFFF',
-  },
-  divider: {
-    default: 'white',
-  },
-  action: {
-    button: 'rgba(0,0,0,.54)',
-    hover: 'rgba(0,0,0,.08)',
-    disabled: 'rgba(0,0,0,.12)',
-  },
-}, 'dark');
+  "dark"
+);
 const CustomerProjects = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
   const projectPageRedux = useAppSelector((state) => state.projectSidebar);
   const themeRedux = useAppSelector((state) => state.theme);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+
   const columns = useMemo(
     () => [
       {
@@ -122,14 +132,15 @@ const CustomerProjects = () => {
       });
     return res;
   };
-
   const { isLoading, error, data, isFetching } = useQuery(
     ["customer", projectPageRedux.customerUrlState],
     getUsersData
   );
-
-  if (isFetching) return <p className="fetching">
-     <Oval
+    
+  if (isFetching)
+    return (
+      <p className="fetching">
+        <Oval
           height={50}
           width={50}
           color="#F37021"
@@ -141,8 +152,21 @@ const CustomerProjects = () => {
           strokeWidth={2}
           strokeWidthSecondary={2}
         />
-  </p>;
+      </p>
+    );
   if (error) return <p>"An error has occurs"</p>;
+
+  const debouncedSearch = debounce((value: any) => {
+    const filtered = data.filter((item: any) => {
+      return item.user.name.toLowerCase().includes(value.toLowerCase());
+    });
+    setFilteredData(filtered);
+  }, 1000);
+
+  const handleSearch = (event: any) => {
+    setSearchQuery(event.target.value);
+    debouncedSearch(event.target.value);
+  };
 
   return (
     <>
@@ -155,7 +179,7 @@ const CustomerProjects = () => {
           }}
           rightPlacer={
             <Button
-              label="Add Customer"
+              label="Add Customers"
               icon={<IconPlus size={20} />}
               className="btn btn--light btn--block btn--no-m-bottom btn--sm"
               onClick={() => {
@@ -170,9 +194,17 @@ const CustomerProjects = () => {
           className="admin-container__inner"
         >
           <div className="admin-container__inner">
+            <Input
+              type="text"
+              label="Search"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={handleSearch}
+              className="search"
+            />
             <DataTable
               columns={columns}
-              data={data}
+              data={filteredData.length === 0 ? data : filteredData}
               responsive
               pagination
               theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}

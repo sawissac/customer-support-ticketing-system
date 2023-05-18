@@ -6,6 +6,7 @@ import EmployeeProjects from "./EmployeeProjects";
 import EmployeeAssignment from "./EmployeeAssignment";
 import Projects from "./Projects";
 import CustomerProjects from "./CustomerProjects";
+import { PageNotFound } from "./404Page";
 
 const AdminDashboard = () => {
   return (
@@ -38,7 +39,7 @@ const AdminDashboard = () => {
         />
         <Route
           path="/*"
-          element={<h1>404</h1>}
+          element={<PageNotFound/>}
         />
       </Routes>
     </>

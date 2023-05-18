@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState} from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
 import {
@@ -24,6 +24,8 @@ import Button from "../../components/Button";
 import { motion } from "framer-motion";
 import { Theme } from "../../redux/variable/ThemeVariable";
 import { Oval } from "react-loader-spinner";
+import { debounce } from "debounce";
+import Input from "../../components/Input";
 
 createTheme('table-dark', {
   text: {
@@ -52,6 +54,10 @@ const Users = () => {
   const AuthRedux = useAppSelector((state) => state.auth);
   const UserPageRedux = useAppSelector((state) => state.userSidebar);
   const themeRedux = useAppSelector((state) => state.theme);
+  
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+
   const columns = useMemo(
     () => [
       {
@@ -165,6 +171,18 @@ const Users = () => {
       </div>
     );
 
+    const debouncedSearch = debounce((value: any) => {
+      const filtered = data.filter((item: any) => {
+        return item.name.toLowerCase().includes(value.toLowerCase());
+      });
+      setFilteredData(filtered);
+    }, 1000);
+  
+    const handleSearch = (event: any) => {
+      setSearchQuery(event.target.value);
+      debouncedSearch(event.target.value);
+    };
+
   return (
     <>
       <div
@@ -188,9 +206,17 @@ const Users = () => {
           animate={{ opacity: 1, y: "0px" }}
           className="admin-container__inner"
         >
+          <Input
+                type="text"
+                label="Search"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={handleSearch}
+                className="search"
+              />
           <DataTable
             columns={columns}
-            data={data}
+            data={filteredData.length === 0 ? data : filteredData}
             responsive
             pagination
             theme={`${
