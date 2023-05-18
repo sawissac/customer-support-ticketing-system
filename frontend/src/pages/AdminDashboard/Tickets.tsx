@@ -36,8 +36,7 @@ const TicketPage = () => {
   if (isFetching) {
     return <div>isFetching</div>;
   }
-  console.log(data);
-  
+
   return (
     <>
       <ShowIf
@@ -60,21 +59,29 @@ const TicketPage = () => {
             />
 
             <div className="admin-container__inner row row--gap-1">
-              {
-
-              }
-              <div className="col-4 col-lg-12">
-                <TicketList
-                  projectName="sub sub"
-                  userView
-                  day="9days"
-                  description="the page is loading slower..!"
-                  name="Momo sama"
-                  priority="critical"
-                  status="open"
-                  links="/admin-dashboard/ticket-view"
-                />
-              </div>
+              {data.data.data.map((i: any) => {
+                return (
+                  <>
+                    <div className="col-12">{i.project.name}</div>
+                    {i.ticket.map((j: any) => {
+                      return (
+                        <div className="col-4">
+                          <TicketList
+                            projectName={i.project.name}
+                            userView
+                            day="9days"
+                            description={j.description}
+                            name={i.user.name}
+                            priority={j.priority}
+                            status={j.status}
+                            links="/admin-dashboard/ticket-view"
+                          />
+                        </div>
+                      );
+                    })}
+                  </>
+                );
+              })}
             </div>
           </div>
         }

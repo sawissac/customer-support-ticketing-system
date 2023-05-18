@@ -6,7 +6,7 @@ import EmployeeProjects from "./EmployeeProjects";
 import EmployeeAssignment from "./EmployeeAssignment";
 import Projects from "./Projects";
 import CustomerProjects from "./CustomerProjects";
-import { PageNotFound } from "./404Page";
+import { PageNotFound } from "../404Page";
 
 const AdminDashboard = () => {
   return (
