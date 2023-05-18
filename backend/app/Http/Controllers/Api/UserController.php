@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Service\User\UserServiceInterface;
 use App\Http\Controllers\Api\BaseController;
+use App\Models\User;
 use Illuminate\Validation\ValidationException;
 use App\Repository\User\UserRepositoryInterface;
 
@@ -69,7 +70,7 @@ class UserController extends BaseController
         if (is_null($result)) {
             return $this->sendError('User not found.');
         }
-
+        
         return $this->sendResponse($result, 'User retrieved successfully.');
     }
     public function update(Request $request, $id)
@@ -93,7 +94,7 @@ class UserController extends BaseController
 
         return $this->sendResponse($data, 'User updated successfully.');
     }
-    
+
     public function destroy($id)
     {
         $this->userService->delete($id);
@@ -115,5 +116,16 @@ class UserController extends BaseController
         $customerData = $this->userRepo->customer();
 
         return $this->sendResponse($customerData, 'Customers retrieved successfully.');
+    }
+
+    function search($name)
+    {
+        $result = User::where('name', 'LIKE', "%{$name}%")->get();
+
+        if (count($result)) {
+            return Response()->json($result);
+        } else {
+            return response()->json(['Result' => 'No Data not found'], 404);
+        }
     }
 }

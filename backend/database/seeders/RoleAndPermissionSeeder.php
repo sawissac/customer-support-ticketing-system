@@ -52,10 +52,10 @@ class RoleAndPermissionSeeder extends Seeder
         $canUpdateReport = Permission::create(['name' => 'canUpdateReport']);
         $canDeleteReport = Permission::create(['name' => 'canDeleteReportHistory']);
 
-        $canCreateAssignEmplyee = Permission::create(['name' => 'canCreateAssignEmplyee']);
-        $canUpdateAssignEmplyee = Permission::create(['name' => 'canUpdateAssignEmplyee']);
-        $canDeleteAssignEmplyee = Permission::create(['name' => 'canDeleteAssignEmplyee']);
-        $canShowAssignEmplyee = Permission::create(['name' => 'canShowAssignDev']);
+        $canCreateAssignEmployee = Permission::create(['name' => 'canCreateAssignEmployee']);
+        $canUpdateAssignEmployee = Permission::create(['name' => 'canUpdateAssignEmployee']);
+        $canDeleteAssignEmployee = Permission::create(['name' => 'canDeleteAssignEmployee']);
+        $canShowAssignEmployee = Permission::create(['name' => 'canShowAssignEmployee']);
 
         $admin->givePermissionTo([
             // $canUserList,
@@ -89,10 +89,10 @@ class RoleAndPermissionSeeder extends Seeder
             $canUpdateReport,
             $canDeleteReport,
 
-            $canCreateAssignEmplyee,
-            $canUpdateAssignEmplyee,
-            $canDeleteAssignEmplyee,
-            $canShowAssignEmplyee,
+            $canCreateAssignEmployee,
+            $canUpdateAssignEmployee,
+            $canDeleteAssignEmployee,
+            $canShowAssignEmployee,
         ]);
 
         $employee->givePermissionTo([
@@ -105,7 +105,7 @@ class RoleAndPermissionSeeder extends Seeder
             $canCreateTickets,
             $canUpdateTickets,
             $canShowTickets,
-            $canShowAssignEmplyee,
+            $canShowAssignEmployee,
         ]);
 
         $resign_employee->givePermissionTo([]);

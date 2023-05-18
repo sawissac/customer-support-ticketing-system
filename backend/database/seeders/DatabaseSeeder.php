@@ -49,12 +49,9 @@ class DatabaseSeeder extends Seeder
             'user_id' => 3,
         ]);
 
-        CustomerProject::create([
-            'project_id' => 2,
-            'user_id' => 3,
-        ]);
 
         Ticket::create([
+            'tickets_id'=>'11aaaa',
             'customer_project_id' => 1,
             'subject' => 'This is Hello World',
             'description' => 'Hello world',
@@ -63,6 +60,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Ticket::create([
+            'tickets_id' => '22bbb',
             'customer_project_id' => 1,
             'subject' => 'error',
             'description' => 'sadklfjdaslkfjsaldkjf',
