@@ -111,11 +111,4 @@ class TicketController extends BaseController
 
         return $this->sendResponse([], 'Ticket deleted successfully.');
     }
-
-    public function getTickets(Request $request)
-    {
-        $data = $this->ticketRepo->getTickets($request);
-
-        return $this->sendResponse($data, 'Tickets pagination....');
-    }
 }
