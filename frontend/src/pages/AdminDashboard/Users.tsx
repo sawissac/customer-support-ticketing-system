@@ -23,6 +23,7 @@ import ShowIf from "../../components/Helper";
 import Button from "../../components/Button";
 import { motion } from "framer-motion";
 import { Theme } from "../../redux/variable/ThemeVariable";
+import { Oval } from "react-loader-spinner";
 
 createTheme('table-dark', {
   text: {
@@ -148,11 +149,19 @@ const Users = () => {
   if (isFetching)
     return (
       <div
-        className={`fetching ${
-          themeRedux === Theme.Dark ? "fetching--dark" : ""
-        }`}
-      >
-        isFetching
+        className="fetching ">
+        <Oval
+          height={50}
+          width={50}
+          color="#F37021"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+          ariaLabel="oval-loading"
+          secondaryColor="#c97b4b"
+          strokeWidth={2}
+          strokeWidthSecondary={2}
+        />
       </div>
     );
 
