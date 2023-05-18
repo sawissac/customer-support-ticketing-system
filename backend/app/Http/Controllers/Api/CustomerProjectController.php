@@ -115,6 +115,7 @@ class CustomerProjectController extends BaseController
 
     public function paginate(){
         $data = $this->customerProjectRepo->paginate();
+
         return $this->sendResponse($data, 'CustomerProject retrieved successfully.');
     }
 }

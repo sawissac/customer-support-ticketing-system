@@ -51,16 +51,16 @@ class DatabaseSeeder extends Seeder
 
 
         Ticket::create([
-            'tickets_id'=>'11aaaa',
+            'tickets_id' => 'aa11ss',
             'customer_project_id' => 1,
-            'subject' => 'This is Hello World',
-            'description' => 'Hello world',
+            'subject' => 'report',
+            'description' => 'sadklfjdaslkfjsaldkjf',
             'status' => 'open',
             'priority' => 'medium',
         ]);
 
         Ticket::create([
-            'tickets_id' => '22bbb',
+            'tickets_id' => 'bb22ss',
             'customer_project_id' => 1,
             'subject' => 'error',
             'description' => 'sadklfjdaslkfjsaldkjf',

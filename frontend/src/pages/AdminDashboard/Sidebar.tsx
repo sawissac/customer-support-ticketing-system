@@ -11,6 +11,7 @@ import {
   IconCalendarEvent,
   IconNotes,
   IconListDetails,
+  IconChartBar,
 } from "@tabler/icons-react";
 import Avatar from "react-avatar";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -51,8 +52,6 @@ interface SideBarSimplify {
   route: string;
 }
 SideBar.Simplify = function (props: SideBarSimplify) {
-
-
   return (
     <div className="sidebar__list">
       <h5>Manage</h5>
@@ -64,7 +63,7 @@ SideBar.Simplify = function (props: SideBarSimplify) {
       <SideBar.Link
         routeName={props.route + "/employee-assignment"}
         icon={<IconCalendarEvent />}
-        label="Employee Assign"
+        label="Assign"
       />
       <SideBar.Link
         routeName={props.route + "/users"}
@@ -78,8 +77,8 @@ SideBar.Simplify = function (props: SideBarSimplify) {
       />
       <SideBar.Link
         routeName={props.route + "/report-history"}
-        icon={<IconFileTime />}
-        label="Report History"
+        icon={<IconChartBar />}
+        label="Report"
       />
     </div>
   );
@@ -98,7 +97,6 @@ SideBar.Link = function (props: SideBarLink) {
       to={props.routeName}
       className={({ isActive }) => {
         let className = isActive ? "sidebar__list--active " : "";
-
         return className;
       }}
     >

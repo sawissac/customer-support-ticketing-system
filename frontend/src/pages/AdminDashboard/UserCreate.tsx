@@ -12,7 +12,7 @@ import { createUser } from "../../requests/userRequest";
 import FormWarper from "../../components/FormWarper";
 import { openUserRightSidebar, updateUserTableUrl } from "../../redux/feature_slice/UserPageSlice";
 import { motion } from "framer-motion";
-import { Theme } from "../../redux/variable/ThemeVariable";
+
 const UserCreatePage = () => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);

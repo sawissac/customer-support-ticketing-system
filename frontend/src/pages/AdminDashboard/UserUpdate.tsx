@@ -1,17 +1,14 @@
 import React, { useEffect } from "react";
 import Nav from "../../components/Nav";
-import { IconUserUp } from "@tabler/icons-react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Dropdown from "../../components/DropDown";
 import { IconMenuOrder } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { getUser, updateUser } from "../../requests/userRequest";
+import {  updateUser } from "../../requests/userRequest";
 import { serverRoles, userRoles } from "../../redux/variable/UserPageVariable";
-import { useNavigate } from "react-router-dom";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
-import RouteSetter from "./RouteSetter";
 import FormWarper from "../../components/FormWarper";
 import { openUserRightSidebar, updateUserTableUrl } from "../../redux/feature_slice/UserPageSlice";
 import { motion } from "framer-motion";
@@ -95,7 +92,6 @@ const UserUpdatePage = () => {
         ? 'admin-container--dark admin-container--no-flex-grow admin-container--form'
         : ''
     }`}>
-      <RouteSetter routeName="/admin-dashboard/users" />
       <Nav.BackButton
         label="User Update"
         onClick={() => {
