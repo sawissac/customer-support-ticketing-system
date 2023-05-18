@@ -22,6 +22,7 @@ import EmployeeProjectsCreate from "./EmployeeProjectsCreate";
 import ShowIf from "../../components/Helper";
 import EmployeeProjectsUpdate from "./EmployeeProjectsUpdate";
 import { Theme } from "../../redux/variable/ThemeVariable";
+import { Oval } from "react-loader-spinner";
 createTheme('table-dark', {
   text: {
     primary: 'white',
@@ -124,8 +125,20 @@ const EmployeeProjects = () => {
 
   const { isLoading, error, data, isFetching } = useQuery(["employee", projectPageRedux.employeeUrlState], getUsersData);
 
-  if (isLoading) return <p>"loading..."</p>;
-  if (isFetching) return <p className="fetching">"fetching"</p>;
+  if (isFetching) return <div className="fetching">
+    <Oval
+          height={50}
+          width={50}
+          color="#F37021"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+          ariaLabel="oval-loading"
+          secondaryColor="#c97b4b"
+          strokeWidth={2}
+          strokeWidthSecondary={2}
+        />
+  </div>;
   if (error) return <p>"An error has occurs"</p>;
 
   return (
