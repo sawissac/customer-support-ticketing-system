@@ -1,12 +1,20 @@
 import { useMemo } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
-import { IconEdit, IconPlus, IconTrashFilled, IconUsers } from "@tabler/icons-react";
+import {
+  IconEdit,
+  IconPlus,
+  IconTrashFilled,
+  IconUsers,
+} from "@tabler/icons-react";
 import RouteSetter from "./RouteSetter";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { openUserRightSidebar, setUserState } from "../../redux/feature_slice/UserPageSlice";
+import {
+  openUserRightSidebar,
+  setUserState,
+} from "../../redux/feature_slice/UserPageSlice";
 import { serverRoles } from "../../redux/variable/UserPageVariable";
 import Avatar from "react-avatar";
 import UserCreatePage from "./UserCreate";
@@ -14,34 +22,35 @@ import UserUpdatePage from "./UserUpdate";
 import ShowIf from "../../components/Helper";
 import Button from "../../components/Button";
 import { motion } from "framer-motion";
+import { Theme } from "../../redux/variable/ThemeVariable";
 
-// createTheme('solarized', {
-//   text: {
-//     primary: '#268bd2',
-//     secondary: '#2aa198',
-//   },
-//   background: {
-//     default: '#002b36',
-//   },
-//   context: {
-//     background: '#cb4b16',
-//     text: '#FFFFFF',
-//   },
-//   divider: {
-//     default: '#073642',
-//   },
-//   action: {
-//     button: 'rgba(0,0,0,.54)',
-//     hover: 'rgba(0,0,0,.08)',
-//     disabled: 'rgba(0,0,0,.12)',
-//   },
-// }, 'dark');
+createTheme('table-dark', {
+  text: {
+    primary: 'white',
+    secondary: 'white',
+  },
+  background: {
+    default: '#313338',
+  },
+  context: {
+    background: '#cb4b16',
+    text: '#FFFFFF',
+  },
+  divider: {
+    default: 'white',
+  },
+  action: {
+    button: 'rgba(0,0,0,.54)',
+    hover: 'rgba(0,0,0,.08)',
+    disabled: 'rgba(0,0,0,.12)',
+  },
+}, 'dark');
 
 const Users = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
   const UserPageRedux = useAppSelector((state) => state.userSidebar);
-
+  const themeRedux = useAppSelector((state) => state.theme);
   const columns = useMemo(
     () => [
       {
@@ -53,6 +62,7 @@ const Users = () => {
               : row.roles[0].name === "customer"
               ? "#0d6efd"
               : "#495057";
+
           return (
             <div className="avatar-profile">
               <Avatar
@@ -131,12 +141,25 @@ const Users = () => {
     return res;
   };
 
-  const {isFetching, data } = useQuery(["userData", UserPageRedux.state], getUsersData);
-  if (isFetching) return <div>isFetching</div>;
+  const { isFetching, data } = useQuery(
+    ["userData", UserPageRedux.state],
+    getUsersData
+  );
+  if (isFetching)
+    return (
+      <div
+        className={`fetching ${
+          themeRedux === Theme.Dark ? "fetching--dark" : ""
+        }`}
+      >
+        isFetching
+      </div>
+    );
 
   return (
     <>
-      <div className="admin-container">
+      <div
+        className="admin-container">
         <Nav
           icon={<IconUsers />}
           label={"Users"}
@@ -161,7 +184,8 @@ const Users = () => {
             data={data}
             responsive
             pagination
-            // theme="solarized"
+            theme={`${
+              themeRedux === Theme.Dark ? "table-dark" : ""}`}
           />
         </motion.div>
       </div>

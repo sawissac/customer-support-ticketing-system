@@ -2,7 +2,6 @@
   flex: 1;
   overflow-x: hidden;
   overflow-y: scroll;
-
   &--form {
     min-width: 400px;
   }
@@ -19,4 +18,5 @@
   &__inner {
     padding: map-get($spacers, 3) map-get($spacers, 4);
   }
+ 
 }

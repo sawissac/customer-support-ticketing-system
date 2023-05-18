@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { setTicketView } from "../../redux/feature_slice/TicketSlice";
 ;
 
+
 const TicketPage = () => {
   const TicketRedux = useAppSelector((state) => state.ticket);
   const dispatch = useAppDispatch();

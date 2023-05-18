@@ -12,6 +12,7 @@ import { createUser } from "../../requests/userRequest";
 import FormWarper from "../../components/FormWarper";
 import { openUserRightSidebar, updateUserTableUrl } from "../../redux/feature_slice/UserPageSlice";
 import { motion } from "framer-motion";
+import { Theme } from "../../redux/variable/ThemeVariable";
 const UserCreatePage = () => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
@@ -36,7 +37,8 @@ const UserCreatePage = () => {
 
   function onButtonSubmitHandle() {
     const isEmpty =
-      Object.values(inputField).filter((i) => i === "").length > 0 || dropdownBox.value === "";
+      Object.values(inputField).filter((i) => i === "").length > 0 ||
+      dropdownBox.value === "";
     if (isEmpty) {
       dispatch(
         setAlert({
@@ -59,7 +61,9 @@ const UserCreatePage = () => {
       })
         .then(() => {
           dispatch(
-            updateUserTableUrl({ message: inputField.name + inputField.email + dropdownBox.name })
+            updateUserTableUrl({
+              message: inputField.name + inputField.email + dropdownBox.name,
+            })
           );
           dispatch(
             setAlert({
@@ -78,9 +82,9 @@ const UserCreatePage = () => {
         });
     }
   }
-
   return (
-    <div className="admin-container admin-container--no-flex-grow admin-container--form">
+    <div
+      className="admin-container admin-container--no-flex-grow admin-container--form">
       <Nav.BackButton
         label="User Create"
         onClick={() => {

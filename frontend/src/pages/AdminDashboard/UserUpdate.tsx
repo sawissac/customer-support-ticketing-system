@@ -15,6 +15,7 @@ import RouteSetter from "./RouteSetter";
 import FormWarper from "../../components/FormWarper";
 import { openUserRightSidebar, updateUserTableUrl } from "../../redux/feature_slice/UserPageSlice";
 import { motion } from "framer-motion";
+import { Theme } from "../../redux/variable/ThemeVariable";
 const UserUpdatePage = () => {
   const userSidebarRedux = useAppSelector((state) => state.userSidebar);
   const authRedux = useAppSelector((state) => state.auth);
@@ -87,8 +88,13 @@ const UserUpdatePage = () => {
         });
     }
   }
+  const themeRedux = useAppSelector((state) => state.theme);
   return (
-    <div className="admin-container admin-container--no-flex-grow admin-container--form">
+    <div className={`admin-container admin-container--no-flex-grow admin-container--form ${
+      themeRedux === Theme.Dark
+        ? 'admin-container--dark admin-container--no-flex-grow admin-container--form'
+        : ''
+    }`}>
       <RouteSetter routeName="/admin-dashboard/users" />
       <Nav.BackButton
         label="User Update"
