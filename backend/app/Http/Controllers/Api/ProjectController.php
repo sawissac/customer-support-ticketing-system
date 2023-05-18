@@ -19,10 +19,10 @@ class ProjectController extends BaseController
     {
         $this->projectRepo = $projectRepo;
         $this->projectServcie = $projectServcie;
-        $this->middleware('permission:canCreateReport', ['only' => 'create']);
-        $this->middleware('permission:canUpdateReport', ['only' => 'edit,update']);
-        $this->middleware('permission:canDeleteReport', ['only' => 'delete']);
-        $this->middleware('permission:canShowReport', ['only' => 'index,show']);
+        $this->middleware('permission:canShowProjectList', ['only' => ['index', 'show']]);
+        $this->middleware('permission:canCreateProjectList', ['only' => ['create,store']]);
+        $this->middleware('permission:canUpdateProjectList', ['only' => ['edit,update']]);
+        $this->middleware('permission:canDeleteProjectList', ['only' => ['destroy']]);
     }
 
     /**
@@ -61,7 +61,7 @@ class ProjectController extends BaseController
 
         $data = $this->projectServcie->store($validate);
 
-        return $this->sendResponse($data, 'Project created successfully.');
+        return $this->sendResponse($data, 'Project created successfully.', 201);
     }
 
     /**
@@ -119,6 +119,6 @@ class ProjectController extends BaseController
     {
         $this->projectServcie->delete($id);
 
-        return $this->sendResponse([], 'Project deleted successfully.');
+        return $this->sendResponse([], 'Project deleted successfully.', 204);
     }
 }

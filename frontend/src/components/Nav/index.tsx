@@ -14,7 +14,7 @@ interface NavProps {
 const Nav = ({ label, icon, rightPlacer, links,onClick }: NavProps) => {
   return (
     <div className="nav_container">
-      <div className="icon">{icon}</div>
+      <div className="icon" onClick={onClick}>{icon}</div>
       <div className="text" onClick={onClick}>{label}</div>
       <div className="placer">{rightPlacer}</div>
       <div className="links">{links}</div>

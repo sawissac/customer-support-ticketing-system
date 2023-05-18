@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
-import DataTable from "react-data-table-component";
+import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
 import { IconEdit, IconFile, IconPlus, IconUser } from "@tabler/icons-react";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import axios from "axios";
 import { useQuery } from "react-query";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { IconFolder } from "@tabler/icons-react";
+import { Theme } from "../../redux/variable/ThemeVariable";
 import {
   openProjectRightSidebar,
   setProjectState,
@@ -17,30 +18,40 @@ import Button from "../../components/Button";
 import { motion } from "framer-motion";
 import ProjectCreate from "./ProjectsCreate";
 import ShowIf from "../../components/Helper";
-import ProjectUpdate from "./ProjectsUpdate";
 import EmployeeProjects from "./EmployeeProjects";
 import CustomerProjects from "./CustomerProjects";
-
-const data = [
+import ProjectUpdate from "./ProjectsUpdate";
+import { Oval } from "react-loader-spinner";
+createTheme(
+  "table-dark",
   {
-    id: 1,
-    title: "Beetlejuice",
-    email: "sawissac@gmail.com",
-    role: "admin",
+    text: {
+      primary: "white",
+      secondary: "white",
+    },
+    background: {
+      default: "#313338",
+    },
+    context: {
+      background: "#cb4b16",
+      text: "#FFFFFF",
+    },
+    divider: {
+      default: "white",
+    },
+    action: {
+      button: "rgba(0,0,0,.54)",
+      hover: "rgba(0,0,0,.08)",
+      disabled: "rgba(0,0,0,.12)",
+    },
   },
-  {
-    id: 2,
-    title: "Ghostbusters",
-    year: "1984",
-    email: "zayartunjob@gmail.com",
-    role: "admin",
-  },
-];
+  "dark"
+);
 
 const Projects = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const AuthRedux = useAppSelector((state) => state.auth);
+  const themeRedux = useAppSelector((state) => state.theme);
   const projectPageRedux = useAppSelector((state) => state.projectSidebar);
 
   const columns = useMemo(
@@ -163,7 +174,23 @@ const Projects = () => {
     getUsersData
   );
 
-  if (isFetching) return <div>isFetching</div>;
+  if (isFetching)
+    return (
+      <div className="fetching">
+        <Oval
+          height={50}
+          width={50}
+          color="#F37021"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+          ariaLabel="oval-loading"
+          secondaryColor="#c97b4b"
+          strokeWidth={2}
+          strokeWidthSecondary={2}
+        />
+      </div>
+    );
 
   return (
     <>
@@ -195,6 +222,7 @@ const Projects = () => {
                 data={data}
                 responsive
                 pagination
+                theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}
               />
             </motion.div>
           </div>

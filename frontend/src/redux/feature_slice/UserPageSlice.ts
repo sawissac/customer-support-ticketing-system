@@ -25,6 +25,6 @@ const userPageSlice = createSlice({
   },
 });
 
-export const { setUserState, updateUserTableUrl, openUserRightSidebar } = userPageSlice.actions;
+export const {setUserState, updateUserTableUrl, openUserRightSidebar } = userPageSlice.actions;
 
 export default userPageSlice.reducer;

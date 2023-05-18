@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
-import DataTable from "react-data-table-component";
+import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
 import { IconArrowLeft, IconEdit, IconUsers } from "@tabler/icons-react";
 import RouteSetter from "./RouteSetter";
@@ -21,11 +21,33 @@ import Avatar from "react-avatar";
 import EmployeeProjectsCreate from "./EmployeeProjectsCreate";
 import ShowIf from "../../components/Helper";
 import EmployeeProjectsUpdate from "./EmployeeProjectsUpdate";
+import { Theme } from "../../redux/variable/ThemeVariable";
+createTheme('table-dark', {
+  text: {
+    primary: 'white',
+    secondary: 'white',
+  },
+  background: {
+    default: '#313338',
+  },
+  context: {
+    background: '#cb4b16',
+    text: '#FFFFFF',
+  },
+  divider: {
+    default: 'white',
+  },
+  action: {
+    button: 'rgba(0,0,0,.54)',
+    hover: 'rgba(0,0,0,.08)',
+    disabled: 'rgba(0,0,0,.12)',
+  },
+}, 'dark');
 const EmployeeProjects = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
   const projectPageRedux = useAppSelector((state) => state.projectSidebar);
-
+  const themeRedux = useAppSelector((state) => state.theme);
   const columns = useMemo(
     () => [
       {
@@ -41,7 +63,7 @@ const EmployeeProjects = () => {
                 textSizeRatio={1.75}
                 round
               />
-              {row.user.name}
+              {row.user.name}#{row.user.id}
             </div>
           );
         },
@@ -103,7 +125,7 @@ const EmployeeProjects = () => {
   const { isLoading, error, data, isFetching } = useQuery(["employee", projectPageRedux.employeeUrlState], getUsersData);
 
   if (isLoading) return <p>"loading..."</p>;
-  if (isFetching) return <p>"fetching"</p>;
+  if (isFetching) return <p className="fetching">"fetching"</p>;
   if (error) return <p>"An error has occurs"</p>;
 
   return (
@@ -137,6 +159,7 @@ const EmployeeProjects = () => {
               data={data}
               responsive
               pagination
+              theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}
             />
           </div>
         </motion.div>

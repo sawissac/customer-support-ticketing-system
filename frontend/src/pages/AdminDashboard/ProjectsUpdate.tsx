@@ -17,7 +17,6 @@ import {
 } from "../../redux/feature_slice/ProjectPageSlice";
 
 const ProjectUpdate = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
 

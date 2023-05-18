@@ -4,11 +4,13 @@ import { IconMessage2 } from "@tabler/icons-react";
 import EmployeeSideBar from "../../components/EmployeeSideBar";
 import Message from "../../components/Message";
 import RouteSetter from "./RouteSetter";
+import { Theme } from "../../redux/variable/ThemeVariable";
+import { useAppSelector } from "../../redux/hook";
 
 const TicketView = () => {
   return (
     <>
-      <div className="admin-container">
+      <div  className="admin-container">
         <RouteSetter routeName="/admin-dashboard/tickets" />
         <Nav
           icon={<IconMessage2 />}
