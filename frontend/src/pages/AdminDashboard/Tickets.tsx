@@ -14,6 +14,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { Oval } from "react-loader-spinner";
 
 dayjs.extend(relativeTime);
+
 const TicketPage = () => {
   const TicketRedux = useAppSelector((state) => state.ticket);
   const dispatch = useAppDispatch();
@@ -21,7 +22,7 @@ const TicketPage = () => {
   const [page, setPage] = React.useState(0);
   // const [page] = React.useState();
 
-  const url = "http://127.0.0.1:8000/api/customer-paginate";
+  const url = "http://127.0.0.1:8000/api/ticket";
   const getUsersData = async () => {
     const res = await axios
       .get(url, {
@@ -31,15 +32,15 @@ const TicketPage = () => {
       })
       .then((response) => {
         return response.data;
-      });
+      })
+      .catch(() => []);
     return res;
   };
-
   const { error, data, isFetching } = useQuery(["employee", "hello"], getUsersData);
-
   if (isFetching) {
-    return <div className="fetching">
-      <Oval
+    return (
+      <div className="fetching">
+        <Oval
           height={50}
           width={50}
           color="#F37021"
@@ -51,7 +52,8 @@ const TicketPage = () => {
           strokeWidth={2}
           strokeWidthSecondary={2}
         />
-    </div>;
+      </div>
+    );
   }
 
   return (
@@ -76,29 +78,20 @@ const TicketPage = () => {
             />
 
             <div className="admin-container__inner row row--gap-1 admin-container--pb-5">
-              {data.data.data.map((i: any) => {
+              {data.data.map((i: any) => {
                 return (
-                  <>
-                    <div className="col-12">
-                      <div className="admin-container__header"><IconFolder size={30} />{i.project.name}</div>
-                    </div>
-                    {i.ticket.map((j: any) => {
-                      return (
-                        <div className="col-4">
-                          <TicketList
-                            projectName={i.project.name}
-                            userView
-                            day={dayjs(j.created_at).fromNow()}
-                            description={j.description}
-                            name={i.user.name}
-                            priority={j.priority}
-                            status={j.status}
-                            links="/admin-dashboard/ticket-view"
-                          />
-                        </div>
-                      );
-                    })}
-                  </>
+                  <div className="col-4">
+                    <TicketList
+                      projectName={i.customer_project.project.name}
+                      userView
+                      day={dayjs(i.created_at).fromNow()}
+                      description={i.description}
+                      name={i.customer_project.user.name}
+                      priority={i.priority}
+                      status={i.status}
+                      links="/admin-dashboard/ticket-view"
+                    />
+                  </div>
                 );
               })}
             </div>

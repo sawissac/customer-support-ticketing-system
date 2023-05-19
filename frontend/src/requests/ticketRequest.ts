@@ -15,7 +15,6 @@ export function createTicket({
       .post(
         "http://127.0.0.1:8000/api/user",
         {
-          tickets_id,
           customer_project_id,
           subject,
           description,
