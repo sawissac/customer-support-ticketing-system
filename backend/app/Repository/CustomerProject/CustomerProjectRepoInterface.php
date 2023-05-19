@@ -9,4 +9,6 @@ interface CustomerProjectRepoInterface
     public function show($id);
 
     public function paginate();
+
+    public function projectByUserID($id);
 }

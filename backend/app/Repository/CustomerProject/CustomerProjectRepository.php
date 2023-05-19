@@ -25,4 +25,11 @@ class CustomerProjectRepository implements CustomerProjectRepoInterface
 
         return $data;
     }
+
+    public function projectByUserID($id)
+    {
+        $data = CustomerProject::where('user_id', $id)->with('project')->get();
+
+        return $data;
+    }
 }
