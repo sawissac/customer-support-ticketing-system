@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Requests\EmployeeAssignRequest;
 use App\Repository\EmployeeAssign\EmployeeAssignRepoInterface;
 use App\Service\EmployeeAssign\EmployeeAssignServiceInterface;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class EmployeeAssignController extends BaseController
 {
@@ -32,6 +34,7 @@ class EmployeeAssignController extends BaseController
 
     public function store(Request $request)
     {
+
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -46,6 +49,7 @@ class EmployeeAssignController extends BaseController
         $result = $this->employeeAssignService->store($data);
 
         return $this->sendResponse($result, 'Employee Assgin created successfully.', 201);
+
     }
 
     public function show($id)

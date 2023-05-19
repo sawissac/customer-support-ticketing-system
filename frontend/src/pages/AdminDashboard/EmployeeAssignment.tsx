@@ -5,12 +5,10 @@ import TicketList from "../../components/TicketList";
 import { IconMessage2 } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { setActiveRoute } from "../../redux/feature_slice/SidebarSlice";
-import RouteSetter from "./RouteSetter";
 
 const EmployeeAssignment = () => {
   return (
     <div  className="admin-container">
-      <RouteSetter routeName="/admin-dashboard/employee-assignment"/>
       <Nav
         icon={<IconMessage2 />}
         label="Tickets"

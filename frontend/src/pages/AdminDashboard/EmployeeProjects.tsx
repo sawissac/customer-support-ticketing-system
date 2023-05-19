@@ -1,14 +1,11 @@
-import React, { useCallback, useMemo, useState } from "react";
+import  { useMemo, useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
-import { IconArrowLeft, IconEdit, IconUsers } from "@tabler/icons-react";
-import RouteSetter from "./RouteSetter";
-import { NavLink, useNavigate } from "react-router-dom";
+import { IconArrowLeft, IconEdit } from "@tabler/icons-react";
 import { IconTrashFilled } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { useQuery } from "react-query";
 import axios from "axios";
-import { setEmployeeProject } from "../../redux/feature_slice/EmployeeProjectSlice";
 import Button from "../../components/Button";
 import { IconPlus } from "@tabler/icons-react";
 import {
@@ -23,6 +20,8 @@ import ShowIf from "../../components/Helper";
 import EmployeeProjectsUpdate from "./EmployeeProjectsUpdate";
 import { Theme } from "../../redux/variable/ThemeVariable";
 import { Oval } from "react-loader-spinner";
+import { debounce } from "debounce";
+import Input from "../../components/Input";
 createTheme('table-dark', {
   text: {
     primary: 'white',
@@ -49,6 +48,9 @@ const EmployeeProjects = () => {
   const AuthRedux = useAppSelector((state) => state.auth);
   const projectPageRedux = useAppSelector((state) => state.projectSidebar);
   const themeRedux = useAppSelector((state) => state.theme);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
   const columns = useMemo(
     () => [
       {
@@ -123,7 +125,7 @@ const EmployeeProjects = () => {
     return res;
   };
 
-  const { isLoading, error, data, isFetching } = useQuery(["employee", projectPageRedux.employeeUrlState], getUsersData);
+  const {  error, data, isFetching } = useQuery(["employee", projectPageRedux.employeeUrlState], getUsersData);
 
   if (isFetching) return <div className="fetching">
     <Oval
@@ -140,6 +142,18 @@ const EmployeeProjects = () => {
         />
   </div>;
   if (error) return <p>"An error has occurs"</p>;
+
+  const debouncedSearch = debounce((value: any) => {
+    const filtered = data.filter((item: any) => {
+      return item.user.name.toLowerCase().includes(value.toLowerCase());
+    });
+    setFilteredData(filtered);
+  }, 1000);
+
+  const handleSearch = (event: any) => {
+    setSearchQuery(event.target.value);
+    debouncedSearch(event.target.value);
+  };
 
   return (
     <>
@@ -167,9 +181,17 @@ const EmployeeProjects = () => {
           className="admin-container__inner"
         >
           <div className="admin-container__inner">
+          <Input
+              type="text"
+              label="Search"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={handleSearch}
+              className="search"
+            />
             <DataTable
               columns={columns}
-              data={data}
+              data={filteredData.length === 0 ? data : filteredData}
               responsive
               pagination
               theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}

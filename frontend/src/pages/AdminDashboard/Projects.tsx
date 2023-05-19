@@ -22,6 +22,8 @@ import EmployeeProjects from "./EmployeeProjects";
 import CustomerProjects from "./CustomerProjects";
 import ProjectUpdate from "./ProjectsUpdate";
 import { Oval } from "react-loader-spinner";
+import { debounce } from "debounce";
+import Input from "../../components/Input";
 createTheme(
   "table-dark",
   {
@@ -53,6 +55,9 @@ const Projects = () => {
   const AuthRedux = useAppSelector((state) => state.auth);
   const themeRedux = useAppSelector((state) => state.theme);
   const projectPageRedux = useAppSelector((state) => state.projectSidebar);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
 
   const columns = useMemo(
     () => [
@@ -192,6 +197,18 @@ const Projects = () => {
       </div>
     );
 
+  const debouncedSearch = debounce((value: any) => {
+    const filtered = data.filter((item: any) => {
+      return item.name.toLowerCase().includes(value.toLowerCase());
+    });
+    setFilteredData(filtered);
+  }, 1000);
+
+  const handleSearch = (event: any) => {
+    setSearchQuery(event.target.value);
+    debouncedSearch(event.target.value);
+  };
+
   return (
     <>
       <ShowIf
@@ -207,7 +224,9 @@ const Projects = () => {
                   icon={<IconPlus size={20} />}
                   className="btn btn--light btn--block btn--no-m-bottom btn--sm"
                   onClick={() => {
-                    dispatch(openProjectRightSidebar({ name: "project-create" }));
+                    dispatch(
+                      openProjectRightSidebar({ name: "project-create" })
+                    );
                   }}
                 />
               }
@@ -217,9 +236,17 @@ const Projects = () => {
               animate={{ y: "0px", opacity: 1 }}
               className="admin-container__inner"
             >
+              <Input
+                type="text"
+                label="Search"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={handleSearch}
+                className="search"
+              />
               <DataTable
                 columns={columns}
-                data={data}
+                data={filteredData.length === 0 ? data : filteredData}
                 responsive
                 pagination
                 theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}

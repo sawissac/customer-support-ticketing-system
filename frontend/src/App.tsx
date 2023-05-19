@@ -8,6 +8,8 @@ import { AuthRole } from "./redux/variable/AuthVariable";
 import AppAlert from "./components/AppAlert";
 import ShowIf from "./components/Helper";
 import { Theme } from "./redux/variable/ThemeVariable";
+import { PageNotFound } from "./pages/404Page";
+import EmployeeDashboard from "./pages/EmployeeDashboard";
 
 function App() {
   const authRedux = useAppSelector((state) => state.auth);
@@ -36,9 +38,15 @@ function App() {
               element={<AdminDashboard />}
             />
           )}
+          {authRedux.role === AuthRole.EMPLOYEE && (
+            <Route
+              path="/employee-dashboard/*"
+              element={<EmployeeDashboard />}
+            />
+          )}
           <Route
             path="*"
-            element={<div>hello</div>}
+            element={<PageNotFound/>}
           />
         </Routes>
         <ShowIf

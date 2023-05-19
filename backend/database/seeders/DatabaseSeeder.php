@@ -55,16 +55,24 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Ticket::create([
+<<<<<<< HEAD
             'tickets_id' => '123456',
+=======
+            'tickets_id' => 'aa11ss',
+>>>>>>> main
             'customer_project_id' => 1,
-            'subject' => 'This is Hello World',
-            'description' => 'Hello world',
+            'subject' => 'report',
+            'description' => 'sadklfjdaslkfjsaldkjf',
             'status' => 'open',
             'priority' => 'medium',
         ]);
 
         Ticket::create([
+<<<<<<< HEAD
             'tickets_id' => '123456',
+=======
+            'tickets_id' => 'bb22ss',
+>>>>>>> main
             'customer_project_id' => 1,
             'subject' => 'error',
             'description' => 'sadklfjdaslkfjsaldkjf',

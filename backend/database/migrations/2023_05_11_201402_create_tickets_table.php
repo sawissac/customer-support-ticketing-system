@@ -19,8 +19,6 @@ return new class extends Migration
             $table->foreignId('customer_project_id');
             $table->string('subject');
             $table->text('description');
-            $table->string('zip_file')->nullable();
-            $table->string('url')->nullable();
             $table->string('status');
             $table->string('priority');
             $table->string('drive_link')->nullable();
