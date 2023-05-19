@@ -14,6 +14,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { Oval } from "react-loader-spinner";
 import ReactPaginate from "react-paginate";
 import Input from "../../components/Input";
+import { debounce } from "debounce";
 
 dayjs.extend(relativeTime);
 
@@ -24,6 +25,7 @@ const TicketPage = () => {
   // const [page, setPage] = React.useState(0);
   // const [page] = React.useState();
   const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 3;
 
@@ -65,28 +67,32 @@ const TicketPage = () => {
   };
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
+    debouncedSearch(event.target.value);
     setCurrentPage(0);
   };
-
-  const filteredData = data.data.filter((item: any) => {
-    if(item.tickets_id.toLowerCase().includes(searchQuery.toLowerCase())){
-      return item.tickets_id.toLowerCase().includes(searchQuery.toLowerCase());
-    }
-    if(item.priority.toLowerCase().includes(searchQuery.toLowerCase())){
-      return item.priority.toLowerCase().includes(searchQuery.toLowerCase());
-    }
-    if(item.customer_project.project.name.toLowerCase().includes(searchQuery.toLowerCase())){
-      return item.customer_project.project.name.toLowerCase().includes(searchQuery.toLowerCase());
-    }
-    if(item.customer_project.user.name.toLowerCase().includes(searchQuery.toLowerCase())){
-      return item.customer_project.user.name.toLowerCase().includes(searchQuery.toLowerCase());
-    }
-  });
+  const debouncedSearch = debounce((value: any) =>{
+    const filtered  = data.data.filter((item: any) => {
+      if(item.tickets_id.toLowerCase().includes(value.toLowerCase())){
+        return item.tickets_id.toLowerCase().includes(value.toLowerCase());
+      }
+      if(item.priority.toLowerCase().includes(value.toLowerCase())){
+        return item.priority.toLowerCase().includes(value.toLowerCase());
+      }
+      if(item.customer_project.project.name.toLowerCase().includes(value.toLowerCase())){
+        return item.customer_project.project.name.toLowerCase().includes(value.toLowerCase());
+      }
+      if(item.customer_project.user.name.toLowerCase().includes(value.toLowerCase())){
+        return item.customer_project.user.name.toLowerCase().includes(value.toLowerCase());
+      }
+    });
+    setFilteredData(filtered);
+    },1000)
   
-  const currentData = filteredData.slice(
-    currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
-  );
+    const currentData = filteredData.slice(
+      currentPage * itemsPerPage,
+      (currentPage + 1) * itemsPerPage
+    );
+  
 
   return (
     <>
@@ -120,7 +126,9 @@ const TicketPage = () => {
             </div>
 
             <div className="admin-container__inner row row--gap-1 admin-container--pb-5">
-              {currentData.map((i: any) => (
+              
+              {
+               currentData.map((i: any) => (
                 <div className="col-4" key={i.id}>
                   <TicketList
                     projectName={i.customer_project.project.name}
@@ -140,7 +148,7 @@ const TicketPage = () => {
               previousLabel="Previous"
               nextLabel="Next"
               breakLabel="..."
-              pageCount={searchQuery ? Math.ceil(filteredData.length / itemsPerPage) : Math.ceil(data.data.length / itemsPerPage)}
+              pageCount={Math.ceil(filteredData.length / itemsPerPage)}
               marginPagesDisplayed={2}
               pageRangeDisplayed={5}
               onPageChange={handlePageChange}
