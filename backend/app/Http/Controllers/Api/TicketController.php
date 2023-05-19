@@ -46,10 +46,9 @@ class TicketController extends BaseController
                 'customer_project_id' => 'required|integer',
                 'subject' => 'required|string',
                 'description' => 'required',
-                'zip_file' => 'nullable|file|mimes:zip|max:2048',
                 'status' => 'required|string',
                 'priority' => 'required|string',
-                'drive_link' => 'file',
+                'drive_link' => 'string',
                 'ticket_start_date' => 'nullable|date_format:Y-m-d',
                 'ticket_end_date' => 'nullable|date_format:Y-m-d',
             ]
@@ -65,18 +64,6 @@ class TicketController extends BaseController
     }
 
 
-    public function show($id)
-    {
-        $result = $this->ticketRepo->show($id);
-
-        if (is_null($result)) {
-            return $this->sendError('Ticket not found.');
-        }
-
-        return $this->sendResponse($result, 'Ticket retrieved successfully.');
-    }
-
-
     public function update(Request $request, $id)
     {
         $validate = $request->all();
@@ -88,9 +75,9 @@ class TicketController extends BaseController
                 'customer_project_id' => 'required|integer',
                 'subject' => 'required|string',
                 'description' => 'required',
-                'zip_file' => 'nullable|file|mimes:zip|max:2048',
                 'status' => 'required|string',
                 'priority' => 'required|string',
+                'drive_link' => 'string|nullable',
                 'ticket_start_date' => 'nullable|date_format:Y-m-d',
                 'ticket_end_date' => 'nullable|date_format:Y-m-d',
             ]

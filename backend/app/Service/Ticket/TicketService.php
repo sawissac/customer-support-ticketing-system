@@ -13,14 +13,6 @@ class TicketService implements TicketServiceInterface
         $tickets_id = Str::random(3) . mt_rand(10000, 99999);
         $data['tickets_id'] = $tickets_id;
 
-
-        if($data['drive_link'])
-        {
-            $fileName = time(). '.' .$data['drive_link']->extension();
-            $data['drive_link']->storeAs('public/ticket_file', $fileName);
-            $data = array_merge($data, ['drive_link' => $fileName]);
-        }
-
         return Ticket::create($data);
     }
 

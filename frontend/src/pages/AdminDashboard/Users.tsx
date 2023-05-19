@@ -1,20 +1,11 @@
 import React, { useMemo, useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
-import {
-  IconEdit,
-  IconMenuOrder,
-  IconPlus,
-  IconTrashFilled,
-  IconUsers,
-} from "@tabler/icons-react";
+import { IconEdit, IconMenuOrder, IconPlus, IconTrashFilled, IconUsers } from "@tabler/icons-react";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import {
-  openUserRightSidebar,
-  setUserState,
-} from "../../redux/feature_slice/UserPageSlice";
+import { openUserRightSidebar, setUserState } from "../../redux/feature_slice/UserPageSlice";
 import { serverRoles, userRoles } from "../../redux/variable/UserPageVariable";
 import Avatar from "react-avatar";
 import UserCreatePage from "./UserCreate";
@@ -158,10 +149,7 @@ const Users = () => {
     return res;
   };
 
-  const { isFetching, data } = useQuery(
-    ["userData", UserPageRedux.state],
-    getUsersData
-  );
+  const { isFetching, data } = useQuery(["userData", UserPageRedux.state], getUsersData);
   if (isFetching)
     return (
       <div className="fetching">
@@ -194,10 +182,19 @@ const Users = () => {
 
   let filteredData = searchFilter;
 
-  if (dropDownTitle.role.length > 0) {
-    filteredData = searchFilter.filter(
-      (item: any) =>
-        item.roles[0].name.toLowerCase() === dropDownTitle.role.toLowerCase()
+  if (filteredData.length === 0 && dropDownTitle.role.length === 0) {
+    filteredData = data;
+  }
+
+  if (filteredData.length === 0 && dropDownTitle.role.length > 0) {
+    filteredData = data.filter(
+      (item: any) => item.roles[0].name.toLowerCase() === dropDownTitle.role.toLowerCase()
+    );
+  }
+
+  if (filteredData.length > 0 && dropDownTitle.role.length > 0) {
+    filteredData = filteredData.filter(
+      (item: any) => item.roles[0].name.toLowerCase() === dropDownTitle.role.toLowerCase()
     );
   }
 
@@ -224,48 +221,47 @@ const Users = () => {
           className="admin-container__inner"
         >
           <div className="search-area">
-          <Input
-            type="text"
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={handleSearch}
-            className="search"
-          />
-          
-          <Dropdown
-            buttonClassName="form-dropdown-btn form-dropdown-btn--search"
-            buttonChildren={<>{dropDownTitle.name}<IconMenuOrder size={20} /></>}
-            // offset={[200, 100]}
-            dropdownClassName="form-dropdown"
-            dropdownChildren={
-              <>
-                <button
-                  title="button"
-                  onClick={() => {
-                    setDropDownTitle({ name: "See All", role: "" });
-                  }}
-                >
-                  See all
-                </button>
-                {Object.keys(userRoles).map((i: any) => {
-                  return (
-                    <button
-                      title="button"
-                      onClick={() => {
-                        setDropDownTitle({ name: i, role: userRoles[i] });
-                      }}
-                    >
-                      {i}
-                    </button>
-                  );
-                })}
-              </>
-            }
-          />
+            <Input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={handleSearch}
+              className="search"
+            />
+
+            <Dropdown
+              buttonClassName="form-dropdown-btn form-dropdown-btn--search"
+              buttonChildren={<>{dropDownTitle.name}</>}
+              dropdownClassName="form-dropdown"
+              dropdownChildren={
+                <>
+                  <button
+                    title="button"
+                    onClick={() => {
+                      setDropDownTitle({ name: "See All", role: "" });
+                    }}
+                  >
+                    See all
+                  </button>
+                  {Object.keys(userRoles).map((i: any) => {
+                    return (
+                      <button
+                        title="button"
+                        onClick={() => {
+                          setDropDownTitle({ name: i, role: userRoles[i] });
+                        }}
+                      >
+                        {i}
+                      </button>
+                    );
+                  })}
+                </>
+              }
+            />
           </div>
           <DataTable
             columns={columns}
-            data={filteredData.length > 0 ? filteredData : data}
+            data={filteredData}
             responsive
             pagination
             theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}
