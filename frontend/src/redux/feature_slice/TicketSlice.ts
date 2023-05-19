@@ -7,13 +7,17 @@ const ticketSlice = createSlice({
   name: "ticketSlice",
   initialState,
   reducers: {
-    setTicketView: (state, action: PayloadAction<{name: string}>)=>{
-        state.view = action.payload.name;
-        return state;
-    }
+    setTicketView: (state, action: PayloadAction<{ name: string }>) => {
+      state.view = action.payload.name;
+      return state;
+    },
+    updateTicketUrl: (state, action: PayloadAction<{ name: string }>) => {
+      state.url = action.payload.name;
+      return state;
+    },
   },
 });
 
-export const { setTicketView } = ticketSlice.actions;
+export const { setTicketView , updateTicketUrl} = ticketSlice.actions;
 
 export default ticketSlice.reducer;

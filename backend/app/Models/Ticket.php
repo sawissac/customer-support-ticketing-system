@@ -16,8 +16,6 @@ class Ticket extends Model
         'customer_project_id',
         'subject',
         'description',
-        'zip_file',
-        'url',
         'status',
         'priority',
         'drive_link',

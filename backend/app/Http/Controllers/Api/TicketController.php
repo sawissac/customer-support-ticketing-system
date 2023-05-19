@@ -42,15 +42,11 @@ class TicketController extends BaseController
         $validator = Validator::make(
             $validate,
             [
-                'tickets_id' => 'string|unique',
-                'customer_project_id' => 'required|integer',
-                'subject' => 'required|string',
+                'customer_project_id' => 'required',
+                'subject' => 'required',
                 'description' => 'required',
-                'status' => 'required|string',
-                'priority' => 'required|string',
-                'drive_link' => 'string',
-                'ticket_start_date' => 'nullable|date_format:Y-m-d',
-                'ticket_end_date' => 'nullable|date_format:Y-m-d',
+                'priority' => 'nullable|string',
+                'drive_link' => 'nullable|string',
             ]
         );
 

@@ -19,6 +19,7 @@ const TicketPage = () => {
   const TicketRedux = useAppSelector((state) => state.ticket);
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
+  const ticketRedux = useAppSelector((state) => state.ticket);
   const [page, setPage] = React.useState(0);
   // const [page] = React.useState();
 
@@ -32,11 +33,10 @@ const TicketPage = () => {
       })
       .then((response) => {
         return response.data;
-      })
-      .catch(() => []);
+      });
     return res;
   };
-  const { error, data, isFetching } = useQuery(["employee", "hello"], getUsersData);
+  const { error, data, isFetching } = useQuery(["employee", ticketRedux.url], getUsersData);
   if (isFetching) {
     return (
       <div className="fetching">
@@ -78,14 +78,14 @@ const TicketPage = () => {
             />
 
             <div className="admin-container__inner row row--gap-1 admin-container--pb-5">
-              {data.data.map((i: any) => {
+              {data.data.reverse().map((i: any) => {
                 return (
                   <div className="col-4">
                     <TicketList
-                      projectName={i.customer_project.project.name}
+                      projectName={`${i.customer_project.project.name} #${i.tickets_id}`}
                       userView
                       day={dayjs(i.created_at).fromNow()}
-                      description={i.description}
+                      description={i.subject}
                       name={i.customer_project.user.name}
                       priority={i.priority}
                       status={i.status}

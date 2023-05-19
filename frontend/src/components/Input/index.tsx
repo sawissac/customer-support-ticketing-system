@@ -3,6 +3,7 @@ import { useAppSelector } from "../../redux/hook";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
+  onChangeText?:any;
   errorMessage?: string;
 }
 const Input = ({ label, errorMessage, ...props }: InputProps) => {
@@ -24,7 +25,7 @@ const Input = ({ label, errorMessage, ...props }: InputProps) => {
   );
 };
 
-Input.Textarea = function ({ label, errorMessage, ...props }: InputProps) {
+Input.Textarea = function ({ label, errorMessage, onChangeText, ...props }: InputProps) {
   return (
     <div className="form-input">
       <div className="form-input__label">
@@ -38,6 +39,7 @@ Input.Textarea = function ({ label, errorMessage, ...props }: InputProps) {
         maxRows={5}
         placeholder="Write your problem here..."
         className="form-input__textarea"
+        onChange={onChangeText}
       />
     </div>
   );

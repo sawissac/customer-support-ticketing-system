@@ -44,7 +44,7 @@ export function getCustomerProjectPaginate({ page, token }: any) {
 export function getCustomerProject({ id, token }: any) {
   return new Promise((resolve, reject) => {
     axios
-      .get(`http://127.0.0.1:8000/api/customer-project/${id}`, {
+      .get(`http://127.0.0.1:8000/api/customer-project${id?"/"+id: ""}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

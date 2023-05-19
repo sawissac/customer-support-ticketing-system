@@ -13,10 +13,10 @@
     background-color: #313338;
     border: none;
   }
-  &--dark .sidebar__profile{
+  &--dark .sidebar__profile {
     background-color: #232428;
   }
-  &--dark .sidebar-dropdown *{
+  &--dark .sidebar-dropdown * {
     background-color: #2b2d31;
     color: $white;
   }
@@ -43,73 +43,73 @@
     background-color: #313338;
     color: $white;
   }
-  &--dark .form-dropdown *{
+  &--dark .form-dropdown * {
     background-color: #313338;
     color: $white;
   }
-  &--dark .form-dropdown-btn{
+  &--dark .form-dropdown-btn {
     background-color: #313338;
     color: $white;
   }
-  &--dark .login_container{
+  &--dark .login_container {
     background-color: #2b2d31;
     color: $white;
   }
-  &--dark .login-form{
-    h1{
+  &--dark .login-form {
+    h1 {
       color: $white;
     }
-    input{
+    input {
       color: $white;
-      }
-      ::placeholder{
-        color: $white;
-        opacity: 60%;
+    }
+    ::placeholder {
+      color: $white;
+      opacity: 60%;
     }
   }
-  &--dark .notfound{
+  &--dark .notfound {
     background-color: #232428;
-    .msg{
+    .msg {
       color: $white;
     }
   }
-  &--dark{
+  &--dark {
     /* Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #e9ecef $white;
-}
+    
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #e9ecef $white;
+    }
 
-/* Chrome, Edge and Safari */
-*::-webkit-scrollbar {
-  width: 7px;
-  width: 7px;
-}
-*::-webkit-scrollbar-track {
-  border-radius: 5px;
-  background-color: #2b2d31;  
-}
+    /* Chrome, Edge and Safari */
+    *::-webkit-scrollbar {
+      width: 7px;
+      width: 7px;
+    }
+    *::-webkit-scrollbar-track {
+      border-radius: 5px;
+      background-color: #2b2d31;
+    }
 
-*::-webkit-scrollbar-track:hover {
-  background-color: #2b2d31;
-}
+    *::-webkit-scrollbar-track:hover {
+      background-color: #2b2d31;
+    }
 
-*::-webkit-scrollbar-track:active {
-  background-color: #2b2d31;
-}
+    *::-webkit-scrollbar-track:active {
+      background-color: #2b2d31;
+    }
 
-*::-webkit-scrollbar-thumb {
-  border-radius: 20px;
-  background-color: #141415;
-}
+    *::-webkit-scrollbar-thumb {
+      border-radius: 20px;
+      background-color: #141415;
+    }
 
-*::-webkit-scrollbar-thumb:hover {
-  background-color: #141415;
-}
+    *::-webkit-scrollbar-thumb:hover {
+      background-color: #141415;
+    }
 
-*::-webkit-scrollbar-thumb:active {
-  background-color: #141415;
-}
-
+    *::-webkit-scrollbar-thumb:active {
+      background-color: #141415;
+    }
   }
 }
