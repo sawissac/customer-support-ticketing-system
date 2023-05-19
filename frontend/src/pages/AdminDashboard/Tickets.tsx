@@ -11,9 +11,9 @@ import axios from "axios";
 import { useQuery } from "react-query";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { Oval } from "react-loader-spinner";
 
 dayjs.extend(relativeTime);
-
 const TicketPage = () => {
   const TicketRedux = useAppSelector((state) => state.ticket);
   const dispatch = useAppDispatch();
@@ -38,7 +38,20 @@ const TicketPage = () => {
   const { error, data, isFetching } = useQuery(["employee", "hello"], getUsersData);
 
   if (isFetching) {
-    return <div>isFetching</div>;
+    return <div className="fetching">
+      <Oval
+          height={50}
+          width={50}
+          color="#F37021"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+          ariaLabel="oval-loading"
+          secondaryColor="#c97b4b"
+          strokeWidth={2}
+          strokeWidthSecondary={2}
+        />
+    </div>;
   }
 
   return (

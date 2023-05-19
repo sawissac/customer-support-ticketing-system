@@ -202,7 +202,13 @@ const CustomerProjects = () => {
             />
             <DataTable
               columns={columns}
-              data={filteredData.length === 0 ? data : filteredData}
+              data={
+                filteredData.length === 0 && searchQuery !== ""
+                  ? []
+                  : filteredData.length === 0
+                  ? data
+                  : filteredData
+              }
               responsive
               pagination
               theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}
