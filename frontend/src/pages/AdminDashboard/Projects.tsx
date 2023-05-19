@@ -238,7 +238,6 @@ const Projects = () => {
             >
               <Input
                 type="text"
-                label="Search"
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={handleSearch}

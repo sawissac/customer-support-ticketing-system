@@ -2,8 +2,12 @@
   flex: 1;
   overflow-x: hidden;
   overflow-y: scroll;
-  
 
+  .search-area{
+    display: flex;
+    align-items: start;
+    gap: 10px;
+  }
   &--form {
     min-width: 400px;
   }

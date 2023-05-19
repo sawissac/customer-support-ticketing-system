@@ -183,7 +183,6 @@ const EmployeeProjects = () => {
           <div className="admin-container__inner">
           <Input
               type="text"
-              label="Search"
               placeholder="Search..."
               value={searchQuery}
               onChange={handleSearch}

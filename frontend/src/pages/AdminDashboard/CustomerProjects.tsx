@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
 import { IconEdit, IconPlus, IconUsers } from "@tabler/icons-react";
-import RouteSetter from "./RouteSetter";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IconTrashFilled } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
@@ -196,7 +195,6 @@ const CustomerProjects = () => {
           <div className="admin-container__inner">
             <Input
               type="text"
-              label="Search"
               placeholder="Search..."
               value={searchQuery}
               onChange={handleSearch}

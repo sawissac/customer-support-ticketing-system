@@ -1,20 +1,12 @@
-import { useMemo, useState} from "react";
+import React, { useMemo, useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
-import {
-  IconEdit,
-  IconPlus,
-  IconTrashFilled,
-  IconUsers,
-} from "@tabler/icons-react";
+import { IconEdit, IconMenuOrder, IconPlus, IconTrashFilled, IconUsers } from "@tabler/icons-react";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import {
-  openUserRightSidebar,
-  setUserState,
-} from "../../redux/feature_slice/UserPageSlice";
-import { serverRoles } from "../../redux/variable/UserPageVariable";
+import { openUserRightSidebar, setUserState } from "../../redux/feature_slice/UserPageSlice";
+import { serverRoles, userRoles } from "../../redux/variable/UserPageVariable";
 import Avatar from "react-avatar";
 import UserCreatePage from "./UserCreate";
 import UserUpdatePage from "./UserUpdate";
@@ -25,37 +17,47 @@ import { Theme } from "../../redux/variable/ThemeVariable";
 import { Oval } from "react-loader-spinner";
 import { debounce } from "debounce";
 import Input from "../../components/Input";
+import Dropdown from "../../components/DropDown";
 
-createTheme('table-dark', {
-  text: {
-    primary: 'white',
-    secondary: 'white',
+createTheme(
+  "table-dark",
+  {
+    text: {
+      primary: "white",
+      secondary: "white",
+    },
+    background: {
+      default: "#313338",
+    },
+    context: {
+      background: "#cb4b16",
+      text: "#FFFFFF",
+    },
+    divider: {
+      default: "white",
+    },
+    action: {
+      button: "rgba(0,0,0,.54)",
+      hover: "rgba(0,0,0,.08)",
+      disabled: "rgba(0,0,0,.12)",
+    },
   },
-  background: {
-    default: '#313338',
-  },
-  context: {
-    background: '#cb4b16',
-    text: '#FFFFFF',
-  },
-  divider: {
-    default: 'white',
-  },
-  action: {
-    button: 'rgba(0,0,0,.54)',
-    hover: 'rgba(0,0,0,.08)',
-    disabled: 'rgba(0,0,0,.12)',
-  },
-}, 'dark');
+  "dark"
+);
 
 const Users = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
   const UserPageRedux = useAppSelector((state) => state.userSidebar);
   const themeRedux = useAppSelector((state) => state.theme);
-  
+
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
+  const [searchFilter, setSearchFilter] = useState([]);
+
+  const [dropDownTitle, setDropDownTitle] = React.useState({
+    name: "Select",
+    role: "",
+  });
 
   const columns = useMemo(
     () => [
@@ -147,14 +149,10 @@ const Users = () => {
     return res;
   };
 
-  const { isFetching, data } = useQuery(
-    ["userData", UserPageRedux.state],
-    getUsersData
-  );
+  const { isFetching, data } = useQuery(["userData", UserPageRedux.state], getUsersData);
   if (isFetching)
     return (
-      <div
-        className="fetching ">
+      <div className="fetching ">
         <Oval
           height={50}
           width={50}
@@ -170,22 +168,39 @@ const Users = () => {
       </div>
     );
 
-    const debouncedSearch = debounce((value: any) => {
-      const filtered = data.filter((item: any) => {
-        return item.name.toLowerCase().includes(value.toLowerCase());
-      });
-      setFilteredData(filtered);
-    }, 1000);
-  
-    const handleSearch = (event: any) => {
-      setSearchQuery(event.target.value);
-      debouncedSearch(event.target.value);
-    };
+  const debouncedSearch = debounce((value: any) => {
+    const filtered = data.filter((item: any) => {
+      return item.name.toLowerCase() === value.toLowerCase();
+    });
+    setSearchFilter(filtered);
+  }, 1000);
+
+  const handleSearch = (event: any) => {
+    setSearchQuery(event.target.value);
+    debouncedSearch(event.target.value);
+  };
+
+  let filteredData = searchFilter;
+
+  if (filteredData.length === 0 && dropDownTitle.role.length === 0) {
+    filteredData = data;
+  }
+
+  if (filteredData.length === 0 && dropDownTitle.role.length > 0) {
+    filteredData = data.filter(
+      (item: any) => item.roles[0].name.toLowerCase() === dropDownTitle.role.toLowerCase()
+    );
+  }
+
+  if (filteredData.length > 0 && dropDownTitle.role.length > 0) {
+    filteredData = filteredData.filter(
+      (item: any) => item.roles[0].name.toLowerCase() === dropDownTitle.role.toLowerCase()
+    );
+  }
 
   return (
     <>
-      <div
-        className="admin-container">
+      <div className="admin-container">
         <Nav
           icon={<IconUsers />}
           label={"Users"}
@@ -205,21 +220,51 @@ const Users = () => {
           animate={{ opacity: 1, y: "0px" }}
           className="admin-container__inner"
         >
-          <Input
-                type="text"
-                label="Search"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={handleSearch}
-                className="search"
-              />
+          <div className="search-area">
+            <Input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={handleSearch}
+              className="search"
+            />
+
+            <Dropdown
+              buttonClassName="form-dropdown-btn form-dropdown-btn--search"
+              buttonChildren={<>{dropDownTitle.name}</>}
+              dropdownClassName="form-dropdown"
+              dropdownChildren={
+                <>
+                  <button
+                    title="button"
+                    onClick={() => {
+                      setDropDownTitle({ name: "See All", role: "" });
+                    }}
+                  >
+                    See all
+                  </button>
+                  {Object.keys(userRoles).map((i: any) => {
+                    return (
+                      <button
+                        title="button"
+                        onClick={() => {
+                          setDropDownTitle({ name: i, role: userRoles[i] });
+                        }}
+                      >
+                        {i}
+                      </button>
+                    );
+                  })}
+                </>
+              }
+            />
+          </div>
           <DataTable
             columns={columns}
-            data={filteredData.length === 0 ? data : filteredData}
+            data={filteredData}
             responsive
             pagination
-            theme={`${
-              themeRedux === Theme.Dark ? "table-dark" : ""}`}
+            theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}
           />
         </motion.div>
       </div>
