@@ -2,19 +2,21 @@ import TextareaAutosize from "react-textarea-autosize";
 import { useAppSelector } from "../../redux/hook";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
+  label?: string;
   errorMessage?: string;
 }
 const Input = ({ label, errorMessage, ...props }: InputProps) => {
-  const themeRedux = useAppSelector((state) => state.theme);
   return (
     <div className="form-input">
-      <div className="form-input__label">
-        <label htmlFor={props.id}>{label}</label>
-        {errorMessage && (
-          <div className="form-input__error">{errorMessage}</div>
-        )}
-      </div>
+      {label && (
+        <div className="form-input__label">
+          <label htmlFor={props.id}>{label}</label>
+          {errorMessage && (
+            <div className="form-input__error">{errorMessage}</div>
+          )}
+        </div>
+      )}
+
       <div className="form-input__container">
         <input {...props} />
       </div>

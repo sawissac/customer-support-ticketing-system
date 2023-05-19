@@ -61,8 +61,12 @@ const Users = () => {
   const themeRedux = useAppSelector((state) => state.theme);
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
+  const [searchFilter, setSearchFilter] = useState([]);
+
+  const [dropDownTitle, setDropDownTitle] = React.useState({
+    name: "Select",
+    role: "",
+  });
 
   const columns = useMemo(
     () => [
@@ -178,9 +182,9 @@ const Users = () => {
 
   const debouncedSearch = debounce((value: any) => {
     const filtered = data.filter((item: any) => {
-      return item.name.toLowerCase().includes(value.toLowerCase());
+      return item.name.toLowerCase() === value.toLowerCase();
     });
-    setFilteredData(filtered);
+    setSearchFilter(filtered);
   }, 1000);
 
   const handleSearch = (event: any) => {
@@ -188,26 +192,15 @@ const Users = () => {
     debouncedSearch(event.target.value);
   };
 
-  const handleFilterChange = (event: any) => {
-    const selectedValue = event.target.value;
-    setSelectedFilter(selectedValue);
+  let filteredData = searchFilter;
 
-    let filtered = data;
-    if (selectedValue.name == "Admin") {
-      filtered = data.filter((item: any) => {
-        return item.roles[0].name == "admin";
-      });
-    } else if (selectedValue == "Employee") {
-      filtered = data.filter((item: any) => {
-        return item.roles[0].name == "employee";
-      });
-    } else if (selectedValue == "Customer") {
-      filtered = data.filter((item: any) => {
-        return item.roles[0].name == "customer";
-      });
-    }
-    setFilteredData(filtered);
-  };
+  if (dropDownTitle.role.length > 0) {
+    filteredData = searchFilter.filter(
+      (item: any) =>
+        item.roles[0].name.toLowerCase() === dropDownTitle.role.toLowerCase()
+    );
+  }
+
   return (
     <>
       <div className="admin-container">
@@ -230,25 +223,49 @@ const Users = () => {
           animate={{ opacity: 1, y: "0px" }}
           className="admin-container__inner"
         >
+          <div className="search-area">
           <Input
             type="text"
-            label="Search"
             placeholder="Search..."
             value={searchQuery}
             onChange={handleSearch}
             className="search"
           />
-
-          <select value={selectedFilter} onChange={handleFilterChange}>
-            <option value="">All</option>
-            <option value="Admin">Admin</option>
-            <option value="Employee">Employee</option>
-            <option value="Customer">Customer</option>
-          </select>
-
+          
+          <Dropdown
+            buttonClassName="form-dropdown-btn form-dropdown-btn--search"
+            buttonChildren={<>{dropDownTitle.name}</>}
+            // offset={[200, 100]}
+            dropdownClassName="form-dropdown"
+            dropdownChildren={
+              <>
+                <button
+                  title="button"
+                  onClick={() => {
+                    setDropDownTitle({ name: "See All", role: "" });
+                  }}
+                >
+                  See all
+                </button>
+                {Object.keys(userRoles).map((i: any) => {
+                  return (
+                    <button
+                      title="button"
+                      onClick={() => {
+                        setDropDownTitle({ name: i, role: userRoles[i] });
+                      }}
+                    >
+                      {i}
+                    </button>
+                  );
+                })}
+              </>
+            }
+          />
+          </div>
           <DataTable
             columns={columns}
-            data={filteredData.length === 0 ? data : filteredData}
+            data={filteredData.length > 0 ? filteredData : data}
             responsive
             pagination
             theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}
