@@ -164,7 +164,7 @@ const Users = () => {
   );
   if (isFetching)
     return (
-      <div className="fetching ">
+      <div className="fetching">
         <Oval
           height={50}
           width={50}
@@ -234,7 +234,7 @@ const Users = () => {
           
           <Dropdown
             buttonClassName="form-dropdown-btn form-dropdown-btn--search"
-            buttonChildren={<>{dropDownTitle.name}</>}
+            buttonChildren={<>{dropDownTitle.name}<IconMenuOrder size={20} /></>}
             // offset={[200, 100]}
             dropdownClassName="form-dropdown"
             dropdownChildren={

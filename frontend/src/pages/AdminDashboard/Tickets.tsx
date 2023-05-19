@@ -32,11 +32,12 @@ const TicketPage = () => {
     return res;
   };
 
-  const { error, data, isFetching } = useQuery(["employee", "hello"], getUsersData);
+  const { data, isFetching } = useQuery(["employee", "hello"], getUsersData);
 
   if (isFetching) {
-    return <div className="fetching">
-      <Oval
+    return (
+      <div className="fetching">
+        <Oval
           height={50}
           width={50}
           color="#F37021"
@@ -48,7 +49,8 @@ const TicketPage = () => {
           strokeWidth={2}
           strokeWidthSecondary={2}
         />
-    </div>;
+      </div>
+    );
   }
 
   return (
