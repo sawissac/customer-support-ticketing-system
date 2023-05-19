@@ -1,7 +1,7 @@
 import React from "react";
 import Nav from "../../components/Nav";
 import TicketList from "../../components/TicketList";
-import { IconMessage2, IconPlus } from "@tabler/icons-react";
+import { IconFolder, IconMessage2, IconPlus } from "@tabler/icons-react";
 import Button from "../../components/Button";
 import ShowIf from "../../components/Helper";
 import TicketCreate from "./TicketCreate";
@@ -9,6 +9,10 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { setTicketView } from "../../redux/feature_slice/TicketSlice";
 import axios from "axios";
 import { useQuery } from "react-query";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 const TicketPage = () => {
   const TicketRedux = useAppSelector((state) => state.ticket);
@@ -58,18 +62,20 @@ const TicketPage = () => {
               }
             />
 
-            <div className="admin-container__inner row row--gap-1">
+            <div className="admin-container__inner row row--gap-1 admin-container--pb-5">
               {data.data.data.map((i: any) => {
                 return (
                   <>
-                    <div className="col-12">{i.project.name}</div>
+                    <div className="col-12">
+                      <div className="admin-container__header"><IconFolder size={30} />{i.project.name}</div>
+                    </div>
                     {i.ticket.map((j: any) => {
                       return (
                         <div className="col-4">
                           <TicketList
                             projectName={i.project.name}
                             userView
-                            day="9days"
+                            day={dayjs(j.created_at).fromNow()}
                             description={j.description}
                             name={i.user.name}
                             priority={j.priority}

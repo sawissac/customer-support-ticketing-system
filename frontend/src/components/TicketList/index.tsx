@@ -41,7 +41,7 @@ const TicketList = ({
             color="#0d6efd"
             name={name}
             size="30"
-            textSizeRatio={1}
+            textSizeRatio={1.75}
             round
           />
           <label>
@@ -74,7 +74,7 @@ const TicketList = ({
         {description}
       </div>
       <div className={`ticket-list__sub-desc ${themeRedux === Theme.Dark ? 'ticket-list__sub-desc--dark': ''}`}>
-        <IconFolder size={20} />{projectName}
+        <IconFolder size={25} />{projectName}
       </div>
       <div className="ticket-list__status">
         <div className="ticket-list__info">
