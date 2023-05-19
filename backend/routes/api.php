@@ -40,13 +40,3 @@ Route::middleware(['cors', 'auth:sanctum'])->group(function () {
     Route::apiResource('/customer-project', CustomerProjectController::class);
     Route::get('/customer-paginate', [CustomerProjectController::class, 'paginate']);
 });
-
-    // Route::middleware('roles:employee')->group(function () {
-    //     Route::apiResource('/employee-project', EmployeeProjectController::class)->middleware('auth:sanctum');
-    //     Route::apiResource('/employee-report', EmployeeReportController::class)->middleware('auth:sanctum');
-    // });
-
-    // Route::middleware('roles:customer')->group(function () {
-    //     Route::apiResource('/customer-project', CustomerProjectController::class)->middleware('auth:sanctum');
-    //     Route::apiResource('/ticket', TicketController::class)->middleware('auth:sanctum');
-    // });

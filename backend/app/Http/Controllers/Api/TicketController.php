@@ -46,7 +46,6 @@ class TicketController extends BaseController
                 'customer_project_id' => 'required|integer',
                 'subject' => 'required|string',
                 'description' => 'required',
-                'zip_file' => 'nullable|file|mimes:zip|max:2048',
                 'status' => 'required|string',
                 'priority' => 'required|string',
                 'drive_link' => 'file',
