@@ -22,8 +22,9 @@ class TicketRepository implements TicketRepositoryInterface
 
     public function getTickets($request)
     {
-        $perPage = $request->input('per_page', 9);
-        $tickets = Ticket::paginate($perPage);
+        // $perPage = $request->input('per_page', 9);
+
+        $tickets = Ticket::with('customer_project')->paginate(6);
 
         return $tickets;
     }
