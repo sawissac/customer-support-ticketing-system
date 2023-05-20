@@ -1,9 +1,8 @@
 import TextareaAutosize from "react-textarea-autosize";
-import { useAppSelector } from "../../redux/hook";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
-  onChangeText?:any;
+  onChangeText?: any;
   errorMessage?: string;
 }
 const Input = ({ label, errorMessage, ...props }: InputProps) => {
@@ -12,9 +11,7 @@ const Input = ({ label, errorMessage, ...props }: InputProps) => {
       {label && (
         <div className="form-input__label">
           <label htmlFor={props.id}>{label}</label>
-          {errorMessage && (
-            <div className="form-input__error">{errorMessage}</div>
-          )}
+          {errorMessage && <div className="form-input__error">{errorMessage}</div>}
         </div>
       )}
 
@@ -25,18 +22,15 @@ const Input = ({ label, errorMessage, ...props }: InputProps) => {
   );
 };
 
-Input.Textarea = function ({ label, errorMessage, onChangeText, ...props }: InputProps) {
+Input.Textarea = function ({ label, errorMessage, onChangeText, value, ...props }: InputProps) {
   return (
     <div className="form-input">
       <div className="form-input__label">
         <label htmlFor={props.id}>{label}</label>
-        {errorMessage && (
-          <div className="form-input__error">{errorMessage}</div>
-        )}
+        {errorMessage && <div className="form-input__error">{errorMessage}</div>}
       </div>
       <TextareaAutosize
-        minRows={5}
-        maxRows={5}
+        value={value}
         placeholder="Write your problem here..."
         className="form-input__textarea"
         onChange={onChangeText}

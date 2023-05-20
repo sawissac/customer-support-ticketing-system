@@ -16,6 +16,7 @@ import TicketView from "./TicketView";
 import ReactPaginate from "react-paginate";
 import Input from "../../components/Input";
 import { debounce } from "debounce";
+import TicketUpdate from "./TicketUpdate";
 
 dayjs.extend(relativeTime);
 
@@ -54,7 +55,6 @@ const TicketPage = () => {
     }
 
     if (data && filteredData.length === 0) {
-      console.log(data)
       setCurrentData(data.data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage));
       setDataCount(data.data.length);
     }
@@ -180,15 +180,19 @@ const TicketPage = () => {
                             return { user_id: employee.user_id, name: employee.user.name };
                           }
                         );
+                        console.log(i.customer_project.project.name)
                         dispatch(
                           setViewData({
-                            ticketID: i.id,
+                            ticketId: i.id,
                             employees,
                             time: dayjs(i.created_at).fromNow(),
                             userName: i.customer_project.user.name,
                             subject: i.subject,
                             description: i.description,
                             driveLink: i.drive_link,
+                            customerProjectId: i.customer_project.project.id,
+                            customerProjectName: i.customer_project.project.name,
+                            priority: i.priority,
                           })
                         );
                         dispatch(setTicketView({ name: "ticket-view" }));
@@ -208,6 +212,10 @@ const TicketPage = () => {
       <ShowIf
         sif={ticketRedux.view === "ticket-view"}
         show={<TicketView />}
+      />
+      <ShowIf
+        sif={ticketRedux.view === "ticket-update"}
+        show={<TicketUpdate />}
       />
     </>
   );

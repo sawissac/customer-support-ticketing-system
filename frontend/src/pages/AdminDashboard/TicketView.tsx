@@ -6,7 +6,7 @@ import { setTicketView } from "../../redux/feature_slice/TicketSlice";
 
 const TicketView = () => {
   const dispatch = useAppDispatch();
-  const ticketRedux = useAppSelector(state=>state.ticket);
+  const ticketRedux = useAppSelector((state) => state.ticket);
   return (
     <>
       <div className="admin-container">
@@ -23,14 +23,19 @@ const TicketView = () => {
               userName={ticketRedux.userName}
               description={ticketRedux.description}
             />
-            <Message.FileAttachment
-              link={ticketRedux.driveLink}
-              label="Error Report Drive Link"
-            />
+            {ticketRedux.driveLink && (
+              <Message.FileAttachment
+                link={ticketRedux.driveLink}
+                label="Error Report Drive Link"
+              />
+            )}
           </fieldset>
         </div>
       </div>
-      <EmployeeSideBar view employee={ticketRedux.employees}/>
+      <EmployeeSideBar
+        view
+        employee={ticketRedux.employees}
+      />
     </>
   );
 };

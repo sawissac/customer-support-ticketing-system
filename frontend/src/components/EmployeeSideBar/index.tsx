@@ -1,8 +1,10 @@
 import { IconHash } from "@tabler/icons-react";
 import Avatar from "react-avatar";
 import { NavLink } from "react-router-dom";
-import { useAppSelector } from "../../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { Theme } from "../../redux/variable/ThemeVariable";
+import Button from "../Button";
+import { setTicketView } from "../../redux/feature_slice/TicketSlice";
 
 interface EmployeeSideBarInterface {
   view?: boolean;
@@ -11,6 +13,7 @@ interface EmployeeSideBarInterface {
 
 const EmployeeSideBar = ({ view, employee }: EmployeeSideBarInterface) => {
   const themeRedux = useAppSelector((state) => state.theme);
+  const dispatch = useAppDispatch();
   return (
     <div className={`sidebar ${themeRedux === Theme.Dark ? "sidebar--dark" : ""}`}>
       <div className="sidebar__header">
@@ -29,18 +32,19 @@ const EmployeeSideBar = ({ view, employee }: EmployeeSideBarInterface) => {
         {view && (
           <>
             <NavLink
-              to={"/admin-dashboard/employee-create"}
+              to={"/admin-dashboard/employee-assignment"}
               className="btn btn--primary btn--block"
             >
               Go to Assign
             </NavLink>
 
-            <NavLink
-              to={"/admin-dashboard/ticket-update"}
+            <Button
+              label="Edit Ticket"
               className="btn btn--light btn--block btn--no-m-bottom"
-            >
-              Edit Ticket
-            </NavLink>
+              onClick={() => {
+                dispatch(setTicketView({ name: "ticket-update" }));
+              }}
+            />
           </>
         )}
       </div>
