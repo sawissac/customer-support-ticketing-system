@@ -243,9 +243,10 @@ const Users = () => {
                   >
                     See all
                   </button>
-                  {Object.keys(userRoles).map((i: any) => {
+                  {Object.keys(userRoles).map((i: any,index:number) => {
                     return (
                       <button
+                        key={index}
                         title="button"
                         onClick={() => {
                           setDropDownTitle({ name: i, role: userRoles[i] });

@@ -44,7 +44,7 @@ const TicketUpdate = () => {
           />
         </form>
       </div>
-      <EmployeeSideBar />
+      {/* <EmployeeSideBar /> */}
     </>
   );
 };

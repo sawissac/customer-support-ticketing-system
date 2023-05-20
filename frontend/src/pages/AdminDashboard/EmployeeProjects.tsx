@@ -43,14 +43,15 @@ createTheme('table-dark', {
     disabled: 'rgba(0,0,0,.12)',
   },
 }, 'dark');
+
 const EmployeeProjects = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
   const projectPageRedux = useAppSelector((state) => state.projectSidebar);
   const themeRedux = useAppSelector((state) => state.theme);
-
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  
   const columns = useMemo(
     () => [
       {

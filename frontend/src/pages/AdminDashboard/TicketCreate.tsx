@@ -111,7 +111,7 @@ const TicketCreate = () => {
             animate={{ y: "0px", opacity: 1 }}
           >
             <div className="row row--gap-1">
-              <div className="col-12">
+              <div className="col-12"> 
                 <Input
                   label="Subject"
                   errorMessage="*require"

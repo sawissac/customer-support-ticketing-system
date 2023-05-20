@@ -131,14 +131,14 @@ const CustomerProjects = () => {
       });
     return res;
   };
-  const { isLoading, error, data, isFetching } = useQuery(
+  const {  error, data, isFetching } = useQuery(
     ["customer", projectPageRedux.customerUrlState],
     getUsersData
   );
     
   if (isFetching)
     return (
-      <p className="fetching">
+      <div className="fetching">
         <Oval
           height={50}
           width={50}
@@ -151,7 +151,7 @@ const CustomerProjects = () => {
           strokeWidth={2}
           strokeWidthSecondary={2}
         />
-      </p>
+      </div>
     );
   if (error) return <p>"An error has occurs"</p>;
 
