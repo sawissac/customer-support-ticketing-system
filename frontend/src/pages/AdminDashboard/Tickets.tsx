@@ -6,7 +6,10 @@ import Button from "../../components/Button";
 import ShowIf from "../../components/Helper";
 import TicketCreate from "./TicketCreate";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { setTicketView, setViewData } from "../../redux/feature_slice/TicketSlice";
+import {
+  setTicketView,
+  setViewData,
+} from "../../redux/feature_slice/TicketSlice";
 import axios from "axios";
 import { useQuery } from "react-query";
 import dayjs from "dayjs";
@@ -46,16 +49,26 @@ const TicketPage = () => {
     return res;
   };
 
-  const { data, isFetching } = useQuery(["employee", ticketRedux.url], getUsersData);
+  const { data, isFetching } = useQuery(
+    ["employee", ticketRedux.url],
+    getUsersData
+  );
 
   useEffect(() => {
     if (filteredData.length > 0) {
       setCurrentData(
-        filteredData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
+        filteredData.slice(
+          currentPage * itemsPerPage,
+          (currentPage + 1) * itemsPerPage
+        )
       );
     }
     if (data && filteredData.length === 0) {
-      setCurrentData(data.data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage).reverse());
+      setCurrentData(
+        data.data
+          .slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
+          .reverse()
+      );
       setDataCount(data.data.length);
     }
   }, [data, filteredData, currentPage]);
@@ -97,11 +110,32 @@ const TicketPage = () => {
       if (item.priority.toLowerCase().includes(value.toLowerCase())) {
         return item.priority.toLowerCase().includes(value.toLowerCase());
       }
-      if (item.customer_project.project.name.toLowerCase().includes(value.toLowerCase())) {
-        return item.customer_project.project.name.toLowerCase().includes(value.toLowerCase());
+      if (
+        item.customer_project.project.name
+          .toLowerCase()
+          .includes(value.toLowerCase())
+      ) {
+        return item.customer_project.project.name
+          .toLowerCase()
+          .includes(value.toLowerCase());
       }
-      if (item.customer_project.user.name.toLowerCase().includes(value.toLowerCase())) {
-        return item.customer_project.user.name.toLowerCase().includes(value.toLowerCase());
+      if (
+        item.customer_project.user.name
+          .toLowerCase()
+          .includes(value.toLowerCase())
+      ) {
+        return item.customer_project.user.name
+          .toLowerCase()
+          .includes(value.toLowerCase());
+      }
+      if (
+        item.customer_project.project.project_id
+          .toLowerCase()
+          .includes(value.toLowerCase())
+      ) {
+        return item.customer_project.project.project_id
+          .toLowerCase()
+          .includes(value.toLowerCase());
       }
     });
     setFilteredData(filtered);
@@ -138,14 +172,28 @@ const TicketPage = () => {
                   onChange={handleSearchChange}
                   className="search"
                 />
+                <ReactPaginate
+                  previousLabel="Previous"
+                  nextLabel="Next"
+                  breakLabel="..."
+                  pageCount={Math.ceil(dataCount / itemsPerPage)}
+                  marginPagesDisplayed={2}
+                  pageRangeDisplayed={5}
+                  onPageChange={handlePageChange}
+                  containerClassName="pagination"
+                  activeClassName="active"
+                  pageClassName="page-item"
+                  pageLinkClassName="page-link"
+                  previousClassName="page-item"
+                  nextClassName="page-item"
+                  previousLinkClassName="page-link"
+                  nextLinkClassName="page-link"
+                />
               </div>
 
               {currentData.map((i: any, index: number) => {
                 return (
-                  <div
-                    className="col-4"
-                    key={index}
-                  >
+                  <div className="col-4" key={index}>
                     <TicketList
                       projectName={`${i.customer_project.project.name} #${i.tickets_id}`}
                       userView
@@ -173,24 +221,6 @@ const TicketPage = () => {
                 );
               })}
             </div>
-
-            <ReactPaginate
-              previousLabel="Previous"
-              nextLabel="Next"
-              breakLabel="..."
-              pageCount={Math.ceil(dataCount / itemsPerPage)}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={handlePageChange}
-              containerClassName="pagination"
-              activeClassName="active"
-              pageClassName="page-item"
-              pageLinkClassName="page-link"
-              previousClassName="page-item"
-              nextClassName="page-item"
-              previousLinkClassName="page-link"
-              nextLinkClassName="page-link"
-            />
           </div>
         }
       />
@@ -198,10 +228,7 @@ const TicketPage = () => {
         sif={TicketRedux.view === "ticket-create"}
         show={<TicketCreate />}
       />
-      <ShowIf
-        sif={TicketRedux.view === "ticket-view"}
-        show={<TicketView />}
-      />
+      <ShowIf sif={TicketRedux.view === "ticket-view"} show={<TicketView />} />
     </>
   );
 };
