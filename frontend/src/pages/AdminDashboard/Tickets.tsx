@@ -1,7 +1,7 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import Nav from "../../components/Nav";
 import TicketList from "../../components/TicketList";
-import { IconFolder, IconMessage2, IconPlus } from "@tabler/icons-react";
+import { IconChevronsLeft, IconMessage2, IconPlus } from "@tabler/icons-react";
 import Button from "../../components/Button";
 import ShowIf from "../../components/Helper";
 import TicketCreate from "./TicketCreate";
@@ -13,6 +13,9 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Oval } from "react-loader-spinner";
 import TicketView from "./TicketView";
+import ReactPaginate from "react-paginate";
+import Input from "../../components/Input";
+import { debounce } from "debounce";
 
 dayjs.extend(relativeTime);
 
@@ -21,10 +24,15 @@ const TicketPage = () => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
   const ticketRedux = useAppSelector((state) => state.ticket);
-  const [page, setPage] = React.useState(0);
-  // const [page] = React.useState();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [dataCount, setDataCount] = useState(0);
+  const [currentData, setCurrentData] = useState([]);
+  const itemsPerPage = 6;
 
   const url = "http://127.0.0.1:8000/api/ticket";
+
   const getUsersData = async () => {
     const res = await axios
       .get(url, {
@@ -37,7 +45,21 @@ const TicketPage = () => {
       });
     return res;
   };
-  const { error, data, isFetching } = useQuery(["employee", ticketRedux.url], getUsersData);
+
+  const { data, isFetching } = useQuery(["employee", ticketRedux.url], getUsersData);
+
+  useEffect(() => {
+    if (filteredData.length > 0) {
+      setCurrentData(
+        filteredData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
+      );
+    }
+    if (data && filteredData.length === 0) {
+      setCurrentData(data.data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage).reverse());
+      setDataCount(data.data.length);
+    }
+  }, [data, filteredData, currentPage]);
+
   if (isFetching) {
     return (
       <div className="fetching">
@@ -56,6 +78,35 @@ const TicketPage = () => {
       </div>
     );
   }
+
+  const handlePageChange = ({ selected }: any) => {
+    setCurrentPage(selected);
+  };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+    debouncedSearch(event.target.value);
+    setCurrentPage(0);
+  };
+
+  const debouncedSearch = debounce((value: any) => {
+    const filtered = data.data.filter((item: any) => {
+      if (item.tickets_id.toLowerCase().includes(value.toLowerCase())) {
+        return item.tickets_id.toLowerCase().includes(value.toLowerCase());
+      }
+      if (item.priority.toLowerCase().includes(value.toLowerCase())) {
+        return item.priority.toLowerCase().includes(value.toLowerCase());
+      }
+      if (item.customer_project.project.name.toLowerCase().includes(value.toLowerCase())) {
+        return item.customer_project.project.name.toLowerCase().includes(value.toLowerCase());
+      }
+      if (item.customer_project.user.name.toLowerCase().includes(value.toLowerCase())) {
+        return item.customer_project.user.name.toLowerCase().includes(value.toLowerCase());
+      }
+    });
+    setFilteredData(filtered);
+    setDataCount(filtered.length);
+  }, 1000);
 
   return (
     <>
@@ -79,7 +130,17 @@ const TicketPage = () => {
             />
 
             <div className="admin-container__inner row row--gap-1 admin-container--pb-5">
-              {data.data.map((i: any, index: number) => {
+              <div className="col-12">
+                <Input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  className="search"
+                />
+              </div>
+
+              {currentData.map((i: any, index: number) => {
                 return (
                   <div
                     className="col-4"
@@ -94,7 +155,6 @@ const TicketPage = () => {
                       priority={i.priority}
                       status={i.status}
                       onClick={() => {
-                        
                         dispatch(
                           setViewData({
                             ticketID: i.id,
@@ -113,6 +173,24 @@ const TicketPage = () => {
                 );
               })}
             </div>
+
+            <ReactPaginate
+              previousLabel="Previous"
+              nextLabel="Next"
+              breakLabel="..."
+              pageCount={Math.ceil(dataCount / itemsPerPage)}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageChange}
+              containerClassName="pagination"
+              activeClassName="active"
+              pageClassName="page-item"
+              pageLinkClassName="page-link"
+              previousClassName="page-item"
+              nextClassName="page-item"
+              previousLinkClassName="page-link"
+              nextLinkClassName="page-link"
+            />
           </div>
         }
       />

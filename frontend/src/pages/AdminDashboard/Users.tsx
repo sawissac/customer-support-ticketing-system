@@ -152,7 +152,7 @@ const Users = () => {
   const { isFetching, data } = useQuery(["userData", UserPageRedux.state], getUsersData);
   if (isFetching)
     return (
-      <div className="fetching ">
+      <div className="fetching">
         <Oval
           height={50}
           width={50}
