@@ -6,18 +6,11 @@ interface MessageInterface {
   description: string;
 }
 
-const Message = ({
-  userName,
-  description,
-}: MessageInterface) => {
+const Message = ({ userName, description }: MessageInterface) => {
   return (
     <div className="message">
-      <div className="message__header">
-        From {userName}
-      </div>
-      <div className="message__description">
-        {description}
-      </div>
+      <div className="message__header">From {userName}</div>
+      <div className="message__description">{description}</div>
     </div>
   );
 };
@@ -27,17 +20,15 @@ interface FileAttachmentInterface {
   label: string;
 }
 
-Message.FileAttachment = ({
-  link,
-  label,
-}: FileAttachmentInterface) => {
+Message.FileAttachment = ({ link, label }: FileAttachmentInterface) => {
   return (
     <div className="message-file-attachment">
       <a
         href={link}
-        download
+        target="_blank"
       >
-        <IconFileDownload size={25} />{label}
+        <IconFileDownload size={25} />
+        {label}
       </a>
     </div>
   );

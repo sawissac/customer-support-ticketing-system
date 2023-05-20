@@ -54,8 +54,10 @@ const TicketPage = () => {
         filteredData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
       );
     }
+
     if (data && filteredData.length === 0) {
-      setCurrentData(data.data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage).reverse());
+      setCurrentData(data.data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage));
+
       setDataCount(data.data.length);
     }
   }, [data, filteredData, currentPage]);
@@ -155,10 +157,16 @@ const TicketPage = () => {
                       priority={i.priority}
                       status={i.status}
                       onClick={() => {
+                        const employees = i.customer_project.project.employee_project.map(
+                          (employee: any) => {
+                            return { user_id: employee.user_id, name: employee.user.name };
+                          }
+                        );
+
                         dispatch(
                           setViewData({
                             ticketID: i.id,
-                            employees: [],
+                            employees,
                             time: dayjs(i.created_at).fromNow(),
                             userName: i.customer_project.user.name,
                             subject: i.subject,
