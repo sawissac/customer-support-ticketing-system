@@ -10,6 +10,7 @@ import ShowIf from "./components/Helper";
 import { Theme } from "./redux/variable/ThemeVariable";
 import { PageNotFound } from "./pages/404Page";
 import EmployeeDashboard from "./pages/EmployeeDashboard";
+import CustomerDashboard from "./pages/CustomerDashboard";
 
 function App() {
   const authRedux = useAppSelector((state) => state.auth);
@@ -42,6 +43,12 @@ function App() {
             <Route
               path="/employee-dashboard/*"
               element={<EmployeeDashboard />}
+            />
+          )}
+          {authRedux.role === AuthRole.CUSTOMER && (
+            <Route
+              path="/customer-dashboard/*"
+              element={<CustomerDashboard/>}
             />
           )}
           <Route
