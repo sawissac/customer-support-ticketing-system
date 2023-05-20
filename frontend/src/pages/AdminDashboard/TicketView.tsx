@@ -3,18 +3,19 @@ import Nav from "../../components/Nav";
 import { IconMessage2 } from "@tabler/icons-react";
 import EmployeeSideBar from "../../components/EmployeeSideBar";
 import Message from "../../components/Message";
+import { useAppDispatch } from "../../redux/hook";
+import { setTicketView } from "../../redux/feature_slice/TicketSlice";
 
 const TicketView = () => {
+  const dispatch = useAppDispatch();
   return (
     <>
-      <div  className="admin-container">
-        <Nav
-          icon={<IconMessage2 />}
-          label="Ticket - View"
-        />
-        <Nav.Back
-          link="/admin-dashboard/tickets"
+      <div className="admin-container">
+        <Nav.BackButton
           label="The Page Is Loading Slower..!"
+          onClick={() => {
+            dispatch(setTicketView({ name: "" }));
+          }}
         />
         <div className="admin-container__inner">
           <fieldset className="fieldset-timer">

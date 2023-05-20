@@ -83,9 +83,19 @@ const TicketCreate = () => {
   }
   React.useState(() => {
     getCustomerProject({ token: authRedux.token }).then((res: any) => {
-      setProjectList(res.data);
+      const temp:any = [];
+      const filteredData = res.data.filter((project: any)=>{
+        if(!temp.includes(project.project_id)){
+          temp.push(project.project_id);
+          return true;
+        }else{
+          return false;
+        }
+      });
+      setProjectList(filteredData);
     });
   });
+
   return (
     <>
       <div className="admin-container admin-container--textarea">

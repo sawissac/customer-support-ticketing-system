@@ -8,7 +8,7 @@ class TicketRepository implements TicketRepositoryInterface
 {
     public function get()
     {
-        $data = Ticket::with('customer_project.user',"customer_project.project")->get();
+        $data = Ticket::with('customer_project.user',"customer_project.project","customer_project.project.employee_project.user")->get();
 
         return $data;
     }

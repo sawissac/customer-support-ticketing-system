@@ -1,6 +1,13 @@
 export const TicketInit = {
   view: "",
   url: "",
+  customerProjectId: 0,
+  employees: [],
+  time: '',
+  userName: '',
+  subject: '',
+  description: '',
+  driveLink: '',
 };
 
 export const Priority: {
@@ -11,3 +18,5 @@ export const Priority: {
   Height: "height",
   Critical: "critical",
 };
+
+

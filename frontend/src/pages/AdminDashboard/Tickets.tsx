@@ -6,12 +6,13 @@ import Button from "../../components/Button";
 import ShowIf from "../../components/Helper";
 import TicketCreate from "./TicketCreate";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { setTicketView } from "../../redux/feature_slice/TicketSlice";
+import { setTicketView, setViewData } from "../../redux/feature_slice/TicketSlice";
 import axios from "axios";
 import { useQuery } from "react-query";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Oval } from "react-loader-spinner";
+import TicketView from "./TicketView";
 
 dayjs.extend(relativeTime);
 
@@ -78,9 +79,12 @@ const TicketPage = () => {
             />
 
             <div className="admin-container__inner row row--gap-1 admin-container--pb-5">
-              {data.data.reverse().map((i: any) => {
+              {data.data.map((i: any, index: number) => {
                 return (
-                  <div className="col-4">
+                  <div
+                    className="col-4"
+                    key={index}
+                  >
                     <TicketList
                       projectName={`${i.customer_project.project.name} #${i.tickets_id}`}
                       userView
@@ -89,7 +93,21 @@ const TicketPage = () => {
                       name={i.customer_project.user.name}
                       priority={i.priority}
                       status={i.status}
-                      links="/admin-dashboard/ticket-view"
+                      onClick={() => {
+                        
+                        dispatch(
+                          setViewData({
+                            ticketID: i.id,
+                            employees: [],
+                            time: dayjs(i.created_at).fromNow(),
+                            userName: i.customer_project.user.name,
+                            subject: i.subject,
+                            description: i.description,
+                            driveLink: i.drive_link,
+                          })
+                        );
+                        dispatch(setTicketView({ name: "ticket-view" }));
+                      }}
                     />
                   </div>
                 );
@@ -101,6 +119,10 @@ const TicketPage = () => {
       <ShowIf
         sif={TicketRedux.view === "ticket-create"}
         show={<TicketCreate />}
+      />
+      <ShowIf
+        sif={TicketRedux.view === "ticket-view"}
+        show={<TicketView />}
       />
     </>
   );
