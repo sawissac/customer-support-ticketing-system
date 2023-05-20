@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
 import { IconEdit, IconPlus, IconUsers } from "@tabler/icons-react";
-import RouteSetter from "./RouteSetter";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IconTrashFilled } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
@@ -132,14 +131,14 @@ const CustomerProjects = () => {
       });
     return res;
   };
-  const { isLoading, error, data, isFetching } = useQuery(
+  const {  error, data, isFetching } = useQuery(
     ["customer", projectPageRedux.customerUrlState],
     getUsersData
   );
     
   if (isFetching)
     return (
-      <p className="fetching">
+      <div className="fetching">
         <Oval
           height={50}
           width={50}
@@ -152,7 +151,7 @@ const CustomerProjects = () => {
           strokeWidth={2}
           strokeWidthSecondary={2}
         />
-      </p>
+      </div>
     );
   if (error) return <p>"An error has occurs"</p>;
 
@@ -196,7 +195,6 @@ const CustomerProjects = () => {
           <div className="admin-container__inner">
             <Input
               type="text"
-              label="Search"
               placeholder="Search..."
               value={searchQuery}
               onChange={handleSearch}
@@ -204,7 +202,13 @@ const CustomerProjects = () => {
             />
             <DataTable
               columns={columns}
-              data={filteredData.length === 0 ? data : filteredData}
+              data={
+                filteredData.length === 0 && searchQuery !== ""
+                  ? []
+                  : filteredData.length === 0
+                  ? data
+                  : filteredData
+              }
               responsive
               pagination
               theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}

@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TicketRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
 use App\Service\Ticket\TicketServiceInterface;
@@ -44,14 +42,11 @@ class TicketController extends BaseController
         $validator = Validator::make(
             $validate,
             [
-                'tickets_id' => 'string|unique',
-                'customer_project_id' => 'required|integer',
-                'subject' => 'required|string',
+                'customer_project_id' => 'required',
+                'subject' => 'required',
                 'description' => 'required',
-                'status' => 'required|string',
-                'priority' => 'required|string',
-                'ticket_start_date' => 'nullable|date_format:Y-m-d',
-                'ticket_end_date' => 'nullable|date_format:Y-m-d',
+                'priority' => 'nullable|string',
+                'drive_link' => 'nullable|string',
             ]
         );
 
@@ -62,26 +57,6 @@ class TicketController extends BaseController
         $data = $this->ticketService->store($validate);
 
         return $this->sendResponse($data, 'Ticket created successfully.', 201);
-
-        // try{
-        //     $data = $this->ticketService->store($request->validated());
-        //     return $this->sendResponse($data, 'Ticket created successfully.', 201);
-
-        // }catch (Exception $e) {
-        //     return $this->sendError('Error occurred while creating ticket.', [$e->getMessage()]);
-        // }
-    }
-
-
-    public function show($id)
-    {
-        $result = $this->ticketRepo->show($id);
-
-        if (is_null($result)) {
-            return $this->sendError('Ticket not found.');
-        }
-
-        return $this->sendResponse($result, 'Ticket retrieved successfully.');
     }
 
 
@@ -92,15 +67,11 @@ class TicketController extends BaseController
         $validator = Validator::make(
             $validate,
             [
-                'tickets_id' => 'string',
-                'customer_project_id' => 'required|integer',
-                'subject' => 'required|string',
+                'customer_project_id' => 'required',
+                'subject' => 'required',
                 'description' => 'required',
-                'zip_file' => 'nullable|file|mimes:zip|max:2048',
-                'status' => 'required|string',
-                'priority' => 'required|string',
-                'ticket_start_date' => 'nullable|date_format:Y-m-d',
-                'ticket_end_date' => 'nullable|date_format:Y-m-d',
+                'priority' => 'nullable|string',
+                'drive_link' => 'nullable|string',
             ]
         );
 

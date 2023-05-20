@@ -4,34 +4,40 @@ import TicketList from "../../components/TicketList";
 import { IconChevronsLeft, IconMessage2, IconPlus } from "@tabler/icons-react";
 import Button from "../../components/Button";
 import ShowIf from "../../components/Helper";
-import TicketCreate from "./TicketCreate";
+// import TicketCreate from "./TicketCreate";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { setTicketView, setViewData } from "../../redux/feature_slice/TicketSlice";
+import {
+  setTicketView,
+  setViewData,
+} from "../../redux/feature_slice/TicketSlice";
 import axios from "axios";
 import { useQuery } from "react-query";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Oval } from "react-loader-spinner";
-import TicketView from "./TicketView";
+// import TicketView from "./TicketView";
 import ReactPaginate from "react-paginate";
 import Input from "../../components/Input";
 import { debounce } from "debounce";
-import TicketUpdate from "./TicketUpdate";
+import TicketCreate from "../AdminDashboard/TicketCreate";
+import TicketView from "./TicketView";
 
 dayjs.extend(relativeTime);
 
 const TicketPage = () => {
+  const TicketRedux = useAppSelector((state) => state.ticket);
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
   const ticketRedux = useAppSelector((state) => state.ticket);
   const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [dataCount, setDataCount] = useState(0);
-  const [filteredData, setFilteredData] = useState([]);
   const [currentData, setCurrentData] = useState([]);
   const itemsPerPage = 6;
 
   const url = "http://127.0.0.1:8000/api/ticket";
+
   const getUsersData = async () => {
     const res = await axios
       .get(url, {
@@ -45,17 +51,24 @@ const TicketPage = () => {
     return res;
   };
 
-  const { data, isFetching } = useQuery(["tickets", ticketRedux.url], getUsersData);
+  const { data, isFetching } = useQuery(
+    ["employee", ticketRedux.url],
+    getUsersData
+  );
 
   useEffect(() => {
     if (filteredData.length > 0) {
       setCurrentData(
-        filteredData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
+        filteredData.slice(
+          currentPage * itemsPerPage,
+          (currentPage + 1) * itemsPerPage
+        )
       );
     }
 
     if (data && filteredData.length === 0) {
       setCurrentData(data.data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage));
+
       setDataCount(data.data.length);
     }
   }, [data, filteredData, currentPage]);
@@ -97,14 +110,32 @@ const TicketPage = () => {
       if (item.priority.toLowerCase().includes(value.toLowerCase())) {
         return item.priority.toLowerCase().includes(value.toLowerCase());
       }
-      if (item.customer_project.project.name.toLowerCase().includes(value.toLowerCase())) {
-        return item.customer_project.project.name.toLowerCase().includes(value.toLowerCase());
+      if (
+        item.customer_project.project.name
+          .toLowerCase()
+          .includes(value.toLowerCase())
+      ) {
+        return item.customer_project.project.name
+          .toLowerCase()
+          .includes(value.toLowerCase());
       }
-      if (item.customer_project.user.name.toLowerCase().includes(value.toLowerCase())) {
-        return item.customer_project.user.name.toLowerCase().includes(value.toLowerCase());
+      if (
+        item.customer_project.user.name
+          .toLowerCase()
+          .includes(value.toLowerCase())
+      ) {
+        return item.customer_project.user.name
+          .toLowerCase()
+          .includes(value.toLowerCase());
       }
-      if (item.customer_project.project.project_id.toLowerCase().includes(value.toLowerCase())) {
-        return item.customer_project.project.project_id.toLowerCase().includes(value.toLowerCase());
+      if (
+        item.customer_project.project.project_id
+          .toLowerCase()
+          .includes(value.toLowerCase())
+      ) {
+        return item.customer_project.project.project_id
+          .toLowerCase()
+          .includes(value.toLowerCase());
       }
     });
     setFilteredData(filtered);
@@ -114,7 +145,7 @@ const TicketPage = () => {
   return (
     <>
       <ShowIf
-        sif={ticketRedux.view === ""}
+        sif={TicketRedux.view === ""}
         show={
           <div className="admin-container">
             <Nav
@@ -162,10 +193,7 @@ const TicketPage = () => {
 
               {currentData.map((i: any, index: number) => {
                 return (
-                  <div
-                    className="col-4"
-                    key={index}
-                  >
+                  <div className="col-4" key={index}>
                     <TicketList
                       projectName={`${i.customer_project.project.name} #${i.tickets_id}`}
                       userView
@@ -180,19 +208,16 @@ const TicketPage = () => {
                             return { user_id: employee.user_id, name: employee.user.name };
                           }
                         );
-                        console.log(i.customer_project.project.name)
+
                         dispatch(
                           setViewData({
-                            ticketId: i.id,
+                            ticketID: i.id,
                             employees,
                             time: dayjs(i.created_at).fromNow(),
                             userName: i.customer_project.user.name,
                             subject: i.subject,
                             description: i.description,
                             driveLink: i.drive_link,
-                            customerProjectId: i.customer_project.project.id,
-                            customerProjectName: i.customer_project.project.name,
-                            priority: i.priority,
                           })
                         );
                         dispatch(setTicketView({ name: "ticket-view" }));
@@ -206,17 +231,10 @@ const TicketPage = () => {
         }
       />
       <ShowIf
-        sif={ticketRedux.view === "ticket-create"}
-        show={<TicketCreate />}
+        sif={TicketRedux.view === "ticket-create"}
+        show={<TicketCreate/>}
       />
-      <ShowIf
-        sif={ticketRedux.view === "ticket-view"}
-        show={<TicketView />}
-      />
-      <ShowIf
-        sif={ticketRedux.view === "ticket-update"}
-        show={<TicketUpdate />}
-      />
+      <ShowIf sif={TicketRedux.view === "ticket-view"} show={<TicketView/>} />
     </>
   );
 };

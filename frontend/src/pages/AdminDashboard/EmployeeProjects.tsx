@@ -43,14 +43,15 @@ createTheme('table-dark', {
     disabled: 'rgba(0,0,0,.12)',
   },
 }, 'dark');
+
 const EmployeeProjects = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
   const projectPageRedux = useAppSelector((state) => state.projectSidebar);
   const themeRedux = useAppSelector((state) => state.theme);
-
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  
   const columns = useMemo(
     () => [
       {
@@ -183,7 +184,6 @@ const EmployeeProjects = () => {
           <div className="admin-container__inner">
           <Input
               type="text"
-              label="Search"
               placeholder="Search..."
               value={searchQuery}
               onChange={handleSearch}
@@ -191,7 +191,13 @@ const EmployeeProjects = () => {
             />
             <DataTable
               columns={columns}
-              data={filteredData.length === 0 ? data : filteredData}
+              data={
+                filteredData.length === 0 && searchQuery !== ""
+                  ? []
+                  : filteredData.length === 0
+                  ? data
+                  : filteredData
+              }
               responsive
               pagination
               theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}

@@ -93,7 +93,7 @@ class UserController extends BaseController
 
         return $this->sendResponse($data, 'User updated successfully.');
     }
-    
+
     public function destroy($id)
     {
         $this->userService->delete($id);
@@ -104,7 +104,6 @@ class UserController extends BaseController
 
     public function employee()
     {
-        // dd('here');
         $employeeData = $this->userRepo->employee();
 
         return $this->sendResponse($employeeData, 'Employees retrieved successfully.');

@@ -9,6 +9,7 @@ import Avatar from "react-avatar";
 import ShowIf from "../Helper";
 import { useAppSelector } from "../../redux/hook";
 import { Theme } from "../../redux/variable/ThemeVariable";
+import Button from "../Button";
 
 interface TicketListInterface {
   description: string;
@@ -16,9 +17,9 @@ interface TicketListInterface {
   priority: string;
   status: string;
   day: string;
-  links: string;
   userView?: boolean | undefined;
   projectName: string;
+  onClick?:any;
 }
 
 
@@ -28,7 +29,7 @@ const TicketList = ({
   priority,
   status,
   day,
-  links,
+  onClick,
   userView,
   projectName
 }: TicketListInterface) => {
@@ -41,7 +42,7 @@ const TicketList = ({
             color="#0d6efd"
             name={name}
             size="30"
-            textSizeRatio={1}
+            textSizeRatio={1.75}
             round
           />
           <label>
@@ -74,7 +75,7 @@ const TicketList = ({
         {description}
       </div>
       <div className={`ticket-list__sub-desc ${themeRedux === Theme.Dark ? 'ticket-list__sub-desc--dark': ''}`}>
-        <IconFolder size={20} />{projectName}
+        <IconFolder size={25} />{projectName}
       </div>
       <div className="ticket-list__status">
         <div className="ticket-list__info">
@@ -101,12 +102,11 @@ const TicketList = ({
         </div>
       </div>
 
-      <NavLink
-        to={links}
+      <Button
+        label="View"
+        onClick={onClick}
         className="btn btn--light btn--block btn--no-m-bottom"
-      >
-        View
-      </NavLink>
+      />
     </div>
   );
 };

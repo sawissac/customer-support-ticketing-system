@@ -21,7 +21,14 @@ class CustomerProjectRepository implements CustomerProjectRepoInterface
 
     public function paginate()
     {
-        $data = CustomerProject::with('user', 'project', 'ticket')->paginate(5);
+        $data = CustomerProject::with('user', 'project', 'ticket')->paginate(6);
+
+        return $data;
+    }
+
+    public function projectByUserID($id)
+    {
+        $data = CustomerProject::where('user_id', $id)->with('project')->get();
 
         return $data;
     }

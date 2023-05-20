@@ -1,19 +1,21 @@
 import { IconHash } from "@tabler/icons-react";
 import Avatar from "react-avatar";
 import { NavLink } from "react-router-dom";
-import { useAppSelector } from "../../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { Theme } from "../../redux/variable/ThemeVariable";
+import Button from "../Button";
+import { setTicketView } from "../../redux/feature_slice/TicketSlice";
 
 interface EmployeeSideBarInterface {
   view?: boolean;
+  employee: any[];
 }
 
-const EmployeeSideBar = ({
-  view,
-}: EmployeeSideBarInterface) => {
+const EmployeeSideBar = ({ view, employee }: EmployeeSideBarInterface) => {
   const themeRedux = useAppSelector((state) => state.theme);
+  const dispatch = useAppDispatch();
   return (
-    <div className={`sidebar ${themeRedux === Theme.Dark ? 'sidebar--dark': ''}`}>
+    <div className={`sidebar ${themeRedux === Theme.Dark ? "sidebar--dark" : ""}`}>
       <div className="sidebar__header">
         <IconHash size={24} />
         <h5>Developer</h5>
@@ -21,25 +23,28 @@ const EmployeeSideBar = ({
 
       <div className="sidebar__list">
         <h5>Recent Employee</h5>
-        <EmployeeSideBar.Profile name="Dev Issac" />
-        <EmployeeSideBar.Profile name="Dev Issac" />
+        {employee.map((employee: any) => {
+          return <EmployeeSideBar.Profile name={employee.name} />;
+        })}
       </div>
 
       <div className="sidebar__action-list">
         {view && (
           <>
             <NavLink
-              to={'/admin-dashboard/employee-create'}
+              to={"/admin-dashboard/employee-assignment"}
               className="btn btn--primary btn--block"
             >
-              Assign Employee
+              Go to Assign
             </NavLink>
-            <NavLink
-              to={'/admin-dashboard/ticket-update'}
+
+            <Button
+              label="Edit Ticket"
               className="btn btn--light btn--block btn--no-m-bottom"
-            >
-              Edit Ticket
-            </NavLink>
+              onClick={() => {
+                dispatch(setTicketView({ name: "ticket-update" }));
+              }}
+            />
           </>
         )}
       </div>
@@ -51,9 +56,7 @@ interface EmployeeSideBarProfile {
   name: string;
 }
 
-EmployeeSideBar.Profile = function (
-  props: EmployeeSideBarProfile
-) {
+EmployeeSideBar.Profile = function (props: EmployeeSideBarProfile) {
   return (
     <div className="sidebar__profile-list">
       <Avatar
@@ -63,11 +66,7 @@ EmployeeSideBar.Profile = function (
         textSizeRatio={1.75}
         round
       />
-      <h5>
-        {props.name.length > 10
-          ? props.name.substring(0, 10) + "..."
-          : props.name}
-      </h5>
+      <h5>{props.name.length > 10 ? props.name.substring(0, 10) + "..." : props.name}</h5>
     </div>
   );
 };

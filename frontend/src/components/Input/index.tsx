@@ -1,20 +1,20 @@
 import TextareaAutosize from "react-textarea-autosize";
-import { useAppSelector } from "../../redux/hook";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
+  label?: string;
+  onChangeText?: any;
   errorMessage?: string;
 }
 const Input = ({ label, errorMessage, ...props }: InputProps) => {
-  const themeRedux = useAppSelector((state) => state.theme);
   return (
     <div className="form-input">
-      <div className="form-input__label">
-        <label htmlFor={props.id}>{label}</label>
-        {errorMessage && (
-          <div className="form-input__error">{errorMessage}</div>
-        )}
-      </div>
+      {label && (
+        <div className="form-input__label">
+          <label htmlFor={props.id}>{label}</label>
+          {errorMessage && <div className="form-input__error">{errorMessage}</div>}
+        </div>
+      )}
+
       <div className="form-input__container">
         <input {...props} />
       </div>
@@ -22,20 +22,18 @@ const Input = ({ label, errorMessage, ...props }: InputProps) => {
   );
 };
 
-Input.Textarea = function ({ label, errorMessage, ...props }: InputProps) {
+Input.Textarea = function ({ label, errorMessage, onChangeText, value, ...props }: InputProps) {
   return (
     <div className="form-input">
       <div className="form-input__label">
         <label htmlFor={props.id}>{label}</label>
-        {errorMessage && (
-          <div className="form-input__error">{errorMessage}</div>
-        )}
+        {errorMessage && <div className="form-input__error">{errorMessage}</div>}
       </div>
       <TextareaAutosize
-        minRows={5}
-        maxRows={5}
+        value={value}
         placeholder="Write your problem here..."
         className="form-input__textarea"
+        onChange={onChangeText}
       />
     </div>
   );

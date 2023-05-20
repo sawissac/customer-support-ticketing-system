@@ -1,5 +1,9 @@
 .rdt_Table * {
   font-size: $h6-font-size;
+  
+}
+.rdt_Table{
+  z-index: 0 !important;
 }
 
 // .custom-table {

@@ -1,27 +1,79 @@
+$primary-dark: #2b2d31;
+$secondary-dark: #313338;
+$secondary-dark-2: #232428;
+$hover-dark: $gray-800;
+
 .app {
   display: flex;
   width: 100%;
+  
+  &--dark * {
+    border-color: $gray-900 !important;
+    // color: $white !important;
+  }
+  &--dark .btn--light {
+    background-color: $secondary-dark !important;
+    color: $gray-300;
+    &:hover {
+      background-color: $hover-dark !important;
+    }
+  }
+  &--dark button {
+    border-color: transparent !important;
+    outline-color: transparent !important;
+  }
+  &--dark textarea {
+    color: $white !important;
+  }
   &--dark .fetching {
-    background-color: #2b2d31;
+    background-color: $primary-dark;
     color: white;
   }
   &--dark .sidebar {
-    background-color: #2b2d31;
+    background-color: $primary-dark;
     color: $white;
+  }
+  &--dark .sidebar__list a {
+    background-color: $secondary-dark !important;
+    color: $gray-200;
+    &:hover {
+      background-color: $hover-dark !important;
+    }
+  }
+  &--dark .sidebar__list--active {
+    border-color: $primary !important;
   }
   &--dark .sidebar__action-list {
-    background-color: #313338;
+    background-color: $secondary-dark;
     border: none;
   }
-  &--dark .sidebar__profile{
-    background-color: #232428;
+  &--dark .sidebar__profile {
+    background-color: $secondary-dark-2;
+    button {
+      background-color: $secondary-dark-2;
+      border-color: $gray-800 !important;
+      color: $white;
+    }
   }
-  &--dark .sidebar-dropdown *{
-    background-color: #2b2d31;
-    color: $white;
+  &--dark .sidebar-dropdown {
+    h6 {
+      color: $white;
+    }
+
+    background-color: $primary-dark !important;
+
+    button {
+      background-color: $primary-dark;
+      border-color: $primary !important;
+      border-bottom: none;
+      &:hover {
+        background-color: $hover-dark;
+      }
+    }
   }
+
   &--dark .admin-container {
-    background-color: #2b2d31;
+    background-color: $primary-dark;
     color: $white;
   }
   &--dark .text {
@@ -31,85 +83,106 @@
     color: white !important;
   }
   &--dark .message__description {
-    background-color: #313338;
+    background-color: $secondary-dark;
   }
   &--dark .message-file-attachment {
-    background-color: #313338;
+    background-color: $secondary-dark;
   }
   &--dark textarea {
-    background-color: #313338;
+    background-color: $secondary-dark;
   }
   &--dark input {
-    background-color: #313338;
+    background-color: $secondary-dark;
     color: $white;
   }
-  &--dark .form-dropdown *{
-    background-color: #313338;
-    color: $white;
-  }
-  &--dark .form-dropdown-btn{
-    background-color: #313338;
-    color: $white;
-  }
-  &--dark .login_container{
-    background-color: #2b2d31;
-    color: $white;
-  }
-  &--dark .login-form{
-    h1{
+  &--dark .form-dropdown {
+    button {
+      background-color: $secondary-dark;
       color: $white;
-    }
-    input{
-      color: $white;
+      &:hover {
+        background-color: $hover-dark;
       }
-      ::placeholder{
-        color: $white;
-        opacity: 60%;
     }
   }
-  &--dark .notfound{
-    background-color: #232428;
-    .msg{
+  &--dark .form-dropdown-btn {
+    background-color: $secondary-dark;
+    color: $white;
+  }
+  &--dark .login_container {
+    background-color: $primary-dark;
+    color: $white;
+  }
+  &--dark .login-form {
+    h1 {
+      color: $white;
+    }
+    input {
+      color: $white;
+    }
+    ::placeholder {
+      color: $white;
+      opacity: 60%;
+    }
+  }
+  &--dark .notfound {
+    background-color: $secondary-dark-2;
+    .msg {
       color: $white;
     }
   }
-  &--dark{
+  &--dark .text--link {
+    border: none;
+  }
+  &--dark .pagination {
+    .page-link {
+      background-color: $secondary-dark !important;
+      color: $white;
+    }
+    .active .page-link {
+      background-color: $primary !important;
+    }
+    .disabled .page-link {
+      color: $gray-600 !important;
+      background-color: $secondary-dark !important;
+    }
+  }
+  &--dark {
     /* Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #e9ecef $white;
-}
 
-/* Chrome, Edge and Safari */
-*::-webkit-scrollbar {
-  width: 7px;
-  width: 7px;
-}
-*::-webkit-scrollbar-track {
-  border-radius: 5px;
-  background-color: #2b2d31;  
-}
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #e9ecef $white;
+    }
 
-*::-webkit-scrollbar-track:hover {
-  background-color: #2b2d31;
-}
+    /* Chrome, Edge and Safari */
+    *::-webkit-scrollbar {
+      width: 7px;
+      width: 7px;
+    }
+    *::-webkit-scrollbar-track {
+      border-radius: 5px;
+      background-color: $secondary-dark;
+    }
 
-*::-webkit-scrollbar-track:active {
-  background-color: #2b2d31;
-}
+    *::-webkit-scrollbar-track:hover {
+      background-color: $secondary-dark;
+    }
 
-*::-webkit-scrollbar-thumb {
-  border-radius: 20px;
-  background-color: #141415;
-}
+    *::-webkit-scrollbar-track:active {
+      background-color: $primary-dark;
+    }
 
-*::-webkit-scrollbar-thumb:hover {
-  background-color: #141415;
-}
+    *::-webkit-scrollbar-thumb {
+      border-radius: 20px;
+      background-color: #141415;
+    }
 
-*::-webkit-scrollbar-thumb:active {
-  background-color: #141415;
-}
+    *::-webkit-scrollbar-thumb:hover {
+      background-color: #141415;
+    }
 
+    *::-webkit-scrollbar-thumb:active {
+      background-color: #141415;
+    }
   }
 }

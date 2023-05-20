@@ -1,4 +1,6 @@
+import React, { useState } from "react";
 import Nav from "../../components/Nav";
+import { IconMessage2 } from "@tabler/icons-react";
 import EmployeeSideBar from "../../components/EmployeeSideBar";
 import Message from "../../components/Message";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
@@ -6,7 +8,7 @@ import { setTicketView } from "../../redux/feature_slice/TicketSlice";
 
 const TicketView = () => {
   const dispatch = useAppDispatch();
-  const ticketRedux = useAppSelector((state) => state.ticket);
+  const ticketRedux = useAppSelector(state=>state.ticket);
   return (
     <>
       <div className="admin-container">
@@ -23,19 +25,14 @@ const TicketView = () => {
               userName={ticketRedux.userName}
               description={ticketRedux.description}
             />
-            {ticketRedux.driveLink && (
-              <Message.FileAttachment
-                link={ticketRedux.driveLink}
-                label="Error Report Drive Link"
-              />
-            )}
+            <Message.FileAttachment
+              link={ticketRedux.driveLink}
+              label="Error Report Drive Link"
+            />
           </fieldset>
         </div>
       </div>
-      <EmployeeSideBar
-        view
-        employee={ticketRedux.employees}
-      />
+      <EmployeeSideBar view />
     </>
   );
 };

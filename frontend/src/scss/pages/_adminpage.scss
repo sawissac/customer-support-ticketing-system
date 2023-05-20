@@ -2,6 +2,12 @@
   flex: 1;
   overflow-x: hidden;
   overflow-y: scroll;
+
+  .search-area{
+    display: flex;
+    align-items: start;
+    gap: 10px;
+  }
   &--form {
     min-width: 400px;
   }
@@ -18,5 +24,20 @@
   &__inner {
     padding: map-get($spacers, 3) map-get($spacers, 4);
   }
- 
+  &__header{
+    display: flex;
+    align-items: center;
+    font-size: $h5-font-size;
+    font-family: $font-family-poppins;
+    font-weight: $font-weight-bold;
+    color: $dark;
+    padding: map-get($spacers, 3) 0px;
+  }
+  &--pb-5{
+    padding-bottom: map-get($spacers, 5);
+  }
+  .ticket-paginate{
+    display: flex;
+    justify-content: space-between;
+  }
 }

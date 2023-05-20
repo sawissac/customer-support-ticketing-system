@@ -74,6 +74,9 @@
   font-weight: $font-weight-bolder;
   padding: 0px map-get($spacers, 3);
   margin-bottom: map-get($spacers, 2);
+  &--search{
+    width: 300px;
+  }
 }
 
 .form-dropdown-label {
@@ -101,6 +104,7 @@
   border: 1px solid $gray-300;
   color: $dark;
   overflow: hidden;
+  z-index: $zindex-dropdown;
 
   & > button {
     width: 100%;
