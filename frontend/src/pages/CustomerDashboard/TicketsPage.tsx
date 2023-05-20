@@ -4,7 +4,7 @@ import TicketList from "../../components/TicketList";
 import { IconChevronsLeft, IconMessage2, IconPlus } from "@tabler/icons-react";
 import Button from "../../components/Button";
 import ShowIf from "../../components/Helper";
-import TicketCreate from "./TicketCreate";
+// import TicketCreate from "./TicketCreate";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   setTicketView,
@@ -15,10 +15,12 @@ import { useQuery } from "react-query";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Oval } from "react-loader-spinner";
-import TicketView from "./TicketView";
+// import TicketView from "./TicketView";
 import ReactPaginate from "react-paginate";
 import Input from "../../components/Input";
 import { debounce } from "debounce";
+import TicketCreate from "../AdminDashboard/TicketCreate";
+import TicketView from "./TicketView";
 
 dayjs.extend(relativeTime);
 
@@ -230,9 +232,9 @@ const TicketPage = () => {
       />
       <ShowIf
         sif={TicketRedux.view === "ticket-create"}
-        show={<TicketCreate />}
+        show={<TicketCreate/>}
       />
-      <ShowIf sif={TicketRedux.view === "ticket-view"} show={<TicketView />} />
+      <ShowIf sif={TicketRedux.view === "ticket-view"} show={<TicketView/>} />
     </>
   );
 };
