@@ -42,16 +42,11 @@ class TicketController extends BaseController
         $validator = Validator::make(
             $validate,
             [
-                'tickets_id' => 'string|unique',
-                'customer_project_id' => 'required|integer',
-                'subject' => 'required|string',
+                'customer_project_id' => 'required',
+                'subject' => 'required',
                 'description' => 'required',
-                'zip_file' => 'nullable|file|mimes:zip|max:2048',
-                'status' => 'required|string',
-                'priority' => 'required|string',
-                'drive_link' => 'file',
-                'ticket_start_date' => 'nullable|date_format:Y-m-d',
-                'ticket_end_date' => 'nullable|date_format:Y-m-d',
+                'priority' => 'nullable|string',
+                'drive_link' => 'nullable|string',
             ]
         );
 
@@ -65,18 +60,6 @@ class TicketController extends BaseController
     }
 
 
-    public function show($id)
-    {
-        $result = $this->ticketRepo->show($id);
-
-        if (is_null($result)) {
-            return $this->sendError('Ticket not found.');
-        }
-
-        return $this->sendResponse($result, 'Ticket retrieved successfully.');
-    }
-
-
     public function update(Request $request, $id)
     {
         $validate = $request->all();
@@ -84,15 +67,11 @@ class TicketController extends BaseController
         $validator = Validator::make(
             $validate,
             [
-                'tickets_id' => 'string',
-                'customer_project_id' => 'required|integer',
-                'subject' => 'required|string',
+                'customer_project_id' => 'required',
+                'subject' => 'required',
                 'description' => 'required',
-                'zip_file' => 'nullable|file|mimes:zip|max:2048',
-                'status' => 'required|string',
-                'priority' => 'required|string',
-                'ticket_start_date' => 'nullable|date_format:Y-m-d',
-                'ticket_end_date' => 'nullable|date_format:Y-m-d',
+                'priority' => 'nullable|string',
+                'drive_link' => 'nullable|string',
             ]
         );
 

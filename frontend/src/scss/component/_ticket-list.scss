@@ -10,6 +10,7 @@
     font-family: $font-family-poppins;
     text-transform: capitalize;
     padding:0px map-get($spacers, 1);
+    overflow: hidden;
   }
   &__sub-desc{
     text-align: left;
@@ -42,6 +43,7 @@
     &--center{
       margin-top: 0px !important;
       align-items: center;
+      font-size: $h6-font-size;
       label{
         margin-left: map-get($spacers, 2);
       }
@@ -55,8 +57,5 @@
       margin-top: 0px;
     }
   }
-  &--dark{
-    background-color: #313338;
-    color: $white;
-  }
+  
 }

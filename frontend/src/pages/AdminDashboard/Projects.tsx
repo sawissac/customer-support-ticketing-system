@@ -238,7 +238,6 @@ const Projects = () => {
             >
               <Input
                 type="text"
-                label="Search"
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={handleSearch}
@@ -246,7 +245,13 @@ const Projects = () => {
               />
               <DataTable
                 columns={columns}
-                data={filteredData.length === 0 ? data : filteredData}
+                data={
+                  filteredData.length === 0 && searchQuery !== ""
+                    ? []
+                    : filteredData.length === 0
+                    ? data
+                    : filteredData
+                }
                 responsive
                 pagination
                 theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}

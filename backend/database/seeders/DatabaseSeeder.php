@@ -68,8 +68,8 @@ class DatabaseSeeder extends Seeder
         Ticket::create([
             'tickets_id' => 'aa11ss',
             'customer_project_id' => 1,
-            'subject' => 'report',
-            'description' => 'sadklfjdaslkfjsaldkjf',
+            'subject' => 'I need some advice',
+            'description' => 'Hello word',
             'status' => 'open',
             'priority' => 'medium',
         ]);
@@ -78,11 +78,18 @@ class DatabaseSeeder extends Seeder
             'tickets_id' => 'bb22ss',
             'customer_project_id' => 1,
             'subject' => 'error',
-            'description' => 'sadklfjdaslkfjsaldkjf',
+            'description' => 'I like to know something?',
             'status' => 'open',
             'priority' => 'high',
         ]);
-
+        Ticket::create([
+            'tickets_id' => 'bb22ss',
+            'customer_project_id' => 2,
+            'subject' => 'error',
+            'description' => 'Working is better',
+            'status' => 'open',
+            'priority' => 'high',
+        ]);
         EmployeeAssign::create([
             'admin_id' => 1,
             'employee_id' => 2,

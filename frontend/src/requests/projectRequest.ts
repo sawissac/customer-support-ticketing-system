@@ -26,7 +26,7 @@ export function createProject({ name, token }: any) {
 export function getProject({ id, token }: any) {
   return new Promise((resolve, reject) => {
     axios
-      .get(`http://127.0.0.1:8000/api/project/${id}`, {
+      .get(`http://127.0.0.1:8000/api/project/${id ? "/" + id : ""}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

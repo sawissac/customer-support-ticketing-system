@@ -48,4 +48,7 @@ Route::middleware(['cors', 'auth:sanctum'])->group(function () {
     Route::apiResource('/employee-assign', EmployeeAssignController::class);
     Route::apiResource('/ticket', TicketController::class);
     Route::get('/tickets', [TicketController::class, 'getTickets']);
+    Route::apiResource('/customer-project', CustomerProjectController::class);
+    Route::get('/customer-paginate', [CustomerProjectController::class, 'paginate']);
+    Route::get('/project-list/{id}', [CustomerProjectController::class, 'project']);
 });

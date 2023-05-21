@@ -1,11 +1,12 @@
 .fieldset-timer {
-  border-top: map-get($border-widths, 1) solid
-    $gray-300;
-  padding-top: map-get($spacers, 4);
+  border-top: map-get($border-widths, 1) solid $gray-300;
   .legend-timer {
+    padding: map-get($spacers, 3) 0px;
     text-align: center;
-    padding: map-get($spacers, 2);
     color: $dark;
+    &--h4{
+      font-size: $h4-font-size;
+    }
   }
 }
 .datetime-input {
