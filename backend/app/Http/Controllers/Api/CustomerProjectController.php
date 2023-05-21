@@ -114,9 +114,16 @@ class CustomerProjectController extends BaseController
     }
 
     public function paginate(){
-        
+
         $data = $this->customerProjectRepo->paginate();
 
         return $this->sendResponse($data, 'CustomerProject retrieved successfully.');
+    }
+
+    public function getCustomerProject($userId)
+    {
+        $data = CustomerProject::where('user_id',$userId)->with('project')->get();
+
+        return $data;
     }
 }

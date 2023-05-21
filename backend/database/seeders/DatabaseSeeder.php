@@ -49,6 +49,21 @@ class DatabaseSeeder extends Seeder
             'user_id' => 3,
         ]);
 
+        CustomerProject::create([
+            'project_id' => 2,
+            'user_id' => 3,
+        ]);
+
+        CustomerProject::create([
+            'project_id' => 3,
+            'user_id' => 3,
+        ]);
+
+        CustomerProject::create([
+            'project_id' => 4,
+            'user_id' => 3,
+        ]);
+
 
         Ticket::create([
             'tickets_id' => 'aa11ss',
