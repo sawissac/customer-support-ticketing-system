@@ -25,11 +25,7 @@ class ProjectController extends BaseController
         $this->middleware('permission:canDeleteProjectList', ['only' => ['destroy']]);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
         $data = $this->projectRepo->get();
@@ -37,12 +33,7 @@ class ProjectController extends BaseController
         return $this->sendResponse($data, 'Projects retrieved successfully.');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         $validate = $request->all();
@@ -64,12 +55,7 @@ class ProjectController extends BaseController
         return $this->sendResponse($data, 'Project created successfully.', 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         $result = $this->projectRepo->show($id);
@@ -81,13 +67,6 @@ class ProjectController extends BaseController
         return $this->sendResponse($result, 'Project retrieved successfully.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $validate = $request->all();
@@ -109,12 +88,7 @@ class ProjectController extends BaseController
         return $this->sendResponse($data, 'Project updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         $this->projectServcie->delete($id);
