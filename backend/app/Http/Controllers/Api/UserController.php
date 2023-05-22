@@ -1,15 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
-use Exception;
-
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Service\User\UserServiceInterface;
 use App\Http\Controllers\Api\BaseController;
-use App\Models\User;
 use App\Repository\User\UserRepositoryInterface;
 
 class UserController extends BaseController

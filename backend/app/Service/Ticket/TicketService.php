@@ -25,13 +25,6 @@ class TicketService implements TicketServiceInterface
     {
         $data = Ticket::where('id', $id)->first();
 
-        if (!empty($data->zip_file)) {
-            $filePath = public_path('storage/ticket_file/' . $data->drive_link);
-            if (file_exists($filePath)) {
-                unlink($filePath);
-            }
-        }
-
         return $data->delete();
     }
 }

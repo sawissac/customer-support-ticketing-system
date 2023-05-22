@@ -1,4 +1,4 @@
-import  { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
 import { IconArrowLeft, IconEdit } from "@tabler/icons-react";
@@ -14,7 +14,6 @@ import {
 } from "../../redux/feature_slice/ProjectPageSlice";
 import { motion } from "framer-motion";
 import Avatar from "react-avatar";
-import ShowIf from "../../components/Helper";
 import { Theme } from "../../redux/variable/ThemeVariable";
 import { Oval } from "react-loader-spinner";
 import { debounce } from "debounce";
@@ -47,6 +46,7 @@ const EmployeeAssign = () => {
   const AuthRedux = useAppSelector((state) => state.auth);
   const projectPageRedux = useAppSelector((state) => state.projectSidebar);
   const themeRedux = useAppSelector((state) => state.theme);
+  const taskRedux = useAppSelector((state) => state.tasks);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   
@@ -108,7 +108,7 @@ const EmployeeAssign = () => {
     []
   );
 
-  const url = "http://127.0.0.1:8000/api/employee-project";
+  const url = `http://127.0.0.1:8000/api/assign-list/${taskRedux.ticketId}`;
   const getUsersData = async () => {
     const res = await axios
       .get(url, {
@@ -117,14 +117,18 @@ const EmployeeAssign = () => {
         },
       })
       .then((response) => {
-        return response.data.data.filter((i: any) => {
-          return i.project_id === projectPageRedux.project_id;
-        });
+        return response.data;
       });
     return res;
   };
 
-  const {  error, data, isFetching } = useQuery(["employee", projectPageRedux.employeeUrlState], getUsersData);
+  const {  error, data, isFetching } = useQuery(["employee-assign", projectPageRedux.employeeUrlState], getUsersData);
+
+  React.useEffect(()=>{
+    if(data){
+      
+    }
+  },[data])
 
   if (isFetching) return <div className="fetching">
     <Oval
