@@ -19,9 +19,16 @@ class Ticket extends Model
         'status',
         'priority',
         'drive_link',
+        'employee_report',
+        'admin_id',
         'start_date',
         'end_date',
     ];
+
+    public function admin():BelongsTo
+    {
+        return $this->belongsTo(User::class, 'admin_id');
+    }
 
     public function customer_project(): BelongsTo
     {
