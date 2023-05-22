@@ -108,6 +108,6 @@ class TicketController extends BaseController
     {
         $this->ticketService->delete($id);
 
-        return $this->sendResponse([], 'Ticket deleted successfully.');
+        return $this->sendResponse([], 'Ticket deleted successfully.', 204);
     }
 }

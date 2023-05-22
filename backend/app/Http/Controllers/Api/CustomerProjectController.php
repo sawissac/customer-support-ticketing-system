@@ -104,13 +104,10 @@ class CustomerProjectController extends BaseController
 
     public function destroy($id)
     {
-        if ($id == null) {
-            return $this->sendError('CustomeProject Not found.');
-        }
 
-        $data = $this->customerProjectService->delete($id);
+        $this->customerProjectService->delete($id);
 
-        return $this->sendResponse($data, 'CustomerProject Delete successfully.', 204);
+        return $this->sendResponse([], 'CustomerProject Delete successfully.', 204);
     }
 
     public function paginate()

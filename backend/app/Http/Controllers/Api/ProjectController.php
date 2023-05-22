@@ -120,6 +120,6 @@ class ProjectController extends BaseController
     {
         $this->projectServcie->delete($id);
 
-        return $this->sendResponse('Project deleted successfully.', 204);
+        return $this->sendResponse([], 'Project deleted successfully.', 204);
     }
 }

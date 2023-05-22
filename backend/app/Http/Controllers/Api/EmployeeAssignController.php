@@ -86,6 +86,6 @@ class EmployeeAssignController extends BaseController
     {
         $data = $this->employeeAssignService->delete($id);
 
-        return $this->sendResponse('Employee Assgin Delete successfully.', 204);
+        return $this->sendResponse([],'Employee Assgin Delete successfully.', 204);
     }
 }
