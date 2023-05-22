@@ -21,7 +21,7 @@ class RoleAndPermissionSeeder extends Seeder
         $customer = Role::create(['name' => 'customer']);
         $resign_employee = Role::create(['name' => 'resign_employee']);
 
-        // $canUserList = Permission::create(['name' => 'canUserList']);
+        $canUserList = Permission::create(['name' => 'canUserList']);
         $canCreateUser = Permission::create(['name' => 'canCreateUser']);
         $canUpdateUser = Permission::create(['name' => 'canUpdateUser']);
         $canDeleteUser = Permission::create(['name' => 'canDeleteUser']);
@@ -58,7 +58,7 @@ class RoleAndPermissionSeeder extends Seeder
         $canShowAssignEmployee = Permission::create(['name' => 'canShowAssignEmployee']);
 
         $admin->givePermissionTo([
-            // $canUserList,
+            $canUserList,
             $canCreateUser,
             $canUpdateUser,
             $canDeleteUser,
@@ -107,7 +107,5 @@ class RoleAndPermissionSeeder extends Seeder
             $canShowTickets,
             $canShowAssignEmployee,
         ]);
-
-        $resign_employee->givePermissionTo([]);
     }
 }
