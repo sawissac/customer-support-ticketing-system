@@ -21,8 +21,4 @@ class TicketRepository implements TicketRepositoryInterface
 
         return $result;
     }
-    public function assignById($id)
-    {
-        $data = Ticket::with('tickets_id')->where('employee_report', $id)->get();
-    }
 }
