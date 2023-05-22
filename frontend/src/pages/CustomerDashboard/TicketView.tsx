@@ -8,7 +8,7 @@ import { setTicketView } from "../../redux/feature_slice/TicketSlice";
 
 const TicketView = () => {
   const dispatch = useAppDispatch();
-  const ticketRedux = useAppSelector(state=>state.ticket);
+  const ticketRedux = useAppSelector((state) => state.ticket);
   return (
     <>
       <div className="admin-container">
@@ -32,7 +32,7 @@ const TicketView = () => {
           </fieldset>
         </div>
       </div>
-      <EmployeeSideBar view />
+      <EmployeeSideBar customer employee={ticketRedux.employees} view />
     </>
   );
 };

@@ -12,7 +12,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
 
-const EmployeeAssignmentUpdate = () => {
+const TaskUpdate = () => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((s) => s.auth);
   const taskRedux = useAppSelector((s) => s.tasks);
@@ -121,4 +121,4 @@ const EmployeeAssignmentUpdate = () => {
   );
 };
 
-export default EmployeeAssignmentUpdate;
+export default TaskUpdate;

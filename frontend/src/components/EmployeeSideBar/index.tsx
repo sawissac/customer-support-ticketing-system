@@ -8,10 +8,11 @@ import { setTicketView } from "../../redux/feature_slice/TicketSlice";
 
 interface EmployeeSideBarInterface {
   view?: boolean;
+  customer?: boolean;
   employee: any[];
 }
 
-const EmployeeSideBar = ({ view, employee }: EmployeeSideBarInterface) => {
+const EmployeeSideBar = ({ view, employee,customer }: EmployeeSideBarInterface) => {
   const themeRedux = useAppSelector((state) => state.theme);
   const dispatch = useAppDispatch();
   return (
@@ -23,13 +24,16 @@ const EmployeeSideBar = ({ view, employee }: EmployeeSideBarInterface) => {
 
       <div className="sidebar__list">
         <h5>Recent Employee</h5>
-        {employee.map((employee: any) => {
+        {!customer && 
+        employee.map((employee: any) => {
           return <EmployeeSideBar.Profile name={employee.name} />;
-        })}
+        }
+        )}
+        <p>{!customer ? '':"cannot view"}</p>
       </div>
 
       <div className="sidebar__action-list">
-        {view && (
+        {!customer && (
           <>
             <NavLink
               to={"/admin-dashboard/employee-assignment"}
@@ -37,17 +41,18 @@ const EmployeeSideBar = ({ view, employee }: EmployeeSideBarInterface) => {
             >
               Go to Assign
             </NavLink>
-
-            <Button
+          </>
+          
+        )}
+        <Button
               label="Edit Ticket"
               className="btn btn--light btn--block btn--no-m-bottom"
               onClick={() => {
                 dispatch(setTicketView({ name: "ticket-update" }));
               }}
             />
-          </>
-        )}
       </div>
+
     </div>
   );
 };

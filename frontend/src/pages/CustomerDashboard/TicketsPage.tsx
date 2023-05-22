@@ -4,7 +4,7 @@ import TicketList from "../../components/TicketList";
 import { IconChevronsLeft, IconMessage2, IconPlus } from "@tabler/icons-react";
 import Button from "../../components/Button";
 import ShowIf from "../../components/Helper";
-// import TicketCreate from "./TicketCreate";
+import TicketCreate from "./TicketCreate";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   setTicketView,
@@ -15,29 +15,27 @@ import { useQuery } from "react-query";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Oval } from "react-loader-spinner";
-// import TicketView from "./TicketView";
+import TicketView from "./TicketView";
 import ReactPaginate from "react-paginate";
 import Input from "../../components/Input";
 import { debounce } from "debounce";
-import TicketCreate from "../AdminDashboard/TicketCreate";
-import TicketView from "./TicketView";
+import TicketUpdate from "./TicketUpdate";
+// import TicketUpdate from "./TicketUpdate";
 
 dayjs.extend(relativeTime);
 
 const TicketPage = () => {
-  const TicketRedux = useAppSelector((state) => state.ticket);
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
   const ticketRedux = useAppSelector((state) => state.ticket);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [dataCount, setDataCount] = useState(0);
+  const [filteredData, setFilteredData] = useState([]);
   const [currentData, setCurrentData] = useState([]);
   const itemsPerPage = 6;
 
   const url = "http://127.0.0.1:8000/api/ticket";
-
   const getUsersData = async () => {
     const res = await axios
       .get(url, {
@@ -48,11 +46,14 @@ const TicketPage = () => {
       .then((response) => {
         return response.data;
       });
-    return res;
+    // return res;
+    return res.data.filter(
+      (item: any) => item.customer_project.user.id === authRedux.user.id
+    );
   };
 
   const { data, isFetching } = useQuery(
-    ["employee", ticketRedux.url],
+    ["tickets", ticketRedux.url],
     getUsersData
   );
 
@@ -67,9 +68,10 @@ const TicketPage = () => {
     }
 
     if (data && filteredData.length === 0) {
-      setCurrentData(data.data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage));
-
-      setDataCount(data.data.length);
+      setCurrentData(
+        data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
+      );
+      setDataCount(data.length);
     }
   }, [data, filteredData, currentPage]);
 
@@ -103,7 +105,7 @@ const TicketPage = () => {
   };
 
   const debouncedSearch = debounce((value: any) => {
-    const filtered = data.data.filter((item: any) => {
+    const filtered = data.filter((item: any) => {
       if (item.tickets_id.toLowerCase().includes(value.toLowerCase())) {
         return item.tickets_id.toLowerCase().includes(value.toLowerCase());
       }
@@ -116,15 +118,6 @@ const TicketPage = () => {
           .includes(value.toLowerCase())
       ) {
         return item.customer_project.project.name
-          .toLowerCase()
-          .includes(value.toLowerCase());
-      }
-      if (
-        item.customer_project.user.name
-          .toLowerCase()
-          .includes(value.toLowerCase())
-      ) {
-        return item.customer_project.user.name
           .toLowerCase()
           .includes(value.toLowerCase());
       }
@@ -145,7 +138,7 @@ const TicketPage = () => {
   return (
     <>
       <ShowIf
-        sif={TicketRedux.view === ""}
+        sif={ticketRedux.view === ""}
         show={
           <div className="admin-container">
             <Nav
@@ -203,26 +196,37 @@ const TicketPage = () => {
                       priority={i.priority}
                       status={i.status}
                       onClick={() => {
-                        const employees = i.customer_project.project.employee_project.map(
-                          (employee: any) => {
-                            return { user_id: employee.user_id, name: employee.user.name };
-                          }
-                        );
-
+                        const employees =
+                          i.customer_project.project.employee_project.map(
+                            (employee: any) => {
+                              return {
+                                user_id: employee.user_id,
+                                name: employee.user.name,
+                              };
+                            }
+                          );
                         dispatch(
                           setViewData({
-                            ticketID: i.id,
+                            ticketId: i.id,
                             employees,
-                            time: dayjs(i.created_at).fromNow(),
-                            userName: i.customer_project.user.name,
+                            customerProjectId: i.customer_project.id,
+                            customerProjectName:
+                              i.customer_project.project.name,
                             subject: i.subject,
                             description: i.description,
+                            priority: i.priority,
                             driveLink: i.drive_link,
+                            status: i.status,
+                            time: dayjs(i.created_at).fromNow(),
+                            userName: i.customer_project.user.name,
+                            endDate: i.end_date,
+                            startDate: i.start_date,
                           })
                         );
                         dispatch(setTicketView({ name: "ticket-view" }));
                       }}
                     />
+                   
                   </div>
                 );
               })}
@@ -231,10 +235,14 @@ const TicketPage = () => {
         }
       />
       <ShowIf
-        sif={TicketRedux.view === "ticket-create"}
-        show={<TicketCreate/>}
+        sif={ticketRedux.view === "ticket-create"}
+        show={<TicketCreate />}
       />
-      <ShowIf sif={TicketRedux.view === "ticket-view"} show={<TicketView/>} />
+      <ShowIf sif={ticketRedux.view === "ticket-view"} show={<TicketView />} />
+      <ShowIf
+        sif={ticketRedux.view === "ticket-update"}
+        show={<TicketUpdate/>}
+      />
     </>
   );
 };
