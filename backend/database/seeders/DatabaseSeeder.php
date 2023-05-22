@@ -61,7 +61,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Hello word',
             'status' => 'open',
             'priority' => 'medium',
-            'admin_id' => 1
         ]);
 
         Ticket::create([
@@ -71,7 +70,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'I like to know something?',
             'status' => 'open',
             'priority' => 'high',
-            'admin_id' => 1
         ]);
 
         Ticket::create([
@@ -81,9 +79,55 @@ class DatabaseSeeder extends Seeder
             'description' => 'Working is better',
             'status' => 'open',
             'priority' => 'high',
-            'admin_id' => 1
         ]);
-
+        Ticket::create([
+            'tickets_id' => 'bb22ss',
+            'customer_project_id' => 2,
+            'subject' => 'error',
+            'description' => 'Working is better',
+            'status' => 'open',
+            'priority' => 'high',
+        ]);
+        Ticket::create([
+            'tickets_id' => 'bb22ss',
+            'customer_project_id' => 2,
+            'subject' => 'error',
+            'description' => 'Working is better',
+            'status' => 'open',
+            'priority' => 'high',
+        ]);
+        Ticket::create([
+            'tickets_id' => 'bb22ss',
+            'customer_project_id' => 2,
+            'subject' => 'error',
+            'description' => 'Working is better',
+            'status' => 'open',
+            'priority' => 'high',
+        ]);
+        Ticket::create([
+            'tickets_id' => 'bb22ss',
+            'customer_project_id' => 2,
+            'subject' => 'error',
+            'description' => 'Working is better',
+            'status' => 'open',
+            'priority' => 'high',
+        ]);
+        Ticket::create([
+            'tickets_id' => 'bb22ss',
+            'customer_project_id' => 2,
+            'subject' => 'error',
+            'description' => 'Working is better',
+            'status' => 'open',
+            'priority' => 'high',
+        ]);
+        Ticket::create([
+            'tickets_id' => 'bb22ss',
+            'customer_project_id' => 2,
+            'subject' => 'error',
+            'description' => 'Working is better',
+            'status' => 'open',
+            'priority' => 'high',
+        ]);
         EmployeeAssign::create([
             'employee_id' => 2,
             'ticket_id' => 1,

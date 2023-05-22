@@ -8,7 +8,7 @@ import Dropdown from "../../components/DropDown";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import { setRightSidebar } from "../../redux/feature_slice/EmployeeAssignmentSlice";
-import { getAllTicket } from "../../requests/ticketRequest";
+import { getAllTicket, getTicket, updateTicket } from "../../requests/ticketRequest";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
@@ -16,14 +16,9 @@ import dayjs from "dayjs";
 const EmployeeAssignmentCreate = () => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((s) => s.auth);
+  const ticketRedux = useAppSelector((s) => s.ticket);
   const [startDate, setStartDate] = useState(new Date());
   const [dueDate, setDueDate] = useState(new Date());
-
-  const [inputField, setInputField] = useState({
-    subject: "",
-    description: "",
-    drive_link: "",
-  });
   const [ticketList, setTicketList] = React.useState([]);
   const [ticketDropDown, setTicketDropDown] = React.useState({
     name: "Select",
@@ -38,21 +33,14 @@ const EmployeeAssignmentCreate = () => {
       {value}
     </button>
   ));
-  function onChangeHandler(ev: React.ChangeEvent<HTMLInputElement>) {
-    setInputField({
-      ...inputField,
-      [ev.currentTarget.id]: ev.target.value,
-    });
-  }
+
   const formatDateTime = (date: any) => {
     return dayjs(date).format("YYYY-MM-DD HH:mm:ss");
   };
 
   function onSubmitHandler() {
-    const isEmpty =
-      inputField.subject.length === 0 ||
-      inputField.description.length === 0 ||
-      ticketDropDown.value === 0;
+    const isEmpty = ticketDropDown.value === 0;
+
     if (isEmpty) {
       dispatch(
         setAlert({
@@ -61,10 +49,22 @@ const EmployeeAssignmentCreate = () => {
         })
       );
     } else {
-      // createTicket({
-      //   ...inputField,
-      //   customer_project_id: projectDropDown.value,
-      //   priority: priorityDropDown.value,
+      getTicket({
+        id: ticketDropDown.value,
+        token: authRedux.token,
+      }).then((res: any) => {
+        console.log(res.data);
+      });
+      // updateTicket({
+      //   ticketId: ticketRedux.ticketId,
+      //   customer_project_id: ticketRedux.customerProjectId,
+      //   subject: ticketRedux.subject,
+      //   description: ticketRedux.description,
+      //   priority: ticke,
+      //   drive_link: "",
+      //   status: "",
+      //   start_date: "",
+      //   end_date: "",
       //   token: authRedux.token,
       // })
       //   .then(() => {

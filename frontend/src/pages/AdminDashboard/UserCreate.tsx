@@ -131,7 +131,6 @@ const UserCreatePage = () => {
             dropdownClassName="form-dropdown"
             dropdownChildren={
               <>
-              <input />
                 {Object.keys(userRoles).map((role: string) => {
                   return (
                     <Button

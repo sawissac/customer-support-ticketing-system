@@ -23,7 +23,7 @@ const EmployeeAssignment = () => {
   const authRedux = useAppSelector((state) => state.auth);
   const taskRedux = useAppSelector((state) => state.tasks);
   const themeRedux = useAppSelector((state) => state.theme);
-
+  const [tableData,setTableTableData] = useState([]);
   const url = "http://127.0.0.1:8000/api/ticket";
 
   const getUsersData = async () => {
@@ -118,6 +118,17 @@ const EmployeeAssignment = () => {
 
   const { data, isFetching } = useQuery(["tasks", taskRedux.url], getUsersData);
 
+  useEffect(()=>{
+    if(data){
+      const filterData = data.data.filter((i:any)=>{
+        if(i.admin){
+          return true;
+        }
+      })
+      setTableTableData(filterData)
+    }
+  },[data])
+  
   if (isFetching) {
     return (
       <div className="fetching">
@@ -136,6 +147,8 @@ const EmployeeAssignment = () => {
       </div>
     );
   }
+
+  
 
   return (
     <>
@@ -162,16 +175,9 @@ const EmployeeAssignment = () => {
               animate={{ y: "0px", opacity: 1 }}
               className="admin-container__inner"
             >
-              {/* <Input
-                type="text"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={handleSearch}
-                className="search"
-              /> */}
               <DataTable
                 columns={columns}
-                data={data.data}
+                data={tableData}
                 responsive
                 pagination
                 theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}
