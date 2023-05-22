@@ -34,6 +34,7 @@ class EmployeeReportController extends BaseController
         $data = $this->employeereportRepo->get();
 
         return $this->sendResponse($data, 'EmployeeReports retrieved successfully.');
+
     }
 
     /**
@@ -56,7 +57,7 @@ class EmployeeReportController extends BaseController
         );
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors(), 500);
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
 
         $data = $this->employeereportService->store($validate);

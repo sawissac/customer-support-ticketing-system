@@ -8,7 +8,7 @@ class TicketRepository implements TicketRepositoryInterface
 {
     public function get($perPage = 10)
     {
-        $data = Ticket::with('admin', 'customer_project.user', 'customer_project.project', 'customer_project.project.employee_project.user')
+        $data = Ticket::with('admin', 'customer_project.user', 'customer_project.project', 'customer_project.project.employee_project.user', 'employee_assign')
             ->orderBy('id', 'desc')
             ->get();
 

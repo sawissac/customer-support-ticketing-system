@@ -33,11 +33,8 @@ class UserController extends BaseController
 
         $data = $this->userRepo->get();
 
-        if ($data) {
-            return $this->sendResponse($data, 'User retrieved successfully.');
-        } else {
-            return $this->sendError('User not found.', 404);
-        }
+        return $this->sendResponse($data, 'User retrieved successfully.');
+
     }
 
     public function store(Request $request)
@@ -55,7 +52,7 @@ class UserController extends BaseController
         );
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
 
         $data = $this->userService->store($validate);
@@ -67,7 +64,7 @@ class UserController extends BaseController
         $result = $this->userRepo->show($id);
 
         if (is_null($result)) {
-            return $this->sendError('User not found.');
+            return $this->sendError('User not found.', [], 500);
         }
 
         return $this->sendResponse($result, 'User retrieved successfully.');
@@ -86,7 +83,7 @@ class UserController extends BaseController
         );
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
 
         $data = $this->userService->update($id, $validate);
