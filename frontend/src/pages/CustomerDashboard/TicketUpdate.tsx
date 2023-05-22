@@ -3,10 +3,7 @@ import Button from "../../components/Button";
 import Input from "../../components/Input";
 import FormWarper from "../../components/FormWarper";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import {
-  setTicketView,
-  updateTicketUrl,
-} from "../../redux/feature_slice/TicketSlice";
+import { setTicketView, updateTicketUrl } from "../../redux/feature_slice/TicketSlice";
 import { motion } from "framer-motion";
 import Dropdown from "../../components/DropDown";
 import React, { useState } from "react";
@@ -14,38 +11,32 @@ import { Priority } from "../../redux/variable/TicketVariable";
 import { getCustomerProject } from "../../requests/customerProjectsRequest";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
-import { createTicket } from "../../requests/ticketRequest";
-import { getProject, getProjectList } from "../../requests/projectRequest";
-import axios from "axios";
-import { useQuery } from "react-query";
+import { updateTicket } from "../../requests/ticketRequest";
 
-const TicketCreate = () => {
+const TicketUpdate = () => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((s) => s.auth);
-  const [customerProject,setCustomerProject]=useState([]);
+  const ticketRedux = useAppSelector((s) => s.ticket);
   const [inputField, setInputField] = useState({
-    subject: "",
-    description: "",
-    drive_link: "",
+    subject: ticketRedux.subject,
+    description: ticketRedux.description,
+    drive_link: ticketRedux.driveLink,
   });
   const [projectList, setProjectList] = React.useState([]);
-
   const [projectDropDown, setProjectDropDown] = React.useState({
-    name: "Select",
-    value: 0,
+    name: ticketRedux.customerProjectName,
+    value: ticketRedux.customerProjectId,
   });
   const [priorityDropDown, setPriorityDropDown] = React.useState({
-    name: "Select",
-    value: "",
+    name: ticketRedux.priority,
+    value: ticketRedux.priority,
   });
-
   function onChangeHandler(ev: React.ChangeEvent<HTMLInputElement>) {
     setInputField({
       ...inputField,
       [ev.currentTarget.id]: ev.target.value,
     });
   }
-
   function onSubmitHandler() {
     const isEmpty =
       inputField.subject.length === 0 ||
@@ -60,11 +51,12 @@ const TicketCreate = () => {
         })
       );
     } else {
-      createTicket({
+      updateTicket({
         ...inputField,
+        ticketId: ticketRedux.ticketId,
         customer_project_id: projectDropDown.value,
         priority: priorityDropDown.value,
-        status: "open",
+        status: ticketRedux.status,
         token: authRedux.token,
       })
         .then(() => {
@@ -89,24 +81,16 @@ const TicketCreate = () => {
         });
     }
   }
-
   React.useState(() => {
     getCustomerProject({ token: authRedux.token }).then((res: any) => {
       setProjectList(res.data);
     });
   });
-
-  React.useEffect(()=>{
-    getProjectList({id:authRedux.user.id,token:authRedux.token}).then((res:any)=>{
-      setCustomerProject(res.data);
-    })
-  },[]);
-
   return (
     <>
       <div className="admin-container admin-container--textarea">
         <Nav.BackButton
-          label="Ticket Create"
+          label="Ticket Update"
           onClick={() => {
             dispatch(setTicketView({ name: "" }));
           }}
@@ -141,23 +125,23 @@ const TicketCreate = () => {
                   width="350px"
                   dropdownChildren={
                     <>
-                      {customerProject.map(
-                        (item: any, index: number) => {
-                          return (
-                            <Button
-                              key={index}
-                              type="button"
-                              onClick={() => {
-                                setProjectDropDown({
-                                  name: item.project.name,
-                                  value: item.id,
-                                });
-                              }}
-                              label={item.project.name}
-                            />
-                          );
-                        }
-                      )}
+                      {projectList.map((i: any, index: number) => {
+                        let email = i.user.email.split("@");
+                        return (
+                          <Button
+                            key={index}
+                            type="button"
+                            title={`${i.project.name}:#${i.user.name}:@${email[0]}`}
+                            onClick={() => {
+                              setProjectDropDown({
+                                name: i.project.name,
+                                value: i.id,
+                              });
+                            }}
+                            label={`${i.project.name}:#${i.user.id}:@${email[0]}`.substring(0,35) + '...'}
+                          />
+                        );
+                      })}
                     </>
                   }
                 />
@@ -176,23 +160,21 @@ const TicketCreate = () => {
                   width={"200px"}
                   dropdownChildren={
                     <>
-                      {Object.keys(Priority).map(
-                        (priority: string, index: number) => {
-                          return (
-                            <Button
-                              key={index}
-                              type="button"
-                              onClick={() => {
-                                setPriorityDropDown({
-                                  name: priority,
-                                  value: Priority[priority],
-                                });
-                              }}
-                              label={priority}
-                            />
-                          );
-                        }
-                      )}
+                      {Object.values(Priority).map((priority: string, index: number) => {
+                        return (
+                          <Button
+                            key={index}
+                            type="button"
+                            onClick={() => {
+                              setPriorityDropDown({
+                                name: priority,
+                                value: priority,
+                              });
+                            }}
+                            label={priority}
+                          />
+                        );
+                      })}
                     </>
                   }
                 />
@@ -221,7 +203,7 @@ const TicketCreate = () => {
             />
             <Button
               type="button"
-              label="Create Ticket"
+              label="Update Ticket"
               className="btn btn--form"
               onClick={onSubmitHandler}
             />
@@ -232,4 +214,4 @@ const TicketCreate = () => {
   );
 };
 
-export default TicketCreate;
+export default TicketUpdate;

@@ -9,16 +9,21 @@ import { useQuery } from "react-query";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Oval } from "react-loader-spinner";
-import { setRightSidebar, setTaskUpdate } from "../../redux/feature_slice/EmployeeAssignmentSlice";
-import EmployeeAssignmentCreate from "./EmployeeAssignmentCreate";
+import {
+  setRightSidebar,
+  setTaskUpdate,
+  setTaskView,
+} from "../../redux/feature_slice/EmployeeAssignmentSlice";
+import TaskCreate from "./TaskCreate";
 import { motion } from "framer-motion";
 import DataTable from "react-data-table-component";
 import { Theme } from "../../redux/variable/ThemeVariable";
 import Avatar from "react-avatar";
-import EmployeeAssignmentUpdate from "./EmployeeAssignmentUpdate";
+import TaskUpdate from "./TaskUpdate";
+import EmployeeAssign from "./EmployeeAssign";
 dayjs.extend(relativeTime);
 
-const EmployeeAssignment = () => {
+const Task = () => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
   const taskRedux = useAppSelector((state) => state.tasks);
@@ -98,7 +103,16 @@ const EmployeeAssignment = () => {
           <button
             title="row update"
             className="btn btn--light btn--icon btn--no-m-bottom text-primary"
-            onClick={() => {}}
+            onClick={() => {
+              dispatch(
+                setTaskUpdate({
+                  ticketId: row.id,
+                  startDate: row.start_date,
+                  dueDate: row.end_date,
+                })
+              );
+              dispatch(setTaskView({ name: "task-employee" }));
+            }}
           >
             <IconUser size={25} />
           </button>
@@ -201,18 +215,22 @@ const EmployeeAssignment = () => {
       />
       <ShowIf
         sif={taskRedux.view === "task-create"}
-        show={<EmployeeAssignmentCreate />}
+        show={<TaskCreate />}
+      />
+      <ShowIf
+        sif={taskRedux.view === "task-employee"}
+        show={<EmployeeAssign />}
       />
       <ShowIf
         sif={taskRedux.rightSideBar === "task-create"}
-        show={<EmployeeAssignmentCreate />}
+        show={<TaskCreate />}
       />
       <ShowIf
         sif={taskRedux.rightSideBar === "task-update"}
-        show={<EmployeeAssignmentUpdate />}
+        show={<TaskUpdate />}
       />
     </>
   );
 };
 
-export default EmployeeAssignment;
+export default Task;

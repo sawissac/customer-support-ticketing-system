@@ -13,7 +13,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
 
-const EmployeeAssignmentCreate = () => {
+const TaskCreate = () => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((s) => s.auth);
   const [startDate, setStartDate] = useState(new Date());
@@ -174,4 +174,4 @@ const EmployeeAssignmentCreate = () => {
   );
 };
 
-export default EmployeeAssignmentCreate;
+export default TaskCreate;

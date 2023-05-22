@@ -3,7 +3,7 @@ import SideBar from "./Sidebar";
 import TicketsPage from "./Tickets";
 import Users from "./Users";
 import EmployeeProjects from "./EmployeeProjects";
-import EmployeeAssignment from "./EmployeeAssignment";
+import Task from "./Task";
 import Projects from "./Projects";
 import CustomerProjects from "./CustomerProjects";
 import { PageNotFound } from "../404Page";
@@ -27,7 +27,7 @@ const AdminDashboard = () => {
         />
         <Route
           path="/employee-assignment"
-          element={<EmployeeAssignment />}
+          element={<Task />}
         />
         <Route
           path="/employee-project"

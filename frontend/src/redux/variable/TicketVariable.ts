@@ -19,7 +19,7 @@ export const TicketInit = {
 export const Priority: {
   [key: string]: string;
 } = {
-  low: "low",
+  Low: "low",
   Medium: "medium",
   Height: "height",
   Critical: "critical",
