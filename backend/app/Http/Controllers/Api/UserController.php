@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Service\User\UserServiceInterface;
 use App\Http\Controllers\Api\BaseController;
-use App\Models\User;
 use App\Repository\User\UserRepositoryInterface;
 
 class UserController extends BaseController
@@ -33,6 +32,7 @@ class UserController extends BaseController
         $data = $this->userRepo->get();
 
         return $this->sendResponse($data, 'User retrieved successfully.');
+
     }
 
     public function store(Request $request)
