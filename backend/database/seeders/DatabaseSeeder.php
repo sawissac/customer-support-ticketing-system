@@ -93,20 +93,5 @@ class DatabaseSeeder extends Seeder
             'ticket_id' => 2,
             'status' => 'open',
         ]);
-<<<<<<< HEAD
-
-        EmployeeReport::create([
-            'user_id' => 2,
-            'tickets_id' => 1,
-            'description' => 'sdafdasfdafsdsdasadfdf',
-        ]);
-
-        EmployeeReport::create([
-            'user_id' => 2,
-            'tickets_id' => 2,
-            'description' => 'sdfsdsdafdasfdafsdsdasadfdf',
-        ]);
-=======
->>>>>>> main
     }
 }
