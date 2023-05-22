@@ -110,15 +110,4 @@ class UserController extends BaseController
 
         return $this->sendResponse($customerData, 'Customers retrieved successfully.');
     }
-
-    function search($name)
-    {
-        $result = User::where('name', 'LIKE', "%{$name}%")->get();
-
-        if (count($result)) {
-            return Response()->json($result);
-        } else {
-            return response()->json(['Result' => 'No Data not found'], 404);
-        }
-    }
 }

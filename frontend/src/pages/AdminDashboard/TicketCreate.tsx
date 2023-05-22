@@ -128,6 +128,7 @@ const TicketCreate = () => {
                   dropdownChildren={
                     <>
                       {projectList.map((i: any, index: number) => {
+                        // console.log(i);
                         let email = i.user.email.split("@");
                         return (
                           <Button
