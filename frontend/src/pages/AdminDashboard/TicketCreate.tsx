@@ -128,7 +128,6 @@ const TicketCreate = () => {
                   dropdownChildren={
                     <>
                       {projectList.map((i: any, index: number) => {
-                        // console.log(i);
                         let email = i.user.email.split("@");
                         return (
                           <Button
@@ -141,7 +140,7 @@ const TicketCreate = () => {
                                 value: i.id,
                               });
                             }}
-                            label={`${i.project.name}:#${i.user.id}:@${email[0]}`.substring(0,35) + '...'}
+                            label={`${i.project.name}:#${i.user.id}:@${email[0]}`.substring(0, 35) + '...'}
                           />
                         );
                       })}

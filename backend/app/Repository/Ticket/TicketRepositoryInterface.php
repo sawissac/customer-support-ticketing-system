@@ -8,5 +8,4 @@ interface TicketRepositoryInterface
 
     public function show($id);
 
-    public function getTickets($request);
 }
