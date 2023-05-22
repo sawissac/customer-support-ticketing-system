@@ -22,6 +22,6 @@ class EmployeeAssign extends Model
 
     public function ticket():BelongsTo
     {
-        return $this->belongsTo(Ticket::class, 'tickets_id');
+        return $this->belongsTo(Ticket::class,'tickets_id');
     }
 }

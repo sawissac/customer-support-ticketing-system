@@ -91,20 +91,20 @@ const TicketPage = () => {
 
   const debouncedSearch = debounce((value: any) => {
     const filtered = data.data.filter((item: any) => {
-      if (item.tickets_id.toLowerCase().includes(value.toLowerCase())) {
-        return item.tickets_id.toLowerCase().includes(value.toLowerCase());
+      if (item.tickets_id.toLowerCase() === value.toLowerCase()) {
+        return true;
       }
-      if (item.priority.toLowerCase().includes(value.toLowerCase())) {
-        return item.priority.toLowerCase().includes(value.toLowerCase());
+      if (item.priority.toLowerCase() === value.toLowerCase()) {
+        return true;
       }
       if (item.customer_project.project.name.toLowerCase().includes(value.toLowerCase())) {
-        return item.customer_project.project.name.toLowerCase().includes(value.toLowerCase());
+        return true;
       }
       if (item.customer_project.user.name.toLowerCase().includes(value.toLowerCase())) {
-        return item.customer_project.user.name.toLowerCase().includes(value.toLowerCase());
+        return true;
       }
-      if (item.customer_project.project.project_id.toLowerCase().includes(value.toLowerCase())) {
-        return item.customer_project.project.project_id.toLowerCase().includes(value.toLowerCase());
+      if (item.customer_project.project.project_id.toLowerCase() === value.toLowerCase()) {
+        return true;
       }
     });
     setFilteredData(filtered);
@@ -194,7 +194,7 @@ const TicketPage = () => {
                             time: dayjs(i.created_at).fromNow(),
                             userName: i.customer_project.user.name,
                             endDate: i.end_date,
-                            startDate: i.start_date
+                            startDate: i.start_date,
                           })
                         );
                         dispatch(setTicketView({ name: "ticket-view" }));
