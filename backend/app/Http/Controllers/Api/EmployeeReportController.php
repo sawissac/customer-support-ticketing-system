@@ -37,6 +37,12 @@ class EmployeeReportController extends BaseController
 
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         $validate = $request->all();
@@ -59,7 +65,12 @@ class EmployeeReportController extends BaseController
         return $this->sendResponse($data, 'EmployeeReport created successfully.', 201);
     }
 
-
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show($id)
     {
         $result = $this->employeereportRepo->show($id);
@@ -71,7 +82,13 @@ class EmployeeReportController extends BaseController
         return $this->sendResponse($result, 'EmployeeReports retrieved successfully.');
     }
 
-
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, $id)
     {
         $validate = $request->all();
@@ -94,6 +111,12 @@ class EmployeeReportController extends BaseController
         return $this->sendResponse($data, 'EmployeeReport updated successfully.');
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
         $this->employeereportService->delete($id);

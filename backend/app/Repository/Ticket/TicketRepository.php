@@ -21,5 +21,4 @@ class TicketRepository implements TicketRepositoryInterface
 
         return $result;
     }
-
 }
