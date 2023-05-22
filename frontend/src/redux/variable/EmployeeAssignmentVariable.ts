@@ -5,5 +5,4 @@ export const employeeAssignmentInit = {
     ticketId: 0,
     startDate: '',
     dueDate: ''
-
 }

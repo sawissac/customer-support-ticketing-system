@@ -112,6 +112,7 @@ const Task = () => {
                 })
               );
               dispatch(setTaskView({ name: "task-employee" }));
+              dispatch(setRightSidebar({ name: "" }));
             }}
           >
             <IconUser size={25} />

@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
-import { IconArrowLeft, IconEdit } from "@tabler/icons-react";
+import { IconArrowLeft, IconEdit, IconMenuOrder } from "@tabler/icons-react";
 import { IconTrashFilled } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { useQuery } from "react-query";
@@ -18,28 +18,36 @@ import { Theme } from "../../redux/variable/ThemeVariable";
 import { Oval } from "react-loader-spinner";
 import { debounce } from "debounce";
 import Input from "../../components/Input";
-import { setTaskView } from "../../redux/feature_slice/EmployeeAssignmentSlice";
-createTheme('table-dark', {
-  text: {
-    primary: 'white',
-    secondary: 'white',
+import { setRightSidebar, setTaskView } from "../../redux/feature_slice/EmployeeAssignmentSlice";
+import ShowIf from "../../components/Helper";
+import EmployeeAssignCreate from "./EmployeeAssignCreate";
+import { getAllEmployee } from "../../requests/userRequest";
+
+createTheme(
+  "table-dark",
+  {
+    text: {
+      primary: "white",
+      secondary: "white",
+    },
+    background: {
+      default: "#313338",
+    },
+    context: {
+      background: "#cb4b16",
+      text: "#FFFFFF",
+    },
+    divider: {
+      default: "white",
+    },
+    action: {
+      button: "rgba(0,0,0,.54)",
+      hover: "rgba(0,0,0,.08)",
+      disabled: "rgba(0,0,0,.12)",
+    },
   },
-  background: {
-    default: '#313338',
-  },
-  context: {
-    background: '#cb4b16',
-    text: '#FFFFFF',
-  },
-  divider: {
-    default: 'white',
-  },
-  action: {
-    button: 'rgba(0,0,0,.54)',
-    hover: 'rgba(0,0,0,.08)',
-    disabled: 'rgba(0,0,0,.12)',
-  },
-}, 'dark');
+  "dark"
+);
 
 const EmployeeAssign = () => {
   const dispatch = useAppDispatch();
@@ -49,6 +57,7 @@ const EmployeeAssign = () => {
   const taskRedux = useAppSelector((state) => state.tasks);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+
   
   const columns = useMemo(
     () => [
@@ -109,6 +118,7 @@ const EmployeeAssign = () => {
   );
 
   const url = `http://127.0.0.1:8000/api/assign-list/${taskRedux.ticketId}`;
+
   const getUsersData = async () => {
     const res = await axios
       .get(url, {
@@ -122,16 +132,21 @@ const EmployeeAssign = () => {
     return res;
   };
 
-  const {  error, data, isFetching } = useQuery(["employee-assign", projectPageRedux.employeeUrlState], getUsersData);
+  const { error, data, isFetching } = useQuery(
+    ["employee-assign", projectPageRedux.employeeUrlState],
+    getUsersData
+  );
 
-  React.useEffect(()=>{
-    if(data){
-      
+  React.useEffect(() => {
+    if (data) {
+      console.log(data);
     }
-  },[data])
+  }, [data]);
 
-  if (isFetching) return <div className="fetching">
-    <Oval
+  if (isFetching)
+    return (
+      <div className="fetching">
+        <Oval
           height={50}
           width={50}
           color="#F37021"
@@ -143,7 +158,8 @@ const EmployeeAssign = () => {
           strokeWidth={2}
           strokeWidthSecondary={2}
         />
-  </div>;
+      </div>
+    );
   if (error) return <p>"An error has occurs"</p>;
 
   const debouncedSearch = debounce((value: any) => {
@@ -173,7 +189,7 @@ const EmployeeAssign = () => {
               icon={<IconPlus size={20} />}
               className="btn btn--light btn--block btn--no-m-bottom btn--sm"
               onClick={() => {
-                dispatch(openProjectRightSidebar({ name: "employee-create" }));
+                dispatch(setRightSidebar({ name: "employee-assign-create" }));
               }}
             />
           }
@@ -184,22 +200,17 @@ const EmployeeAssign = () => {
           className="admin-container__inner"
         >
           <div className="admin-container__inner">
-          <Input
+            <Input
               type="text"
               placeholder="Search..."
               value={searchQuery}
               onChange={handleSearch}
               className="search"
             />
+            
             <DataTable
               columns={columns}
-              data={
-                filteredData.length === 0 && searchQuery !== ""
-                  ? []
-                  : filteredData.length === 0
-                  ? data
-                  : filteredData
-              }
+              data={[]}
               responsive
               pagination
               theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}
@@ -207,11 +218,11 @@ const EmployeeAssign = () => {
           </div>
         </motion.div>
       </div>
-      {/* <ShowIf
-        sif={projectPageRedux.rightSidebar === "employee-create"}
-        show={<EmployeeProjectsCreate />}
-      />
       <ShowIf
+        sif={taskRedux.rightSideBar === "employee-assign-create"}
+        show={<EmployeeAssignCreate />}
+      />
+      {/* <ShowIf
         sif={projectPageRedux.rightSidebar === "employee-update"}
         show={<EmployeeProjectsUpdate />}
       /> */}
