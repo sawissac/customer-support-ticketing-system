@@ -8,8 +8,8 @@ import { setTicketView } from "../../redux/feature_slice/TicketSlice";
 
 interface EmployeeSideBarInterface {
   view?: boolean;
+  customer?: boolean;
   employee: any[];
-  customer?:boolean
 }
 
 const EmployeeSideBar = ({ view, employee,customer }: EmployeeSideBarInterface) => {
