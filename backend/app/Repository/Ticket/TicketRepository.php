@@ -6,9 +6,11 @@ use App\Models\Ticket;
 
 class TicketRepository implements TicketRepositoryInterface
 {
-    public function get()
+    public function get($perPage = 10)
     {
-        $data = Ticket::with('admin','customer_project.user','customer_project.project','customer_project.project.employee_project.user')->orderBy('id','desc')->get();
+        $data = Ticket::with('admin', 'customer_project.user', 'customer_project.project', 'customer_project.project.employee_project.user')
+            ->orderBy('id', 'desc')
+            ->get();
 
         return $data;
     }
@@ -19,6 +21,4 @@ class TicketRepository implements TicketRepositoryInterface
 
         return $result;
     }
-
-
 }
