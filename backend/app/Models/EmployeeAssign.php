@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class EmployeeAssign extends Model
 {
     use HasFactory;
-    protected $fillable = ['admin_id', 'employee_id', 'tickets_id'];
+    protected $fillable = ['tickets_id', 'employee_id', 'status', 'task_name', 'start_date', 'end_date' ];
 
     public function admin():BelongsTo
     {
