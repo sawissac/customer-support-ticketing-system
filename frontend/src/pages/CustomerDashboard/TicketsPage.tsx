@@ -53,7 +53,7 @@ const TicketPage = () => {
   };
 
   const { data, isFetching } = useQuery(
-    ["tickets", ticketRedux.url],
+    ["tickets-customer", ticketRedux.url],
     getUsersData
   );
 
