@@ -11,7 +11,7 @@ const CustomerDashboard = () => {
       <Routes> 
         <Route
           path="/tickets"
-          element={<TicketsPage />}
+          element={<TicketsPage/>}
         />
         <Route
           path="/*"
