@@ -12,9 +12,9 @@ class RoleAssignMiddleware
 
         $user = $request->user();
 
-        if ($user && $user->hasRole('admin')) {
-            return $next($request);
-        }
+        // if ($user && $user->hasRole('admin')) {
+        //     return $next($request);
+        // }
 
         if ($user && $user->hasRole($roles)) {
             return $next($request);

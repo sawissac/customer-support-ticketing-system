@@ -49,7 +49,7 @@ class TicketController extends BaseController
                 'status' => 'nullable',
                 'priority' => 'nullable',
                 'drive_link' => 'nullable',
-                'admin_id' => 'nullabe',
+                'admin_id' => 'nullable',
                 'start_date' => 'nullable',
                 'end_date' => 'nullable',
             ]
@@ -110,9 +110,4 @@ class TicketController extends BaseController
 
         return $this->sendResponse([], 'Ticket deleted successfully.', 204);
     }
-    // public function assignTicket($id)
-    // {
-    //     $data = $this->ticketRepo->assignById($id);
-    //     return $this->sendResponse($data, 'Project retrieved successfully.');
-    // }
 }
