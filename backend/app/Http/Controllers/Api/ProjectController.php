@@ -75,7 +75,7 @@ class ProjectController extends BaseController
         $result = $this->projectRepo->show($id);
 
         if (is_null($result)) {
-            return $this->sendError('Project not found.');
+            return $this->sendError('Project not found.', [], 500);
         }
 
         return $this->sendResponse($result, 'Project retrieved successfully.');
