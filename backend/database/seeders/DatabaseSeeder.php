@@ -71,6 +71,7 @@ class DatabaseSeeder extends Seeder
             'status' => 'open',
             'priority' => 'high',
         ]);
+
         Ticket::create([
             'tickets_id' => 'bb22ss',
             'customer_project_id' => 2,
@@ -79,19 +80,66 @@ class DatabaseSeeder extends Seeder
             'status' => 'open',
             'priority' => 'high',
         ]);
-
+        Ticket::create([
+            'tickets_id' => 'bb22ss',
+            'customer_project_id' => 2,
+            'subject' => 'error',
+            'description' => 'Working is better',
+            'status' => 'open',
+            'priority' => 'high',
+        ]);
+        Ticket::create([
+            'tickets_id' => 'bb22ss',
+            'customer_project_id' => 2,
+            'subject' => 'error',
+            'description' => 'Working is better',
+            'status' => 'open',
+            'priority' => 'high',
+        ]);
+        Ticket::create([
+            'tickets_id' => 'bb22ss',
+            'customer_project_id' => 2,
+            'subject' => 'error',
+            'description' => 'Working is better',
+            'status' => 'open',
+            'priority' => 'high',
+        ]);
+        Ticket::create([
+            'tickets_id' => 'bb22ss',
+            'customer_project_id' => 2,
+            'subject' => 'error',
+            'description' => 'Working is better',
+            'status' => 'open',
+            'priority' => 'high',
+        ]);
+        Ticket::create([
+            'tickets_id' => 'bb22ss',
+            'customer_project_id' => 2,
+            'subject' => 'error',
+            'description' => 'Working is better',
+            'status' => 'open',
+            'priority' => 'high',
+        ]);
+        Ticket::create([
+            'tickets_id' => 'bb22ss',
+            'customer_project_id' => 2,
+            'subject' => 'error',
+            'description' => 'Working is better',
+            'status' => 'open',
+            'priority' => 'high',
+        ]);
         EmployeeAssign::create([
-            'admin_id' => 1,
             'employee_id' => 2,
             'ticket_id' => 1,
             'status' => 'open',
+            'task_name' => 'Fix Sidebar',
         ]);
 
         EmployeeAssign::create([
-            'admin_id' => 1,
             'employee_id' => 2,
             'ticket_id' => 2,
             'status' => 'open',
+            'task_name' => 'Fix Button',
         ]);
     }
 }

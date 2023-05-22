@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\CustomerProject;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Api\BaseController;
-use App\Models\CustomerProject;
+
 use App\Repository\CustomerProject\CustomerProjectRepoInterface;
 use App\Service\CustomerProject\CustomerProjectServiceInterface;
 use Exception;
@@ -44,7 +45,7 @@ class CustomerProjectController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
 
         $validated = $validator->validated();
@@ -69,7 +70,7 @@ class CustomerProjectController extends BaseController
 
         if (is_null($data)) {
 
-            return $this->sendError('CustomerProject not found.');
+            return $this->sendError('CustomerProject not found.', [], 500);
         }
 
         return $this->sendResponse($data, 'CustomerProject Show successfully.');
@@ -85,7 +86,7 @@ class CustomerProjectController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
 
         $validated = $validator->validated();
@@ -105,13 +106,10 @@ class CustomerProjectController extends BaseController
 
     public function destroy($id)
     {
-        if ($id == null) {
-            return $this->sendError('CustomeProject Not found.');
-        }
 
-        $data = $this->customerProjectService->delete($id);
+        $this->customerProjectService->delete($id);
 
-        return $this->sendResponse($data, 'CustomerProject Delete successfully.', 204);
+        return $this->sendResponse([], 'CustomerProject Delete successfully.', 204);
     }
 
     public function paginate()

@@ -35,6 +35,7 @@ class ProjectController extends BaseController
         $data = $this->projectRepo->get();
 
         return $this->sendResponse($data, 'Projects retrieved successfully.');
+
     }
 
     /**
@@ -56,7 +57,7 @@ class ProjectController extends BaseController
         );
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
 
         $data = $this->projectServcie->store($validate);
@@ -75,7 +76,7 @@ class ProjectController extends BaseController
         $result = $this->projectRepo->show($id);
 
         if (is_null($result)) {
-            return $this->sendError('Project not found.');
+            return $this->sendError('Project not found.', [], 500);
         }
 
         return $this->sendResponse($result, 'Project retrieved successfully.');
@@ -101,7 +102,7 @@ class ProjectController extends BaseController
         );
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
 
         $data = $this->projectServcie->update($id, $validate);
