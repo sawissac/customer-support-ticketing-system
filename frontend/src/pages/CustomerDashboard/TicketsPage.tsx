@@ -19,6 +19,7 @@ import TicketView from "./TicketView";
 import ReactPaginate from "react-paginate";
 import Input from "../../components/Input";
 import { debounce } from "debounce";
+import TicketUpdate from "./TicketUpdate";
 // import TicketUpdate from "./TicketUpdate";
 
 dayjs.extend(relativeTime);
@@ -225,6 +226,7 @@ const TicketPage = () => {
                         dispatch(setTicketView({ name: "ticket-view" }));
                       }}
                     />
+                   
                   </div>
                 );
               })}
@@ -237,10 +239,10 @@ const TicketPage = () => {
         show={<TicketCreate />}
       />
       <ShowIf sif={ticketRedux.view === "ticket-view"} show={<TicketView />} />
-      {/* <ShowIf
+      <ShowIf
         sif={ticketRedux.view === "ticket-update"}
-        show={<TicketUpdate />}
-      /> */}
+        show={<TicketUpdate/>}
+      />
     </>
   );
 };

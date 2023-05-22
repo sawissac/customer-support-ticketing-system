@@ -1,7 +1,7 @@
 .fieldset-timer {
   border-top: map-get($border-widths, 1) solid $gray-300;
   .legend-timer {
-    padding: map-get($spacers, 3) 0px;
+    padding: map-get($spacers, 3) 20px;
     text-align: center;
     color: $dark;
     &--h4{
