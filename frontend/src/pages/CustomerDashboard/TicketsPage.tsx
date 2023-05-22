@@ -6,10 +6,7 @@ import Button from "../../components/Button";
 import ShowIf from "../../components/Helper";
 import TicketCreate from "./TicketCreate";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import {
-  setTicketView,
-  setViewData,
-} from "../../redux/feature_slice/TicketSlice";
+import { setTicketView, setViewData } from "../../redux/feature_slice/TicketSlice";
 import axios from "axios";
 import { useQuery } from "react-query";
 import dayjs from "dayjs";
@@ -33,9 +30,11 @@ const TicketPage = () => {
   const [dataCount, setDataCount] = useState(0);
   const [filteredData, setFilteredData] = useState([]);
   const [currentData, setCurrentData] = useState([]);
+  const [dataList, setDataList] = useState([]);
   const itemsPerPage = 6;
 
   const url = "http://127.0.0.1:8000/api/ticket";
+
   const getUsersData = async () => {
     const res = await axios
       .get(url, {
@@ -46,34 +45,31 @@ const TicketPage = () => {
       .then((response) => {
         return response.data;
       });
-    // return res;
-    return res.data.filter(
-      (item: any) => item.customer_project.user.id === authRedux.user.id
-    );
+    return res.data;
   };
 
-  const { data, isFetching } = useQuery(
-    ["tickets", ticketRedux.url],
-    getUsersData
-  );
+  const { data, isFetching } = useQuery(["tickets", ticketRedux.url], getUsersData);
+
+  useEffect(() => {
+    if (data) {
+      const filteredData = data.filter(
+        (item: any) => item.customer_project.user.id === authRedux.user.id
+      );
+      setDataList(filteredData);
+    }
+  }, [data]);
 
   useEffect(() => {
     if (filteredData.length > 0) {
       setCurrentData(
-        filteredData.slice(
-          currentPage * itemsPerPage,
-          (currentPage + 1) * itemsPerPage
-        )
+        filteredData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
       );
     }
-
-    if (data && filteredData.length === 0) {
-      setCurrentData(
-        data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
-      );
-      setDataCount(data.length);
+    if (dataList && filteredData.length === 0) {
+      setCurrentData(dataList.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage));
+      setDataCount(dataList.length);
     }
-  }, [data, filteredData, currentPage]);
+  }, [dataList, filteredData, currentPage]);
 
   if (isFetching) {
     return (
@@ -112,23 +108,11 @@ const TicketPage = () => {
       if (item.priority.toLowerCase().includes(value.toLowerCase())) {
         return item.priority.toLowerCase().includes(value.toLowerCase());
       }
-      if (
-        item.customer_project.project.name
-          .toLowerCase()
-          .includes(value.toLowerCase())
-      ) {
-        return item.customer_project.project.name
-          .toLowerCase()
-          .includes(value.toLowerCase());
+      if (item.customer_project.project.name.toLowerCase().includes(value.toLowerCase())) {
+        return item.customer_project.project.name.toLowerCase().includes(value.toLowerCase());
       }
-      if (
-        item.customer_project.project.project_id
-          .toLowerCase()
-          .includes(value.toLowerCase())
-      ) {
-        return item.customer_project.project.project_id
-          .toLowerCase()
-          .includes(value.toLowerCase());
+      if (item.customer_project.project.project_id.toLowerCase().includes(value.toLowerCase())) {
+        return item.customer_project.project.project_id.toLowerCase().includes(value.toLowerCase());
       }
     });
     setFilteredData(filtered);
@@ -186,7 +170,10 @@ const TicketPage = () => {
 
               {currentData.map((i: any, index: number) => {
                 return (
-                  <div className="col-4" key={index}>
+                  <div
+                    className="col-4"
+                    key={index}
+                  >
                     <TicketList
                       projectName={`${i.customer_project.project.name} #${i.tickets_id}`}
                       userView
@@ -196,22 +183,20 @@ const TicketPage = () => {
                       priority={i.priority}
                       status={i.status}
                       onClick={() => {
-                        const employees =
-                          i.customer_project.project.employee_project.map(
-                            (employee: any) => {
-                              return {
-                                user_id: employee.user_id,
-                                name: employee.user.name,
-                              };
-                            }
-                          );
+                        const employees = i.customer_project.project.employee_project.map(
+                          (employee: any) => {
+                            return {
+                              user_id: employee.user_id,
+                              name: employee.user.name,
+                            };
+                          }
+                        );
                         dispatch(
                           setViewData({
                             ticketId: i.id,
                             employees,
                             customerProjectId: i.customer_project.id,
-                            customerProjectName:
-                              i.customer_project.project.name,
+                            customerProjectName: i.customer_project.project.name,
                             subject: i.subject,
                             description: i.description,
                             priority: i.priority,
@@ -226,7 +211,6 @@ const TicketPage = () => {
                         dispatch(setTicketView({ name: "ticket-view" }));
                       }}
                     />
-                   
                   </div>
                 );
               })}
@@ -238,10 +222,13 @@ const TicketPage = () => {
         sif={ticketRedux.view === "ticket-create"}
         show={<TicketCreate />}
       />
-      <ShowIf sif={ticketRedux.view === "ticket-view"} show={<TicketView />} />
+      <ShowIf
+        sif={ticketRedux.view === "ticket-view"}
+        show={<TicketView />}
+      />
       <ShowIf
         sif={ticketRedux.view === "ticket-update"}
-        show={<TicketUpdate/>}
+        show={<TicketUpdate />}
       />
     </>
   );

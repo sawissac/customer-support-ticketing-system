@@ -1,4 +1,4 @@
-import  { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
 import { IconArrowLeft, IconEdit } from "@tabler/icons-react";
@@ -14,44 +14,27 @@ import {
 } from "../../redux/feature_slice/ProjectPageSlice";
 import { motion } from "framer-motion";
 import Avatar from "react-avatar";
-import ShowIf from "../../components/Helper";
 import { Theme } from "../../redux/variable/ThemeVariable";
 import { Oval } from "react-loader-spinner";
 import { debounce } from "debounce";
 import Input from "../../components/Input";
 import { setTaskView } from "../../redux/feature_slice/EmployeeAssignmentSlice";
-createTheme('table-dark', {
-  text: {
-    primary: 'white',
-    secondary: 'white',
-  },
-  background: {
-    default: '#313338',
-  },
-  context: {
-    background: '#cb4b16',
-    text: '#FFFFFF',
-  },
-  divider: {
-    default: 'white',
-  },
-  action: {
-    button: 'rgba(0,0,0,.54)',
-    hover: 'rgba(0,0,0,.08)',
-    disabled: 'rgba(0,0,0,.12)',
-  },
-}, 'dark');
 
 const EmployeeAssign = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
-  const projectPageRedux = useAppSelector((state) => state.projectSidebar);
   const themeRedux = useAppSelector((state) => state.theme);
+  const taskRedux = useAppSelector((state) => state.tasks);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  
+  const [employeeList, setEmployeeList] = useState([]);
   const columns = useMemo(
     () => [
+      {
+        name: "Task",
+        selector: (row: any) => "row.subject",
+        sortable: true,
+      },
       {
         name: "Employee",
         cell: (row: any) => {
@@ -59,16 +42,26 @@ const EmployeeAssign = () => {
             <div className="avatar-profile">
               <Avatar
                 className={`avatar-profile__circle`}
-                name={row.user.name}
+                name={"row.user.name"}
                 color={"#F37021"}
                 size="35"
                 textSizeRatio={1.75}
                 round
               />
-              {row.user.name}#{row.user.id}
+              {/* {row.user.name} */}
             </div>
           );
         },
+      },
+      {
+        name: "Start Date",
+        selector: (row: any) => "row.subject",
+        sortable: true,
+      },
+      {
+        name: "Due Date",
+        selector: (row: any) => "row.subject",
+        sortable: true,
       },
       {
         name: "Update",
@@ -108,7 +101,8 @@ const EmployeeAssign = () => {
     []
   );
 
-  const url = "http://127.0.0.1:8000/api/employee-project";
+  const url = `http://127.0.0.1:8000/api/assign-list/${taskRedux.ticketId}`;
+
   const getUsersData = async () => {
     const res = await axios
       .get(url, {
@@ -116,18 +110,27 @@ const EmployeeAssign = () => {
           Authorization: `Bearer ${AuthRedux.token}`,
         },
       })
-      .then((response) => {
-        return response.data.data.filter((i: any) => {
-          return i.project_id === projectPageRedux.project_id;
-        });
+      .then((res) => {
+        return res.data;
       });
     return res;
   };
 
-  const {  error, data, isFetching } = useQuery(["employee", projectPageRedux.employeeUrlState], getUsersData);
+  const { error, data, isFetching } = useQuery(
+    ["task-employee", taskRedux.employeeUrl],
+    getUsersData
+  );
 
-  if (isFetching) return <div className="fetching">
-    <Oval
+  React.useEffect(() => {
+    if (data) {
+      setEmployeeList(data.data);
+    }
+  }, [data]);
+
+  if (isFetching)
+    return (
+      <div className="fetching">
+        <Oval
           height={50}
           width={50}
           color="#F37021"
@@ -139,27 +142,29 @@ const EmployeeAssign = () => {
           strokeWidth={2}
           strokeWidthSecondary={2}
         />
-  </div>;
+      </div>
+    );
+
   if (error) return <p>"An error has occurs"</p>;
 
-  const debouncedSearch = debounce((value: any) => {
-    const filtered = data.filter((item: any) => {
-      return item.user.name.toLowerCase().includes(value.toLowerCase());
-    });
-    setFilteredData(filtered);
-  }, 1000);
+  // const debouncedSearch = debounce((value: any) => {
+  //   const filtered = data.filter((item: any) => {
+  //     return item.user.name.toLowerCase().includes(value.toLowerCase());
+  //   });
+  //   setFilteredData(filtered);
+  // }, 1000);
 
-  const handleSearch = (event: any) => {
-    setSearchQuery(event.target.value);
-    debouncedSearch(event.target.value);
-  };
+  // const handleSearch = (event: any) => {
+  //   setSearchQuery(event.target.value);
+  //   debouncedSearch(event.target.value);
+  // };
 
   return (
     <>
       <div className="admin-container">
         <Nav
           icon={<IconArrowLeft size={25} />}
-          label={projectPageRedux.project_name}
+          label={taskRedux.subject}
           onClick={() => {
             dispatch(setTaskView({ name: "" }));
           }}
@@ -180,22 +185,16 @@ const EmployeeAssign = () => {
           className="admin-container__inner"
         >
           <div className="admin-container__inner">
-          <Input
+            {/* <Input
               type="text"
               placeholder="Search..."
               value={searchQuery}
               onChange={handleSearch}
               className="search"
-            />
+            /> */}
             <DataTable
               columns={columns}
-              data={
-                filteredData.length === 0 && searchQuery !== ""
-                  ? []
-                  : filteredData.length === 0
-                  ? data
-                  : filteredData
-              }
+              data={employeeList}
               responsive
               pagination
               theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}
