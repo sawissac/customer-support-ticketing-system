@@ -28,6 +28,7 @@ class UserController extends BaseController
         $data = $this->userRepo->get();
 
         return $this->sendResponse($data, 'User retrieved successfully.');
+
     }
 
     public function store(Request $request)
