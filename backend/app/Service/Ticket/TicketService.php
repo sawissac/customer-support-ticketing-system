@@ -11,7 +11,6 @@ class TicketService implements TicketServiceInterface
     {
         $tickets_id = Str::random(3) . mt_rand(10000, 99999);
         $data['tickets_id'] = $tickets_id;
-        $data['status'] = "open";
         return Ticket::create($data);
     }
 

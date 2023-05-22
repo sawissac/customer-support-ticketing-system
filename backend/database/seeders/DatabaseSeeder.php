@@ -26,12 +26,12 @@ class DatabaseSeeder extends Seeder
 
         Project::create([
             'project_id' => 'aa11ss',
-            'name' => "ACE Project1",
+            'name' => "Panda Production",
         ]);
 
         Project::create([
             'project_id' => 'ss22dd',
-            'name' => "ACE",
+            'name' => "Hollow Studio",
         ]);
 
         EmployeeProject::create([
@@ -90,6 +90,7 @@ class DatabaseSeeder extends Seeder
             'status' => 'open',
             'priority' => 'high',
         ]);
+
         EmployeeAssign::create([
             'admin_id' => 1,
             'employee_id' => 2,
@@ -103,19 +104,5 @@ class DatabaseSeeder extends Seeder
             'ticket_id' => 2,
             'status' => 'open',
         ]);
-
-        EmployeeReport::create([
-            'user_id' => 2,
-            'tickets_id' => 1,
-            'description' => 'sdafdasfdafsdsdasadfdf',
-        ]);
-
-        EmployeeReport::create([
-            'user_id' => 2,
-            'tickets_id' => 2,
-            'description' => 'sdfsdsdafdasfdafsdsdasadfdf',
-        ]);
-
-
     }
 }

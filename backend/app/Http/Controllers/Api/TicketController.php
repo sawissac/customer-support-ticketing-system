@@ -45,8 +45,11 @@ class TicketController extends BaseController
                 'customer_project_id' => 'required',
                 'subject' => 'required',
                 'description' => 'required',
-                'priority' => 'nullable|string',
-                'drive_link' => 'nullable|string',
+                'status' => 'nullable',
+                'priority' => 'nullable',
+                'drive_link' => 'nullable',
+                'start_date' => 'nullable',
+                'end_date' => 'nullable',
             ]
         );
 
@@ -70,8 +73,11 @@ class TicketController extends BaseController
                 'customer_project_id' => 'required',
                 'subject' => 'required',
                 'description' => 'required',
-                'priority' => 'nullable|string',
-                'drive_link' => 'nullable|string',
+                'priority' => 'nullable',
+                'drive_link' => 'nullable',
+                'status' => 'required',
+                'start_date' => 'nullable',
+                'end_date' => 'nullable',
             ]
         );
 

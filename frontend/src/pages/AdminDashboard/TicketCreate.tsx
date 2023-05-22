@@ -57,6 +57,7 @@ const TicketCreate = () => {
         ...inputField,
         customer_project_id: projectDropDown.value,
         priority: priorityDropDown.value,
+        status: 'open',
         token: authRedux.token,
       })
         .then(() => {
@@ -68,9 +69,9 @@ const TicketCreate = () => {
           );
           dispatch(
             updateTicketUrl({
-              name: `updated:${Date()}`
+              name: `updated:${Date()}`,
             })
-          )
+          );
           dispatch(setTicketView({ name: "" }));
         })
         .catch(() => {
@@ -83,16 +84,7 @@ const TicketCreate = () => {
   }
   React.useState(() => {
     getCustomerProject({ token: authRedux.token }).then((res: any) => {
-      const temp:any = [];
-      const filteredData = res.data.filter((project: any)=>{
-        if(!temp.includes(project.project_id)){
-          temp.push(project.project_id);
-          return true;
-        }else{
-          return false;
-        }
-      });
-      setProjectList(filteredData);
+      setProjectList(res.data);
     });
   });
 
@@ -111,7 +103,7 @@ const TicketCreate = () => {
             animate={{ y: "0px", opacity: 1 }}
           >
             <div className="row row--gap-1">
-              <div className="col-12"> 
+              <div className="col-12">
                 <Input
                   label="Subject"
                   errorMessage="*require"
@@ -129,23 +121,26 @@ const TicketCreate = () => {
                 <Dropdown
                   placement="bottom"
                   buttonClassName="form-dropdown-btn"
-                  offset={[0, 0]}
+                  offset={[70, 0]}
                   buttonChildren={<>{projectDropDown.name}</>}
                   dropdownClassName="form-dropdown"
-                  width="200px"
+                  width="350px"
                   dropdownChildren={
                     <>
-                      {projectList.map((i: any) => {
+                      {projectList.map((i: any, index: number) => {
+                        let email = i.user.email.split("@");
                         return (
                           <Button
+                            key={index}
                             type="button"
+                            title={`${i.project.name}:#${i.user.name}:@${email[0]}`}
                             onClick={() => {
                               setProjectDropDown({
                                 name: i.project.name,
-                                value: i.project.id,
+                                value: i.id,
                               });
                             }}
-                            label={i.project.name}
+                            label={`${i.project.name}:#${i.user.id}:@${email[0]}`.substring(0,35) + '...'}
                           />
                         );
                       })}
@@ -167,9 +162,10 @@ const TicketCreate = () => {
                   width={"200px"}
                   dropdownChildren={
                     <>
-                      {Object.keys(Priority).map((priority: string) => {
+                      {Object.keys(Priority).map((priority: string, index: number) => {
                         return (
                           <Button
+                            key={index}
                             type="button"
                             onClick={() => {
                               setPriorityDropDown({

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Nav from "../../components/Nav";
 import TicketList from "../../components/TicketList";
-import { IconChevronsLeft, IconMessage2, IconPlus } from "@tabler/icons-react";
+import { IconMessage2, IconPlus } from "@tabler/icons-react";
 import Button from "../../components/Button";
 import ShowIf from "../../components/Helper";
 import TicketCreate from "./TicketCreate";
@@ -180,19 +180,21 @@ const TicketPage = () => {
                             return { user_id: employee.user_id, name: employee.user.name };
                           }
                         );
-                        console.log(i.customer_project.project.name)
                         dispatch(
                           setViewData({
                             ticketId: i.id,
                             employees,
-                            time: dayjs(i.created_at).fromNow(),
-                            userName: i.customer_project.user.name,
+                            customerProjectId: i.customer_project.id,
+                            customerProjectName: i.customer_project.project.name,
                             subject: i.subject,
                             description: i.description,
-                            driveLink: i.drive_link,
-                            customerProjectId: i.customer_project.project.id,
-                            customerProjectName: i.customer_project.project.name,
                             priority: i.priority,
+                            driveLink: i.drive_link,
+                            status: i.status,
+                            time: dayjs(i.created_at).fromNow(),
+                            userName: i.customer_project.user.name,
+                            endDate: i.end_date,
+                            startDate: i.start_date
                           })
                         );
                         dispatch(setTicketView({ name: "ticket-view" }));

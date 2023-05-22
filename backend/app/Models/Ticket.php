@@ -19,8 +19,8 @@ class Ticket extends Model
         'status',
         'priority',
         'drive_link',
-        'ticket_start_date',
-        'ticket_end_date',
+        'start_date',
+        'end_date',
     ];
 
     public function customer_project(): BelongsTo

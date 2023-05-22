@@ -1,16 +1,19 @@
 export const TicketInit = {
   view: "",
   url: "",
+  employees: [],
+  ticketId: 0,
   customerProjectId: 0,
   customerProjectName: '',
-  employees: [],
-  time: '',
   userName: '',
   subject: '',
   description: '',
-  driveLink: '',
   priority: '',
-  ticketId: 0,
+  driveLink: '',
+  status:'',
+  startDate: '',
+  endDate: '',
+  time: '',
 };
 
 export const Priority: {
@@ -23,3 +26,4 @@ export const Priority: {
 };
 
 
+ 

@@ -5,11 +5,12 @@ interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
     icon?: ReactNode;
     label: string;
     type?: "button" | "submit";
+    ref?: any;
   }
   
-  const Button = ({ disabled, label,icon, type, ...props }: ButtonProps) => {
+  const Button = ({ disabled, label,icon, type,ref, ...props }: ButtonProps) => {
     return (
-      <button {...props} type={type} disabled={disabled}>
+      <button {...props} type={type} disabled={disabled} ref={ref}>
         {icon}
         {label}
       </button>
