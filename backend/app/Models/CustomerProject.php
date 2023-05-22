@@ -15,17 +15,17 @@ class CustomerProject extends Model
     use HasFactory;
     protected $fillable = ['user_id', 'project_id'];
 
-    public function user():BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function project():BelongsTo
+    public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
     }
 
-    public function ticket():HasMany
+    public function ticket(): HasMany
     {
         return $this->hasMany(Ticket::class);
     }
