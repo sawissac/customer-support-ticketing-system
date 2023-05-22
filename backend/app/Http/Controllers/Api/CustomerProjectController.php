@@ -124,6 +124,5 @@ class CustomerProjectController extends BaseController
         $data = $this->customerProjectRepo->projectByUserID($id);
 
         return $this->sendResponse($data, 'Project retrieved successfully.');
-
     }
 }
