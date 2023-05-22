@@ -45,6 +45,7 @@ export function updateTicket({
   drive_link,
   status,
   start_date,
+  admin_id,
   end_date,
   token,
 }: any) {
@@ -58,6 +59,7 @@ export function updateTicket({
           description,
           status,
           priority,
+          admin_id,
           drive_link,
           start_date,
           end_date,

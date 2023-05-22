@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import Dropdown from "../../components/DropDown";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
-import { setRightSidebar } from "../../redux/feature_slice/EmployeeAssignmentSlice";
+import { setRightSidebar, updateTaskUrl } from "../../redux/feature_slice/EmployeeAssignmentSlice";
 import { getAllTicket, getTicket, updateTicket } from "../../requests/ticketRequest";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -16,7 +16,6 @@ import dayjs from "dayjs";
 const EmployeeAssignmentCreate = () => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((s) => s.auth);
-  const ticketRedux = useAppSelector((s) => s.ticket);
   const [startDate, setStartDate] = useState(new Date());
   const [dueDate, setDueDate] = useState(new Date());
   const [ticketList, setTicketList] = React.useState([]);
@@ -53,46 +52,46 @@ const EmployeeAssignmentCreate = () => {
         id: ticketDropDown.value,
         token: authRedux.token,
       }).then((res: any) => {
-        console.log(res.data);
+        updateTicket({
+          ...res.data,
+          ticketId: res.data.id,
+          admin_id: authRedux.user.id,
+          status: "processing",
+          start_date: formatDateTime(startDate),
+          end_date: formatDateTime(dueDate),
+          token: authRedux.token,
+        })
+          .then(() => {
+            dispatch(
+              setAlert({
+                message: "Created Successfully",
+                state: Alert.Success,
+              })
+            );
+            dispatch(
+              updateTaskUrl({
+                name: `updated:${Date()}`,
+              })
+            );
+          })
+          .catch(() => {
+            setAlert({
+              message: "Fail to create...",
+              state: Alert.Warning,
+            });
+          });
       });
-      // updateTicket({
-      //   ticketId: ticketRedux.ticketId,
-      //   customer_project_id: ticketRedux.customerProjectId,
-      //   subject: ticketRedux.subject,
-      //   description: ticketRedux.description,
-      //   priority: ticke,
-      //   drive_link: "",
-      //   status: "",
-      //   start_date: "",
-      //   end_date: "",
-      //   token: authRedux.token,
-      // })
-      //   .then(() => {
-      //     dispatch(
-      //       setAlert({
-      //         message: "Created Successfully",
-      //         state: Alert.Success,
-      //       })
-      //     );
-      //     dispatch(
-      //       updateTicketUrl({
-      //         name: `updated:${Date()}`,
-      //       })
-      //     );
-      //     dispatch(setTicketView({ name: "" }));
-      //   })
-      //   .catch(() => {
-      //     setAlert({
-      //       message: "Fail to create...",
-      //       state: Alert.Warning,
-      //     });
-      //   });
     }
   }
 
   React.useState(() => {
     getAllTicket({ token: authRedux.token }).then((res: any) => {
-      setTicketList(res.data);
+      const filteredData = res.data.filter((ticket:any)=>{
+        if(!ticket.admin_id){
+          return true;
+        }
+      })
+      setTicketList(filteredData);
     });
   });
 
