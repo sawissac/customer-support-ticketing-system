@@ -56,6 +56,7 @@ const TicketUpdate = () => {
         ticketId: ticketRedux.ticketId,
         customer_project_id: projectDropDown.value,
         priority: priorityDropDown.value,
+        status: ticketRedux.status,
         token: authRedux.token,
       })
         .then(() => {
@@ -82,16 +83,7 @@ const TicketUpdate = () => {
   }
   React.useState(() => {
     getCustomerProject({ token: authRedux.token }).then((res: any) => {
-      const temp: any = [];
-      const filteredData = res.data.filter((project: any) => {
-        if (!temp.includes(project.project_id)) {
-          temp.push(project.project_id);
-          return true;
-        } else {
-          return false;
-        }
-      });
-      setProjectList(filteredData);
+      setProjectList(res.data);
     });
   });
   return (
@@ -127,24 +119,26 @@ const TicketUpdate = () => {
                 <Dropdown
                   placement="bottom"
                   buttonClassName="form-dropdown-btn"
-                  offset={[0, 0]}
+                  offset={[70, 0]}
                   buttonChildren={<>{projectDropDown.name}</>}
                   dropdownClassName="form-dropdown"
-                  width="200px"
+                  width="350px"
                   dropdownChildren={
                     <>
                       {projectList.map((i: any, index: number) => {
+                        let email = i.user.email.split("@");
                         return (
                           <Button
-                            type="button"
                             key={index}
+                            type="button"
+                            title={`${i.project.name}:#${i.user.name}:@${email[0]}`}
                             onClick={() => {
                               setProjectDropDown({
                                 name: i.project.name,
-                                value: i.project.id,
+                                value: i.id,
                               });
                             }}
-                            label={i.project.name}
+                            label={`${i.project.name}:#${i.user.id}:@${email[0]}`.substring(0,35) + '...'}
                           />
                         );
                       })}
@@ -174,7 +168,7 @@ const TicketUpdate = () => {
                             onClick={() => {
                               setPriorityDropDown({
                                 name: priority,
-                                value: Priority[priority],
+                                value: priority,
                               });
                             }}
                             label={priority}
