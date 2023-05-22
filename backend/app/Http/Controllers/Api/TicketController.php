@@ -34,7 +34,6 @@ class TicketController extends BaseController
         $data = $this->ticketRepo->get();
 
         return $this->sendResponse($data, 'Tickets retrieved successfully.');
-
     }
 
     public function store(Request $request)
@@ -97,7 +96,7 @@ class TicketController extends BaseController
         );
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors() ,422);
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
 
         $data = $this->ticketService->update($id, $validate);
@@ -111,4 +110,9 @@ class TicketController extends BaseController
 
         return $this->sendResponse([], 'Ticket deleted successfully.', 204);
     }
+    // public function assignTicket($id)
+    // {
+    //     $data = $this->ticketRepo->assignById($id);
+    //     return $this->sendResponse($data, 'Project retrieved successfully.');
+    // }
 }
