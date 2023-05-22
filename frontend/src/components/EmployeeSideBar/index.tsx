@@ -8,10 +8,11 @@ import { setTicketView } from "../../redux/feature_slice/TicketSlice";
 
 interface EmployeeSideBarInterface {
   view?: boolean;
+  customer?: boolean;
   employee: any[];
 }
 
-const EmployeeSideBar = ({ view, employee }: EmployeeSideBarInterface) => {
+const EmployeeSideBar = ({ view, employee, customer }: EmployeeSideBarInterface) => {
   const themeRedux = useAppSelector((state) => state.theme);
   const dispatch = useAppDispatch();
   return (
@@ -23,9 +24,10 @@ const EmployeeSideBar = ({ view, employee }: EmployeeSideBarInterface) => {
 
       <div className="sidebar__list">
         <h5>Recent Employee</h5>
-        {employee.map((employee: any) => {
-          return <EmployeeSideBar.Profile name={employee.name} />;
-        })}
+        {!customer &&
+          employee.map((employee: any) => {
+            return <EmployeeSideBar.Profile name={employee.name} />;
+          })}
       </div>
 
       <div className="sidebar__action-list">
