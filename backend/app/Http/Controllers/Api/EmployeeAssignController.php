@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
-use App\Http\Requests\EmployeeAssignRequest;
 use App\Repository\EmployeeAssign\EmployeeAssignRepoInterface;
 use App\Service\EmployeeAssign\EmployeeAssignServiceInterface;
 
@@ -43,7 +42,7 @@ class EmployeeAssignController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
 
         $result = $this->employeeAssignService->store($data);
@@ -59,7 +58,7 @@ class EmployeeAssignController extends BaseController
 
         if (is_null($id)) {
 
-            return $this->sendError('Employee Assgin not found.');
+            return $this->sendError('Employee Assgin not found.', [], 500);
         }
 
         return $this->sendResponse($data, 'Employee Assgin Show successfully.');
@@ -75,7 +74,7 @@ class EmployeeAssignController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
 
         $result = $this->employeeAssignService->update($id, $data);
@@ -87,10 +86,6 @@ class EmployeeAssignController extends BaseController
     {
         $data = $this->employeeAssignService->delete($id);
 
-        if (is_null($data)) {
-            return $this->sendError('Employee Assgin Not found.');
-        }
-
-        return $this->sendResponse($data, 'Employee Assgin Delete successfully.', 204);
+        return $this->sendResponse([],'Employee Assgin Delete successfully.', 204);
     }
 }

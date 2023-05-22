@@ -13,10 +13,7 @@ class EmployeeAssign extends Model
     use HasFactory;
     protected $fillable = ['tickets_id', 'employee_id', 'status', 'task_name', 'start_date', 'end_date' ];
 
-    public function admin():BelongsTo
-    {
-        return $this->belongsTo(User::class, 'admin_id');
-    }
+
 
     public function employee():BelongsTo
     {
