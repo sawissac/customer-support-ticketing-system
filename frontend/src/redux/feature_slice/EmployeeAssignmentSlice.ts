@@ -19,9 +19,13 @@ const employeeProjectSlice = createSlice({
       state.rightSideBar = action.payload.name;
       return state;
     },
+    setTaskUpdate: (state, action: PayloadAction<{ ticketId: number, startDate: string, dueDate: string }>)=>{
+      state = {...state, ...action.payload};
+      return state;
+    }
   },
 });
 
-export const { setTaskView, updateTaskUrl,setRightSidebar } = employeeProjectSlice.actions;
+export const { setTaskUpdate,setTaskView, updateTaskUrl,setRightSidebar } = employeeProjectSlice.actions;
 
 export default employeeProjectSlice.reducer;

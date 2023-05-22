@@ -9,7 +9,7 @@ import { useQuery } from "react-query";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Oval } from "react-loader-spinner";
-import { setRightSidebar, setTaskView } from "../../redux/feature_slice/EmployeeAssignmentSlice";
+import { setRightSidebar, setTaskUpdate } from "../../redux/feature_slice/EmployeeAssignmentSlice";
 import EmployeeAssignmentCreate from "./EmployeeAssignmentCreate";
 import { motion } from "framer-motion";
 import DataTable from "react-data-table-component";
@@ -23,9 +23,9 @@ const EmployeeAssignment = () => {
   const authRedux = useAppSelector((state) => state.auth);
   const taskRedux = useAppSelector((state) => state.tasks);
   const themeRedux = useAppSelector((state) => state.theme);
+  const [tableData, setTableTableData] = useState([]);
 
   const url = "http://127.0.0.1:8000/api/ticket";
-
   const getUsersData = async () => {
     const res = await axios
       .get(url, {
@@ -47,6 +47,11 @@ const EmployeeAssignment = () => {
         sortable: true,
       },
       {
+        name: "Ticket ID",
+        selector: (row: any) => row.tickets_id,
+        sortable: true,
+      },
+      {
         name: "Admin Name",
         cell: (row: any) => {
           return (
@@ -59,24 +64,27 @@ const EmployeeAssignment = () => {
                 textSizeRatio={2}
                 round
               />
-              {"hello"}
+              {row.admin.name}
             </div>
           );
         },
       },
       {
         name: "Start Date",
-        selector: (row: any) => row.tickets_id,
+        selector: (row: any) => row.start_date,
         sortable: true,
       },
       {
         name: "Due Date",
-        selector: (row: any) => row.tickets_id,
+        selector: (row: any) => row.end_date,
         sortable: true,
       },
       {
         name: "Tasks",
-        selector: (row: any) => "4/5",
+        selector: (row: any) => {
+          const total = row.employee_assign.length;
+          return "0%";
+        },
         sortable: true,
       },
       {
@@ -104,6 +112,13 @@ const EmployeeAssignment = () => {
             title="row update"
             className="btn btn--light btn--icon btn--no-m-bottom text-success"
             onClick={() => {
+              dispatch(
+                setTaskUpdate({
+                  ticketId: row.id,
+                  startDate: row.start_date,
+                  dueDate: row.end_date,
+                })
+              );
               dispatch(setRightSidebar({ name: "task-update" }));
             }}
           >
@@ -117,6 +132,17 @@ const EmployeeAssignment = () => {
   );
 
   const { data, isFetching } = useQuery(["tasks", taskRedux.url], getUsersData);
+
+  useEffect(() => {
+    if (data) {
+      const filterData = data.data.filter((i: any) => {
+        if (i.admin) {
+          return true;
+        }
+      });
+      setTableTableData(filterData);
+    }
+  }, [data]);
 
   if (isFetching) {
     return (
@@ -162,16 +188,9 @@ const EmployeeAssignment = () => {
               animate={{ y: "0px", opacity: 1 }}
               className="admin-container__inner"
             >
-              {/* <Input
-                type="text"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={handleSearch}
-                className="search"
-              /> */}
               <DataTable
                 columns={columns}
-                data={data.data}
+                data={tableData}
                 responsive
                 pagination
                 theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}

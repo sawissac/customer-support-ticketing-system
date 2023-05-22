@@ -54,7 +54,7 @@ class EmployeeProjectController extends BaseController
         );
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
 
         $validated = $validator->validated();
@@ -83,7 +83,7 @@ class EmployeeProjectController extends BaseController
         $result = $this->employeeprojectRepo->show($id);
 
         if (is_null($result)) {
-            return $this->sendError('Project not found.');
+            return $this->sendError('Project not found.', [], 500);
         }
 
         return $this->sendResponse($result, 'EmployeeProject retrieved successfully.');
@@ -109,7 +109,7 @@ class EmployeeProjectController extends BaseController
         );
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
 
         $validated = $validator->validated();
