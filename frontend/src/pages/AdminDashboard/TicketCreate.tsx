@@ -140,7 +140,7 @@ const TicketCreate = () => {
                                 value: i.id,
                               });
                             }}
-                            label={`${i.project.name}:#${i.user.id}:@${email[0]}`.substring(0,35) + '...'}
+                            label={`${i.project.name}:#${i.user.id}:@${email[0]}`.substring(0, 35) + '...'}
                           />
                         );
                       })}
