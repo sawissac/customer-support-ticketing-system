@@ -109,7 +109,6 @@ const Task = () => {
                   ticketId: row.id,
                   startDate: row.start_date,
                   dueDate: row.end_date,
-                  subject: row.subject
                 })
               );
               dispatch(setTaskView({ name: "task-employee" }));
@@ -132,7 +131,6 @@ const Task = () => {
                   ticketId: row.id,
                   startDate: row.start_date,
                   dueDate: row.end_date,
-                  subject: row.subject
                 })
               );
               dispatch(setRightSidebar({ name: "task-update" }));
