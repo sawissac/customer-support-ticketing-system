@@ -23,6 +23,7 @@
     "react": "^18.2.0",
     "react-avatar": "^5.0.3",
     "react-data-table-component": "^7.5.3",
+    "react-datepicker": "^4.11.0",
     "react-dom": "^18.2.0",
     "react-loader-spinner": "^5.3.4",
     "react-paginate": "^8.2.0",
@@ -35,6 +36,7 @@
   "devDependencies": {
     "@types/debounce": "^1.2.1",
     "@types/react": "^18.0.28",
+    "@types/react-datepicker": "^4.11.2",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",

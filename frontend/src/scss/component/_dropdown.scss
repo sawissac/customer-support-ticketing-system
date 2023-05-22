@@ -74,6 +74,9 @@
   font-weight: $font-weight-bolder;
   padding: 0px map-get($spacers, 3);
   margin-bottom: map-get($spacers, 2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   &--search{
     width: 300px;
   }

@@ -41,10 +41,12 @@ export function updateTicket({
   customer_project_id,
   subject,
   description,
-  status,
   priority,
   drive_link,
+  status,
   token,
+  start_date,
+  end_date,
 }: any) {
   return new Promise((resolve, reject) => {
     axios
@@ -57,6 +59,8 @@ export function updateTicket({
           status,
           priority,
           drive_link,
+          start_date,
+          end_date,
         },
         {
           headers: {
@@ -64,6 +68,23 @@ export function updateTicket({
           },
         }
       )
+      .then(function (response) {
+        resolve(response.data);
+      })
+      .catch((reason) => {
+        reject(reason);
+      });
+  });
+}
+
+export function getAllTicket({ token }: any) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`http://127.0.0.1:8000/api/ticket`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then(function (response) {
         resolve(response.data);
       })

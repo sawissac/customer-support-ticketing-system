@@ -63,7 +63,7 @@ SideBar.Simplify = function (props: SideBarSimplify) {
       <SideBar.Link
         routeName={props.route + "/employee-assignment"}
         icon={<IconCalendarEvent />}
-        label="Assign"
+        label="Tasks"
       />
       <SideBar.Link
         routeName={props.route + "/users"}
@@ -78,7 +78,7 @@ SideBar.Simplify = function (props: SideBarSimplify) {
       <SideBar.Link
         routeName={props.route + "/report-history"}
         icon={<IconChartBar />}
-        label="Report"
+        label="Reports"
       />
     </div>
   );
