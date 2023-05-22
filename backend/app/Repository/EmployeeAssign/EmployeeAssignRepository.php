@@ -20,4 +20,11 @@ class EmployeeAssignRepository implements EmployeeAssignRepoInterface
 
         return $result;
     }
+
+    public function employeeByTicketID($id)
+    {
+        $data = EmployeeAssign::where('ticket_id', $id)->with('employee')->get();
+
+        return $data;
+    }
 }

@@ -89,4 +89,11 @@ class EmployeeAssignController extends BaseController
 
         return $this->sendResponse([],'Employee Assgin Delete successfully.', 204);
     }
+
+    public function ticket($id)
+    {
+        $data = $this->employeeAssignRepo->employeeByTicketID($id);
+
+        return $this->sendResponse($data, 'Ticket retrieved successfully.');
+    }
 }
