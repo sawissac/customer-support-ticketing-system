@@ -43,7 +43,7 @@ class CustomerProjectController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
 
         $validated = $validator->validated();
@@ -68,7 +68,7 @@ class CustomerProjectController extends BaseController
 
         if (is_null($data)) {
 
-            return $this->sendError('CustomerProject not found.');
+            return $this->sendError('CustomerProject not found.', [], 500);
         }
 
         return $this->sendResponse($data, 'CustomerProject Show successfully.');
@@ -84,7 +84,7 @@ class CustomerProjectController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
 
         $validated = $validator->validated();
