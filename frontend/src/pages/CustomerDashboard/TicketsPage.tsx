@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Nav from "../../components/Nav";
 import TicketList from "../../components/TicketList";
-import { IconChevronsLeft, IconMessage2, IconPlus } from "@tabler/icons-react";
+import {  IconMessage2, IconPlus } from "@tabler/icons-react";
 import Button from "../../components/Button";
 import ShowIf from "../../components/Helper";
 import TicketCreate from "./TicketCreate";
