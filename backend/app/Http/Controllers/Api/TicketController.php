@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
+
 use App\Service\Ticket\TicketServiceInterface;
 use App\Repository\Ticket\TicketRepositoryInterface;
 
@@ -28,11 +29,12 @@ class TicketController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $data = $this->ticketRepo->get($request);
+        $data = $this->ticketRepo->get();
 
         return $this->sendResponse($data, 'Tickets retrieved successfully.');
+
     }
 
     public function store(Request $request)
@@ -48,13 +50,14 @@ class TicketController extends BaseController
                 'status' => 'nullable',
                 'priority' => 'nullable',
                 'drive_link' => 'nullable',
+                'admin_id' => 'nullabe',
                 'start_date' => 'nullable',
                 'end_date' => 'nullable',
             ]
         );
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
 
         $data = $this->ticketService->store($validate);
@@ -62,6 +65,17 @@ class TicketController extends BaseController
         return $this->sendResponse($data, 'Ticket created successfully.', 201);
     }
 
+
+    public function show($id)
+    {
+        $result = $this->ticketRepo->show($id);
+
+        if (is_null($result)) {
+            return $this->sendError('Ticket not found.', [], 500);
+        }
+
+        return $this->sendResponse($result, 'Ticket retrieved successfully.');
+    }
 
     public function update(Request $request, $id)
     {
@@ -73,16 +87,17 @@ class TicketController extends BaseController
                 'customer_project_id' => 'required',
                 'subject' => 'required',
                 'description' => 'required',
+                'status' => 'required',
                 'priority' => 'nullable',
                 'drive_link' => 'nullable',
-                'status' => 'required',
+                'admin_id' => 'nullable',
                 'start_date' => 'nullable',
                 'end_date' => 'nullable',
             ]
         );
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+            return $this->sendError('Validation Error.', $validator->errors() ,422);
         }
 
         $data = $this->ticketService->update($id, $validate);
@@ -94,6 +109,6 @@ class TicketController extends BaseController
     {
         $this->ticketService->delete($id);
 
-        return $this->sendResponse([], 'Ticket deleted successfully.');
+        return $this->sendResponse([], 'Ticket deleted successfully.', 204);
     }
 }
