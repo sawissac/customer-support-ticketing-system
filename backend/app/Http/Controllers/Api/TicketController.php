@@ -34,6 +34,7 @@ class TicketController extends BaseController
         $data = $this->ticketRepo->get();
 
         return $this->sendResponse($data, 'Tickets retrieved successfully.');
+
     }
 
     public function store(Request $request)
@@ -49,7 +50,7 @@ class TicketController extends BaseController
                 'status' => 'nullable',
                 'priority' => 'nullable',
                 'drive_link' => 'nullable',
-                'admin_id' => 'nullable',
+                'admin_id' => 'nullabe',
                 'start_date' => 'nullable',
                 'end_date' => 'nullable',
             ]
@@ -96,7 +97,7 @@ class TicketController extends BaseController
         );
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors(), 422);
+            return $this->sendError('Validation Error.', $validator->errors() ,422);
         }
 
         $data = $this->ticketService->update($id, $validate);
