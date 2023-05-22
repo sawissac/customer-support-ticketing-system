@@ -7,6 +7,7 @@ import UserSidebarSlice from "./feature_slice/UserPageSlice";
 import ProjectSidebarSlice from "./feature_slice/ProjectPageSlice";
 import EmployeeProjectSlice from "./feature_slice/EmployeeProjectSlice";
 import TicketSlice from "./feature_slice/TicketSlice";
+import EmployeeAssignmentSlice from "./feature_slice/EmployeeAssignmentSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     projectSidebar: ProjectSidebarSlice,
     employeeProjectSidebar: EmployeeProjectSlice,
     ticket: TicketSlice,
+    tasks: EmployeeAssignmentSlice
   },
 });
 

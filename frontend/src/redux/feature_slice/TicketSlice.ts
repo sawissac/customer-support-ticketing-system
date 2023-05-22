@@ -20,7 +20,6 @@ const ticketSlice = createSlice({
       action: PayloadAction<{
         ticketId: number;
         employees: [];
-        time: string;
         userName: string;
         subject: string;
         description: string;
@@ -28,6 +27,10 @@ const ticketSlice = createSlice({
         customerProjectId: number;
         customerProjectName: string;
         priority: string;
+        status: string;
+        startDate: string;
+        endDate: string;
+        time: string;
       }>
     ) => {
       state = { ...state, ...action.payload };
