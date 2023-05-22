@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
+
 use App\Repository\EmployeeAssign\EmployeeAssignRepoInterface;
 use App\Service\EmployeeAssign\EmployeeAssignServiceInterface;
 
@@ -87,5 +88,12 @@ class EmployeeAssignController extends BaseController
         $data = $this->employeeAssignService->delete($id);
 
         return $this->sendResponse([],'Employee Assgin Delete successfully.', 204);
+    }
+
+    public function ticket($id)
+    {
+        $data = $this->employeeAssignRepo->employeeByTicketID($id);
+
+        return $this->sendResponse($data, 'Ticket retrieved successfully.');
     }
 }

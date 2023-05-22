@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\CustomerProject;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Api\BaseController;
-use App\Models\CustomerProject;
+
 use App\Repository\CustomerProject\CustomerProjectRepoInterface;
 use App\Service\CustomerProject\CustomerProjectServiceInterface;
 
@@ -123,6 +124,5 @@ class CustomerProjectController extends BaseController
         $data = $this->customerProjectRepo->projectByUserID($id);
 
         return $this->sendResponse($data, 'Project retrieved successfully.');
-
     }
 }
