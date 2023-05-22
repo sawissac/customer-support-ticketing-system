@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('employee_id');
             $table->foreignId('ticket_id');
             $table->string('status');
-            $table->string('task_name');
+            $table->string('task_name')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->timestamps();
