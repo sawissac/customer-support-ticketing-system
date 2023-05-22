@@ -7,11 +7,9 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-
 use App\Service\User\UserServiceInterface;
 use App\Http\Controllers\Api\BaseController;
 use App\Models\User;
-use Illuminate\Validation\ValidationException;
 use App\Repository\User\UserRepositoryInterface;
 
 class UserController extends BaseController
@@ -35,7 +33,6 @@ class UserController extends BaseController
         $data = $this->userRepo->get();
 
         return $this->sendResponse($data, 'User retrieved successfully.');
-
     }
 
     public function store(Request $request)
@@ -67,7 +64,7 @@ class UserController extends BaseController
         if (is_null($result)) {
             return $this->sendError('User not found.', [], 500);
         }
-        
+
         return $this->sendResponse($result, 'User retrieved successfully.');
     }
     public function update(Request $request, $id)
