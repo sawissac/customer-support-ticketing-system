@@ -32,7 +32,7 @@ const TicketView = () => {
           </fieldset>
         </div>
       </div>
-      <EmployeeSideBar view />
+      {/* <EmployeeSideBar view=/> */}
     </>
   );
 };

@@ -1,31 +1,35 @@
-import React from "react";
 import Nav from "../../components/Nav";
-import Input from "../../components/Input";
 import Button from "../../components/Button";
-import Dropdown from "../../components/DropDown";
-import { IconMenuOrder } from "@tabler/icons-react";
-import { userRoles } from "../../redux/variable/UserPageVariable";
+import Input from "../../components/Input";
+import FormWarper from "../../components/FormWarper";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { setTicketView, updateTicketUrl } from "../../redux/feature_slice/TicketSlice";
+import { motion } from "framer-motion";
+import Dropdown from "../../components/DropDown";
+import React, { useState } from "react";
+import { Priority } from "../../redux/variable/TicketVariable";
+import { getCustomerProject } from "../../requests/customerProjectsRequest";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
-import { createUser } from "../../requests/userRequest";
-import FormWarper from "../../components/FormWarper";
-import { openUserRightSidebar, updateUserTableUrl } from "../../redux/feature_slice/UserPageSlice";
-import { motion } from "framer-motion";
+import { createTicket } from "../../requests/ticketRequest";
 
-const UserCreatePage = () => {
+const TicketCreate = () => {
   const dispatch = useAppDispatch();
-  const authRedux = useAppSelector((state) => state.auth);
-  const [dropdownBox, setDropDownBox] = React.useState({
-    name: "Role",
-    value: "",
+  const authRedux = useAppSelector((s) => s.auth);
+  const [inputField, setInputField] = useState({
+    subject: "",
+    description: "",
+    drive_link: "",
   });
+  const [projectList, setProjectList] = React.useState([]);
 
-  const [inputField, setInputField] = React.useState({
-    name: "",
-    email: "",
-    password: "",
-    password_confirmation: "",
+  const [projectDropDown, setProjectDropDown] = React.useState({
+    name: "Select",
+    value: 0,
+  });
+  const [priorityDropDown, setPriorityDropDown] = React.useState({
+    name: "Select",
+    value: "",
   });
 
   function onChangeHandler(ev: React.ChangeEvent<HTMLInputElement>) {
@@ -35,10 +39,12 @@ const UserCreatePage = () => {
     });
   }
 
-  function onButtonSubmitHandle() {
+  function onSubmitHandler() {
     const isEmpty =
-      Object.values(inputField).filter((i) => i === "").length > 0 ||
-      dropdownBox.value === "";
+      inputField.subject.length === 0 ||
+      inputField.description.length === 0 ||
+      projectDropDown.value === 0 ||
+      priorityDropDown.value.length === 0;
     if (isEmpty) {
       dispatch(
         setAlert({
@@ -46,139 +52,172 @@ const UserCreatePage = () => {
           state: Alert.Warning,
         })
       );
-    } else if (inputField.password !== inputField.password_confirmation) {
-      dispatch(
-        setAlert({
-          message: "Please write correct password confirmation",
-          state: Alert.Warning,
-        })
-      );
     } else {
-      createUser({
+      createTicket({
         ...inputField,
-        role: dropdownBox.value,
+        customer_project_id: projectDropDown.value,
+        priority: priorityDropDown.value,
         token: authRedux.token,
       })
         .then(() => {
-          dispatch(
-            updateUserTableUrl({
-              message: inputField.name + inputField.email + dropdownBox.name,
-            })
-          );
           dispatch(
             setAlert({
               message: "Created Successfully",
               state: Alert.Success,
             })
           );
-        })
-        .catch((reason) => {
           dispatch(
-            setAlert({
-              message: "Fail to create",
-              state: Alert.Warning,
+            updateTicketUrl({
+              name: `updated:${Date()}`
             })
-          );
+          )
+          dispatch(setTicketView({ name: "" }));
+        })
+        .catch(() => {
+          setAlert({
+            message: "Fail to create...",
+            state: Alert.Warning,
+          });
         });
     }
   }
-  return (
-    <div
-      className="admin-container admin-container--no-flex-grow admin-container--form">
-      <Nav.BackButton
-        label="User Create"
-        onClick={() => {
-          dispatch(openUserRightSidebar({ name: "" }));
-        }}
-      />
-      <motion.div
-        initial={{ x: "20px", opacity: 0 }}
-        animate={{ x: "0px", opacity: 1 }}
-      >
-        <FormWarper route="/api/user">
-          <Input
-            label="Name"
-            type="text"
-            id="name"
-            errorMessage="*require"
-            placeholder="Name..."
-            required
-            autoComplete="off"
-            onChange={onChangeHandler}
-          />
-          <Input
-            label="Email"
-            type="email"
-            id="email"
-            errorMessage="*require"
-            placeholder="Email.."
-            required
-            autoComplete="off"
-            onChange={onChangeHandler}
-          />
-          <div className="form-dropdown-label">
-            <label htmlFor="">Role</label>
-            <span>*require</span>
-          </div>
-          <Dropdown
-            placement="bottom"
-            buttonClassName="form-dropdown-btn"
-            buttonChildren={
-              <>
-                {dropdownBox.name} <IconMenuOrder size={20} />
-              </>
-            }
-            dropdownClassName="form-dropdown"
-            dropdownChildren={
-              <>
-                {Object.keys(userRoles).map((role: string) => {
-                  return (
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        setDropDownBox({
-                          name: role,
-                          value: userRoles[role],
-                        });
-                      }}
-                      label={role}
-                    />
-                  );
-                })}
-              </>
-            }
-          />
-          <Input
-            label="Password"
-            type="password"
-            id="password"
-            errorMessage="*require"
-            placeholder="Password..."
-            required
-            autoComplete="off"
-            onChange={onChangeHandler}
-          />
-          <Input
-            label="Comfirm Password"
-            type="password"
-            id="password_confirmation"
-            errorMessage="*require"
-            placeholder="Comfirm Password..."
-            required
-            autoComplete="off"
-            onChange={onChangeHandler}
-          />
+  React.useState(() => {
+    getCustomerProject({ token: authRedux.token }).then((res: any) => {
+      const temp:any = [];
+      const filteredData = res.data.filter((project: any)=>{
+        if(!temp.includes(project.project_id)){
+          temp.push(project.project_id);
+          return true;
+        }else{
+          return false;
+        }
+      });
+      setProjectList(filteredData);
+    });
+  });
 
-          <Button
-            type="button"
-            label="Create"
-            className="btn btn--form"
-            onClick={onButtonSubmitHandle}
-          />
+  return (
+    <>
+      <div className="admin-container admin-container--textarea">
+        <Nav.BackButton
+          label="Ticket Create"
+          onClick={() => {
+            dispatch(setTicketView({ name: "" }));
+          }}
+        />
+        <FormWarper route="/api/ticket">
+          <motion.div
+            initial={{ y: "30px", opacity: 0 }}
+            animate={{ y: "0px", opacity: 1 }}
+          >
+            <div className="row row--gap-1">
+              <div className="col-12"> 
+                <Input
+                  label="Subject"
+                  errorMessage="*require"
+                  placeholder="Name..."
+                  id="subject"
+                  value={inputField.subject}
+                  onChange={onChangeHandler}
+                />
+              </div>
+              <div className="col-6">
+                <div className="form-dropdown-label">
+                  <label htmlFor="">Project</label>
+                  <span>*require</span>
+                </div>
+                <Dropdown
+                  placement="bottom"
+                  buttonClassName="form-dropdown-btn"
+                  offset={[0, 0]}
+                  buttonChildren={<>{projectDropDown.name}</>}
+                  dropdownClassName="form-dropdown"
+                  width="200px"
+                  dropdownChildren={
+                    <>
+                      {projectList.map((i: any) => {
+                        return (
+                          <Button
+                            type="button"
+                            onClick={() => {
+                              setProjectDropDown({
+                                name: i.project.name,
+                                value: i.project.id,
+                              });
+                            }}
+                            label={i.project.name}
+                          />
+                        );
+                      })}
+                    </>
+                  }
+                />
+              </div>
+              <div className="col-6">
+                <div className="form-dropdown-label">
+                  <label htmlFor="">Priority</label>
+                  <span>*require</span>
+                </div>
+                <Dropdown
+                  placement="bottom"
+                  buttonClassName="form-dropdown-btn"
+                  offset={[0, 0]}
+                  buttonChildren={<>{priorityDropDown.name}</>}
+                  dropdownClassName="form-dropdown"
+                  width={"200px"}
+                  dropdownChildren={
+                    <>
+                      {Object.keys(Priority).map((priority: string) => {
+                        return (
+                          <Button
+                            type="button"
+                            onClick={() => {
+                              setPriorityDropDown({
+                                name: priority,
+                                value: Priority[priority],
+                              });
+                            }}
+                            label={priority}
+                          />
+                        );
+                      })}
+                    </>
+                  }
+                />
+              </div>
+              <div className="col-12">
+                <Input
+                  label="Google Drive Link"
+                  errorMessage="*optional"
+                  placeholder="https://drive.google.com/file/.."
+                  id="drive_link"
+                  value={inputField.drive_link}
+                  onChange={onChangeHandler}
+                />
+              </div>
+            </div>
+
+            <Input.Textarea
+              label="Description"
+              errorMessage="*require"
+              placeholder="Name..."
+              id="description"
+              value={inputField.description}
+              onChangeText={(ev: any) => {
+                setInputField({ ...inputField, description: ev.target.value });
+              }}
+            />
+            <Button
+              type="button"
+              label="Create Ticket"
+              className="btn btn--form"
+              onClick={onSubmitHandler}
+            />
+          </motion.div>
         </FormWarper>
-      </motion.div>
-    </div>
+      </div>
+    </>
   );
 };
 
-export default UserCreatePage;
+export default TicketCreate;
