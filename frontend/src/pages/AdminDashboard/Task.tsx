@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Nav from "../../components/Nav";
-import { IconCalendarEvent, IconEdit, IconPlus, IconUser } from "@tabler/icons-react";
+import { IconCalendarEvent, IconEdit, IconPlus, IconSettingsCheck, IconUser } from "@tabler/icons-react";
 import Button from "../../components/Button";
 import ShowIf from "../../components/Helper";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
@@ -21,6 +21,8 @@ import { Theme } from "../../redux/variable/ThemeVariable";
 import Avatar from "react-avatar";
 import TaskUpdate from "./TaskUpdate";
 import EmployeeAssign from "./EmployeeAssign";
+import Model from 'react-modal';
+
 dayjs.extend(relativeTime);
 
 const Task = () => {
@@ -29,6 +31,7 @@ const Task = () => {
   const taskRedux = useAppSelector((state) => state.tasks);
   const themeRedux = useAppSelector((state) => state.theme);
   const [tableData, setTableTableData] = useState([]);
+  const [modelOpen, setModleOpen] = useState(false);
 
   const url = "http://127.0.0.1:8000/api/ticket";
   const getUsersData = async () => {
@@ -43,18 +46,22 @@ const Task = () => {
       });
     return res;
   };
-
+  function compareDate(first: any, second: any) {
+    return dayjs(first).isSame(dayjs(second));
+  }
   const columns = useMemo(
     () => [
       {
         name: "Ticket Subject",
         selector: (row: any) => row.subject,
         sortable: true,
+        width: "150px",
       },
       {
         name: "Ticket ID",
         selector: (row: any) => row.tickets_id,
         sortable: true,
+        width: "150px",
       },
       {
         name: "Admin Name",
@@ -73,24 +80,55 @@ const Task = () => {
             </div>
           );
         },
+        width: "150px",
       },
       {
         name: "Start Date",
-        selector: (row: any) => row.start_date,
+        selector: (row: any) => {
+          return compareDate(row.start_date, row.end_date) ? "--" : row.start_date;
+        },
         sortable: true,
+        width: "150px",
       },
       {
         name: "Due Date",
-        selector: (row: any) => row.end_date,
-        sortable: true,
-      },
-      {
-        name: "Tasks",
         selector: (row: any) => {
-          const total = row.employee_assign.length;
-          return "0%";
+          return compareDate(row.start_date, row.end_date) ? "--" : row.end_date;
         },
         sortable: true,
+        width: "150px",
+      },
+      {
+        name: "Tasks processing",
+        selector: (row: any) => {
+          const total = row.employee_assign.length;
+          let calculated = row.employee_assign.filter((employee: any) => {
+            if (employee.status === "processing") {
+              return true;
+            }
+          });
+          calculated = (calculated.length / total) * 100;
+
+          return total === 0 ? "0%" : Math.round(calculated) + "%";
+        },
+        sortable: true,
+        width: "180px",
+      },
+      {
+        name: "Tasks Done",
+        selector: (row: any) => {
+          const total = row.employee_assign.length;
+          let calculated = row.employee_assign.filter((employee: any) => {
+            if (employee.status === "done") {
+              return true;
+            }
+          });
+          calculated = (calculated.length / total) * 100;
+
+          return total === 0 ? "0%" : Math.round(calculated) + "%";
+        },
+        sortable: true,
+        width: "150px",
       },
       {
         name: "Status",
@@ -109,9 +147,11 @@ const Task = () => {
                   ticketId: row.id,
                   startDate: row.start_date,
                   dueDate: row.end_date,
+                  subject: row.subject,
                 })
               );
               dispatch(setTaskView({ name: "task-employee" }));
+              dispatch(setRightSidebar({ name: "" }));
             }}
           >
             <IconUser size={25} />
@@ -131,12 +171,28 @@ const Task = () => {
                   ticketId: row.id,
                   startDate: row.start_date,
                   dueDate: row.end_date,
+                  subject: row.subject,
                 })
               );
               dispatch(setRightSidebar({ name: "task-update" }));
             }}
           >
             <IconEdit size={25} />
+          </button>
+        ),
+        button: true,
+      },
+      {
+        name: "Update",
+        cell: (row: any) => (
+          <button
+            title="row update"
+            className="btn btn--light btn--icon btn--no-m-bottom"
+            onClick={() => {
+              
+            }}
+          >
+            <IconSettingsCheck size={25} />
           </button>
         ),
         button: true,
@@ -229,6 +285,11 @@ const Task = () => {
         sif={taskRedux.rightSideBar === "task-update"}
         show={<TaskUpdate />}
       />
+      {/* <Model 
+        is
+      >
+
+      </Model> */}
     </>
   );
 };

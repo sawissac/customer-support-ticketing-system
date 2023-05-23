@@ -18,7 +18,7 @@
   white-space: nowrap; /* Prevent line breaks */
   overflow: hidden; /* Hide the overflowing text */
   text-overflow: ellipsis;
-  
+
   &--no-m-bottom {
     margin-bottom: 0;
   }
@@ -65,5 +65,22 @@
   }
   &--sm {
     padding: map-get($spacers, 1);
+  }
+}
+
+.status-btn-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap; /* Prevent line breaks */
+  overflow: hidden; /* Hide the overflowing text */
+  white-space: pre-wrap;
+  width: 300px;
+  button {
+    @include interactive('gray');
+    flex:1;
+    padding: map-get($spacers, 2);
+    border-color: transparent;
+    outline-color: transparent;
   }
 }

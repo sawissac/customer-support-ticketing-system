@@ -66,7 +66,7 @@ const LoginPage = () => {
     if (authRedux.auth === true) {
       if (authRedux.role === AuthRole.ADMIN) navigate("/admin-dashboard/tickets");
       if (authRedux.role === AuthRole.EMPLOYEE) navigate("/employee-dashboard");
-      if (authRedux.role === AuthRole.CUSTOMER) navigate("/customer-dashboard");
+      if (authRedux.role === AuthRole.CUSTOMER) navigate("/customer-dashboard/tickets");
     }
   }, [authRedux.auth]);
 
