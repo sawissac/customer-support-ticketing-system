@@ -20,7 +20,6 @@ class ProjectFactory extends Factory
         return [
             'project_id' => Str::random(3) . mt_rand(10000, 99999),
             'name' => $this->faker->sentence(2),
-
         ];
     }
 }

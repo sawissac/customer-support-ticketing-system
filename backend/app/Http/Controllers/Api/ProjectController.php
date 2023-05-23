@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProjectRequest;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
-
-use App\Repository\Project\ProjectRepositoryInterface;
 use App\Service\Project\ProjectServiceInterface;
+use App\Repository\Project\ProjectRepositoryInterface;
 
 class ProjectController extends BaseController
 {
@@ -35,7 +36,6 @@ class ProjectController extends BaseController
         $data = $this->projectRepo->get();
 
         return $this->sendResponse($data, 'Projects retrieved successfully.');
-
     }
 
     /**
@@ -46,23 +46,32 @@ class ProjectController extends BaseController
      */
     public function store(Request $request)
     {
+
         $validate = $request->all();
 
-        $validator = Validator::make(
-            $validate,
-            [
-                'project_id' => 'string',
-                'name' => 'required|string',
-            ]
-        );
+        try {
 
-        if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors(), 422);
+            $data = $this->projectServcie->store($validate);
+
+            $validator = Validator::make(
+                $validate,
+                [
+                    'project_id' => 'string',
+                    'name' => 'required|string',
+                ]
+            );
+
+            if ($validator->fails()) {
+                return $this->sendError('Validation Error.', $validator->errors(), 422);
+            }
+
+            return $this->sendResponse($data, 'Project created successfully.', 201);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e,
+            ], 500);
         }
-
-        $data = $this->projectServcie->store($validate);
-
-        return $this->sendResponse($data, 'Project created successfully.', 201);
     }
 
     /**
@@ -73,13 +82,21 @@ class ProjectController extends BaseController
      */
     public function show($id)
     {
-        $result = $this->projectRepo->show($id);
+        try {
+            $result = $this->projectRepo->show($id);
 
-        if (is_null($result)) {
-            return $this->sendError('Project not found.', [], 500);
+            if (is_null($result)) {
+                return $this->sendError('Project not found.', [], 500);
+            }
+
+            return $this->sendResponse($result, 'Project retrieved successfully.');
+
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e,
+            ], 500);
         }
-
-        return $this->sendResponse($result, 'Project retrieved successfully.');
     }
 
     /**
@@ -93,21 +110,29 @@ class ProjectController extends BaseController
     {
         $validate = $request->all();
 
-        $validator = Validator::make(
-            $validate,
-            [
-                'project_id' => 'string',
-                'name' => 'required|string',
-            ]
-        );
+        try {
 
-        if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors(), 422);
+            $data = $this->projectServcie->update($id, $validate);
+
+            $validator = Validator::make(
+                $validate, 
+                [
+                    'project_id' => 'string',
+                    'name' => 'required|string',
+                ]
+            );
+
+            if ($validator->fails()) {
+                return $this->sendError('Validation Error.', $validator->errors(), 422);
+            }
+
+            return $this->sendResponse($data, 'Project updated successfully.');
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e,
+            ], 500);
         }
-
-        $data = $this->projectServcie->update($id, $validate);
-
-        return $this->sendResponse($data, 'Project updated successfully.');
     }
 
     /**
