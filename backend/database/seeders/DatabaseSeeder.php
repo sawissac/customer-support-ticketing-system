@@ -6,7 +6,6 @@ namespace Database\Seeders;
 
 use App\Models\Ticket;
 use App\Models\Project;
-use App\Models\EmployeeAssign;
 use App\Models\CustomerProject;
 use App\Models\EmployeeProject;
 use Illuminate\Database\Seeder;
@@ -27,7 +26,6 @@ class DatabaseSeeder extends Seeder
         CustomerProject::factory()->count(10)->create();
         Ticket::factory()->count(10)->create();
         EmployeeProject::factory()->count(10)->create();
-        EmployeeAssign::factory()->count(10)->create();
 
     }
 }
