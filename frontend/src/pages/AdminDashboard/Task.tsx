@@ -90,7 +90,7 @@ const Task = () => {
             <div className="avatar-profile">
               <Avatar
                 className={`avatar-profile__circle`}
-                name={"hello"}
+                name={row.admin.name}
                 color={"#F37021"}
                 size="30"
                 textSizeRatio={2}
