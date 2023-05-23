@@ -26,3 +26,13 @@
     background-color: $warning;
   }
 }
+
+.alert-bar{
+  background-color: $primary;
+  padding: map-get($spacers, 3);
+  text-align: center;
+  font-family: $font-family-roboto;
+  font-size: $h6-font-size;
+  font-weight: $font-weight-normal;
+  color: $white;
+}
