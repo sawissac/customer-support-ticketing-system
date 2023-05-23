@@ -9,7 +9,7 @@ class ProjectService implements ProjectServiceInterface
 {
     public function store($data)
     {
-        $project_id = Str::random(3) . mt_rand(10000, 99999);
+        $project_id = Str::lower(Str::random(3)) . mt_rand(1000, 9999);
 
         $data['project_id'] = $project_id;
 

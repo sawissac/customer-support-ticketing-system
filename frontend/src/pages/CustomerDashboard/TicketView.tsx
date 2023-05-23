@@ -1,7 +1,4 @@
-import React, { useState } from "react";
 import Nav from "../../components/Nav";
-import { IconMessage2 } from "@tabler/icons-react";
-import EmployeeSideBar from "../../components/EmployeeSideBar";
 import Message from "../../components/Message";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { setTicketView } from "../../redux/feature_slice/TicketSlice";
@@ -32,7 +29,6 @@ const TicketView = () => {
           </fieldset>
         </div>
       </div>
-      <EmployeeSideBar customer employee={ticketRedux.employees} view />
     </>
   );
 };

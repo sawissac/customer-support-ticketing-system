@@ -38,8 +38,13 @@ class EmployeeAssignController extends BaseController
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'user_id' => 'required',
-            'tickets_id' => 'required'
+            'project_id' => 'required',
+            'employee_id' => 'required',
+            'ticket_id' => 'required',
+            'status' => 'required',
+            'task_name' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -70,8 +75,10 @@ class EmployeeAssignController extends BaseController
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'user_id' => 'required',
-            'tickets_id' => 'required'
+            'employee_id' => 'required',
+            'ticket_id' => 'required',
+            'status' => 'required|string',
+            'task_name' => 'required',
         ]);
 
         if ($validator->fails()) {

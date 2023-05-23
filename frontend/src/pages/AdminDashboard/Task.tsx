@@ -1,6 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import Nav from "../../components/Nav";
-import { IconCalendarEvent, IconEdit, IconPlus, IconUser } from "@tabler/icons-react";
+import {
+  IconCalendarEvent,
+  IconEdit,
+  IconFolderPause,
+  IconPlus,
+  IconSettingsCheck,
+  IconUser,
+} from "@tabler/icons-react";
 import Button from "../../components/Button";
 import ShowIf from "../../components/Helper";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
@@ -13,6 +20,7 @@ import {
   setRightSidebar,
   setTaskUpdate,
   setTaskView,
+  updateTaskUrl,
 } from "../../redux/feature_slice/EmployeeAssignmentSlice";
 import TaskCreate from "./TaskCreate";
 import { motion } from "framer-motion";
@@ -21,6 +29,12 @@ import { Theme } from "../../redux/variable/ThemeVariable";
 import Avatar from "react-avatar";
 import TaskUpdate from "./TaskUpdate";
 import EmployeeAssign from "./EmployeeAssign";
+import { Modal } from "react-responsive-modal";
+import "react-responsive-modal/styles.css";
+import { updateTicket } from "../../requests/ticketRequest";
+import { setAlert } from "../../redux/feature_slice/AlertSlice";
+import { Alert } from "../../redux/variable/AlertVariable";
+
 dayjs.extend(relativeTime);
 
 const Task = () => {
@@ -29,6 +43,13 @@ const Task = () => {
   const taskRedux = useAppSelector((state) => state.tasks);
   const themeRedux = useAppSelector((state) => state.theme);
   const [tableData, setTableTableData] = useState([]);
+  const [modelOpen, setModalOpen] = useState(false);
+  const [processType, setProcessType] = useState<any>({
+    name: "",
+    data: {},
+    status: false,
+    description: "",
+  });
 
   const url = "http://127.0.0.1:8000/api/ticket";
   const getUsersData = async () => {
@@ -44,17 +65,23 @@ const Task = () => {
     return res;
   };
 
+  function compareDate(first: any, second: any) {
+    return dayjs(first).isSame(dayjs(second));
+  }
+
   const columns = useMemo(
     () => [
       {
         name: "Ticket Subject",
         selector: (row: any) => row.subject,
         sortable: true,
+        width: "300px",
       },
       {
         name: "Ticket ID",
         selector: (row: any) => row.tickets_id,
         sortable: true,
+        width: "150px",
       },
       {
         name: "Admin Name",
@@ -73,28 +100,59 @@ const Task = () => {
             </div>
           );
         },
+        width: "150px",
       },
       {
         name: "Start Date",
-        selector: (row: any) => row.start_date,
+        selector: (row: any) => {
+          return compareDate(row.start_date, row.end_date) ? "--" : row.start_date;
+        },
         sortable: true,
+        width: "150px",
       },
       {
         name: "Due Date",
-        selector: (row: any) => row.end_date,
-        sortable: true,
-      },
-      {
-        name: "Tasks",
         selector: (row: any) => {
-          const total = row.employee_assign.length;
-          return "0%";
+          return compareDate(row.start_date, row.end_date) ? "--" : row.end_date;
         },
         sortable: true,
+        width: "150px",
+      },
+      {
+        name: "Tasks processing",
+        selector: (row: any) => {
+          const total = row.employee_assign.length;
+          let calculated = row.employee_assign.filter((employee: any) => {
+            if (employee.status === "processing") {
+              return true;
+            }
+          });
+          calculated = (calculated.length / total) * 100;
+
+          return total === 0 ? "0%" : Math.round(calculated) + "%";
+        },
+        sortable: true,
+        width: "180px",
+      },
+      {
+        name: "Tasks Done",
+        selector: (row: any) => {
+          const total = row.employee_assign.length;
+          let calculated = row.employee_assign.filter((employee: any) => {
+            if (employee.status === "done") {
+              return true;
+            }
+          });
+          calculated = (calculated.length / total) * 100;
+
+          return total === 0 ? "0%" : Math.round(calculated) + "%";
+        },
+        sortable: true,
+        width: "150px",
       },
       {
         name: "Status",
-        selector: (row: any) => "processing",
+        selector: (row: any) => row.status,
         sortable: true,
       },
       {
@@ -106,12 +164,15 @@ const Task = () => {
             onClick={() => {
               dispatch(
                 setTaskUpdate({
+                  projectId: row.customer_project.project_id,
                   ticketId: row.id,
                   startDate: row.start_date,
                   dueDate: row.end_date,
+                  subject: row.subject,
                 })
               );
               dispatch(setTaskView({ name: "task-employee" }));
+              dispatch(setRightSidebar({ name: "" }));
             }}
           >
             <IconUser size={25} />
@@ -128,15 +189,92 @@ const Task = () => {
             onClick={() => {
               dispatch(
                 setTaskUpdate({
+                  projectId: row.customer_project.project_id,
                   ticketId: row.id,
                   startDate: row.start_date,
                   dueDate: row.end_date,
+                  subject: row.subject,
                 })
               );
               dispatch(setRightSidebar({ name: "task-update" }));
             }}
           >
             <IconEdit size={25} />
+          </button>
+        ),
+        button: true,
+      },
+      {
+        name: "Fix Complete",
+        cell: (row: any) => (
+          <button
+            title="row update"
+            className="btn btn--light btn--icon btn--no-m-bottom"
+            onClick={() => {
+              const total = row.employee_assign.length;
+              let calculated = row.employee_assign.filter((employee: any) => {
+                if (employee.status === "done") {
+                  return true;
+                }
+              });
+              calculated = (calculated.length / total) * 100;
+
+              setModalOpen(true);
+
+              if (calculated !== 100) {
+                setProcessType({
+                  name: "fix",
+                  data: {},
+                  description:
+                    "Can't change status due to task progress state don't match requirement",
+                  status: false,
+                });
+              } else {
+                setProcessType({
+                  name: "fix",
+                  data: row,
+                  description:
+                    "Your Task Progress has been reached 100%. Do you want to change to Fix status.",
+                  status: true,
+                });
+              }
+            }}
+          >
+            <IconSettingsCheck size={25} />
+          </button>
+        ),
+        button: true,
+      },
+      {
+        name: "Close",
+        cell: (row: any) => (
+          <button
+            title="row update"
+            className="btn btn--light btn--icon btn--no-m-bottom"
+            onClick={() => {
+              setModalOpen(true);
+
+              if (row.status !== "confirm") {
+                setProcessType({
+                  name: "close",
+                  data: {},
+                  description:
+                    "The Customer hasn't confirm his or her app bug fixed, please wait until the customer change the status to complete",
+                  status: false,
+                });
+              }
+              if (row.status === "confirm") {
+                setProcessType({
+                  name: "close",
+                  data: row,
+                  description:
+                    "The customer has satisfy with the bug fix, are you sure want to close the ticket ",
+                  status: true,
+                });
+              }
+            }}
+          >
+            <IconFolderPause size={25} />
           </button>
         ),
         button: true,
@@ -229,6 +367,44 @@ const Task = () => {
         sif={taskRedux.rightSideBar === "task-update"}
         show={<TaskUpdate />}
       />
+      <Modal
+        onClose={() => {
+          setModalOpen(false);
+        }}
+        center
+        open={modelOpen}
+        animationDuration={0}
+      >
+        <div className="modal">
+          <div className="modal__title">
+            {processType.name === "fix" ? "Fix Confirmation" : "Close Confirmation"}
+          </div>
+          <div className="modal__desc">{processType.description}</div>
+          {processType.status && processType.name === "fix" && (
+            <Button
+              className="btn btn--light btn--no-m-bottom"
+              label="Change to Fixed Status"
+              onClick={() => {
+                updateTicket({
+                  ...processType.data,
+                  ticketId: processType.data.id,
+                  status: processType.name === "fix" ? "fixed" : "close",
+                  token: authRedux.token,
+                }).then(() => {
+                  dispatch(
+                    setAlert({
+                      message: "Created Successfully",
+                      state: Alert.Success,
+                    })
+                  );
+                  dispatch(updateTaskUrl({ name: `updated: ${Date()}` }));
+                  setModalOpen(false);
+                });
+              }}
+            />
+          )}
+        </div>
+      </Modal>
     </>
   );
 };
