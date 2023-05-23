@@ -34,38 +34,9 @@ import {
 } from "../../redux/feature_slice/EmployeeAssignmentSlice";
 import ShowIf from "../../components/Helper";
 import EmployeeAssignCreate from "./EmployeeAssignCreate";
-import { getAllEmployee } from "../../requests/userRequest";
-import Dropdown from "../../components/DropDown";
-import EmployeeProjectsUpdate from "./EmployeeProjectsUpdate";
 import EmployeeAssignUpdate from "./EmployeeAssignUpdate";
 import { updateEmployeeAssign } from "../../requests/employeeAssignRequest";
 import dayjs from "dayjs";
-
-createTheme(
-  "table-dark",
-  {
-    text: {
-      primary: "white",
-      secondary: "white",
-    },
-    background: {
-      default: "#313338",
-    },
-    context: {
-      background: "#cb4b16",
-      text: "#FFFFFF",
-    },
-    divider: {
-      default: "white",
-    },
-    action: {
-      button: "rgba(0,0,0,.54)",
-      hover: "rgba(0,0,0,.08)",
-      disabled: "rgba(0,0,0,.12)",
-    },
-  },
-  "dark"
-);
 
 const EmployeeAssign = () => {
   const dispatch = useAppDispatch();
@@ -73,11 +44,12 @@ const EmployeeAssign = () => {
   const themeRedux = useAppSelector((state) => state.theme);
   const taskRedux = useAppSelector((state) => state.tasks);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
   const [dataList, setDataList] = useState([]);
+
   function compareDate(first: any, second: any) {
     return dayjs(first).isSame(dayjs(second));
   }
+
   const columns = useMemo(
     () => [
       {
@@ -259,10 +231,7 @@ const EmployeeAssign = () => {
   if (error) return <p>"An error has occurs"</p>;
 
   const debouncedSearch = debounce((value: any) => {
-    const filtered = data.filter((item: any) => {
-      return item.user.name.toLowerCase().includes(value.toLowerCase());
-    });
-    setFilteredData(filtered);
+    
   }, 1000);
 
   const handleSearch = (event: any) => {

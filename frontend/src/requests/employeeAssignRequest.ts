@@ -8,6 +8,7 @@ export function createEmployeeAssign({
   start_date,
   end_date,
   token,
+  project_id,
 }: any) {
   return new Promise((resolve, reject) => {
     axios
@@ -20,6 +21,7 @@ export function createEmployeeAssign({
           task_name,
           start_date,
           end_date,
+          project_id
         },
         {
           headers: {

@@ -27,6 +27,7 @@ const employeeProjectSlice = createSlice({
       state,
       action: PayloadAction<{
         ticketId: number;
+        projectId:number;
         subject: string;
         startDate: string;
         dueDate: string;
