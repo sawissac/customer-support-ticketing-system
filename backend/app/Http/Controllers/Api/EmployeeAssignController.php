@@ -42,8 +42,8 @@ class EmployeeAssignController extends BaseController
             'ticket_id' => 'required',
             'status' => 'required|string',
             'task_name' => 'required',
-            'start_date' => 'nullable',
-            'end_date' => 'nullable',
+            'start_date' => 'required',
+            'end_date' => 'required',
         ]);
 
         if ($validator->fails()) {
