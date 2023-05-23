@@ -3,11 +3,24 @@
 namespace App\Service\EmployeeAssign;
 
 use App\Models\EmployeeAssign;
+use App\Models\EmployeeProject;
 
 class EmployeeAssignService implements EmployeeAssignServiceInterface
 {
     public function store($data)
     {
+
+        $existingData = EmployeeProject::where('project_id', $data['project_id'])
+            ->where('user_id', $data['employee_id'])
+            ->first();
+
+        if (!$existingData) {
+            return EmployeeProject::create([
+                'project_id' => $data['project_id'],
+                'user_id' => $data['employee_id'],
+            ]);
+        }
+
         return EmployeeAssign::create($data);
     }
 
