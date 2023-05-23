@@ -68,8 +68,8 @@ const Users = () => {
             row.roles[0].name === "admin" || row.roles[0].name === "employee"
               ? "#F37021"
               : row.roles[0].name === "customer"
-              ? "#0d6efd"
-              : "#495057";
+                ? "#0d6efd"
+                : "#495057";
 
           return (
             <div className="avatar-profile">
@@ -243,7 +243,7 @@ const Users = () => {
                   >
                     See all
                   </button>
-                  {Object.keys(userRoles).map((i: any,index:number) => {
+                  {Object.keys(userRoles).map((i: any, index: number) => {
                     return (
                       <button
                         key={index}
