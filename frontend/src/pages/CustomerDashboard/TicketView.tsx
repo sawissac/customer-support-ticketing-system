@@ -23,7 +23,6 @@ const TicketView = () => {
           <fieldset className="fieldset-timer">
             <legend className="legend-timer">{ticketRedux.time}</legend>
             <div>
-              <Button type="button" label="confirm" className="btn"/>
             </div>
             <Message
               userName={ticketRedux.userName}

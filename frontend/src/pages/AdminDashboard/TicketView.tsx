@@ -19,6 +19,7 @@ const TicketView = () => {
         <div className="admin-container__inner">
           <fieldset className="fieldset-timer">
             <legend className="legend-timer">{ticketRedux.time}</legend>
+
             <Message
               userName={ticketRedux.userName}
               description={ticketRedux.description}
