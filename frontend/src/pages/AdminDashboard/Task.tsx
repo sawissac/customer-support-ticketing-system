@@ -164,6 +164,7 @@ const Task = () => {
             onClick={() => {
               dispatch(
                 setTaskUpdate({
+                  projectId: row.customer_project.project_id,
                   ticketId: row.id,
                   startDate: row.start_date,
                   dueDate: row.end_date,
@@ -188,6 +189,7 @@ const Task = () => {
             onClick={() => {
               dispatch(
                 setTaskUpdate({
+                  projectId: row.customer_project.project_id,
                   ticketId: row.id,
                   startDate: row.start_date,
                   dueDate: row.end_date,

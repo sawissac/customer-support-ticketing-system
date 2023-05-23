@@ -78,6 +78,7 @@ const EmployeeAssignCreate = () => {
       createEmployeeAssign({
         employee_id: dropdownEmployee.value,
         ticket_id: taskRedux.ticketId,
+        project_id: taskRedux.projectId,
         status: "open",
         task_name: inputField.task,
         start_date: formatDateTime(startDate),
