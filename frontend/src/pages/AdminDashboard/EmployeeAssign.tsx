@@ -1,7 +1,14 @@
 import React, { useMemo, useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
-import { IconArrowLeft, IconEdit, IconMenuOrder } from "@tabler/icons-react";
+import {
+  IconArrowLeft,
+  IconCalendarCheck,
+  IconCalendarEvent,
+  IconCalendarStats,
+  IconEdit,
+  IconMenuOrder,
+} from "@tabler/icons-react";
 import { IconTrashFilled } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { useQuery } from "react-query";
@@ -18,10 +25,21 @@ import { Theme } from "../../redux/variable/ThemeVariable";
 import { Oval } from "react-loader-spinner";
 import { debounce } from "debounce";
 import Input from "../../components/Input";
-import { setRightSidebar, setTaskView } from "../../redux/feature_slice/EmployeeAssignmentSlice";
+import {
+  setEmployeeAssignUpdate,
+  setRightSidebar,
+  setTaskView,
+  updateEmployeeAssignUrl,
+  updateTaskUrl,
+} from "../../redux/feature_slice/EmployeeAssignmentSlice";
 import ShowIf from "../../components/Helper";
 import EmployeeAssignCreate from "./EmployeeAssignCreate";
 import { getAllEmployee } from "../../requests/userRequest";
+import Dropdown from "../../components/DropDown";
+import EmployeeProjectsUpdate from "./EmployeeProjectsUpdate";
+import EmployeeAssignUpdate from "./EmployeeAssignUpdate";
+import { updateEmployeeAssign } from "../../requests/employeeAssignRequest";
+import dayjs from "dayjs";
 
 createTheme(
   "table-dark",
@@ -52,15 +70,22 @@ createTheme(
 const EmployeeAssign = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
-  const projectPageRedux = useAppSelector((state) => state.projectSidebar);
   const themeRedux = useAppSelector((state) => state.theme);
   const taskRedux = useAppSelector((state) => state.tasks);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-
-  
+  const [dataList, setDataList] = useState([]);
+  function compareDate(first: any, second: any) {
+    return dayjs(first).isSame(dayjs(second));
+  }
   const columns = useMemo(
     () => [
+      {
+        name: "Task",
+        selector: (row: any) => row.task_name,
+        sortable: true,
+        width: '300px'
+      },
       {
         name: "Employee",
         cell: (row: any) => {
@@ -68,16 +93,83 @@ const EmployeeAssign = () => {
             <div className="avatar-profile">
               <Avatar
                 className={`avatar-profile__circle`}
-                name={row.user.name}
+                name={row.employee.name}
                 color={"#F37021"}
                 size="35"
                 textSizeRatio={1.75}
                 round
               />
-              {row.user.name}#{row.user.id}
+              {row.employee.name}#{row.employee.id}
             </div>
           );
         },
+        width: "250px"
+      },
+      {
+        name: "Start Date",
+        selector: (row: any) => {
+          return compareDate(row.start_date, row.end_date) ? "--" : row.start_date;
+        },
+        sortable: true,
+        width: "200px"
+      },
+      {
+        name: "Due Date",
+        selector: (row: any) => {
+          return compareDate(row.start_date, row.end_date) ? "--" : row.end_date;
+        },
+        sortable: true,
+        width: "200px"
+      },
+      {
+        name: "Status",
+        // selector: (row: any) => row.status,
+        cell: (row: any) => {
+          return (
+            <div className="status-btn-group">
+              <Button
+                icon={<IconCalendarEvent />}
+                label=""
+                onClick={() => {
+                  updateEmployeeAssign({
+                    ...row,
+                    status: "open",
+                    token: AuthRedux.token,
+                  });
+                  dispatch(updateEmployeeAssignUrl({ name: `updated: ${Date()}` }));
+                }}
+                className={row.status === "open" ? "text-info" : "text-dark"}
+              />
+              <Button
+                icon={<IconCalendarStats />}
+                label=""
+                onClick={() => {
+                  updateEmployeeAssign({
+                    ...row,
+                    status: "processing",
+                    token: AuthRedux.token,
+                  });
+                  dispatch(updateEmployeeAssignUrl({ name: `updated: ${Date()}` }));
+                }}
+                className={row.status === "processing" ? "text-info" : "text-dark"}
+              />
+              <Button
+                icon={<IconCalendarCheck />}
+                label=""
+                onClick={() => {
+                  updateEmployeeAssign({
+                    ...row,
+                    status: "done",
+                    token: AuthRedux.token,
+                  });
+                  dispatch(updateEmployeeAssignUrl({ name: `updated: ${Date()}` }));
+                }}
+                className={row.status === "done" ? "text-info" : "text-dark"}
+              />
+            </div>
+          );
+        },
+        width: "200px",
       },
       {
         name: "Update",
@@ -87,13 +179,17 @@ const EmployeeAssign = () => {
             className="btn btn--light btn--icon btn--no-m-bottom text-success"
             onClick={() => {
               dispatch(
-                setProjectEmployee({
-                  id: row.id,
-                  employee_id: row.user.id,
-                  employee_name: row.user.name,
+                setEmployeeAssignUpdate({
+                  task: row.task_name,
+                  assignId: row.id,
+                  startDate: row.start_date,
+                  dueDate: row.end_date,
+                  employee: row.employee.name,
+                  employeeId: row.employee.id,
+                  status: row.status,
                 })
               );
-              dispatch(openProjectRightSidebar({ name: "employee-update" }));
+              dispatch(setRightSidebar({ name: "employee-assign-update" }));
             }}
           >
             <IconEdit size={25} />
@@ -133,13 +229,13 @@ const EmployeeAssign = () => {
   };
 
   const { error, data, isFetching } = useQuery(
-    ["employee-assign", projectPageRedux.employeeUrlState],
+    ["employee-assign", taskRedux.employeeUrl],
     getUsersData
   );
 
   React.useEffect(() => {
     if (data) {
-      console.log(data);
+      setDataList(data.data);
     }
   }, [data]);
 
@@ -179,9 +275,10 @@ const EmployeeAssign = () => {
       <div className="admin-container">
         <Nav
           icon={<IconArrowLeft size={25} />}
-          label={projectPageRedux.project_name}
+          label={taskRedux.subject}
           onClick={() => {
             dispatch(setTaskView({ name: "" }));
+            dispatch(updateTaskUrl({ name: `updated: ${Date()}` }));
           }}
           rightPlacer={
             <Button
@@ -207,11 +304,11 @@ const EmployeeAssign = () => {
               onChange={handleSearch}
               className="search"
             />
-            
+
             <DataTable
               columns={columns}
-              data={[]}
-              responsive
+              data={dataList}
+              // responsive
               pagination
               theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}
             />
@@ -222,10 +319,10 @@ const EmployeeAssign = () => {
         sif={taskRedux.rightSideBar === "employee-assign-create"}
         show={<EmployeeAssignCreate />}
       />
-      {/* <ShowIf
-        sif={projectPageRedux.rightSidebar === "employee-update"}
-        show={<EmployeeProjectsUpdate />}
-      /> */}
+      <ShowIf
+        sif={taskRedux.rightSideBar === "employee-assign-update"}
+        show={<EmployeeAssignUpdate />}
+      />
     </>
   );
 };

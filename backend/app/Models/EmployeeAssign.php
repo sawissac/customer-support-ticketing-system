@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class EmployeeAssign extends Model
 {
     use HasFactory;
-    protected $fillable = ['tickets_id', 'employee_id', 'status', 'task_name', 'start_date', 'end_date' ];
+    protected $fillable = ['ticket_id', 'employee_id', 'status', 'task_name', 'start_date', 'end_date' ];
 
 
 
@@ -22,6 +22,6 @@ class EmployeeAssign extends Model
 
     public function ticket():BelongsTo
     {
-        return $this->belongsTo(Ticket::class,'tickets_id');
+        return $this->belongsTo(Ticket::class,'ticket_id');
     }
 }

@@ -8,18 +8,20 @@ import { Alert } from "../../redux/variable/AlertVariable";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { createProject } from "../../requests/projectRequest";
 import { motion } from "framer-motion";
-import { setRightSidebar, updateEmployeeAssignUrl } from "../../redux/feature_slice/EmployeeAssignmentSlice";
+import {
+  setRightSidebar,
+  updateEmployeeAssignUrl,
+} from "../../redux/feature_slice/EmployeeAssignmentSlice";
 import { IconMenuOrder } from "@tabler/icons-react";
 import Dropdown from "../../components/DropDown";
 import { getAllEmployee } from "../../requests/userRequest";
 import dayjs from "dayjs";
 import ReactDatePicker from "react-datepicker";
-import { createEmployeeAssign } from "../../requests/employeeAssignRequest";
+import { createEmployeeAssign, updateEmployeeAssign } from "../../requests/employeeAssignRequest";
 
-const EmployeeAssignCreate = () => {
+const EmployeeAssignUpdate = () => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
-  const themeRedux = useAppSelector((state) => state.theme);
   const taskRedux = useAppSelector((state) => state.tasks);
   const [inputField, setInputField] = React.useState({
     task: "",
@@ -57,6 +59,18 @@ const EmployeeAssignCreate = () => {
     });
   }, []);
 
+  React.useEffect(() => {
+    setStartDate(new Date(taskRedux.startDate));
+    setDueDate(new Date(taskRedux.dueDate));
+    setDropDownEmployee({
+      name: taskRedux.employee,
+      value: taskRedux.employeeId,
+    });
+    setInputField({
+      task: taskRedux.task,
+    });
+  }, [taskRedux]);
+
   function onButtonSubmitHandle() {
     const isEmpty = inputField.task === "" || dropdownEmployee.value === 0;
     if (isEmpty) {
@@ -67,18 +81,11 @@ const EmployeeAssignCreate = () => {
         })
       );
     } else {
-      console.log({
-        employee_id: dropdownEmployee.value,
+      updateEmployeeAssign({
+        id: taskRedux.assignId,
         ticket_id: taskRedux.ticketId,
-        status: "open",
-        task_name: inputField.task,
-        start_date: formatDateTime(startDate),
-        end_date: formatDateTime(dueDate),
-      });
-      createEmployeeAssign({
         employee_id: dropdownEmployee.value,
-        ticket_id: taskRedux.ticketId,
-        status: "open",
+        status: taskRedux.status,
         task_name: inputField.task,
         start_date: formatDateTime(startDate),
         end_date: formatDateTime(dueDate),
@@ -91,9 +98,11 @@ const EmployeeAssignCreate = () => {
               state: Alert.Success,
             })
           );
-          dispatch(updateEmployeeAssignUrl({
-            name: `updated: ${Date()}`
-          }))
+          dispatch(
+            updateEmployeeAssignUrl({
+              name: `updated: ${Date()}`,
+            })
+          );
         })
         .catch((reason) => {
           dispatch(
@@ -114,7 +123,7 @@ const EmployeeAssignCreate = () => {
   return (
     <div className="admin-container admin-container admin-container--no-flex-grow admin-container--form">
       <Nav.BackButton
-        label="Project Create"
+        label="Assign Update"
         onClick={() => {
           dispatch(setRightSidebar({ name: "" }));
         }}
@@ -130,6 +139,7 @@ const EmployeeAssignCreate = () => {
             placeholder="Task..."
             id="task"
             type="text"
+            value={inputField.task}
             onChange={onChangeHandler}
           />
           <div className="form-dropdown-label">
@@ -187,7 +197,7 @@ const EmployeeAssignCreate = () => {
           />
           <Button
             type="button"
-            label="Create"
+            label="Update"
             className="btn btn--form"
             onClick={onButtonSubmitHandle}
           />
@@ -197,4 +207,4 @@ const EmployeeAssignCreate = () => {
   );
 };
 
-export default EmployeeAssignCreate;
+export default EmployeeAssignUpdate;
