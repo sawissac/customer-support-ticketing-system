@@ -92,7 +92,7 @@ const TicketUpdate = () => {
         <Nav.BackButton
           label="Ticket Update"
           onClick={() => {
-            dispatch(setTicketView({ name: "" }));
+            dispatch(setTicketView({ name: "ticket-view" }));
           }}
         />
         <FormWarper route="/api/ticket">

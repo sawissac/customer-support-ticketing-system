@@ -38,6 +38,7 @@ class EmployeeAssignController extends BaseController
         $data = $request->all();
 
         $validator = Validator::make($data, [
+            'project_id' => 'required',
             'employee_id' => 'required',
             'ticket_id' => 'required',
             'status' => 'required',
