@@ -40,7 +40,7 @@ class EmployeeAssignController extends BaseController
         $validator = Validator::make($data, [
             'employee_id' => 'required',
             'ticket_id' => 'required',
-            'status' => 'required|string',
+            'status' => 'required',
             'task_name' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
