@@ -9,7 +9,6 @@ class EmployeeAssignService implements EmployeeAssignServiceInterface
 {
     public function store($data)
     {
-
         $existingData = EmployeeProject::where('project_id', $data['project_id'])
             ->where('user_id', $data['employee_id'])
             ->first();

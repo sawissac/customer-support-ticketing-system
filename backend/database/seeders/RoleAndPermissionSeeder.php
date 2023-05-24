@@ -32,8 +32,8 @@ class RoleAndPermissionSeeder extends Seeder
         $canDeleteProjectList = Permission::create(['name' => 'canDeleteProjectList']);
         $canShowProjectList = Permission::create(['name' => 'canShowProjectList']);
 
-        $canUpdateEmployeeProjectList = Permission::create(['name' => 'canUpdateEmployeeProjectList']);
         $canCreateEmployeeProjectList = Permission::create(['name' => 'canCreateEmployeeProjectList']);
+        $canUpdateEmployeeProjectList = Permission::create(['name' => 'canUpdateEmployeeProjectList']);
         $canDeleteEmployeeProjectList = Permission::create(['name' => 'canDeleteEmployeeProjectList']);
         $canShowEmployeeProjectList = Permission::create(['name' => 'canShowEmployeeProjectList']);
 
@@ -47,10 +47,10 @@ class RoleAndPermissionSeeder extends Seeder
         $canDeleteTickets = Permission::create(['name' => 'canDeleteTickets']);
         $canShowTickets = Permission::create(['name' => 'canShowTickets']);
 
-        $canShowReport = Permission::create(['name' => 'canShowReport']);
         $canCreateReport = Permission::create(['name' => 'canCreateReport']);
         $canUpdateReport = Permission::create(['name' => 'canUpdateReport']);
         $canDeleteReport = Permission::create(['name' => 'canDeleteReportHistory']);
+        $canShowReport = Permission::create(['name' => 'canShowReport']);
 
         $canCreateAssignEmployee = Permission::create(['name' => 'canCreateAssignEmployee']);
         $canUpdateAssignEmployee = Permission::create(['name' => 'canUpdateAssignEmployee']);
