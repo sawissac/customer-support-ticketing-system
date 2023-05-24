@@ -3,6 +3,7 @@ import { setTicketView } from "../../redux/feature_slice/TicketSlice";
 import Nav from "../../components/Nav";
 import Message from "../../components/Message";
 import AlertBar from "../../components/AlertBar";
+import Button from "../../components/Button";
 
 const TicketView = () => {
   const dispatch = useAppDispatch();
@@ -12,6 +13,15 @@ const TicketView = () => {
       <div className="admin-container">
         <Nav
           back
+          rightPlacer={
+            <Button
+              label="Edit Ticket"
+              className="btn btn--light btn--block btn--no-m-bottom btn--sm"
+              onClick={() => {
+                dispatch(setTicketView({ name: "ticket-update" }));
+              }}
+            />
+          }
           label={ticketRedux.subject}
           onClick={() => {
             dispatch(setTicketView({ name: "" }));

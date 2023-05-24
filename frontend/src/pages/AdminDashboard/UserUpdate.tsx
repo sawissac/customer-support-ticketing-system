@@ -5,7 +5,7 @@ import Button from "../../components/Button";
 import Dropdown from "../../components/DropDown";
 import { IconMenuOrder } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import {  updateUser } from "../../requests/userRequest";
+import { updateUser } from "../../requests/userRequest";
 import { serverRoles, userRoles } from "../../redux/variable/UserPageVariable";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
@@ -21,7 +21,7 @@ const UserUpdatePage = () => {
     name: "Role",
     value: "",
   });
-  
+
   const [inputField, setInputField] = React.useState({
     name: "",
     email: "",
@@ -87,11 +87,13 @@ const UserUpdatePage = () => {
   }
   const themeRedux = useAppSelector((state) => state.theme);
   return (
-    <div className={`admin-container admin-container--no-flex-grow admin-container--form ${
-      themeRedux === Theme.Dark
-        ? 'admin-container--dark admin-container--no-flex-grow admin-container--form'
-        : ''
-    }`}>
+    <div
+      className={`admin-container admin-container--no-flex-grow admin-container--form ${
+        themeRedux === Theme.Dark
+          ? "admin-container--dark admin-container--no-flex-grow admin-container--form"
+          : ""
+      }`}
+    >
       <Nav.BackButton
         label="User Update"
         onClick={() => {
@@ -135,20 +137,22 @@ const UserUpdatePage = () => {
             dropdownClassName="form-dropdown"
             dropdownChildren={
               <>
-                {Object.keys(userRoles).map((role: string) => {
-                  return (
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        setDropdownBox({
-                          name: role,
-                          value: userRoles[role],
-                        });
-                      }}
-                      label={role}
-                    />
-                  );
-                })}
+                <div className="form-dropdown__scroll">
+                  {Object.keys(userRoles).map((role: string) => {
+                    return (
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          setDropdownBox({
+                            name: role,
+                            value: userRoles[role],
+                          });
+                        }}
+                        label={role}
+                      />
+                    );
+                  })}
+                </div>
               </>
             }
           />

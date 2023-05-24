@@ -6,25 +6,32 @@ import FormWarper from "../../components/FormWarper";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { createProject } from "../../requests/projectRequest";
 import { motion } from "framer-motion";
-import { setRightSidebar, updateEmployeeAssignUrl } from "../../redux/feature_slice/EmployeeAssignmentSlice";
+import {
+  setRightSidebar,
+  updateEmployeeAssignUrl,
+} from "../../redux/feature_slice/EmployeeAssignmentSlice";
 import { IconMenuOrder } from "@tabler/icons-react";
 import Dropdown from "../../components/DropDown";
 import { getAllEmployee } from "../../requests/userRequest";
 import dayjs from "dayjs";
 import ReactDatePicker from "react-datepicker";
 import { createEmployeeAssign } from "../../requests/employeeAssignRequest";
+import { UserApiResponse } from "../../responseInterface/UserApiResponse";
+import { debounce } from "debounce";
+import { EmployeeListApiResponse } from "../../responseInterface/EmployeeListApiResponse";
 
 const EmployeeAssignCreate = () => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
   const themeRedux = useAppSelector((state) => state.theme);
   const taskRedux = useAppSelector((state) => state.tasks);
+  const [employeeList, setEmployeeList] = useState<UserApiResponse[]>([]);
+  const [tempEmployeeList, setTempEmployeeList] = useState<UserApiResponse[]>([]);
+  const [filterEmployeeInput, setFilterEmployeeInput] = useState("");
   const [inputField, setInputField] = React.useState({
     task: "",
   });
-  const [employeeList, setEmployeeList] = React.useState([]);
   const [dropdownEmployee, setDropDownEmployee] = React.useState({
     name: "Select",
     value: 0,
@@ -47,13 +54,9 @@ const EmployeeAssignCreate = () => {
     getAllEmployee({
       token: authRedux.token,
     }).then((res: any) => {
-      const filteredData = res.data.map((i: any) => {
-        return {
-          id: i.id,
-          name: i.name,
-        };
-      });
-      setEmployeeList(filteredData);
+      const dataResponse: EmployeeListApiResponse = res;
+      setEmployeeList(dataResponse.data);
+      setTempEmployeeList(dataResponse.data);
     });
   }, []);
 
@@ -67,14 +70,6 @@ const EmployeeAssignCreate = () => {
         })
       );
     } else {
-      console.log({
-        employee_id: dropdownEmployee.value,
-        ticket_id: taskRedux.ticketId,
-        status: "open",
-        task_name: inputField.task,
-        start_date: formatDateTime(startDate),
-        end_date: formatDateTime(dueDate),
-      });
       createEmployeeAssign({
         employee_id: dropdownEmployee.value,
         ticket_id: taskRedux.ticketId,
@@ -92,11 +87,13 @@ const EmployeeAssignCreate = () => {
               state: Alert.Success,
             })
           );
-          dispatch(updateEmployeeAssignUrl({
-            name: `updated: ${Date()}`
-          }))
+          dispatch(
+            updateEmployeeAssignUrl({
+              name: `updated: ${Date()}`,
+            })
+          );
         })
-        .catch((reason) => {
+        .catch(() => {
           dispatch(
             setAlert({
               message: "Fail to create",
@@ -106,12 +103,37 @@ const EmployeeAssignCreate = () => {
         });
     }
   }
+
   function onChangeHandler(ev: React.ChangeEvent<HTMLInputElement>) {
     setInputField({
       ...inputField,
       [ev.currentTarget.id]: ev.target.value,
     });
   }
+
+  function handleCustomerSearch(ev: React.ChangeEvent<HTMLInputElement>) {
+    setFilterEmployeeInput(ev.target.value);
+    debouncedEmployeeSearch(ev.target.value);
+  }
+
+  const debouncedEmployeeSearch = debounce((value: string) => {
+    const filteredEmployee = tempEmployeeList.filter((employee) => {
+      if (employee.name.toLowerCase().includes(value.toLowerCase())) {
+        return true;
+      }
+      if (String(employee.id) === value) {
+        return true;
+      }
+    });
+
+    if (filteredEmployee.length > 0) {
+      setEmployeeList(filteredEmployee);
+    }
+    if (filteredEmployee.length === 0) {
+      setEmployeeList(tempEmployeeList);
+    }
+  }, 1000);
+
   return (
     <div className="admin-container admin-container admin-container--no-flex-grow admin-container--form">
       <Nav.BackButton
@@ -148,21 +170,37 @@ const EmployeeAssignCreate = () => {
             dropdownClassName="form-dropdown"
             dropdownChildren={
               <>
-                {employeeList.map((employee: any, index: number) => {
-                  return (
-                    <Button
-                      type="button"
-                      key={index}
-                      onClick={() => {
-                        setDropDownEmployee({
-                          name: employee.name,
-                          value: employee.id,
-                        });
-                      }}
-                      label={employee.name + `#${employee.id}`}
-                    />
-                  );
-                })}
+                <div className="form-dropdown__search">
+                  <Input
+                    label="Search Customer Project"
+                    onClick={(ev) => {
+                      ev.stopPropagation();
+                    }}
+                    onFocus={(ev) => {
+                      ev.target.setAttribute("autocomplete", "off");
+                    }}
+                    placeholder="[employee name] #id"
+                    value={filterEmployeeInput}
+                    onChange={handleCustomerSearch}
+                  />
+                </div>
+                <div className="form-dropdown__scroll orm-dropdown__scroll--height">
+                  {employeeList.map((employee: any, index: number) => {
+                    return (
+                      <Button
+                        type="button"
+                        key={index}
+                        onClick={() => {
+                          setDropDownEmployee({
+                            name: employee.name,
+                            value: employee.id,
+                          });
+                        }}
+                        label={employee.name + `#${employee.id}`}
+                      />
+                    );
+                  })}
+                </div>
               </>
             }
           />
