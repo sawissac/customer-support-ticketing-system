@@ -1,0 +1,18 @@
+.react-responsive-modal-modal {
+  background: $white;
+  border-radius: $border-radius-sm;
+  .modal {
+    width: 400px;
+    &__title {
+      font-size: $h4-font-size;
+      font-family: $font-family-poppins;
+      font-weight: $font-weight-semibold;
+    }
+    &__desc {
+      margin: map-get($spacers, 3) 0px;
+      font-size: $h6-font-size;
+      font-family: $font-family-roboto;
+      font-weight: $font-weight-normal;
+    }
+  }
+}
