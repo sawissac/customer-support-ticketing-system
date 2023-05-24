@@ -7,6 +7,7 @@ import Task from "./Task";
 import Projects from "./Projects";
 import CustomerProjects from "./CustomerProjects";
 import { PageNotFound } from "../404Page";
+import Report from "./Report";
 
 const AdminDashboard = () => {
   return (
@@ -36,6 +37,10 @@ const AdminDashboard = () => {
         <Route
           path="/customer-project"
           element={<CustomerProjects />}
+        />
+        <Route
+          path="/report-history"
+          element={<Report/>}
         />
         <Route
           path="/*"

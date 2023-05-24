@@ -7,7 +7,6 @@ import {
   IconCalendarEvent,
   IconCalendarStats,
   IconEdit,
-  IconMenuOrder,
 } from "@tabler/icons-react";
 import { IconTrashFilled } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
@@ -15,16 +14,11 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import Button from "../../components/Button";
 import { IconPlus } from "@tabler/icons-react";
-import {
-  openProjectRightSidebar,
-  setProjectEmployee,
-} from "../../redux/feature_slice/ProjectPageSlice";
 import { motion } from "framer-motion";
 import Avatar from "react-avatar";
 import { Theme } from "../../redux/variable/ThemeVariable";
 import { Oval } from "react-loader-spinner";
 import { debounce } from "debounce";
-import Input from "../../components/Input";
 import {
   setEmployeeAssignUpdate,
   setRightSidebar,
@@ -185,7 +179,7 @@ const EmployeeAssign = () => {
     []
   );
 
-  const url = `http://127.0.0.1:8000/api/assign-list/${taskRedux.ticketId}`;
+  const url = `http://127.0.0.1:8000/api/assign-ticket-list/${taskRedux.ticketId}`;
 
   const getUsersData = async () => {
     const res = await axios
@@ -234,11 +228,6 @@ const EmployeeAssign = () => {
     
   }, 1000);
 
-  const handleSearch = (event: any) => {
-    setSearchQuery(event.target.value);
-    debouncedSearch(event.target.value);
-  };
-
   return (
     <>
       <div className="admin-container">
@@ -266,14 +255,6 @@ const EmployeeAssign = () => {
           className="admin-container__inner"
         >
           <div className="admin-container__inner">
-            <Input
-              type="text"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={handleSearch}
-              className="search"
-            />
-
             <DataTable
               columns={columns}
               data={dataList}

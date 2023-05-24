@@ -96,8 +96,8 @@ class RoleAndPermissionSeeder extends Seeder
         ]);
 
         $employee->givePermissionTo([
-            $canShowEmployeeProjectList,
-            $canShowReport
+            $canShowAssignEmployee,
+            $canUpdateAssignEmployee
         ]);
 
         $customer->givePermissionTo([

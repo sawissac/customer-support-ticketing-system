@@ -1,8 +1,8 @@
-import React from 'react'
 import SideBar from './Sidebar'
 import { Route, Routes } from 'react-router-dom'
 import { PageNotFound } from '../404Page'
-import TicketsPage from './TicketsPage'
+import TicketsPage from './Ticket'
+import Task from './Task'
 
 const EmployeeDashboard = () => {
   return (
@@ -12,6 +12,10 @@ const EmployeeDashboard = () => {
         <Route
           path="/tickets"
           element={<TicketsPage />}
+        />
+        <Route
+          path="/employee-assignment"
+          element={<Task />}
         />
         <Route
           path="/*"

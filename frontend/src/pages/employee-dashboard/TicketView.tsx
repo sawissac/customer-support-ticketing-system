@@ -1,10 +1,8 @@
-import Nav from "../../components/Nav";
-import Message from "../../components/Message";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { setTicketView } from "../../redux/feature_slice/TicketSlice";
+import Nav from "../../components/Nav";
+import Message from "../../components/Message";
 import AlertBar from "../../components/AlertBar";
-import Button from "../../components/Button";
-import { NavLink } from "react-router-dom";
 
 const TicketView = () => {
   const dispatch = useAppDispatch();
@@ -13,22 +11,14 @@ const TicketView = () => {
     <>
       <div className="admin-container">
         <Nav
-          rightPlacer={
-            <Button
-              label="Edit Ticket"
-              className="btn btn--light btn--no-m-bottom"
-              onClick={() => {
-                dispatch(setTicketView({ name: "ticket-update" }));
-              }}
-            />
-          }
+          back
           label={ticketRedux.subject}
           onClick={() => {
             dispatch(setTicketView({ name: "" }));
           }}
         />
         <AlertBar
-          view="admin"
+          view="employee"
           state={ticketRedux.status}
         />
         <div className="admin-container__inner">

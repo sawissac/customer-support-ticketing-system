@@ -15,7 +15,7 @@ class EmployeeAssignService implements EmployeeAssignServiceInterface
             ->first();
 
         if (!$existingData) {
-            return EmployeeProject::create([
+            EmployeeProject::create([
                 'project_id' => $data['project_id'],
                 'user_id' => $data['employee_id'],
             ]);

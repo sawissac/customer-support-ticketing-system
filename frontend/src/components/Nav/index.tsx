@@ -8,14 +8,26 @@ interface NavProps {
   label: string;
   rightPlacer?: any;
   links?: any;
-  onClick?:any;
+  onClick?: any;
+  back?: any;
 }
 
-const Nav = ({ label, icon, rightPlacer, links,onClick }: NavProps) => {
+const Nav = ({ label, icon, rightPlacer, links, onClick, back }: NavProps) => {
   return (
     <div className="nav_container">
-      <div className="icon" onClick={onClick}>{icon}</div>
-      <div className="text" onClick={onClick}>{label}</div>
+      <div
+        className="icon"
+        onClick={onClick}
+      >
+        {back && <IconArrowLeft size={25} />}
+        {icon}
+      </div>
+      <div
+        className="text"
+        onClick={onClick}
+      >
+        {label}
+      </div>
       <div className="placer">{rightPlacer}</div>
       <div className="links">{links}</div>
     </div>
