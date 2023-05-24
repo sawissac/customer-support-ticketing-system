@@ -21,7 +21,7 @@ export const Priority: {
 } = {
   Low: "low",
   Medium: "medium",
-  Height: "height",
+  High: "high",
   Critical: "critical",
 };
 

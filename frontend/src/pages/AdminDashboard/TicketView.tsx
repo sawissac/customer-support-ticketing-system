@@ -13,10 +13,11 @@ const TicketView = () => {
     <>
       <div className="admin-container">
         <Nav
+          back
           rightPlacer={
             <Button
               label="Edit Ticket"
-              className="btn btn--light btn--no-m-bottom"
+              className="btn btn--light btn--block btn--no-m-bottom btn--sm"
               onClick={() => {
                 dispatch(setTicketView({ name: "ticket-update" }));
               }}

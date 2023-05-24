@@ -6,7 +6,7 @@ $hover-dark: $gray-800;
 .app {
   display: flex;
   width: 100%;
-  
+
   &--dark * {
     border-color: $gray-900 !important;
     // color: $white !important;
@@ -145,6 +145,27 @@ $hover-dark: $gray-800;
       color: $gray-600 !important;
       background-color: $secondary-dark !important;
     }
+  }
+  &--dark .report-card {
+    background-color: #2b2d31;
+    &__text {
+      color: $white;
+    }
+  }
+  &--dark .piechart-container {
+    &__inner {
+      background-color: #2b2d31;
+      &__piechart {
+        &--chart {
+        }
+        &--border * {
+          color: $white !important;
+        }
+      }
+    }
+    // &--border *{
+    //   color: $white !important;
+    // }
   }
   &--dark {
     /* Firefox */

@@ -37,8 +37,7 @@ const UserCreatePage = () => {
 
   function onButtonSubmitHandle() {
     const isEmpty =
-      Object.values(inputField).filter((i) => i === "").length > 0 ||
-      dropdownBox.value === "";
+      Object.values(inputField).filter((i) => i === "").length > 0 || dropdownBox.value === "";
     if (isEmpty) {
       dispatch(
         setAlert({
@@ -83,8 +82,7 @@ const UserCreatePage = () => {
     }
   }
   return (
-    <div
-      className="admin-container admin-container--no-flex-grow admin-container--form">
+    <div className="admin-container admin-container--no-flex-grow admin-container--form">
       <Nav.BackButton
         label="User Create"
         onClick={() => {
@@ -131,20 +129,22 @@ const UserCreatePage = () => {
             dropdownClassName="form-dropdown"
             dropdownChildren={
               <>
-                {Object.keys(userRoles).map((role: string) => {
-                  return (
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        setDropDownBox({
-                          name: role,
-                          value: userRoles[role],
-                        });
-                      }}
-                      label={role}
-                    />
-                  );
-                })}
+                <div className="form-dropdown__scroll">
+                  {Object.keys(userRoles).map((role: string) => {
+                    return (
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          setDropDownBox({
+                            name: role,
+                            value: userRoles[role],
+                          });
+                        }}
+                        label={role}
+                      />
+                    );
+                  })}
+                </div>
               </>
             }
           />

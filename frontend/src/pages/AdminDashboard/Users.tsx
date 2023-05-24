@@ -234,7 +234,7 @@ const Users = () => {
               buttonChildren={<>{dropDownTitle.name}</>}
               dropdownClassName="form-dropdown"
               dropdownChildren={
-                <>
+                <div className="form-dropdown__scroll">
                   <button
                     title="button"
                     onClick={() => {
@@ -243,7 +243,7 @@ const Users = () => {
                   >
                     See all
                   </button>
-                  {Object.keys(userRoles).map((i: any,index:number) => {
+                  {Object.keys(userRoles).map((i: any, index: number) => {
                     return (
                       <button
                         key={index}
@@ -256,7 +256,7 @@ const Users = () => {
                       </button>
                     );
                   })}
-                </>
+                </div>
               }
             />
           </div>

@@ -14,11 +14,17 @@ import {
   updateEmployeeTableUrl,
 } from "../../redux/feature_slice/ProjectPageSlice";
 import { motion } from "framer-motion";
+import Input from "../../components/Input";
+import { UserApiResponse } from "../../responseInterface/UserApiResponse";
+import { EmployeeListApiResponse } from "../../responseInterface/EmployeeListApiResponse";
+import { debounce } from "debounce";
 const EmployeeProjectsUpdate = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
   const ProjectPageRedux = useAppSelector((state) => state.projectSidebar);
-  const [employeeList, setEmployeeList] = useState([]);
+  const [employeeList, setEmployeeList] = useState<UserApiResponse[]>([]);
+  const [tempEmployeeList, setTempEmployeeList] = useState<UserApiResponse[]>([]);
+  const [filterEmployeeInput, setFilterEmployeeInput] = useState("");
   const [dropdownEmployee, setDropDownEmployee] = React.useState({
     name: "Select",
     value: 0,
@@ -28,13 +34,9 @@ const EmployeeProjectsUpdate = () => {
     getAllEmployee({
       token: AuthRedux.token,
     }).then((res: any) => {
-      const filteredData = res.data.map((i: any) => {
-        return {
-          id: i.id,
-          name: i.name,
-        };
-      });
-      setEmployeeList(filteredData);
+      const dataResponse: EmployeeListApiResponse = res;
+      setEmployeeList(dataResponse.data);
+      setTempEmployeeList(dataResponse.data);
     });
   }, []);
 
@@ -85,10 +87,34 @@ const EmployeeProjectsUpdate = () => {
         });
     }
   }
+
+  function handleCustomerSearch(ev: React.ChangeEvent<HTMLInputElement>) {
+    setFilterEmployeeInput(ev.target.value);
+    debouncedCustomerProjectSearch(ev.target.value);
+  }
+
+  const debouncedCustomerProjectSearch = debounce((value: string) => {
+    const filteredCustomer = tempEmployeeList.filter((project) => {
+      if (project.name.toLowerCase().includes(value.toLocaleLowerCase())) {
+        return true;
+      }
+      if (String(project.id) === value) {
+        return true;
+      }
+    });
+
+    if (filteredCustomer.length > 0) {
+      setEmployeeList(filteredCustomer);
+    }
+    if (filteredCustomer.length === 0) {
+      setEmployeeList(tempEmployeeList);
+    }
+  }, 1000);
+
   return (
     <div className="admin-container admin-container--no-flex-grow admin-container--form">
       <Nav.BackButton
-        label="User Update"
+        label="Employee Update"
         onClick={() => {
           dispatch(openProjectRightSidebar({ name: "" }));
         }}
@@ -113,20 +139,36 @@ const EmployeeProjectsUpdate = () => {
             dropdownClassName="form-dropdown"
             dropdownChildren={
               <>
-                {employeeList.map((employee: any) => {
-                  return (
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        setDropDownEmployee({
-                          name: employee.name,
-                          value: employee.id,
-                        });
-                      }}
-                      label={employee.name + `#${employee.id}`}
-                    />
-                  );
-                })}
+                <div className="form-dropdown__search">
+                  <Input
+                    label="Search Customer Project"
+                    onClick={(ev) => {
+                      ev.stopPropagation();
+                    }}
+                    onFocus={(ev) => {
+                      ev.target.setAttribute("autocomplete", "off");
+                    }}
+                    placeholder="[employee name] #id"
+                    value={filterEmployeeInput}
+                    onChange={handleCustomerSearch}
+                  />
+                </div>
+                <div className="form-dropdown__scroll form-dropdown__scroll--height">
+                  {employeeList.map((employee) => {
+                    return (
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          setDropDownEmployee({
+                            name: employee.name,
+                            value: employee.id,
+                          });
+                        }}
+                        label={employee.name + `#${employee.id}`}
+                      />
+                    );
+                  })}
+                </div>
               </>
             }
           />

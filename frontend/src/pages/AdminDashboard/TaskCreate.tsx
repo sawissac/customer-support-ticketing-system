@@ -12,17 +12,27 @@ import { getAllTicket, getTicket, updateTicket } from "../../requests/ticketRequ
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
+import Input from "../../components/Input";
+import { debounce } from "debounce";
+import { formatDateTime, textLimiter } from "../../commonFunction/common";
+import {
+  TicketListApiResponse,
+  TicketListProps,
+} from "../../responseInterface/TicketListApiResponse";
 
 const TaskCreate = () => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((s) => s.auth);
   const [startDate, setStartDate] = useState(new Date());
   const [dueDate, setDueDate] = useState(new Date());
-  const [ticketList, setTicketList] = React.useState([]);
+  const [ticketList, setTicketList] = React.useState<TicketListProps[]>([]);
+  const [tempTicketList, setTempTicketList] = React.useState<TicketListProps[]>([]);
+  const [filterTicketInput, setFilterTicketInput] = React.useState("");
   const [ticketDropDown, setTicketDropDown] = React.useState({
     name: "Select",
     value: 0,
   });
+
   const CustomDatePickerInput = forwardRef(({ value, onClick }: any, ref: any) => (
     <button
       className="btn btn--light btn--block btn--no-m-bottom"
@@ -32,10 +42,6 @@ const TaskCreate = () => {
       {value}
     </button>
   ));
-
-  const formatDateTime = (date: any) => {
-    return dayjs(date).format("YYYY-MM-DD HH:mm:ss");
-  };
 
   function onSubmitHandler() {
     const isEmpty = ticketDropDown.value === 0;
@@ -86,14 +92,39 @@ const TaskCreate = () => {
 
   React.useState(() => {
     getAllTicket({ token: authRedux.token }).then((res: any) => {
-      const filteredData = res.data.filter((ticket:any)=>{
-        if(!ticket.admin_id){
+      const dataResponse: TicketListApiResponse = res;
+      const filteredData = dataResponse.data.filter((ticket: any) => {
+        if (!ticket.admin_id) {
           return true;
         }
-      })
+      });
       setTicketList(filteredData);
+      setTempTicketList(filteredData);
     });
   });
+
+  function handleCustomerSearch(ev: React.ChangeEvent<HTMLInputElement>) {
+    setFilterTicketInput(ev.target.value);
+    debouncedTicketSearch(ev.target.value);
+  }
+
+  const debouncedTicketSearch = debounce((value: string) => {
+    const filteredTicket = tempTicketList.filter((ticket) => {
+      if (ticket.subject.toLowerCase().includes(value.toLowerCase())) {
+        return true;
+      }
+      if (ticket.tickets_id.toLowerCase().includes(value.toLowerCase())) {
+        return true;
+      }
+    });
+
+    if (filteredTicket.length > 0) {
+      setTicketList(filteredTicket);
+    }
+    if (filteredTicket.length === 0) {
+      setTicketList(tempTicketList);
+    }
+  }, 1000);
 
   return (
     <>
@@ -122,22 +153,38 @@ const TaskCreate = () => {
               width="350px"
               dropdownChildren={
                 <>
-                  {ticketList.map((i: any, index: number) => {
-                    return (
-                      <Button
-                        key={index}
-                        type="button"
-                        title={""}
-                        onClick={() => {
-                          setTicketDropDown({
-                            name: i.customer_project.project.name + " #" + i.tickets_id,
-                            value: i.id,
-                          });
-                        }}
-                        label={i.customer_project.project.name + " #" + i.tickets_id}
-                      />
-                    );
-                  })}
+                  <div className="form-dropdown__search">
+                    <Input
+                      label="Search Customer Project"
+                      onClick={(ev) => {
+                        ev.stopPropagation();
+                      }}
+                      onFocus={(ev) => {
+                        ev.target.setAttribute("autocomplete", "off");
+                      }}
+                      placeholder="[ticket subject] #ticket-id"
+                      value={filterTicketInput}
+                      onChange={handleCustomerSearch}
+                    />
+                  </div>
+                  <div className="form-dropdown__scroll form-dropdown__scroll--height">
+                    {ticketList.map((ticket, index: number) => {
+                      return (
+                        <Button
+                          key={index}
+                          type="button"
+                          title={ticket.subject + " #" + ticket.tickets_id}
+                          onClick={() => {
+                            setTicketDropDown({
+                              name: textLimiter(10, ticket.subject) + " #" + ticket.tickets_id,
+                              value: ticket.id,
+                            });
+                          }}
+                          label={textLimiter(10, ticket.subject) + " #" + ticket.tickets_id}
+                        />
+                      );
+                    })}
+                  </div>
                 </>
               }
             />
