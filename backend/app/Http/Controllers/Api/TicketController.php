@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
-
+use App\Models\Ticket;
 use App\Service\Ticket\TicketServiceInterface;
 use App\Repository\Ticket\TicketRepositoryInterface;
+use Carbon\Carbon;
+use Exception;
 
 class TicketController extends BaseController
 {
@@ -34,7 +36,6 @@ class TicketController extends BaseController
         $data = $this->ticketRepo->get();
 
         return $this->sendResponse($data, 'Tickets retrieved successfully.');
-
     }
 
     public function store(Request $request)
@@ -97,7 +98,7 @@ class TicketController extends BaseController
         );
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors() ,422);
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
 
         $data = $this->ticketService->update($id, $validate);
@@ -111,4 +112,25 @@ class TicketController extends BaseController
 
         return $this->sendResponse([], 'Ticket deleted successfully.', 204);
     }
+    // public function checkTicketList($id)
+    // {
+    //     try {
+    //         $startDate = Carbon::create(2023, 5, 1)->startOfMonth();
+    //         $endDate = Carbon::create(2023, 5, 31)->endOfMonth();
+
+    //         $monthlyTickets = Ticket::whereBetween('start_date', [$startDate, $endDate])->get();
+
+    //         return response()->json([
+    //             'status' => true,
+    //             'message' => 'success',
+    //             'data' => $monthlyTickets
+    //         ], 200);
+    //     } catch (Exception $e) {
+    //         return response()->json([
+    //             'status' => false,
+    //             'message' => 'error',
+    //             'error' => $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
 }
