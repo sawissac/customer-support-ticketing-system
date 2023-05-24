@@ -36,7 +36,6 @@ class BaseController extends Controller
             $response['data'] = $errorMessages;
         }
 
-
         return response()->json($response, $code);
     }
 }

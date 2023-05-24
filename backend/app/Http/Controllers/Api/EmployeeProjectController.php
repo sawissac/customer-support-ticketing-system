@@ -23,11 +23,7 @@ class EmployeeProjectController extends BaseController
         $this->middleware('permission:canUpdateEmployeeProjectList', ['only' => ['edit, update']]);
         $this->middleware('permission:canDeleteEmployeeProjectList', ['only' => ['destroy']]);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
         $data = $this->employeeprojectRepo->get();

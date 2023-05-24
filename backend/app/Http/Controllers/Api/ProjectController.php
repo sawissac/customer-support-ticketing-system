@@ -55,8 +55,7 @@ class ProjectController extends BaseController
             [
                 'project_id' => 'string',
                 'name' => 'required|string',
-                ]
-            );
+            ]);
 
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors(), 422);
@@ -99,14 +98,12 @@ class ProjectController extends BaseController
     {
         $validate = $request->all();
 
-
         $validator = Validator::make(
             $validate,
             [
                 'project_id' => 'string',
                 'name' => 'required|string',
-                ]
-            );
+            ]);
 
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors(), 422);
