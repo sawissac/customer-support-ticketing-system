@@ -167,13 +167,15 @@ const TicketPage = () => {
                     key={index}
                   >
                     <TicketList
-                      projectName={`${i.customer_project.project.name} #${i.tickets_id}`}
+                      projectName={`${i.customer_project.project.name}`}
                       userView
                       day={dayjs(i.created_at).fromNow()}
                       description={i.subject}
                       name={i.customer_project.user.name}
                       priority={i.priority}
                       status={i.status}
+                      ticketId={`#${i.tickets_id}`}
+                      projectId={i.customer_project.project.project_id}
                       onClick={() => {
                         dispatch(
                           setViewData({

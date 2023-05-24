@@ -18,6 +18,7 @@ import { useQuery } from "react-query";
 import { Oval } from "react-loader-spinner";
 import ReportCard from "../../components/ReportCard";
 import {
+  IconChartBar,
   IconFolder,
   IconTicket,
   IconTicketOff,
@@ -26,6 +27,7 @@ import {
   IconUserExclamation,
   IconUsers,
 } from "@tabler/icons-react";
+import Nav from "../../components/Nav";
 
 const Report = () => {
   const authRedux = useAppSelector((state) => state.auth);
@@ -67,36 +69,22 @@ const Report = () => {
 
   useEffect(() => {
     if (ticketData) {
-      setOpenTicket(
-        ticketData.data.filter((item: any) => item.status === "open").length
-      );
+      setOpenTicket(ticketData.data.filter((item: any) => item.status === "open").length);
       setProcessingTicket(
-        ticketData.data.filter((item: any) => item.status === "processing")
-          .length
+        ticketData.data.filter((item: any) => item.status === "processing").length
       );
-      setCloseTicket(
-        ticketData.data.filter((item: any) => item.status === "close").length
-      );
-      setLowPriority(
-        ticketData.data.filter((item: any) => item.priority === "low").length
-      );
-      setMediumPriority(
-        ticketData.data.filter((item: any) => item.priority === "medium").length
-      );
-      setHighPriority(
-        ticketData.data.filter((item: any) => item.priority === "high").length
-      );
+      setCloseTicket(ticketData.data.filter((item: any) => item.status === "close").length);
+      setLowPriority(ticketData.data.filter((item: any) => item.priority === "low").length);
+      setMediumPriority(ticketData.data.filter((item: any) => item.priority === "medium").length);
+      setHighPriority(ticketData.data.filter((item: any) => item.priority === "high").length);
       setCriticalPriority(
-        ticketData.data.filter((item: any) => item.priority === "critical")
-          .length
+        ticketData.data.filter((item: any) => item.priority === "critical").length
       );
       setUnassignTicket(
-        ticketData.data.filter((item: any) => item.employee_assign.length === 0)
-          .length
+        ticketData.data.filter((item: any) => item.employee_assign.length === 0).length
       );
       setAssignTicket(
-        ticketData.data.filter((item: any) => item.employee_assign.length > 0)
-          .length
+        ticketData.data.filter((item: any) => item.employee_assign.length > 0).length
       );
     }
   }, [ticketData]);
@@ -139,22 +127,11 @@ const Report = () => {
 
   useEffect(() => {
     if (userData) {
-      setAdmin(
-        userData.data.filter((item: any) => item.roles[0].name === "admin")
-          .length
-      );
-      setEmployee(
-        userData.data.filter((item: any) => item.roles[0].name === "employee")
-          .length
-      );
-      setCustomer(
-        userData.data.filter((item: any) => item.roles[0].name === "customer")
-          .length
-      );
+      setAdmin(userData.data.filter((item: any) => item.roles[0].name === "admin").length);
+      setEmployee(userData.data.filter((item: any) => item.roles[0].name === "employee").length);
+      setCustomer(userData.data.filter((item: any) => item.roles[0].name === "customer").length);
       setResign(
-        userData.data.filter(
-          (item: any) => item.roles[0].name === "resign_employee"
-        ).length
+        userData.data.filter((item: any) => item.roles[0].name === "resign_employee").length
       );
     }
   }, [userData]);
@@ -200,11 +177,7 @@ const Report = () => {
           "rgba(255, 206, 86, 1)",
           "rgba(255, 99, 132, 1)",
         ],
-        borderColor: [
-          "rgba(75, 192, 192, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(255, 99, 132, 1)",
-        ],
+        borderColor: ["rgba(75, 192, 192, 1)", "rgba(255, 206, 86, 1)", "rgba(255, 99, 132, 1)"],
         borderWidth: 1,
       },
     ],
@@ -235,6 +208,10 @@ const Report = () => {
 
   return (
     <div className="admin-container">
+      <Nav
+        icon={<IconChartBar />}
+        label={"Tasks"}
+      />
       <div className="admin-container__inner row row--gap-1 admin-container--pb-5">
         <div className="col-3">
           <ReportCard

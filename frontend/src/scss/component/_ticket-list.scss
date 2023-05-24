@@ -9,8 +9,8 @@
     font-weight: $font-weight-bold;
     font-family: $font-family-poppins;
     text-transform: capitalize;
-    padding:0px map-get($spacers, 1);
     overflow: hidden;
+    margin-bottom: map-get($spacers, 3);
   }
   &__sub-desc{
     text-align: left;
