@@ -63,22 +63,7 @@ SideBar.Simplify = function (props: SideBarSimplify) {
       <SideBar.Link
         routeName={props.route + "/employee-assignment"}
         icon={<IconCalendarEvent />}
-        label="Assign"
-      />
-      <SideBar.Link
-        routeName={props.route + "/users"}
-        icon={<IconUsers />}
-        label="Users"
-      />
-      <SideBar.Link
-        routeName={props.route + "/project"}
-        icon={<IconFolder />}
-        label="Projects"
-      />
-      <SideBar.Link
-        routeName={props.route + "/report-history"}
-        icon={<IconChartBar />}
-        label="Report"
+        label="Tasks"
       />
     </div>
   );
@@ -181,7 +166,6 @@ SideBar.Profile = function (props: SideBarProfile) {
               label="Dark"
             />
             <Button
-            
               type="button"
               className={themeRedux === Theme.Light ? "sidebar-dropdown--active" : ""}
               onClick={() => {

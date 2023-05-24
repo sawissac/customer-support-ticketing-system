@@ -36,25 +36,7 @@
   &--pb-5{
     padding-bottom: map-get($spacers, 5);
   }
-
-  &__footer{
-    display: flex;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: map-get($spacers, 3);
-    justify-content: center;
-    border-top: 1px solid $gray-200;
-    button, a{
-      padding: map-get($spacers, 3);
-      margin-left: map-get($spacers, 1);
-      margin-right: map-get($spacers, 1);
-      width: 200px;
-      height: 40px;
-    }
-  }
-
+  
   .ticket-paginate{
     display: flex;
     justify-content: space-between;

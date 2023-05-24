@@ -1,0 +1,25 @@
+.admin-container{
+    &__report{
+        display: flex;
+        justify-content: space-around;
+        &__cards{
+            .card{
+                border: 1px solid red;
+            }
+        }
+    }
+    .piechart{
+        padding: 10px;
+        border-left: 5px solid $primary;
+        &--border{
+            border: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            label{
+                margin-bottom: 20px;
+                font-size: 18px;
+            }
+        }
+    }
+  }

@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 interface AlertBarInterface {
   view: "admin" | "employee" | "customer";
   state: "open" | "processing" | "fixed" | "complete" | "close";
@@ -15,9 +17,12 @@ function AlertBar({ view, state }: AlertBarInterface) {
       {state === "processing" &&
         view === "customer" &&
         "Your ticket has been processing, wait for the staff to take complete."}
-        {state === "processing" &&
+      {state === "processing" &&
         view === "admin" &&
         "The employee is fixing the bugs, wait for the staff to take complete."}
+      {state === "processing" &&
+        view === "employee" &&
+        "Please fix the bugs, By completing the task that was given to you."}
       {state === "fixed" &&
         view === "customer" &&
         "Your ticket has been complete, Please check your app and confirm, So the staff can know you are satisfy. "}
@@ -27,6 +32,15 @@ function AlertBar({ view, state }: AlertBarInterface) {
       {state === "complete" &&
         view === "customer" &&
         "Your ticket has been complete, Please check your app and confirm, So the staff can know you are satisfy. "}
+
+      {(view === "admin" || view === "employee") && (
+        <NavLink
+          to={`/${view}-dashboard/employee-assignment`}
+          className="btn btn--outline btn--no-m-bottom"
+        >
+          Go to Assign
+        </NavLink>
+      )}
     </div>
   );
 }

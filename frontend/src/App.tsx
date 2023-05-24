@@ -9,7 +9,7 @@ import AppAlert from "./components/AppAlert";
 import ShowIf from "./components/Helper";
 import { Theme } from "./redux/variable/ThemeVariable";
 import { PageNotFound } from "./pages/404Page";
-import EmployeeDashboard from "./pages/EmployeeDashboard";
+import EmployeeDashboard from "./pages/employee-dashboard";
 import CustomerDashboard from "./pages/CustomerDashboard";
 
 function App() {
