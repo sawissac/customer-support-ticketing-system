@@ -27,4 +27,11 @@ class EmployeeAssignRepository implements EmployeeAssignRepoInterface
 
         return $data;
     }
+
+    public function employeeByEmployee($id)
+    {
+        $data = EmployeeAssign::where('employee_id', $id)->with('ticket.customer_project.user','ticket.customer_project.project', 'ticket.admin', 'ticket.employee_assign', 'ticket.employee_assign.employee')->get();
+
+        return $data;
+    }
 }
