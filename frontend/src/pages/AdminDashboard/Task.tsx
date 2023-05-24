@@ -35,6 +35,8 @@ import { updateTicket } from "../../requests/ticketRequest";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 
+import Input from "../../components/Input";
+import { debounce } from "debounce";
 dayjs.extend(relativeTime);
 
 const Task = () => {
@@ -42,7 +44,6 @@ const Task = () => {
   const authRedux = useAppSelector((state) => state.auth);
   const taskRedux = useAppSelector((state) => state.tasks);
   const themeRedux = useAppSelector((state) => state.theme);
-  const [tableData, setTableTableData] = useState([]);
   const [modelOpen, setModalOpen] = useState(false);
   const [processType, setProcessType] = useState<any>({
     name: "",
@@ -50,6 +51,9 @@ const Task = () => {
     status: false,
     description: "",
   });
+  const [tableData, setTableTableData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
 
   const url = "http://127.0.0.1:8000/api/ticket";
   const getUsersData = async () => {
@@ -90,7 +94,7 @@ const Task = () => {
             <div className="avatar-profile">
               <Avatar
                 className={`avatar-profile__circle`}
-                name={"hello"}
+                name={row.admin.name}
                 color={"#F37021"}
                 size="30"
                 textSizeRatio={2}
@@ -315,6 +319,17 @@ const Task = () => {
     );
   }
 
+  const debouncedSearch = debounce((value: any) => {
+    const filtered = tableData.filter((item: any) => {
+      return item.tickets_id.toLowerCase().includes(value.toLowerCase());
+    });
+    setFilteredData(filtered);
+  }, 1000);
+
+  const handleSearch = (event: any) => {
+    setSearchQuery(event.target.value);
+    debouncedSearch(event.target.value);
+  };
   return (
     <>
       <ShowIf
@@ -340,9 +355,16 @@ const Task = () => {
               animate={{ y: "0px", opacity: 1 }}
               className="admin-container__inner"
             >
+              <Input
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={handleSearch}
+                className="search"
+              />
               <DataTable
                 columns={columns}
-                data={tableData}
+                data={searchQuery.length===0 ? tableData : filteredData}
                 responsive
                 pagination
                 theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}
@@ -351,10 +373,7 @@ const Task = () => {
           </div>
         }
       />
-      <ShowIf
-        sif={taskRedux.view === "task-create"}
-        show={<TaskCreate />}
-      />
+      <ShowIf sif={taskRedux.view === "task-create"} show={<TaskCreate />} />
       <ShowIf
         sif={taskRedux.view === "task-employee"}
         show={<EmployeeAssign />}

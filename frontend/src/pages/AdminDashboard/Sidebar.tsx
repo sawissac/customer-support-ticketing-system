@@ -2,7 +2,6 @@ import {
   IconHash,
   IconSettings,
   IconUsers,
-  IconFileTime,
   IconSunFilled,
   IconMoonFilled,
   IconLogout,
