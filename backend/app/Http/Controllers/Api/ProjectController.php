@@ -49,29 +49,23 @@ class ProjectController extends BaseController
 
         $validate = $request->all();
 
-        try {
 
-            $data = $this->projectServcie->store($validate);
-
-            $validator = Validator::make(
-                $validate,
-                [
-                    'project_id' => 'string',
-                    'name' => 'required|string',
+        $validator = Validator::make(
+            $validate,
+            [
+                'project_id' => 'string',
+                'name' => 'required|string',
                 ]
             );
 
-            if ($validator->fails()) {
-                return $this->sendError('Validation Error.', $validator->errors(), 422);
-            }
-
-            return $this->sendResponse($data, 'Project created successfully.', 201);
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => $e,
-            ], 500);
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
+
+        $data = $this->projectServcie->store($validate);
+
+        return $this->sendResponse($data, 'Project created successfully.', 201);
+
     }
 
     /**
@@ -82,21 +76,16 @@ class ProjectController extends BaseController
      */
     public function show($id)
     {
-        try {
-            $result = $this->projectRepo->show($id);
 
-            if (is_null($result)) {
-                return $this->sendError('Project not found.', [], 500);
-            }
+        $result = $this->projectRepo->show($id);
 
-            return $this->sendResponse($result, 'Project retrieved successfully.');
-
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => $e,
-            ], 500);
+        if (is_null($result)) {
+            return $this->sendError('Project not found.', [], 500);
         }
+
+        return $this->sendResponse($result, 'Project retrieved successfully.');
+
+
     }
 
     /**
@@ -110,29 +99,23 @@ class ProjectController extends BaseController
     {
         $validate = $request->all();
 
-        try {
 
-            $data = $this->projectServcie->update($id, $validate);
-
-            $validator = Validator::make(
-                $validate, 
-                [
-                    'project_id' => 'string',
-                    'name' => 'required|string',
+        $validator = Validator::make(
+            $validate,
+            [
+                'project_id' => 'string',
+                'name' => 'required|string',
                 ]
             );
 
-            if ($validator->fails()) {
-                return $this->sendError('Validation Error.', $validator->errors(), 422);
-            }
-
-            return $this->sendResponse($data, 'Project updated successfully.');
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => $e,
-            ], 500);
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
+
+        $data = $this->projectServcie->update($id, $validate);
+
+        return $this->sendResponse($data, 'Project updated successfully.');
+
     }
 
     /**
