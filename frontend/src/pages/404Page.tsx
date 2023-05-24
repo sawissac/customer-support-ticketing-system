@@ -15,7 +15,7 @@ export const PageNotFound = () => {
           Maybe this page moved? Got deleted? Is hiding out in quarantine? Never
           existed in the first place?
           <p>
-            Let's go <a href="#">back</a> and try from there.
+            Let's go <a href="/">back</a> and try from there.
           </p>
         </div>
       </div>
