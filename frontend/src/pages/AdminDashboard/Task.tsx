@@ -330,7 +330,6 @@ const Task = () => {
     setSearchQuery(event.target.value);
     debouncedSearch(event.target.value);
   };
-  console.log(tableData)
   return (
     <>
       <ShowIf

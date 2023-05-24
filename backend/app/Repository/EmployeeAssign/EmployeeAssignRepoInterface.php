@@ -9,4 +9,5 @@ interface EmployeeAssignRepoInterface
     public function show($id);
 
     public function employeeByTicketID($id);
+    public function employeeByEmployee($id);
 }

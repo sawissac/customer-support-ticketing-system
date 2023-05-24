@@ -179,7 +179,7 @@ const EmployeeAssign = () => {
     []
   );
 
-  const url = `http://127.0.0.1:8000/api/assign-list/${taskRedux.ticketId}`;
+  const url = `http://127.0.0.1:8000/api/assign-ticket-list/${taskRedux.ticketId}`;
 
   const getUsersData = async () => {
     const res = await axios

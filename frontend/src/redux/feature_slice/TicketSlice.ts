@@ -18,23 +18,22 @@ const ticketSlice = createSlice({
     setViewData: (
       state,
       action: PayloadAction<{
-        ticketId: number;
-        employees: [];
-        userName: string;
-        subject: string;
-        description: string;
-        driveLink: string;
-        customerProjectId: number;
-        customerProjectName: string;
-        priority: string;
-        status: string;
-        startDate: string;
-        endDate: string;
-        time: string;
+        ticketId?: number;
+        userName?: string;
+        subject?: string;
+        description?: string;
+        driveLink?: string;
+        customerProjectId?: number;
+        customerProjectName?: string;
+        priority?: string;
+        status?: string;
+        startDate?: string;
+        endDate?: string;
+        time?: string;
       }>
     ) => {
       state = { ...state, ...action.payload };
-      state.customerProjectName = action.payload.customerProjectName;
+      state.customerProjectName = action.payload.customerProjectName ? action.payload.customerProjectName : "";
       return state;
     },
   },

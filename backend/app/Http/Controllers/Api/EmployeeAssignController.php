@@ -19,7 +19,7 @@ class EmployeeAssignController extends BaseController
     {
         $this->employeeAssignRepo = $employeeAssignRepo;
         $this->employeeAssignService = $employeeAssignService;
-        $this->middleware('permission:canShowAssignEmployee', ['only' => ['index', 'show']]);
+        $this->middleware('permission:canShowAssignEmployee', ['only' => ['index', 'show', 'employee', 'ticket']]);
         $this->middleware('permission:canCreateAssignEmployee', ['only' => ['create,store']]);
         $this->middleware('permission:canUpdateAssignEmployee', ['only' => ['edit,update']]);
         $this->middleware('permission:canDeleteAssignEmployee', ['only' => ['destroy']]);
@@ -100,6 +100,13 @@ class EmployeeAssignController extends BaseController
     public function ticket($id)
     {
         $data = $this->employeeAssignRepo->employeeByTicketID($id);
+
+        return $this->sendResponse($data, 'Ticket retrieved successfully.');
+    }
+
+    public function employee($id)
+    {
+        $data = $this->employeeAssignRepo->employeeByEmployee($id);
 
         return $this->sendResponse($data, 'Ticket retrieved successfully.');
     }
