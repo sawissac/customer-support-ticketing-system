@@ -44,7 +44,7 @@ const Report = () => {
   const [admin, setAdmin] = useState(0);
   const [employee, setEmployee] = useState(0);
   const [customer, setCustomer] = useState(0);
-  const [reassign, setRessign] = useState(0);
+  const [resign, setResign] = useState(0);
 
   const url = "http://127.0.0.1:8000/api/ticket";
 
@@ -151,7 +151,7 @@ const Report = () => {
         userData.data.filter((item: any) => item.roles[0].name === "customer")
           .length
       );
-      setRessign(
+      setResign(
         userData.data.filter(
           (item: any) => item.roles[0].name === "resign_employee"
         ).length
@@ -288,8 +288,8 @@ const Report = () => {
         <div className="col-3">
           <ReportCard
             icon={<IconUserExclamation size={35} />}
-            label="Reassign Employee"
-            total={reassign}
+            label="Resign Employee"
+            total={resign}
           />
         </div>
 
