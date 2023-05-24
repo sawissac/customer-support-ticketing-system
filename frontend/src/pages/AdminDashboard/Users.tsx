@@ -234,7 +234,7 @@ const Users = () => {
               buttonChildren={<>{dropDownTitle.name}</>}
               dropdownClassName="form-dropdown"
               dropdownChildren={
-                <>
+                <div className="form-dropdown__scroll">
                   <button
                     title="button"
                     onClick={() => {
@@ -256,7 +256,7 @@ const Users = () => {
                       </button>
                     );
                   })}
-                </>
+                </div>
               }
             />
           </div>

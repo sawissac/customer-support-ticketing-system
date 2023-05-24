@@ -18,6 +18,8 @@ import { AuthRole } from "../../redux/variable/AuthVariable";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 
+import logo from '../../assets/img/logo.png';
+
 const LoginPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -72,12 +74,19 @@ const LoginPage = () => {
 
   return (
     <div className="login_container">
+      <div className="login_container__inner">
+        <div className="system-name">
+          <h1>Customer Support Tickets Management System</h1>
+        </div>
       <form
         action="/auth/login"
         className="login-form"
         onSubmit={onSubmitHandle}
       >
-        <h1 className="login-form__header">Welcome Back User!</h1>
+        <img
+          src={logo}
+          alt=""
+        />
         <LoginInput
           icon={<IconUser size={25} />}
           placeholder="Enter your email..."
@@ -108,6 +117,7 @@ const LoginPage = () => {
           onClick={onClickHandle}
         />
       </form>
+      </div>
     </div>
   );
 };

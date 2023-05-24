@@ -4,23 +4,27 @@ import Button from "../../components/Button";
 import { IconMenuOrder, IconUserUp } from "@tabler/icons-react";
 import Nav from "../../components/Nav";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { useNavigate } from "react-router-dom";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import { createEmployeeProject } from "../../requests/employeeProjectsRequest";
 import FormWarper from "../../components/FormWarper";
-import { getAllProject } from "../../requests/projectRequest";
 import { getAllEmployee } from "../../requests/userRequest";
 import { motion } from "framer-motion";
 import {
   openProjectRightSidebar,
   updateProjectTableUrl,
 } from "../../redux/feature_slice/ProjectPageSlice";
+import Input from "../../components/Input";
+import { UserApiResponse } from "../../responseInterface/UserApiResponse";
+import { EmployeeListApiResponse } from "../../responseInterface/EmployeeListApiResponse";
+import { debounce } from "debounce";
 const EmployeeProjectsCreate = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
   const ProjectPageRedux = useAppSelector((state) => state.projectSidebar);
-  const [employeeList, setEmployeeList] = useState([]);
+  const [employeeList, setEmployeeList] = useState<UserApiResponse[]>([]);
+  const [tempEmployeeList, setTempEmployeeList] = useState<UserApiResponse[]>([]);
+  const [filterEmployeeInput, setFilterEmployeeInput] = useState("");
   const [dropdownEmployee, setDropDownEmployee] = React.useState({
     name: "Select",
     value: 0,
@@ -30,14 +34,9 @@ const EmployeeProjectsCreate = () => {
     getAllEmployee({
       token: AuthRedux.token,
     }).then((res: any) => {
-      console.log(res)
-      const filteredData = res.data.map((i: any) => {
-        return {
-          id: i.id,
-          name: i.name,
-        };
-      });
-      setEmployeeList(filteredData);
+      const dataResponse: EmployeeListApiResponse = res;
+      setEmployeeList(dataResponse.data);
+      setTempEmployeeList(dataResponse.data);
     });
   }, []);
 
@@ -80,6 +79,29 @@ const EmployeeProjectsCreate = () => {
     }
   }
 
+  function handleCustomerSearch(ev: React.ChangeEvent<HTMLInputElement>) {
+    setFilterEmployeeInput(ev.target.value);
+    debouncedCustomerProjectSearch(ev.target.value);
+  }
+
+  const debouncedCustomerProjectSearch = debounce((value: string) => {
+    const filteredCustomer = tempEmployeeList.filter((project) => {
+      if (project.name.toLowerCase().includes(value.toLocaleLowerCase())) {
+        return true;
+      }
+      if (String(project.id) === value) {
+        return true;
+      }
+    });
+
+    if (filteredCustomer.length > 0) {
+      setEmployeeList(filteredCustomer);
+    }
+    if (filteredCustomer.length === 0) {
+      setEmployeeList(tempEmployeeList);
+    }
+  }, 1000);
+
   return (
     <div className="admin-container admin-container--no-flex-grow admin-container--form">
       <Nav.BackButton
@@ -108,20 +130,36 @@ const EmployeeProjectsCreate = () => {
             dropdownClassName="form-dropdown"
             dropdownChildren={
               <>
-                {employeeList.map((employee: any) => {
-                  return (
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        setDropDownEmployee({
-                          name: employee.name,
-                          value: employee.id,
-                        });
-                      }}
-                      label={employee.name + `#${employee.id}`}
-                    />
-                  );
-                })}
+                <div className="form-dropdown__search">
+                  <Input
+                    label="Search Customer Project"
+                    onClick={(ev) => {
+                      ev.stopPropagation();
+                    }}
+                    onFocus={(ev) => {
+                      ev.target.setAttribute("autocomplete", "off");
+                    }}
+                    placeholder="[employee name] #id"
+                    value={filterEmployeeInput}
+                    onChange={handleCustomerSearch}
+                  />
+                </div>
+                <div className="form-dropdown__scroll form-dropdown__scroll--height">
+                  {employeeList.map((employee) => {
+                    return (
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          setDropDownEmployee({
+                            name: employee.name,
+                            value: employee.id,
+                          });
+                        }}
+                        label={employee.name + `#${employee.id}`}
+                      />
+                    );
+                  })}
+                </div>
               </>
             }
           />

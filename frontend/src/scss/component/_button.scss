@@ -51,6 +51,7 @@
     margin: 0px map-get($spacers, 2);
     border: 1px solid $white;
     color: $white;
+    background: $primary;
   }
 
   &--assign-employee {

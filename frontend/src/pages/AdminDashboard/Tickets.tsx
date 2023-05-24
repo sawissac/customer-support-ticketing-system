@@ -175,15 +175,9 @@ const TicketPage = () => {
                       priority={i.priority}
                       status={i.status}
                       onClick={() => {
-                        const employees = i.customer_project.project.employee_project.map(
-                          (employee: any) => {
-                            return { user_id: employee.user_id, name: employee.user.name };
-                          }
-                        );
                         dispatch(
                           setViewData({
                             ticketId: i.id,
-                            employees,
                             customerProjectId: i.customer_project.id,
                             customerProjectName: i.customer_project.project.name,
                             subject: i.subject,
