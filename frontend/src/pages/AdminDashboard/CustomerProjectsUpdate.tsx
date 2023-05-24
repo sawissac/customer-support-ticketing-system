@@ -19,13 +19,19 @@ import {
   openProjectRightSidebar,
   updateCustomerTableUrl,
 } from "../../redux/feature_slice/ProjectPageSlice";
+import { UserApiResponse } from "../../responseInterface/UserApiResponse";
+import { CustomerListApiResponse } from "../../responseInterface/CustomerListApiResponse";
+import Input from "../../components/Input";
+import { debounce } from "debounce";
 
 const CustomerProjectsUpdate = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
   const projectPageRedux = useAppSelector((state) => state.projectSidebar);
-  const [customerDropDownList, setCustomerList] = useState([]);
+  const [customerList, setCustomerList] = useState<UserApiResponse[]>([]);
+  const [tempCustomerList, setTempCustomerList] = useState<UserApiResponse[]>([]);
+  const [filterCustomerInput, setFilterCustomerInput] = useState("");
   const [dropdownCustomer, setDropDownCustomer] = React.useState({
     name: "Customer",
     value: 0,
@@ -35,13 +41,9 @@ const CustomerProjectsUpdate = () => {
     getAllCustomer({
       token: AuthRedux.token,
     }).then((res: any) => {
-      const filteredData = res.data.map((i: any) => {
-        return {
-          id: i.id,
-          name: i.name,
-        };
-      });
-      setCustomerList(filteredData);
+      const dataResponse: CustomerListApiResponse = res;
+      setCustomerList(dataResponse.data);
+      setTempCustomerList(dataResponse.data);
     });
   }, []);
 
@@ -92,10 +94,33 @@ const CustomerProjectsUpdate = () => {
     }
   }
 
+  function handleCustomerSearch(ev: React.ChangeEvent<HTMLInputElement>) {
+    setFilterCustomerInput(ev.target.value);
+    debouncedCustomerProjectSearch(ev.target.value);
+  }
+
+  const debouncedCustomerProjectSearch = debounce((value: string) => {
+    const filteredCustomer = tempCustomerList.filter((project) => {
+      if (project.name.toLowerCase().includes(value.toLocaleLowerCase())) {
+        return true;
+      }
+      if (String(project.id) === value) {
+        return true;
+      }
+    });
+
+    if (filteredCustomer.length > 0) {
+      setCustomerList(filteredCustomer);
+    }
+    if (filteredCustomer.length === 0) {
+      setCustomerList(tempCustomerList);
+    }
+  }, 1000);
+
   return (
     <div className="admin-container admin-container--no-flex-grow admin-container--form">
       <Nav.BackButton
-        label="User Update"
+        label="Customer Update"
         onClick={() => {
           dispatch(openProjectRightSidebar({ name: "" }));
         }}
@@ -106,7 +131,7 @@ const CustomerProjectsUpdate = () => {
       >
         <FormWarper route="/api/customer-project">
           <div className="form-dropdown-label">
-            <label htmlFor="">Employee</label>
+            <label htmlFor="">Customer</label>
             <span>*require</span>
           </div>
           <Dropdown
@@ -120,20 +145,36 @@ const CustomerProjectsUpdate = () => {
             dropdownClassName="form-dropdown"
             dropdownChildren={
               <>
-                {customerDropDownList.map((customer: any) => {
-                  return (
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        setDropDownCustomer({
-                          name: customer.name,
-                          value: customer.id,
-                        });
-                      }}
-                      label={customer.name}
-                    />
-                  );
-                })}
+                <div className="form-dropdown__search">
+                  <Input
+                    label="Search Customer Project"
+                    onClick={(ev) => {
+                      ev.stopPropagation();
+                    }}
+                    onFocus={(ev) => {
+                      ev.target.setAttribute("autocomplete", "off");
+                    }}
+                    placeholder="[customer name] #id"
+                    value={filterCustomerInput}
+                    onChange={handleCustomerSearch}
+                  />
+                </div>
+                <div className="form-dropdown__scroll form-dropdown__scroll--height">
+                  {customerList.map((customer) => {
+                    return (
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          setDropDownCustomer({
+                            name: customer.name,
+                            value: customer.id,
+                          });
+                        }}
+                        label={customer.name + `#${customer.id}`}
+                      />
+                    );
+                  })}
+                </div>
               </>
             }
           />

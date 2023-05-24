@@ -18,22 +18,25 @@ import { getAllEmployee } from "../../requests/userRequest";
 import dayjs from "dayjs";
 import ReactDatePicker from "react-datepicker";
 import { createEmployeeAssign, updateEmployeeAssign } from "../../requests/employeeAssignRequest";
+import { UserApiResponse } from "../../responseInterface/UserApiResponse";
+import { EmployeeListApiResponse } from "../../responseInterface/EmployeeListApiResponse";
+import { formatDateTime } from "../../commonFunction/common";
+import { debounce } from "debounce";
 
 const EmployeeAssignUpdate = () => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
   const taskRedux = useAppSelector((state) => state.tasks);
+  const [employeeList, setEmployeeList] = useState<UserApiResponse[]>([]);
+  const [tempEmployeeList, setTempEmployeeList] = useState<UserApiResponse[]>([]);
+  const [filterEmployeeInput, setFilterEmployeeInput] = useState("");
   const [inputField, setInputField] = React.useState({
     task: "",
   });
-  const [employeeList, setEmployeeList] = React.useState([]);
   const [dropdownEmployee, setDropDownEmployee] = React.useState({
     name: "Select",
     value: 0,
   });
-  const formatDateTime = (date: any) => {
-    return dayjs(date).format("YYYY-MM-DD HH:mm:ss");
-  };
   const [startDate, setStartDate] = useState(new Date());
   const [dueDate, setDueDate] = useState(new Date());
   const CustomDatePickerInput = forwardRef(({ value, onClick }: any, ref: any) => (
@@ -45,17 +48,14 @@ const EmployeeAssignUpdate = () => {
       {value}
     </button>
   ));
+
   React.useEffect(() => {
     getAllEmployee({
       token: authRedux.token,
     }).then((res: any) => {
-      const filteredData = res.data.map((i: any) => {
-        return {
-          id: i.id,
-          name: i.name,
-        };
-      });
-      setEmployeeList(filteredData);
+      const dataResponse: EmployeeListApiResponse = res;
+      setEmployeeList(dataResponse.data);
+      setTempEmployeeList(dataResponse.data);
     });
   }, []);
 
@@ -114,12 +114,35 @@ const EmployeeAssignUpdate = () => {
         });
     }
   }
+
   function onChangeHandler(ev: React.ChangeEvent<HTMLInputElement>) {
     setInputField({
       ...inputField,
       [ev.currentTarget.id]: ev.target.value,
     });
   }
+  function handleCustomerSearch(ev: React.ChangeEvent<HTMLInputElement>) {
+    setFilterEmployeeInput(ev.target.value);
+    debouncedEmployeeSearch(ev.target.value);
+  }
+
+  const debouncedEmployeeSearch = debounce((value: string) => {
+    const filteredEmployee = tempEmployeeList.filter((employee) => {
+      if (employee.name.toLowerCase().includes(value.toLowerCase())) {
+        return true;
+      }
+      if (String(employee.id) === value) {
+        return true;
+      }
+    });
+
+    if (filteredEmployee.length > 0) {
+      setEmployeeList(filteredEmployee);
+    }
+    if (filteredEmployee.length === 0) {
+      setEmployeeList(tempEmployeeList);
+    }
+  }, 1000);
   return (
     <div className="admin-container admin-container admin-container--no-flex-grow admin-container--form">
       <Nav.BackButton
@@ -157,21 +180,37 @@ const EmployeeAssignUpdate = () => {
             dropdownClassName="form-dropdown"
             dropdownChildren={
               <>
-                {employeeList.map((employee: any, index: number) => {
-                  return (
-                    <Button
-                      type="button"
-                      key={index}
-                      onClick={() => {
-                        setDropDownEmployee({
-                          name: employee.name,
-                          value: employee.id,
-                        });
-                      }}
-                      label={employee.name + `#${employee.id}`}
-                    />
-                  );
-                })}
+                <div className="form-dropdown__search">
+                  <Input
+                    label="Search Customer Project"
+                    onClick={(ev) => {
+                      ev.stopPropagation();
+                    }}
+                    onFocus={(ev) => {
+                      ev.target.setAttribute("autocomplete", "off");
+                    }}
+                    placeholder="[employee name] #id"
+                    value={filterEmployeeInput}
+                    onChange={handleCustomerSearch}
+                  />
+                </div>
+                <div className="form-dropdown__scroll orm-dropdown__scroll--height">
+                  {employeeList.map((employee: any, index: number) => {
+                    return (
+                      <Button
+                        type="button"
+                        key={index}
+                        onClick={() => {
+                          setDropDownEmployee({
+                            name: employee.name,
+                            value: employee.id,
+                          });
+                        }}
+                        label={employee.name + `#${employee.id}`}
+                      />
+                    );
+                  })}
+                </div>
               </>
             }
           />

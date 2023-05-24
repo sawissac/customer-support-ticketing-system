@@ -36,6 +36,8 @@ import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import Input from "../../components/Input";
 import { debounce } from "debounce";
+import { TicketListApiResponse, TicketListProps } from "../../responseInterface/TicketListApiResponse";
+
 dayjs.extend(relativeTime);
 
 const Task = () => {
@@ -50,9 +52,9 @@ const Task = () => {
     status: false,
     description: "",
   });
-  const [tableData, setTableTableData] = useState([]);
+  const [tableData, setTableTableData] = useState<TicketListProps[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
+  const [filteredData, setFilteredData] = useState<TicketListProps[]>([]);
 
   const url = "http://127.0.0.1:8000/api/ticket";
   const getUsersData = async () => {
@@ -286,12 +288,13 @@ const Task = () => {
     []
   );
 
-  const { data, isFetching } = useQuery(["tasks", taskRedux.url], getUsersData);
+  const { data, isFetching } = useQuery<TicketListApiResponse>(["tasks", taskRedux.url], getUsersData);
 
   useEffect(() => {
     if (data) {
-      const filterData = data.data.filter((i: any) => {
-        if (i.admin) {
+      const dataResponse = data;
+      const filterData = dataResponse.data.filter((i) => {
+        if (i.admin_id && i.status !== 'close') {
           return true;
         }
       });
@@ -398,10 +401,10 @@ const Task = () => {
             {processType.name === "fix" ? "Fix Confirmation" : "Close Confirmation"}
           </div>
           <div className="modal__desc">{processType.description}</div>
-          {processType.status && processType.name === "fix" && (
+          {processType.status && (processType.name === "fix" || processType.name === "close")  && (
             <Button
               className="btn btn--light btn--no-m-bottom"
-              label="Change to Fixed Status"
+              label={processType.name === "fix" ? "Change to Fixed Status" : processType.name === "close" ? 'Change to close status' : ""}
               onClick={() => {
                 updateTicket({
                   ...processType.data,
