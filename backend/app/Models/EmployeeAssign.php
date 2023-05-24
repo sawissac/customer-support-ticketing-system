@@ -14,7 +14,6 @@ class EmployeeAssign extends Model
     protected $fillable = ['ticket_id', 'employee_id', 'status', 'task_name', 'start_date', 'end_date' ];
 
 
-
     public function employee():BelongsTo
     {
         return $this->belongsTo(User::class, 'employee_id');
