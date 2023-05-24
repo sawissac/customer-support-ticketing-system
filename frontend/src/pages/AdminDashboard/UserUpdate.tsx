@@ -87,12 +87,6 @@ const UserUpdatePage = () => {
   }
   const themeRedux = useAppSelector((state) => state.theme);
   return (
-<<<<<<< HEAD
-    <div className={`admin-container admin-container--no-flex-grow admin-container--form ${themeRedux === Theme.Dark
-      ? 'admin-container--dark admin-container--no-flex-grow admin-container--form'
-      : ''
-      }`}>
-=======
     <div
       className={`admin-container admin-container--no-flex-grow admin-container--form ${
         themeRedux === Theme.Dark
@@ -100,7 +94,6 @@ const UserUpdatePage = () => {
           : ""
       }`}
     >
->>>>>>> main
       <Nav.BackButton
         label="User Update"
         onClick={() => {
