@@ -17,18 +17,34 @@ import { useAppSelector } from "../../redux/hook";
 import { useQuery } from "react-query";
 import { Oval } from "react-loader-spinner";
 import ReportCard from "../../components/ReportCard";
-import { IconFolder, IconTicket } from "@tabler/icons-react";
+import {
+  IconFolder,
+  IconTicket,
+  IconTicketOff,
+  IconUser,
+  IconUserCog,
+  IconUserExclamation,
+  IconUsers,
+} from "@tabler/icons-react";
 
 const Report = () => {
   const authRedux = useAppSelector((state) => state.auth);
+
   const [openTicket, setOpenTicket] = useState(0);
   const [closeTicket, setCloseTicket] = useState(0);
   const [processingTicket, setProcessingTicket] = useState(0);
+  const [unassignTicket, setUnassignTicket] = useState(0);
+  const [assignTicket, setAssignTicket] = useState(0);
 
   const [lowPriority, setLowPriority] = useState(0);
   const [mediumPriority, setMediumPriority] = useState(0);
   const [highPriority, setHighPriority] = useState(0);
   const [criticalPriority, setCriticalPriority] = useState(0);
+
+  const [admin, setAdmin] = useState(0);
+  const [employee, setEmployee] = useState(0);
+  const [customer, setCustomer] = useState(0);
+  const [reassign, setRessign] = useState(0);
 
   const url = "http://127.0.0.1:8000/api/ticket";
 
@@ -44,38 +60,106 @@ const Report = () => {
       });
     return res;
   };
-  const { data, isFetching } = useQuery(
+  const { data: ticketData, isFetching: isFetchingTicket } = useQuery(
     ["tickets-report", "get"],
     getTicketsData
   );
 
   useEffect(() => {
-    if (data) {
+    if (ticketData) {
       setOpenTicket(
-        data.data.filter((item: any) => item.status === "open").length
+        ticketData.data.filter((item: any) => item.status === "open").length
       );
       setProcessingTicket(
-        data.data.filter((item: any) => item.status === "processing").length
+        ticketData.data.filter((item: any) => item.status === "processing")
+          .length
       );
       setCloseTicket(
-        data.data.filter((item: any) => item.status === "close").length
+        ticketData.data.filter((item: any) => item.status === "close").length
       );
       setLowPriority(
-        data.data.filter((item: any) => item.priority === "low").length
+        ticketData.data.filter((item: any) => item.priority === "low").length
       );
       setMediumPriority(
-        data.data.filter((item: any) => item.priority === "medium").length
+        ticketData.data.filter((item: any) => item.priority === "medium").length
       );
       setHighPriority(
-        data.data.filter((item: any) => item.priority === "high").length
+        ticketData.data.filter((item: any) => item.priority === "high").length
       );
       setCriticalPriority(
-        data.data.filter((item: any) => item.priority === "critical").length
+        ticketData.data.filter((item: any) => item.priority === "critical")
+          .length
+      );
+      setUnassignTicket(
+        ticketData.data.filter((item: any) => item.employee_assign.length === 0)
+          .length
+      );
+      setAssignTicket(
+        ticketData.data.filter((item: any) => item.employee_assign.length > 0)
+          .length
       );
     }
-  }, [data]);
+  }, [ticketData]);
 
-  if (isFetching) {
+  const getProjectData = async () => {
+    const res = await axios
+      .get("http://127.0.0.1:8000/api/project", {
+        headers: {
+          Authorization: `Bearer ${authRedux.token}`,
+        },
+      })
+      .then((response) => {
+        return response.data;
+      });
+    return res;
+  };
+
+  const { data: projectData, isFetching: isFetchingProject } = useQuery(
+    ["project-report", "get"],
+    getProjectData
+  );
+
+  const getUserData = async () => {
+    const res = await axios
+      .get("http://127.0.0.1:8000/api/user", {
+        headers: {
+          Authorization: `Bearer ${authRedux.token}`,
+        },
+      })
+      .then((response) => {
+        return response.data;
+      });
+    return res;
+  };
+
+  const { data: userData, isFetching: isFetchingUser } = useQuery(
+    ["user-report", "get"],
+    getUserData
+  );
+
+  useEffect(() => {
+    if (userData) {
+      setAdmin(
+        userData.data.filter((item: any) => item.roles[0].name === "admin")
+          .length
+      );
+      setEmployee(
+        userData.data.filter((item: any) => item.roles[0].name === "employee")
+          .length
+      );
+      setCustomer(
+        userData.data.filter((item: any) => item.roles[0].name === "customer")
+          .length
+      );
+      setRessign(
+        userData.data.filter(
+          (item: any) => item.roles[0].name === "resign_employee"
+        ).length
+      );
+    }
+  }, [userData]);
+
+  if (isFetchingTicket || isFetchingProject || isFetchingUser) {
     return (
       <div className="fetching">
         <Oval
@@ -94,8 +178,6 @@ const Report = () => {
     );
   }
 
-  console.log(openTicket);
-
   ChartJS.register(
     ArcElement,
     CategoryScale,
@@ -107,20 +189,6 @@ const Report = () => {
     Filler,
     Legend
   );
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top" as const,
-      },
-      title: {
-        display: true,
-        text: "Chart.js Line Chart",
-      },
-    },
-  };
-
   const statusData = {
     labels: ["Open", "Processing", "Close"],
     datasets: [
@@ -170,94 +238,90 @@ const Report = () => {
       <div className="admin-container__inner row row--gap-1 admin-container--pb-5">
         <div className="col-3">
           <ReportCard
-            icon={<IconFolder size={35} />}
-            label="Total Project"
-            total={1}
+            icon={<IconTicket size={35} />}
+            label="Total Ticket"
+            total={ticketData.data.length}
+          />
+        </div>
+        <div className="col-3">
+          <ReportCard
+            icon={<IconTicketOff size={35} />}
+            label="Unassign Ticket"
+            total={unassignTicket}
+          />
+        </div>
+        <div className="col-3">
+          <ReportCard
+            icon={<IconTicket size={35} />}
+            label="Assign Ticket"
+            total={assignTicket}
           />
         </div>
         <div className="col-3">
           <ReportCard
             icon={<IconFolder size={35} />}
             label="Total Project"
-            total={1}
+            total={projectData.data.length}
           />
         </div>
         <div className="col-3">
           <ReportCard
-            icon={<IconFolder size={35} />}
-            label="Total Project"
-            total={1}
+            icon={<IconUser size={35} />}
+            label="Total Admin"
+            total={admin}
           />
         </div>
         <div className="col-3">
           <ReportCard
-            icon={<IconFolder size={35} />}
-            label="Total Project"
-            total={1}
+            icon={<IconUserCog size={35} />}
+            label="Total Employee"
+            total={employee}
           />
         </div>
         <div className="col-3">
-          <div className="piechart">
-            <Pie data={statusData} />
-          </div>
+          <ReportCard
+            icon={<IconUsers size={35} />}
+            label="Total Customer"
+            total={customer}
+          />
         </div>
         <div className="col-3">
-        <div className="piechart piechart--border">
-            <label htmlFor="">Open:{openTicket}</label>
-            <label htmlFor="">Processing:{processingTicket}</label>
-            <label htmlFor="">Close:{closeTicket}</label>
+          <ReportCard
+            icon={<IconUserExclamation size={35} />}
+            label="Reassign Employee"
+            total={reassign}
+          />
+        </div>
+
+        <div className="piechart-container">
+          <div className="piechart-container__inner">
+            <div className="piechart-container__inner__piechart--chart">
+              <Pie data={statusData} />
+            </div>
+            <div className="piechart-container__inner__piechart piechart-container__inner__piechart--border">
+              <h3>Status</h3>
+              <label htmlFor="">Open: {openTicket}</label>
+              <label htmlFor="">Processing: {processingTicket}</label>
+              <label htmlFor="">Close: {closeTicket}</label>
+            </div>
           </div>
         </div>
-        <div className="col-3">
-          <div className="piechart">
-            <Pie data={priorityData} />
-          </div>
-        </div>
-        <div className="col-3">
-        <div className="piechart piechart--border">
-            <label htmlFor="">Low:{lowPriority}</label>
-            <label htmlFor="">Medium:{mediumPriority}</label>
-            <label htmlFor="">High:{highPriority}</label>
-            <label htmlFor="">Critical:{criticalPriority}</label>
+
+        <div className="piechart-container">
+          <div className="piechart-container__inner">
+            <div className="piechart-container__inner__piechart--chart">
+              <Pie data={priorityData} />
+            </div>
+            <div className="piechart-container__inner__piechart piechart-container__inner__piechart--border">
+              <h3>Priority</h3>
+              <label htmlFor="">Low: {lowPriority}</label>
+              <label htmlFor="">Medium: {mediumPriority}</label>
+              <label htmlFor="">High: {highPriority}</label>
+              <label htmlFor="">Critical: {criticalPriority}</label>
+            </div>
           </div>
         </div>
       </div>
-      {/* <div className="admin-container__report">
-        <div className="admin-container__report__cards ">
-          <div className="card">
-            <ReportCard
-              icon={<IconFolder size={35} />}
-              label="Total Project"
-              total={1}
-            />
-            <ReportCard
-              icon={<IconTicket size={35} />}
-              label="Total Ticket"
-              total={1}
-            />
-          </div>
-          <div className="card">
-            <ReportCard
-              icon={<IconFolder size={35} />}
-              label="Total Employee"
-              total={1}
-            />
-            <ReportCard
-              icon={<IconTicket size={35} />}
-              label="Total Customer"
-              total={1}
-            />
-          </div>
-        </div>
-        <div className="admin-container__report__chart">
-          <div className="piechart">
-            <Pie data={statusData} />
-          </div>
-          <div className="piechart">
-            <Pie data={priorityData} />
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 };
