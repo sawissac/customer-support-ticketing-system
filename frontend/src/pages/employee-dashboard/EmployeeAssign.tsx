@@ -58,7 +58,13 @@ const EmployeeAssign = () => {
   };
 
   const columns = useMemo(
-    () => EmployeeAssignTableConfig(openClickHandler, processingClickHandler, doneClickHandler, authRedux.user.id),
+    () =>
+      EmployeeAssignTableConfig(
+        openClickHandler,
+        processingClickHandler,
+        doneClickHandler,
+        authRedux.user.id
+      ),
     []
   );
 
@@ -72,9 +78,9 @@ const EmployeeAssign = () => {
   React.useEffect(() => {
     if (data) {
       const dataResponse = data;
-      const filteredEmployee = dataResponse.data.filter((employee)=>{
+      const filteredEmployee = dataResponse.data.filter((employee) => {
         return employee.employee_id === authRedux.user.id;
-      })
+      });
       setCurrentData(filteredEmployee);
     }
   }, [data]);

@@ -12,17 +12,23 @@ import { getCustomerProject } from "../../requests/customerProjectsRequest";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import { createTicket } from "../../requests/ticketRequest";
+import { debounce } from "debounce";
+import {
+  CustomerProjectListApiResponse,
+  CustomerProjectListProps,
+} from "../../responseInterface/CustomerProjectListApiResponse";
 
 const TicketCreate = () => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((s) => s.auth);
+  const [filterCustomerProjectInput, setFilterCustomerProjectInput] = React.useState("");
   const [inputField, setInputField] = useState({
     subject: "",
     description: "",
     drive_link: "",
   });
-  const [projectList, setProjectList] = React.useState([]);
-
+  const [projectList, setProjectList] = React.useState<CustomerProjectListProps[]>([]);
+  const [tempProjectList, setTempProjectList] = React.useState<CustomerProjectListProps[]>([]);
   const [projectDropDown, setProjectDropDown] = React.useState({
     name: "Select",
     value: 0,
@@ -57,7 +63,7 @@ const TicketCreate = () => {
         ...inputField,
         customer_project_id: projectDropDown.value,
         priority: priorityDropDown.value,
-        status: 'open',
+        status: "open",
         token: authRedux.token,
       })
         .then(() => {
@@ -82,11 +88,37 @@ const TicketCreate = () => {
         });
     }
   }
-  React.useState(() => {
+
+  React.useEffect(() => {
     getCustomerProject({ token: authRedux.token }).then((res: any) => {
-      setProjectList(res.data);
+      const dataResponse: CustomerProjectListApiResponse = res;
+      setProjectList(dataResponse.data);
+      setTempProjectList(dataResponse.data);
     });
-  });
+  }, []);
+
+  function handleCustomerProjectSearch(ev: React.ChangeEvent<HTMLInputElement>) {
+    setFilterCustomerProjectInput(ev.target.value);
+    debouncedCustomerProjectSearch(ev.target.value);
+  }
+
+  const debouncedCustomerProjectSearch = debounce((value: string) => {
+    const filteredCustomerProject = tempProjectList.filter((project) => {
+      if (project.project.name.toLowerCase().includes(value.toLocaleLowerCase())) {
+        return true;
+      }
+      if (project.user.name.toLowerCase().includes(value.toLocaleLowerCase())) {
+        return true;
+      }
+    });
+
+    if (filteredCustomerProject.length > 0) {
+      setProjectList(filteredCustomerProject);
+    }
+    if (filteredCustomerProject.length === 0) {
+      setProjectList(tempProjectList);
+    }
+  }, 1000);
 
   return (
     <>
@@ -105,12 +137,14 @@ const TicketCreate = () => {
             <div className="row row--gap-1">
               <div className="col-12">
                 <Input
+                  type="text"
                   label="Subject"
                   errorMessage="*require"
                   placeholder="Name..."
                   id="subject"
                   value={inputField.subject}
                   onChange={onChangeHandler}
+                  autoComplete="off"
                 />
               </div>
               <div className="col-6">
@@ -127,23 +161,39 @@ const TicketCreate = () => {
                   width="350px"
                   dropdownChildren={
                     <>
-                      {projectList.map((i: any, index: number) => {
-                        let email = i.user.email.split("@");
-                        return (
-                          <Button
-                            key={index}
-                            type="button"
-                            title={`${i.project.name}:#${i.user.name}:@${email[0]}`}
-                            onClick={() => {
-                              setProjectDropDown({
-                                name: i.project.name,
-                                value: i.id,
-                              });
-                            }}
-                            label={`${i.project.name}:#${i.user.id}:@${email[0]}`.substring(0,35) + '...'}
-                          />
-                        );
-                      })}
+                      <div className="form-dropdown__search">
+                        <Input
+                          label="Search Customer Project"
+                          onClick={(ev) => {
+                            ev.stopPropagation();
+                          }}
+                          onFocus={(ev) => {
+                            ev.target.setAttribute("autocomplete", "off");
+                          }}
+                          placeholder="[customer project] #customer name"
+                          value={filterCustomerProjectInput}
+                          onChange={handleCustomerProjectSearch}
+                        />
+                      </div>
+                      <div className="form-dropdown__scroll form-dropdown__scroll--height">
+                        {projectList.map((i: any, index: number) => {
+                          let email = i.user.email.split("@");
+                          return (
+                            <Button
+                              key={index}
+                              type="button"
+                              title={`${i.project.name}#${i.user.name}:@${email[0]}`}
+                              onClick={() => {
+                                setProjectDropDown({
+                                  name: i.project.name,
+                                  value: i.id,
+                                });
+                              }}
+                              label={`${i.project.name}:#${i.user.name}`}
+                            />
+                          );
+                        })}
+                      </div>
                     </>
                   }
                 />
@@ -162,21 +212,23 @@ const TicketCreate = () => {
                   width={"200px"}
                   dropdownChildren={
                     <>
-                      {Object.keys(Priority).map((priority: string, index: number) => {
-                        return (
-                          <Button
-                            key={index}
-                            type="button"
-                            onClick={() => {
-                              setPriorityDropDown({
-                                name: priority,
-                                value: Priority[priority],
-                              });
-                            }}
-                            label={priority}
-                          />
-                        );
-                      })}
+                      <div className="form-dropdown__scroll">
+                        {Object.values(Priority).map((priority: string, index: number) => {
+                          return (
+                            <Button
+                              key={index}
+                              type="button"
+                              onClick={() => {
+                                setPriorityDropDown({
+                                  name: priority,
+                                  value: priority,
+                                });
+                              }}
+                              label={priority}
+                            />
+                          );
+                        })}
+                      </div>
                     </>
                   }
                 />
