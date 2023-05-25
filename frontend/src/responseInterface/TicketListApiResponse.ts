@@ -9,6 +9,11 @@ export interface TicketListApiResponse {
   message: string;
   data: TicketListProps[];
 }
+export interface TicketSingleListApiResponse {
+  success: boolean;
+  message: string;
+  data: TicketListProps;
+}
 
 export interface TicketListProps extends TicketApiResponse {
   customer_project: CustomerProjectApiResponse & {

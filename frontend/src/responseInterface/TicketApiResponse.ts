@@ -4,7 +4,7 @@ export interface TicketApiResponse {
   customer_project_id: number;
   subject: string;
   description: string;
-  status: string;
+  status: "open" | "processing" | "fixed" | "confirm" | "close";
   priority: string;
   drive_link: string;
   admin_id: number;
