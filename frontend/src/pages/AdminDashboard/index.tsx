@@ -1,25 +1,26 @@
 import { Route, Routes } from "react-router-dom";
-import SideBar from "./Sidebar";
+import { PageNotFound } from "../404Page";
 import TicketsPage from "./Tickets";
 import Users from "./Users";
 import EmployeeProjects from "./EmployeeProjects";
 import Task from "./Task";
 import Projects from "./Projects";
 import CustomerProjects from "./CustomerProjects";
-import { PageNotFound } from "../404Page";
 import Report from "./Report";
+import SideBar from "../../components/SideBar";
+import { sidebarConfig } from "./SidebarConfig";
 
 const AdminDashboard = () => {
   return (
     <>
-      <SideBar route={`/admin-dashboard`} />
+      <SideBar route="/admin-dashboard" subRoutes={sidebarConfig} />
       <Routes> 
         <Route
           path="/tickets"
           element={<TicketsPage />}
         />
         <Route
-          path="/project"
+          path="/projects"
           element={<Projects />}
         />
         <Route
@@ -27,19 +28,11 @@ const AdminDashboard = () => {
           element={<Users />}
         />
         <Route
-          path="/employee-assignment"
+          path="/tasks"
           element={<Task />}
         />
         <Route
-          path="/employee-project"
-          element={<EmployeeProjects />}
-        />
-        <Route
-          path="/customer-project"
-          element={<CustomerProjects />}
-        />
-        <Route
-          path="/report-history"
+          path="/reports"
           element={<Report/>}
         />
         <Route

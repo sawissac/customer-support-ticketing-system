@@ -3,25 +3,28 @@ import {
   IconClockHour3,
   IconFlag3Filled,
   IconFolder,
+  IconMessage2,
 } from "@tabler/icons-react";
-import { NavLink } from "react-router-dom";
 import Avatar from "react-avatar";
 import ShowIf from "../Helper";
 import { useAppSelector } from "../../redux/hook";
 import { Theme } from "../../redux/variable/ThemeVariable";
 import Button from "../Button";
+import { textLimiter } from "../../commonFunction/common";
+import { IconTicket } from "@tabler/icons-react";
 
 interface TicketListInterface {
   description: string;
   name: string;
+  ticketId: string;
   priority: string;
   status: string;
   day: string;
   userView?: boolean | undefined;
+  projectId?: number;
   projectName: string;
-  onClick?:any;
+  onClick?: any;
 }
-
 
 const TicketList = ({
   description,
@@ -31,11 +34,13 @@ const TicketList = ({
   day,
   onClick,
   userView,
-  projectName
+  projectName,
+  ticketId,
+  projectId,
 }: TicketListInterface) => {
-  const themeRedux  = useAppSelector(state=>state.theme); 
+  const themeRedux = useAppSelector((state) => state.theme);
   return (
-    <div className={`ticket-list ${themeRedux === Theme.Dark ? 'ticket-list--dark': ''}`}>
+    <div className={`ticket-list ${themeRedux === Theme.Dark ? "ticket-list--dark" : ""}`}>
       <div className="ticket-list__status ticket-list__status--mt-0">
         <div className="ticket-list__info ticket-list__info--center">
           <Avatar
@@ -45,11 +50,7 @@ const TicketList = ({
             textSizeRatio={1.75}
             round
           />
-          <label>
-            {name.length > 10
-              ? name.substring(0, 10) + "..."
-              : name}
-          </label>
+          <label>{name.length > 10 ? name.substring(0, 10) + "..." : name}</label>
         </div>
         <ShowIf
           sif={!userView}
@@ -62,20 +63,27 @@ const TicketList = ({
                 textSizeRatio={1}
                 round
               />
-              <label>
-                {name.length > 10
-                  ? name.substring(0, 10) + "..."
-                  : name}
-              </label>
+              <label>{textLimiter(30, name)}</label>
             </div>
           }
         />
       </div>
-      <div className="ticket-list__desc">
-        {description}
+      <div className="ticket-list__desc">{textLimiter(20, description)}</div>
+      <div
+        className={`ticket-list__sub-desc ${
+          themeRedux === Theme.Dark ? "ticket-list__sub-desc--dark" : ""
+        }`}
+      >
+        <IconTicket size={25} />
+        {ticketId}
       </div>
-      <div className={`ticket-list__sub-desc ${themeRedux === Theme.Dark ? 'ticket-list__sub-desc--dark': ''}`}>
-        <IconFolder size={25} />{projectName}
+      <div
+        className={`ticket-list__sub-desc ${
+          themeRedux === Theme.Dark ? "ticket-list__sub-desc--dark" : ""
+        }`}
+      >
+        <IconFolder size={25} />
+        {textLimiter(20, projectName)} #{projectId}
       </div>
       <div className="ticket-list__status">
         <div className="ticket-list__info">

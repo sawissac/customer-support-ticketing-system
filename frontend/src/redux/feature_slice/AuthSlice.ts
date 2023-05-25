@@ -17,6 +17,7 @@ const authSlice = createSlice({
         state.token = userAuth.token;
         state.user = userAuth.user;
       }
+      return state;
     },
     setAuth: function (state, action: PayloadAction<AuthInterface>) {
       state.auth = action.payload.auth;
@@ -24,6 +25,7 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.user = action.payload.user;
       Cookies.set("userAuth", JSON.stringify(state));
+      return state;
     },
     resetAuth: function (state) {
       state.auth = DefaultAuthState.auth;
@@ -31,6 +33,7 @@ const authSlice = createSlice({
       state.token = DefaultAuthState.token;
       state.user = DefaultAuthState.user;
       Cookies.remove("userAuth");
+      return state;
     },
   },
 });

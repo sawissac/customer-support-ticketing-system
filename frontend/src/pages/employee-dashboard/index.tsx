@@ -1,13 +1,14 @@
-import SideBar from './Sidebar'
 import { Route, Routes } from 'react-router-dom'
 import { PageNotFound } from '../404Page'
 import TicketsPage from './Ticket'
 import Task from './Task'
+import SideBar from '../../components/SideBar'
+import { sidebarConfig } from './SidebarConfig'
 
 const EmployeeDashboard = () => {
   return (
     <>
-      <SideBar route={`/employee-dashboard`} />
+      <SideBar route={`/employee-dashboard`} subRoutes={sidebarConfig}/>
       <Routes> 
         <Route
           path="/tickets"

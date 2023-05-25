@@ -17,6 +17,12 @@ import ReactPaginate from "react-paginate";
 import Input from "../../components/Input";
 import { debounce } from "debounce";
 import TicketUpdate from "./TicketUpdate";
+import { IconTicket } from "@tabler/icons-react";
+import { requestAxiosWithToken } from "../../routes/request";
+import {
+  TicketListApiResponse,
+  TicketListProps,
+} from "../../responseInterface/TicketListApiResponse";
 
 dayjs.extend(relativeTime);
 
@@ -27,25 +33,15 @@ const TicketPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [dataCount, setDataCount] = useState(0);
-  const [filteredData, setFilteredData] = useState([]);
-  const [currentData, setCurrentData] = useState([]);
+  const [filteredData, setFilteredData] = useState<TicketListProps[]>([]);
+  const [currentData, setCurrentData] = useState<TicketListProps[]>([]);
   const itemsPerPage = 6;
-
   const url = "http://127.0.0.1:8000/api/ticket";
-  const getUsersData = async () => {
-    const res = await axios
-      .get(url, {
-        headers: {
-          Authorization: `Bearer ${authRedux.token}`,
-        },
-      })
-      .then((response) => {
-        return response.data;
-      });
-    return res;
-  };
 
-  const { data, isFetching } = useQuery(["tickets", ticketRedux.url], getUsersData);
+  const { data, isFetching } = useQuery<TicketListApiResponse>(
+    ["tickets", ticketRedux.url],
+    requestAxiosWithToken(url, authRedux.token)
+  );
 
   useEffect(() => {
     if (filteredData.length > 0) {
@@ -55,8 +51,14 @@ const TicketPage = () => {
     }
 
     if (data && filteredData.length === 0) {
-      setCurrentData(data.data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage));
-      setDataCount(data.data.length);
+      const dataResponse = data;
+      const filteredTicket = dataResponse.data.filter((ticket) => {
+        return ticket.status !== "close";
+      });
+      setCurrentData(
+        filteredTicket.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
+      );
+      setDataCount(filteredTicket.length);
     }
   }, [data, filteredData, currentPage]);
 
@@ -90,7 +92,7 @@ const TicketPage = () => {
   };
 
   const debouncedSearch = debounce((value: any) => {
-    const filtered = data.data.filter((item: any) => {
+    const filtered = currentData.filter((item) => {
       if (item.tickets_id.toLowerCase() === value.toLowerCase()) {
         return true;
       }
@@ -118,7 +120,7 @@ const TicketPage = () => {
         show={
           <div className="admin-container">
             <Nav
-              icon={<IconMessage2 />}
+              icon={<IconTicket />}
               label={"Tickets"}
               rightPlacer={
                 <Button
@@ -167,13 +169,15 @@ const TicketPage = () => {
                     key={index}
                   >
                     <TicketList
-                      projectName={`${i.customer_project.project.name} #${i.tickets_id}`}
+                      projectName={`${i.customer_project.project.name}`}
                       userView
                       day={dayjs(i.created_at).fromNow()}
                       description={i.subject}
                       name={i.customer_project.user.name}
                       priority={i.priority}
                       status={i.status}
+                      ticketId={`#${i.tickets_id}`}
+                      projectId={i.customer_project.project.project_id}
                       onClick={() => {
                         dispatch(
                           setViewData({

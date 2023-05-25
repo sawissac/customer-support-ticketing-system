@@ -38,7 +38,7 @@ const LoginPage = () => {
   async function onClickHandle() {
     setStatus("PROCESSING...");
     getLoginData(input)
-      .then((res: any) => {
+      .then((res:any) => {
         setStatus("Success");
         dispatch(
           setAlert({
