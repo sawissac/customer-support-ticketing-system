@@ -33,6 +33,10 @@ const Report = () => {
   const [openTicket, setOpenTicket] = useState(0);
   const [closeTicket, setCloseTicket] = useState(0);
   const [processingTicket, setProcessingTicket] = useState(0);
+  const [doneTicket, setDoneTicket] = useState(0);
+  const [fixedTicket, setFixedTicket] = useState(0);
+  const [confirmTicket, setConfirmTicket] = useState(0);
+
   const [unassignTicket, setUnassignTicket] = useState(0);
   const [assignTicket, setAssignTicket] = useState(0);
 
@@ -74,6 +78,22 @@ const Report = () => {
         ticketData.data.filter((item: any) => item.status === "processing")
           .length
       );
+      setDoneTicket(
+        ticketData.data.filter(
+          (item: any) =>
+          item.status ==="processing" &&
+            item.employee_assign.length > 0 &&
+            item.employee_assign.every((assign: any) => {
+              return assign.status === "done";
+            })
+        ).length
+      );
+      setFixedTicket(
+        ticketData.data.filter((item: any) => item.status === "fixed").length
+      );
+      setConfirmTicket(
+        ticketData.data.filter((item: any) => item.status === "confirm").length
+      );
       setCloseTicket(
         ticketData.data.filter((item: any) => item.status === "close").length
       );
@@ -95,8 +115,10 @@ const Report = () => {
           .length
       );
       setAssignTicket(
-        ticketData.data.filter((item: any) => item.employee_assign.length > 0)
-          .length
+        ticketData.data.filter(
+          (item: any) =>
+            item.status !== "close" && item.employee_assign.length > 0
+        ).length
       );
     }
   }, [ticketData]);
@@ -178,6 +200,8 @@ const Report = () => {
     );
   }
 
+  console.log(doneTicket);
+
   ChartJS.register(
     ArcElement,
     CategoryScale,
@@ -190,19 +214,32 @@ const Report = () => {
     Legend
   );
   const statusData = {
-    labels: ["Open", "Processing", "Close"],
+    labels: ["Open", "Processing", "Done", "Fixed", "Confirm", "Close"],
     datasets: [
       {
         label: "Tickets",
-        data: [openTicket, processingTicket, closeTicket],
+        data: [
+          openTicket,
+          processingTicket,
+          doneTicket,
+          fixedTicket,
+          confirmTicket,
+          closeTicket,
+        ],
         backgroundColor: [
           "rgba(75, 192, 192, 1)",
           "rgba(255, 206, 86, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(153, 102, 255, 1)",
+          "rgba(0, 0,0, 1)",
           "rgba(255, 99, 132, 1)",
         ],
         borderColor: [
           "rgba(75, 192, 192, 1)",
           "rgba(255, 206, 86, 1)",
+          "rgba(54, 162, 235,1)",
+          "rgba(153, 102, 255, 1)",
+          "rgba(0, 0,0, 1)",
           "rgba(255, 99, 132, 1)",
         ],
         borderWidth: 1,
@@ -302,6 +339,9 @@ const Report = () => {
               <h3>Status</h3>
               <label htmlFor="">Open: {openTicket}</label>
               <label htmlFor="">Processing: {processingTicket}</label>
+              <label htmlFor="">Done: {doneTicket}</label>
+              <label htmlFor="">Fixed: {fixedTicket}</label>
+              <label htmlFor="">Confirm: {confirmTicket}</label>
               <label htmlFor="">Close: {closeTicket}</label>
             </div>
           </div>
