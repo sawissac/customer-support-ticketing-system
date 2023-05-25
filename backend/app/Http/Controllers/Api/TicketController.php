@@ -11,6 +11,7 @@ use App\Service\Ticket\TicketServiceInterface;
 use App\Repository\Ticket\TicketRepositoryInterface;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Auth\Events\Validated;
 
 class TicketController extends BaseController
 {
@@ -112,25 +113,10 @@ class TicketController extends BaseController
 
         return $this->sendResponse([], 'Ticket deleted successfully.', 204);
     }
-    // public function checkTicketList($id)
-    // {
-    //     try {
-    //         $startDate = Carbon::create(2023, 5, 1)->startOfMonth();
-    //         $endDate = Carbon::create(2023, 5, 31)->endOfMonth();
+    public function checkTicketList()
+    {
+        $result = $this->ticketRepo->checkTicketList();
 
-    //         $monthlyTickets = Ticket::whereBetween('start_date', [$startDate, $endDate])->get();
-
-    //         return response()->json([
-    //             'status' => true,
-    //             'message' => 'success',
-    //             'data' => $monthlyTickets
-    //         ], 200);
-    //     } catch (Exception $e) {
-    //         return response()->json([
-    //             'status' => false,
-    //             'message' => 'error',
-    //             'error' => $e->getMessage()
-    //         ], 500);
-    //     }
-    // }
+        return $this->sendResponse($result,'Monthly Tickets successfully.', 201);
+    }
 }
