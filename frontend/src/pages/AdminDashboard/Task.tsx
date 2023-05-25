@@ -124,22 +124,6 @@ const Task = () => {
         width: "150px",
       },
       {
-        name: "Tasks processing",
-        selector: (row: any) => {
-          const total = row.employee_assign.length;
-          let calculated = row.employee_assign.filter((employee: any) => {
-            if (employee.status === "processing") {
-              return true;
-            }
-          });
-          calculated = (calculated.length / total) * 100;
-
-          return total === 0 ? "0%" : Math.round(calculated) + "%";
-        },
-        sortable: true,
-        width: "180px",
-      },
-      {
         name: "Tasks Done",
         selector: (row: any) => {
           const total = row.employee_assign.length;
@@ -157,8 +141,11 @@ const Task = () => {
       },
       {
         name: "Status",
-        selector: (row: any) => row.status,
+        cell: (row: any) => {
+          return <div className={`badge badge--outline`}>{row.status}</div>;
+        },
         sortable: true,
+        width: "200px",
       },
       {
         name: "Employees",
@@ -210,7 +197,7 @@ const Task = () => {
         button: true,
       },
       {
-        name: "Fix Complete",
+        name: "Fix",
         cell: (row: any) => (
           <button
             title="row update"

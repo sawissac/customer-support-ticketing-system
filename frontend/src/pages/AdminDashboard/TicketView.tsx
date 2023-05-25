@@ -2,7 +2,7 @@ import React from "react";
 import Nav from "../../components/Nav";
 import Message from "../../components/Message";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { setTicketView, setViewData } from "../../redux/feature_slice/TicketSlice";
+import { setTicketView, setViewData, updateTicketUrl } from "../../redux/feature_slice/TicketSlice";
 import AlertBar from "../../components/AlertBar";
 import Button from "../../components/Button";
 import { textLimiter } from "../../commonFunction/common";
@@ -89,6 +89,7 @@ const TicketView = () => {
           label={textLimiter(20, ticketData.subject)}
           onClick={() => {
             dispatch(setTicketView({ name: "" }));
+            dispatch(updateTicketUrl({ name: `updated ${Date()}` }));
           }}
         />
         <AlertBar
