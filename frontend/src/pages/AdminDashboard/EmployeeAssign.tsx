@@ -6,6 +6,8 @@ import {
   IconCalendarCheck,
   IconCalendarEvent,
   IconCalendarStats,
+  IconCircleHalf2,
+  IconCircleMinus,
   IconEdit,
 } from "@tabler/icons-react";
 import { IconTrashFilled } from "@tabler/icons-react";
@@ -31,6 +33,7 @@ import EmployeeAssignCreate from "./EmployeeAssignCreate";
 import EmployeeAssignUpdate from "./EmployeeAssignUpdate";
 import { updateEmployeeAssign } from "../../requests/employeeAssignRequest";
 import dayjs from "dayjs";
+import { IconCircleFilled } from "@tabler/icons-react";
 
 const EmployeeAssign = () => {
   const dispatch = useAppDispatch();
@@ -94,7 +97,7 @@ const EmployeeAssign = () => {
           return (
             <div className="status-btn-group">
               <Button
-                icon={<IconCalendarEvent />}
+                icon={<IconCircleMinus />}
                 label=""
                 onClick={() => {
                   updateEmployeeAssign({
@@ -104,10 +107,10 @@ const EmployeeAssign = () => {
                   });
                   dispatch(updateEmployeeAssignUrl({ name: `updated: ${Date()}` }));
                 }}
-                className={row.status === "open" ? "text-info" : "text-dark"}
+                className={row.status === "open" ? "status-btn-group--active" : ""}
               />
               <Button
-                icon={<IconCalendarStats />}
+                icon={<IconCircleHalf2 />}
                 label=""
                 onClick={() => {
                   updateEmployeeAssign({
@@ -117,10 +120,10 @@ const EmployeeAssign = () => {
                   });
                   dispatch(updateEmployeeAssignUrl({ name: `updated: ${Date()}` }));
                 }}
-                className={row.status === "processing" ? "text-info" : "text-dark"}
+                className={row.status === "processing" ? "status-btn-group--active" : ""}
               />
               <Button
-                icon={<IconCalendarCheck />}
+                icon={<IconCircleFilled />}
                 label=""
                 onClick={() => {
                   updateEmployeeAssign({
@@ -130,7 +133,7 @@ const EmployeeAssign = () => {
                   });
                   dispatch(updateEmployeeAssignUrl({ name: `updated: ${Date()}` }));
                 }}
-                className={row.status === "done" ? "text-info" : "text-dark"}
+                className={row.status === "done" ? "status-btn-group--active" : ""}
               />
             </div>
           );

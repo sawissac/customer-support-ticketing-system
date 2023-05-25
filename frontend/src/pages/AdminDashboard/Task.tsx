@@ -46,15 +46,15 @@ const Task = () => {
   const taskRedux = useAppSelector((state) => state.tasks);
   const themeRedux = useAppSelector((state) => state.theme);
   const [modelOpen, setModalOpen] = useState(false);
+  const [tableData, setTableTableData] = useState<TicketListProps[]>([]);
+  const [filteredData, setFilteredData] = useState<TicketListProps[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [processType, setProcessType] = useState<any>({
     name: "",
     data: {},
     status: false,
     description: "",
   });
-  const [tableData, setTableTableData] = useState<TicketListProps[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredData, setFilteredData] = useState<TicketListProps[]>([]);
 
   const url = "http://127.0.0.1:8000/api/ticket";
   const getUsersData = async () => {

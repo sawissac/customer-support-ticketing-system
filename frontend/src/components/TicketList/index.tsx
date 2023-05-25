@@ -5,13 +5,13 @@ import {
   IconFolder,
   IconMessage2,
 } from "@tabler/icons-react";
-import { NavLink } from "react-router-dom";
 import Avatar from "react-avatar";
 import ShowIf from "../Helper";
 import { useAppSelector } from "../../redux/hook";
 import { Theme } from "../../redux/variable/ThemeVariable";
 import Button from "../Button";
 import { textLimiter } from "../../commonFunction/common";
+import { IconTicket } from "@tabler/icons-react";
 
 interface TicketListInterface {
   description: string;
@@ -74,7 +74,7 @@ const TicketList = ({
           themeRedux === Theme.Dark ? "ticket-list__sub-desc--dark" : ""
         }`}
       >
-        <IconMessage2 size={25} />
+        <IconTicket size={25} />
         {ticketId}
       </div>
       <div

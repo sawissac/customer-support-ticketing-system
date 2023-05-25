@@ -50,10 +50,10 @@ function AlertBar({ view, state }: AlertBarInterface) {
         
       {(view === "admin" || view === "employee") && (
         <NavLink
-          to={`/${view}-dashboard/employee-assignment`}
+          to={`/${view}-dashboard/tasks`}
           className="btn btn--outline btn--no-m-bottom"
         >
-          Go to Assign
+          Go to Tasks
         </NavLink>
       )}
 

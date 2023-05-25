@@ -27,7 +27,7 @@ const employeeProjectSlice = createSlice({
       state,
       action: PayloadAction<{
         ticketId: number;
-        projectId:number;
+        projectId: number;
         subject: string;
         startDate: string;
         dueDate: string;
@@ -51,6 +51,10 @@ const employeeProjectSlice = createSlice({
       state = { ...state, ...action.payload };
       return state;
     },
+    resetEmployeeAssignPage: (state) => {
+      state = employeeAssignmentInit;
+      return state;
+    },
   },
 });
 
@@ -60,7 +64,8 @@ export const {
   setTaskView,
   updateTaskUrl,
   setRightSidebar,
-  setEmployeeAssignUpdate
+  setEmployeeAssignUpdate,
+  resetEmployeeAssignPage
 } = employeeProjectSlice.actions;
 
 export default employeeProjectSlice.reducer;

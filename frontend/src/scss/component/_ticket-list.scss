@@ -17,7 +17,7 @@
     font-size: $h6-font-size;
     font-weight: $font-weight-normal;
     font-family: $font-family-roboto;
-    text-transform: capitalize;
+    // text-transform: capitalize;
     padding:0px map-get($spacers, 1);
     margin-top: map-get($spacers, 2);
     color: $gray-800;

@@ -36,9 +36,13 @@ const ticketSlice = createSlice({
       state.customerProjectName = action.payload.customerProjectName ? action.payload.customerProjectName : "";
       return state;
     },
+    resetTicketPage: (state)=>{
+      state = TicketInit
+      return state;
+    }
   },
 });
 
-export const { setViewData, setTicketView, updateTicketUrl } = ticketSlice.actions;
+export const { setViewData, setTicketView, updateTicketUrl, resetTicketPage } = ticketSlice.actions;
 
 export default ticketSlice.reducer;

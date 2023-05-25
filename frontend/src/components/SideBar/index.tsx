@@ -1,36 +1,39 @@
 import {
   IconHash,
   IconSettings,
-  IconUsers,
-  IconFileTime,
   IconSunFilled,
   IconMoonFilled,
   IconLogout,
-  IconMessage2,
-  IconFolder,
-  IconCalendarEvent,
-  IconNotes,
-  IconListDetails,
-  IconChartBar,
 } from "@tabler/icons-react";
-import Avatar from "react-avatar";
 import { NavLink, useNavigate } from "react-router-dom";
-import Dropdown from "../../components/DropDown";
-import Button from "../../components/Button";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { resetAuth } from "../../redux/feature_slice/AuthSlice";
 import { Theme } from "../../redux/variable/ThemeVariable";
-import { Sidebar } from "../../redux/variable/SidebarVariable";
-import { detailMode, simplifyMode } from "../../redux/feature_slice/SidebarSlice";
 import { darkTheme, lightTheme } from "../../redux/feature_slice/ThemeSlice";
+import Avatar from "react-avatar";
+import Dropdown from "../DropDown";
+import Button from "../Button";
+import { resetEmployeeAssignPage } from "../../redux/feature_slice/EmployeeAssignmentSlice";
+import { resetEmployeeProjectPage } from "../../redux/feature_slice/EmployeeProjectSlice";
+import { resetProjectPage } from "../../redux/feature_slice/ProjectPageSlice";
+import { resetTicketPage } from "../../redux/feature_slice/TicketSlice";
+import { resetUserPage } from "../../redux/feature_slice/UserPageSlice";
 
-interface SideBarInterface {
+interface SideBarInterface extends SideBarList {}
+
+export interface SideBarList {
   route: string;
+  subRoutes: SideBarLink[];
+}
+
+export interface SideBarLink {
+  routeName: string;
+  label?: string;
+  icon?: any;
 }
 
 const SideBar = (props: SideBarInterface) => {
   const authRedux = useAppSelector((state) => state.auth);
-  const sidebarRedux = useAppSelector((state) => state.sidebar);
 
   return (
     <div className="sidebar">
@@ -38,8 +41,10 @@ const SideBar = (props: SideBarInterface) => {
         <IconHash size={24} />
         <h5>Welcome User</h5>
       </div>
-      {sidebarRedux.mode === Sidebar.Detail && "still in beta"}
-      {sidebarRedux.mode === Sidebar.Simplify && <SideBar.Simplify route={props.route} />}
+      <SideBar.List
+        route={props.route}
+        subRoutes={props.subRoutes}
+      />
       <SideBar.Profile
         name={authRedux.user.name}
         email={authRedux.user.email}
@@ -48,33 +53,22 @@ const SideBar = (props: SideBarInterface) => {
   );
 };
 
-interface SideBarSimplify {
-  route: string;
-}
-SideBar.Simplify = function (props: SideBarSimplify) {
+SideBar.List = function (props: SideBarList) {
   return (
     <div className="sidebar__list">
       <h5>Manage</h5>
-      <SideBar.Link
-        routeName={props.route + "/tickets"}
-        icon={<IconMessage2 />}
-        label="Tickets"
-      />
-      <SideBar.Link
-        routeName={props.route + "/employee-assignment"}
-        icon={<IconCalendarEvent />}
-        label="Tasks"
-      />
+      {props.subRoutes.map((subRoute) => {
+        return (
+          <SideBar.Link
+            routeName={props.route + subRoute.routeName}
+            icon={subRoute.icon}
+            label={subRoute.label}
+          />
+        );
+      })}
     </div>
   );
 };
-
-interface SideBarLink {
-  routeName: string;
-  label?: string;
-  icon?: any;
-  type?: "header" | "mid" | "footer";
-}
 
 SideBar.Link = function (props: SideBarLink) {
   return (
@@ -99,7 +93,6 @@ interface SideBarProfile {
 SideBar.Profile = function (props: SideBarProfile) {
   const dispatch = useAppDispatch();
   const themeRedux = useAppSelector((state) => state.theme);
-  const sidebarRedux = useAppSelector((state) => state.sidebar);
   const navigate = useNavigate();
   return (
     <div className="sidebar__profile">
@@ -121,35 +114,6 @@ SideBar.Profile = function (props: SideBarProfile) {
         dropdownClassName="sidebar-dropdown"
         dropdownChildren={
           <>
-            <h6>Sidebar Mode</h6>
-            <Button
-              type="button"
-              className={sidebarRedux.mode === Sidebar.Detail ? "sidebar-dropdown--active" : ""}
-              onClick={() => {
-                dispatch(detailMode());
-              }}
-              icon={
-                <IconNotes
-                  size={20}
-                  style={{ marginRight: "10px" }}
-                />
-              }
-              label="Detail"
-            />
-            <Button
-              type="button"
-              className={sidebarRedux.mode === Sidebar.Simplify ? "sidebar-dropdown--active" : ""}
-              onClick={() => {
-                dispatch(simplifyMode());
-              }}
-              icon={
-                <IconListDetails
-                  size={20}
-                  style={{ marginRight: "10px" }}
-                />
-              }
-              label="Simplify"
-            />
             <h6>Ui Mode</h6>
             <Button
               type="button"
@@ -185,6 +149,11 @@ SideBar.Profile = function (props: SideBarProfile) {
               className="text-danger"
               onClick={() => {
                 dispatch(resetAuth());
+                dispatch(resetEmployeeAssignPage());
+                dispatch(resetEmployeeProjectPage());
+                dispatch(resetProjectPage());
+                dispatch(resetTicketPage());
+                dispatch(resetUserPage());
                 navigate("/login");
               }}
               icon={<IconLogout style={{ marginRight: "10px" }} />}

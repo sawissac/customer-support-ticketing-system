@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppDispatch } from "../../redux/hook";
 import { authBoot } from "../../redux/feature_slice/AuthSlice";
-import { sidebarBoot } from "../../redux/feature_slice/SidebarSlice";
+import { themeBoot } from "../../redux/feature_slice/ThemeSlice";
 
 interface AuthProviderInterface {
   children: any;
@@ -12,7 +12,7 @@ const UiBoot = ({ children }: AuthProviderInterface) => {
   
   React.useEffect(() => {
     dispatch(authBoot());
-    dispatch(sidebarBoot());
+    dispatch(themeBoot());
   }, []);
 
   return <>{children}</>;

@@ -1,4 +1,3 @@
-import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import AdminDashboard from "./pages/AdminDashboard";
 import LoginPage from "./pages/LoginPage";
@@ -48,12 +47,12 @@ function App() {
           {authRedux.role === AuthRole.CUSTOMER && (
             <Route
               path="/customer-dashboard/*"
-              element={<CustomerDashboard/>}
+              element={<CustomerDashboard />}
             />
           )}
           <Route
             path="*"
-            element={<PageNotFound/>}
+            element={<PageNotFound />}
           />
         </Routes>
         <ShowIf

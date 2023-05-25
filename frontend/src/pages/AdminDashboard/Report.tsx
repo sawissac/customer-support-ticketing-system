@@ -210,7 +210,7 @@ const Report = () => {
     <div className="admin-container">
       <Nav
         icon={<IconChartBar />}
-        label={"Tasks"}
+        label={"Reports"}
       />
       <div className="admin-container__inner row row--gap-1 admin-container--pb-5">
         <div className="col-3">
