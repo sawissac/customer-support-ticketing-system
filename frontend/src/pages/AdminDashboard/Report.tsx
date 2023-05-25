@@ -270,6 +270,37 @@ const Report = () => {
     ],
   };
 
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Monthly Tickets count',
+      },
+    },
+  };
+  
+  const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug','Sep','Oct','Nov','Dec'];
+  
+   const areaChartData = {
+    labels,
+    datasets: [
+      {
+        fill: true,
+        label: 'Monthly Tickets',
+        data: [0,2,1,4,5,9,2,5,12,3,6,10],
+        borderColor: 'rgb(243, 112, 33)',
+        backgroundColor: 'rgba(243, 112, 33, 0.5)',
+        pointBorderWidth:5,
+        pointHoverRadius:10,
+        
+      },
+    ],
+  };
+
   return (
     <div className="admin-container">
       <div className="admin-container__inner row row--gap-1 admin-container--pb-5">
@@ -361,7 +392,9 @@ const Report = () => {
             </div>
           </div>
         </div>
+        <Line data={areaChartData} options={options}/>
       </div>
+      
     </div>
   );
 };
