@@ -11,7 +11,7 @@ use App\Http\Controllers\Api\TicketController;
 use App\Http\Controllers\Api\EmployeeReportController;
 use App\Http\Controllers\Api\EmployeeAssignController;
 use App\Http\Controllers\Api\CustomerProjectController;
-
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,4 +50,5 @@ Route::middleware(['cors', 'auth:sanctum'])->group(function () {
     Route::get('/customer-paginate', [CustomerProjectController::class, 'paginate']);
     Route::get('/project-list/{id}', [CustomerProjectController::class, 'project']);
     Route::get('/monthly-ticket', [TicketController::class, 'checkTicketList']);
+
 });

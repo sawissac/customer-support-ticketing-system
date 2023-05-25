@@ -113,6 +113,7 @@ class TicketController extends BaseController
 
         return $this->sendResponse([], 'Ticket deleted successfully.', 204);
     }
+    
     public function checkTicketList()
     {
         $result = $this->ticketRepo->checkTicketList();

@@ -22,6 +22,7 @@ class TicketRepository implements TicketRepositoryInterface
 
         return $result;
     }
+    
     public function checkTicketList()
     {
         $monthlyTickets = Ticket::selectRaw('MONTH(created_at) as month, YEAR(created_at) as year, COUNT(*) as ticket_count')

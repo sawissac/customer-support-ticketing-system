@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Service\User\UserServiceInterface;
@@ -87,11 +88,14 @@ class UserController extends BaseController
 
     public function destroy($id)
     {
-        $this->userService->delete($id);
+        $user =  $this->userService->delete($id);
 
-        return $this->sendResponse([], 'User deleted successfully.', 204);
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        return response()->json(['message' => 'User soft-deleted successfully']);
     }
-
 
     public function employee()
     {
@@ -106,4 +110,5 @@ class UserController extends BaseController
 
         return $this->sendResponse($customerData, 'Customers retrieved successfully.');
     }
+
 }
