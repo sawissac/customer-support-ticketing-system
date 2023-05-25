@@ -96,11 +96,34 @@ $hover-dark: $gray-800;
     color: $white;
   }
   &--dark .form-dropdown {
+    &{
+      background-color: $primary-dark;
+    }
+    &__search {
+      background-color: $primary-dark;
+      color: $white;
+    }
     button {
       background-color: $secondary-dark;
       color: $white;
       &:hover {
         background-color: $hover-dark;
+      }
+    }
+  }
+
+  &--dark .status-btn-group{
+    button{
+      background-color: $secondary-dark-2;
+      svg{
+        color: $white;
+      }
+    }
+    &--active{
+      bottom{
+        svg{
+          color: $blue !important;
+        }
       }
     }
   }
@@ -167,6 +190,7 @@ $hover-dark: $gray-800;
     //   color: $white !important;
     // }
   }
+
   &--dark {
     /* Firefox */
 

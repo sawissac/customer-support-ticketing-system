@@ -18,8 +18,6 @@ class UserService implements UserServiceInterface
 
     public function update($id, $data)
     {
-        // $data = array_merge($data,['password' => Hash::make($data['password'])]);
-
         $user = User::where('id', $id)->first();
         $user->update($data);
         $user->syncRoles($data['role']);

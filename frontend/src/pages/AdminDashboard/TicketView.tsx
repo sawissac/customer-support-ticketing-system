@@ -5,10 +5,20 @@ import { setTicketView } from "../../redux/feature_slice/TicketSlice";
 import AlertBar from "../../components/AlertBar";
 import Button from "../../components/Button";
 import { NavLink } from "react-router-dom";
+import { textLimiter } from "../../commonFunction/common";
+import { useState } from "react";
+import { TicketListApiResponse, TicketListProps } from "../../responseInterface/TicketListApiResponse";
+import { useQuery } from "react-query";
+import { requestAxiosWithToken } from "../../routes/request";
 
 const TicketView = () => {
   const dispatch = useAppDispatch();
-  const ticketRedux = useAppSelector<any>((state) => state.ticket);
+  const ticketRedux = useAppSelector((state) => state.ticket);
+  const authRedux = useAppSelector((state) => state.auth);
+  const [ticketData, setTicketData] = useState<TicketListProps | null>(null);
+  const url = '';
+  
+  const [data, isFetching] = useQuery<TicketListApiResponse>(['ticket-view', 'get'], requestAxiosWithToken(url, authRedux.token));
   return (
     <>
       <div className="admin-container">
@@ -23,7 +33,7 @@ const TicketView = () => {
               }}
             />
           }
-          label={ticketRedux.subject}
+          label={textLimiter(20, ticketRedux.subject)}
           onClick={() => {
             dispatch(setTicketView({ name: "" }));
           }}

@@ -47,7 +47,7 @@
     margin-top: map-get($spacers, 3);
   }
 
-  &--outline{
+  &--outline {
     margin: 0px map-get($spacers, 2);
     border: 1px solid $white;
     color: $white;
@@ -85,10 +85,18 @@
   white-space: pre-wrap;
   width: 300px;
   button {
-    @include interactive('gray');
-    flex:1;
+    @include interactive("gray");
+    flex: 1;
     padding: map-get($spacers, 2);
     border-color: transparent;
     outline-color: transparent;
+    svg {
+      color: $dark;
+    }
+  }
+  &--active {
+    svg {
+      color: $info !important;
+    }
   }
 }

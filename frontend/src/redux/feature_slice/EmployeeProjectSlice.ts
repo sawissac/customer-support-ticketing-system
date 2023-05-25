@@ -13,10 +13,14 @@ const employeeProjectSlice = createSlice({
     ) => {
       state = action.payload;
       return state;
-    },
+    },resetEmployeeProjectPage: (state)=>{
+    state = employeeProjectSidebarInit;
+    return state;
+  }
   },
+  
 });
 
-export const { setEmployeeProject } = employeeProjectSlice.actions;
+export const { setEmployeeProject,resetEmployeeProjectPage } = employeeProjectSlice.actions;
 
 export default employeeProjectSlice.reducer;

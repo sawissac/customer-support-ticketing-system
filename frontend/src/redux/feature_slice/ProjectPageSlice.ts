@@ -16,7 +16,7 @@ const projectSidebarSlice = createSlice({
     },
     setProjectEmployee: (
       state,
-      action: PayloadAction<{id: number; employee_id: number; employee_name: string }>
+      action: PayloadAction<{ id: number; employee_id: number; employee_name: string }>
     ) => {
       state = { ...state, ...action.payload };
       return state;
@@ -37,11 +37,11 @@ const projectSidebarSlice = createSlice({
       return state;
     },
     updateEmployeeTableUrl: (state, action: PayloadAction<{ message: string }>) => {
-      state.employeeUrlState=action.payload.message
+      state.employeeUrlState = action.payload.message;
       return state;
     },
     updateCustomerTableUrl: (state, action: PayloadAction<{ message: string }>) => {
-      state.customerUrlState =action.payload.message
+      state.customerUrlState = action.payload.message;
       return state;
     },
     openProjectRightSidebar: (state, action: PayloadAction<{ name: string }>) => {
@@ -52,6 +52,10 @@ const projectSidebarSlice = createSlice({
       state.view = action.payload.name;
       return state;
     },
+    resetProjectPage: (state)=>{
+      state = projectSidebarInit;
+      return state;
+    }
   },
 });
 
@@ -63,7 +67,8 @@ export const {
   setProjectView,
   updateEmployeeTableUrl,
   updateCustomerTableUrl,
-  setProjectCustomer
+  setProjectCustomer,
+  resetProjectPage
 } = projectSidebarSlice.actions;
 
 export default projectSidebarSlice.reducer;
