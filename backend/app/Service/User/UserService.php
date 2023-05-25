@@ -2,6 +2,8 @@
 
 namespace App\Service\User;
 
+use App\Models\EmployeeAssign;
+use App\Models\EmployeeProject;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -26,7 +28,20 @@ class UserService implements UserServiceInterface
 
     public function delete($id)
     {
-        $data = User::where('id', $id)->first();
+        // $data = User::where('id', $id)->first();
+
+        // return $data->delete();
+
+        $data = User::find($id);
+
+        // $data = User::where('id', $id)->first();
+
+        $userIsInEmployeeProject = EmployeeProject::where('user_id', $id)->exists();
+        $userIsInEmployeeAssign = EmployeeAssign::where('employee_id', $id)->exists();
+
+        if($userIsInEmployeeProject || $userIsInEmployeeAssign) {
+            return false;
+        }
 
         return $data->delete();
     }
