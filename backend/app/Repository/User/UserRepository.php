@@ -22,7 +22,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function employee()
     {
-        $employeeData = User::whereHas('roles', function($query){
+        $employeeData = User::whereHas('roles', function ($query) {
             $query->where('name', 'employee');
         })->with('roles')->get();
 
@@ -31,7 +31,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function customer()
     {
-        $customerData = User::whereHas('roles', function($query){
+        $customerData = User::whereHas('roles', function ($query) {
             $query->where('name', 'customer');
         })->with('roles')->get();
 

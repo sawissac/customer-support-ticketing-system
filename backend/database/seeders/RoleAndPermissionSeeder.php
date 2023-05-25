@@ -69,15 +69,15 @@ class RoleAndPermissionSeeder extends Seeder
             $canDeleteProjectList,
             $canShowProjectList,
 
-            $canUpdateEmployeeProjectList,
-            $canCreateEmployeeProjectList,
-            $canDeleteEmployeeProjectList,
-            $canShowEmployeeProjectList,
-
             $canCreateCustomerProjectList,
             $canUpdateCustomerProjectList,
             $canDeleteCustomerProjectList,
             $canShowCustomerProjectList,
+
+            $canCreateEmployeeProjectList,
+            $canUpdateEmployeeProjectList,
+            $canDeleteEmployeeProjectList,
+            $canShowEmployeeProjectList,
 
             $canCreateTickets,
             $canUpdateTickets,

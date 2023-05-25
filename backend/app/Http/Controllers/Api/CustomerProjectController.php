@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\BaseController;
 
 use App\Repository\CustomerProject\CustomerProjectRepoInterface;
 use App\Service\CustomerProject\CustomerProjectServiceInterface;
+use Exception;
 
 class CustomerProjectController extends BaseController
 {

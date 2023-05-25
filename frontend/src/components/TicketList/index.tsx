@@ -35,12 +35,14 @@ const TicketList = ({
   onClick,
   userView,
   projectName,
-  ticketId,
-  projectId,
 }: TicketListInterface) => {
   const themeRedux = useAppSelector((state) => state.theme);
   return (
-    <div className={`ticket-list ${themeRedux === Theme.Dark ? "ticket-list--dark" : ""}`}>
+    <div
+      className={`ticket-list ${
+        themeRedux === Theme.Dark ? "ticket-list--dark" : ""
+      }`}
+    >
       <div className="ticket-list__status ticket-list__status--mt-0">
         <div className="ticket-list__info ticket-list__info--center">
           <Avatar
@@ -50,7 +52,9 @@ const TicketList = ({
             textSizeRatio={1.75}
             round
           />
-          <label>{name.length > 10 ? name.substring(0, 10) + "..." : name}</label>
+          <label>
+            {name.length > 10 ? name.substring(0, 10) + "..." : name}
+          </label>
         </div>
         <ShowIf
           sif={!userView}
@@ -63,49 +67,34 @@ const TicketList = ({
                 textSizeRatio={1}
                 round
               />
-              <label>{textLimiter(30, name)}</label>
+              <label>
+                {name.length > 10 ? name.substring(0, 10) + "..." : name}
+              </label>
             </div>
           }
         />
       </div>
-      <div className="ticket-list__desc">{textLimiter(20, description)}</div>
-      <div
-        className={`ticket-list__sub-desc ${
-          themeRedux === Theme.Dark ? "ticket-list__sub-desc--dark" : ""
-        }`}
-      >
-        <IconTicket size={25} />
-        {ticketId}
-      </div>
+      <div className="ticket-list__desc">{description}</div>
       <div
         className={`ticket-list__sub-desc ${
           themeRedux === Theme.Dark ? "ticket-list__sub-desc--dark" : ""
         }`}
       >
         <IconFolder size={25} />
-        {textLimiter(20, projectName)} #{projectId}
+        {projectName}
       </div>
       <div className="ticket-list__status">
         <div className="ticket-list__info">
-          <IconFlag3Filled
-            size={20}
-            className="text-primary"
-          />
+          <IconFlag3Filled size={20} className="text-primary" />
           <label>{status}</label>
         </div>
 
         <div className="ticket-list__info">
-          <IconAlertTriangle
-            size={20}
-            className="text-primary"
-          />
+          <IconAlertTriangle size={20} className="text-primary" />
           <label>{priority}</label>
         </div>
         <div className="ticket-list__info">
-          <IconClockHour3
-            size={20}
-            className="text-primary"
-          />
+          <IconClockHour3 size={20} className="text-primary" />
           <label>{day}</label>
         </div>
       </div>
