@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Pie, Line } from "react-chartjs-2";
+import { Pie, Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -11,6 +11,7 @@ import {
   Tooltip,
   Filler,
   Legend,
+  BarElement,
 } from "chart.js";
 import axios from "axios";
 import { useAppSelector } from "../../redux/hook";
@@ -51,25 +52,29 @@ const Report = () => {
   const [customer, setCustomer] = useState(0);
   const [resign, setResign] = useState(0);
 
-  const[jan,setJan]=useState(0);
-  const[feb,setFeb]=useState(0);
-  const[mar,setMar]=useState(0);
-  const[apr,setApr]=useState(0);
-  const[may,setMay]=useState(0);
-  const[jun,setJun]=useState(0);
-  const[jul,setJul]=useState(0);
-  const[aug,setAug]=useState(0);
-  const[sep,setSep]=useState(0);
-  const[oct,setOct]=useState(0);
-  const[nov,setNov]=useState(0);
-  const[dec,setDec]=useState(0);
+  const [jan, setJan] = useState(0);
+  const [feb, setFeb] = useState(0);
+  const [mar, setMar] = useState(0);
+  const [apr, setApr] = useState(0);
+  const [may, setMay] = useState(0);
+  const [jun, setJun] = useState(0);
+  const [jul, setJul] = useState(0);
+  const [aug, setAug] = useState(0);
+  const [sep, setSep] = useState(0);
+  const [oct, setOct] = useState(0);
+  const [nov, setNov] = useState(0);
+  const [dec, setDec] = useState(0);
 
+  const year = dayjs().year();
 
-  const url = "http://127.0.0.1:8000/api/ticket";
+  const urlTicket = "http://127.0.0.1:8000/api/ticket";
+  const urlProject="http://127.0.0.1:8000/api/project";
+  const urlMonthlyTicke="http://127.0.0.1:8000/api/monthly-ticket";
+  const urlUser="http://127.0.0.1:8000/api/user";
 
   const getTicketsData = async () => {
     const res = await axios
-      .get(url, {
+      .get(urlTicket, {
         headers: {
           Authorization: `Bearer ${authRedux.token}`,
         },
@@ -96,7 +101,7 @@ const Report = () => {
       setDoneTicket(
         ticketData.data.filter(
           (item: any) =>
-          item.status ==="processing" &&
+            item.status === "processing" &&
             item.employee_assign.length > 0 &&
             item.employee_assign.every((assign: any) => {
               return assign.status === "done";
@@ -140,7 +145,7 @@ const Report = () => {
 
   const getProjectData = async () => {
     const res = await axios
-      .get("http://127.0.0.1:8000/api/project", {
+      .get(urlProject, {
         headers: {
           Authorization: `Bearer ${authRedux.token}`,
         },
@@ -155,10 +160,10 @@ const Report = () => {
     ["project-report", "get"],
     getProjectData
   );
-  
+
   const getMonthlyTicketData = async () => {
     const res = await axios
-      .get("http://127.0.0.1:8000/api/monthly-ticket", {
+      .get(urlMonthlyTicke, {
         headers: {
           Authorization: `Bearer ${authRedux.token}`,
         },
@@ -169,67 +174,76 @@ const Report = () => {
     return res;
   };
 
-  const { data: monthlyTicketData, isFetching: isFetchingMonthlyTicket } = useQuery(
-    ["monthly-ticket", "get"],
-    getMonthlyTicketData
-  );
-
-  const year =dayjs().year();
+  const { data: monthlyTicketData, isFetching: isFetchingMonthlyTicket } =
+    useQuery(["monthly-ticket", "get"], getMonthlyTicketData);
 
   useEffect(() => {
     if (monthlyTicketData && monthlyTicketData.data) {
-      const janData = monthlyTicketData.data.find((item:any) => item.month_year === "Jan "+year);
+      const janData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Jan " + year
+      );
       setJan(janData ? janData.ticket_count : 0);
-      
-  
-      const febData = monthlyTicketData.data.find((item:any) => item.month_year === "Feb "+year);
-      setFeb(febData ? febData.ticket_count :0);
-      
-      const marData = monthlyTicketData.data.find((item:any) => item.month_year === "Mar "+year);
+
+      const febData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Feb " + year
+      );
+      setFeb(febData ? febData.ticket_count : 0);
+
+      const marData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Mar " + year
+      );
       setMar(marData ? marData.ticket_count : 0);
-      
-  
-      const aprData = monthlyTicketData.data.find((item:any) => item.month_year === "Apr "+year);
+
+      const aprData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Apr " + year
+      );
       setApr(aprData ? aprData.ticket_count : 0);
-      
 
-      const mayData = monthlyTicketData.data.find((item:any) => item.month_year === "May "+year);
+      const mayData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "May " + year
+      );
       setMay(mayData ? mayData.ticket_count : 0);
-      
 
-      const junData = monthlyTicketData.data.find((item:any) => item.month_year === "Jun "+year);
-      setJun(junData ? junData.ticket_count :0);
+      const junData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Jun " + year
+      );
+      setJun(junData ? junData.ticket_count : 0);
 
-      const julData = monthlyTicketData.data.find((item:any) => item.month_year === "Jul "+year);
-      setJul(julData ? julData.ticket_count :0);
-      
+      const julData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Jul " + year
+      );
+      setJul(julData ? julData.ticket_count : 0);
 
-      const augData = monthlyTicketData.data.find((item:any) => item.month_year === "Aug "+year);
-      setAug(augData ? augData.ticket_count :0);
-      
-      const sepData = monthlyTicketData.data.find((item:any) => item.month_year === "Sep "+year);
+      const augData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Aug " + year
+      );
+      setAug(augData ? augData.ticket_count : 0);
+
+      const sepData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Sep " + year
+      );
       setSep(sepData ? sepData.ticket_count : 0);
-      
 
-      const octData = monthlyTicketData.data.find((item:any) => item.month_year === "Oct "+year);
-      setOct(octData ? octData.ticket_count :0);
-      
+      const octData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Oct " + year
+      );
+      setOct(octData ? octData.ticket_count : 0);
 
-      const novData = monthlyTicketData.data.find((item:any) => item.month_year === "Nov "+year);
-      setNov(novData ? novData.ticket_count :0);
-      
+      const novData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Nov " + year
+      );
+      setNov(novData ? novData.ticket_count : 0);
 
-      const decData = monthlyTicketData.data.find((item:any) => item.month_year === "Dec "+year);
-      setDec(decData ? decData.ticket_count :0);
-      
+      const decData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Dec " + year
+      );
+      setDec(decData ? decData.ticket_count : 0);
     }
   }, [monthlyTicketData]);
-  
-
 
   const getUserData = async () => {
     const res = await axios
-      .get("http://127.0.0.1:8000/api/user", {
+      .get(urlUser, {
         headers: {
           Authorization: `Bearer ${authRedux.token}`,
         },
@@ -267,7 +281,12 @@ const Report = () => {
     }
   }, [userData]);
 
-  if (isFetchingTicket || isFetchingProject || isFetchingUser ||isFetchingMonthlyTicket) {
+  if (
+    isFetchingTicket ||
+    isFetchingProject ||
+    isFetchingUser ||
+    isFetchingMonthlyTicket
+  ) {
     return (
       <div className="fetching">
         <Oval
@@ -295,7 +314,8 @@ const Report = () => {
     Title,
     Tooltip,
     Filler,
-    Legend
+    Legend,
+    BarElement
   );
   const statusData = {
     labels: ["Open", "Processing", "Done", "Fixed", "Confirm", "Close"],
@@ -358,29 +378,54 @@ const Report = () => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top' as const,
+        position: "top" as const,
       },
       title: {
         display: true,
-        text: 'Monthly Tickets count',
+        text: "Monthly Tickets count",
+        
       },
     },
+    
   };
-  
-  const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug','Sep','Oct','Nov','Dec'];
-  
-   const areaChartData = {
+
+  const labels = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const areaChartData = {
     labels,
     datasets: [
       {
         fill: true,
-        label: 'Monthly Tickets',
-        data: [jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec],
-        borderColor: 'rgb(243, 112, 33)',
-        backgroundColor: 'rgba(243, 112, 33, 0.5)',
-        pointBorderWidth:5,
-        pointHoverRadius:10,
+        label: year + " Monthly Tickets",
+        data: [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec],
+        borderColor: "rgb(243, 112, 33)",
+        backgroundColor: "rgba(243, 112, 33, 0.5)",
+        pointBorderWidth: 1,
+        pointHoverRadius: 10,
+      },
+    ],
+  };
 
+  const barData = {
+    labels: labels,
+    datasets: [
+      {
+        label: year + " Monthly Tickets",
+        data: [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec],
+        backgroundColor: "rgba(243, 112, 33, 0.5)",
       },
     ],
   };
@@ -445,40 +490,47 @@ const Report = () => {
           />
         </div>
 
-        <div className="piechart-container">
-          <div className="piechart-container__inner">
-            <div className="piechart-container__inner__piechart--chart">
-              <Pie data={statusData} />
-            </div>
-            <div className="piechart-container__inner__piechart piechart-container__inner__piechart--border">
-              <h3>Status</h3>
-              <label htmlFor="">Open: {openTicket}</label>
-              <label htmlFor="">Processing: {processingTicket}</label>
-              <label htmlFor="">Done: {doneTicket}</label>
-              <label htmlFor="">Fixed: {fixedTicket}</label>
-              <label htmlFor="">Confirm: {confirmTicket}</label>
-              <label htmlFor="">Close: {closeTicket}</label>
-            </div>
-          </div>
-        </div>
-
-        <div className="piechart-container">
-          <div className="piechart-container__inner">
-            <div className="piechart-container__inner__piechart--chart">
-              <Pie data={priorityData} />
-            </div>
-            <div className="piechart-container__inner__piechart piechart-container__inner__piechart--border">
-              <h3>Priority</h3>
-              <label htmlFor="">Low: {lowPriority}</label>
-              <label htmlFor="">Medium: {mediumPriority}</label>
-              <label htmlFor="">High: {highPriority}</label>
-              <label htmlFor="">Critical: {criticalPriority}</label>
+        <div className="col-6">
+          <div className="piechart-container">
+            <div className="piechart-container__inner">
+              <div className="piechart-container__inner__piechart--chart">
+                <Pie data={statusData} />
+              </div>
+              <div className="piechart-container__inner__piechart piechart-container__inner__piechart--border">
+                <h3>Status</h3>
+                <label htmlFor="">Open: {openTicket}</label>
+                <label htmlFor="">Processing: {processingTicket}</label>
+                <label htmlFor="">Done: {doneTicket}</label>
+                <label htmlFor="">Fixed: {fixedTicket}</label>
+                <label htmlFor="">Confirm: {confirmTicket}</label>
+                <label htmlFor="">Close: {closeTicket}</label>
+              </div>
             </div>
           </div>
         </div>
-        <Line data={areaChartData} options={options}/>
+        <div className="col-6">
+          <div className="piechart-container">
+            <div className="piechart-container__inner">
+              <div className="piechart-container__inner__piechart--chart">
+                <Pie data={priorityData} />
+              </div>
+              <div className="piechart-container__inner__piechart piechart-container__inner__piechart--border">
+                <h3>Priority</h3>
+                <label htmlFor="">Low: {lowPriority}</label>
+                <label htmlFor="">Medium: {mediumPriority}</label>
+                <label htmlFor="">High: {highPriority}</label>
+                <label htmlFor="">Critical: {criticalPriority}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-6">
+          <Line data={areaChartData} options={options} />
+        </div>
+        <div className="col-6">
+          <Bar data={barData} options={options} />
+        </div>
       </div>
-      
     </div>
   );
 };
