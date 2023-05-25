@@ -131,11 +131,11 @@ const CustomerProjects = () => {
       });
     return res;
   };
-  const {  error, data, isFetching } = useQuery(
+  const { error, data, isFetching } = useQuery(
     ["customer", projectPageRedux.customerUrlState],
     getUsersData
   );
-    
+
   if (isFetching)
     return (
       <div className="fetching">
