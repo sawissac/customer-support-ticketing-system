@@ -100,3 +100,28 @@
     }
   }
 }
+
+.badge {
+  display: inline-block;
+  width: 100px;
+  padding: 2px 8px;
+  color: $white;
+  border-radius: $border-radius-sm;
+  text-transform: capitalize;
+  font-weight: bold;
+  text-align: center;
+  &--open{
+    background-color: $dark;
+  }
+  &--processing{
+    background-color: $purple;
+  }
+  &--done{
+    background-color: $success;
+  }
+  &--outline{
+    border: 2px solid $dark;
+    border-radius: $border-radius-sm;
+    color: $dark;
+  }
+}

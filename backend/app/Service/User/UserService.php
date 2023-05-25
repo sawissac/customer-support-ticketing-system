@@ -12,9 +12,9 @@ class UserService implements UserServiceInterface
 {
     public function store($data)
     {
-        $data = array_merge($data,['password' => Hash::make($data['password'])]);
+        $data = array_merge($data, ['password' => Hash::make($data['password'])]);
         $user = User::create($data);
-        $user ->assignRole($data['role']);
+        $user->assignRole($data['role']);
         return $user;
     }
 
@@ -38,10 +38,13 @@ class UserService implements UserServiceInterface
 
         $userIsInEmployeeProject = EmployeeProject::where('user_id', $id)->exists();
         $userIsInEmployeeAssign = EmployeeAssign::where('employee_id', $id)->exists();
+        $userResignRole = $data->roles->contains('name','resign_employee');
 
-        if($userIsInEmployeeProject || $userIsInEmployeeAssign) {
+        if ($userIsInEmployeeProject || $userIsInEmployeeAssign || $userResignRole) {
             return false;
         }
+
+        $data->roles->detach();
 
         return $data->delete();
     }

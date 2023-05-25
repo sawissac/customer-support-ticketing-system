@@ -71,7 +71,7 @@ const TicketUpdate = () => {
               name: `updated:${Date()}`,
             })
           );
-          dispatch(setTicketView({ name: "" }));
+          dispatch(setTicketView({ name: "ticket-view" }));
         })
         .catch(() => {
           setAlert({
