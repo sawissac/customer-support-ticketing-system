@@ -44,8 +44,6 @@ class UserService implements UserServiceInterface
             return false;
         }
 
-        $data->roles->detach();
-
         return $data->delete();
     }
 }
