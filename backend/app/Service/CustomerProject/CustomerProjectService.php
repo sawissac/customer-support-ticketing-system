@@ -3,7 +3,6 @@
 namespace App\Service\CustomerProject;
 
 use App\Models\CustomerProject;
-use App\Models\Ticket;
 
 class CustomerProjectService implements CustomerProjectServiceInterface
 {
