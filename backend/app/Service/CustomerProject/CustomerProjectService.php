@@ -21,17 +21,7 @@ class CustomerProjectService implements CustomerProjectServiceInterface
 
     public function delete($id)
     {
-        // $data = CustomerProject::where('id', $id)->first();
-
-        // return $data->delete();
-
-        $data = CustomerProject::find($id);
-
-        $userIsInTicket = Ticket::where('customer_project_id', $id)->exists();
-
-        if( $userIsInTicket ) {
-            return false;
-        }
+        $data = CustomerProject::where('id', $id)->first();
 
         return $data->delete();
     }
