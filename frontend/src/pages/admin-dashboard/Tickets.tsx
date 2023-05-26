@@ -96,6 +96,7 @@ const TicketPage = () => {
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
     debouncedSearch(event.target.value);
     setCurrentPage(0);
   };
@@ -167,6 +168,7 @@ const TicketPage = () => {
                 <Input
                   type="text"
                   placeholder="Search..."
+                  value={searchQuery}
                   onChange={handleSearchChange}
                   className="search"
                 />

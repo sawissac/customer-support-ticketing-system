@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import { PageNotFound } from '../404Page'
-import TicketsPage from './TicketsPage'
+import TicketsPage from './Ticket'
 import SideBar from '../../components/SideBar'
 import { sidebarConfig } from './SidebarConfig'
 

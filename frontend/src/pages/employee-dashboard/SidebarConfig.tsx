@@ -8,8 +8,8 @@ export const sidebarConfig: SideBarLink[] = [
     label: "Tickets",
   },
   {
-    routeName: "/employee-assignment",
+    routeName: "/tasks",
     icon: <IconCalendarEvent />,
-    label: "Tickets",
+    label: "Tasks",
   },
 ];

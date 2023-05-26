@@ -62,6 +62,31 @@ const TicketView = () => {
       <div className="admin-container">
         <Nav
           back
+          rightPlacer={
+            <Button
+              label="Edit Ticket"
+              className="btn btn--light btn--block btn--no-m-bottom btn--sm"
+              onClick={() => {
+                dispatch(
+                  setViewData({
+                    ticketId: ticketData.id,
+                    customerProjectId: ticketData.customer_project.id,
+                    customerProjectName: ticketData.customer_project.project.name,
+                    subject: ticketData.subject,
+                    description: ticketData.description,
+                    priority: ticketData.priority,
+                    driveLink: ticketData.drive_link,
+                    status: ticketData.status,
+                    time: dayjs(ticketData.created_at).fromNow(),
+                    userName: ticketData.customer_project.user.name,
+                    endDate: ticketData.end_date,
+                    startDate: ticketData.start_date,
+                  })
+                );
+                dispatch(setTicketView({ name: "ticket-update" }));
+              }}
+            />
+          }
           label={textLimiter(20, ticketData.subject)}
           onClick={() => {
             dispatch(setTicketView({ name: "" }));
@@ -69,7 +94,7 @@ const TicketView = () => {
           }}
         />
         <AlertBar
-          view="employee"
+          view="customer"
           state={ticketData.status}
         />
         <div className="admin-container__inner">
