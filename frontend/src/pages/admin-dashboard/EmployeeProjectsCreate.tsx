@@ -23,7 +23,9 @@ const EmployeeProjectsCreate = () => {
   const AuthRedux = useAppSelector((state) => state.auth);
   const ProjectPageRedux = useAppSelector((state) => state.projectSidebar);
   const [employeeList, setEmployeeList] = useState<UserApiResponse[]>([]);
-  const [tempEmployeeList, setTempEmployeeList] = useState<UserApiResponse[]>([]);
+  const [tempEmployeeList, setTempEmployeeList] = useState<UserApiResponse[]>(
+    []
+  );
   const [filterEmployeeInput, setFilterEmployeeInput] = useState("");
   const [dropdownEmployee, setDropDownEmployee] = React.useState({
     name: "Select",
@@ -145,9 +147,10 @@ const EmployeeProjectsCreate = () => {
                   />
                 </div>
                 <div className="form-dropdown__scroll form-dropdown__scroll--height">
-                  {employeeList.map((employee) => {
+                  {employeeList.map((employee, index) => {
                     return (
                       <Button
+                        key={index}
                         type="button"
                         onClick={() => {
                           setDropDownEmployee({

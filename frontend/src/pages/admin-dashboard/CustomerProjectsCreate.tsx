@@ -146,9 +146,10 @@ const CustomerProjectsCreate = () => {
                   />
                 </div>
                 <div className="form-dropdown__scroll form-dropdown__scroll--height">
-                  {customerList.map((customer) => {
+                  {customerList.map((customer,index) => {
                     return (
                       <Button
+                      key={index}
                         type="button"
                         onClick={() => {
                           setDropDownCustomer({

@@ -154,9 +154,10 @@ const EmployeeProjectsUpdate = () => {
                   />
                 </div>
                 <div className="form-dropdown__scroll form-dropdown__scroll--height">
-                  {employeeList.map((employee) => {
+                  {employeeList.map((employee,index) => {
                     return (
                       <Button
+                      key={index}
                         type="button"
                         onClick={() => {
                           setDropDownEmployee({

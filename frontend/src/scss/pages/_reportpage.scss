@@ -1,7 +1,7 @@
 .admin-container {
+  font-family: "Roboto", sans-serif;
   .piechart-container {
     width: 100%;
-    font-family: "Roboto", sans-serif;
     margin-top: 5px;
     border: 1px solid $gray-200;
     box-shadow: $box-shadow-sm;
@@ -12,9 +12,7 @@
       align-items: center;
       justify-content: space-around;
       height: 400px;
-      
       &__piechart {
-        
         &--chart {
           width: 350px;
           padding: 20px;
@@ -34,9 +32,25 @@
           label {
             margin-bottom: 20px;
             font-size: 15px;
-            
           }
         }
+      }
+    }
+  }
+  .monthly-detail {
+    border-radius: 10px;
+    display: flex;
+    &__months {
+      display: flex;
+      flex-direction: column;
+      margin-top: 20px;
+      width: 50%;
+      padding: map-get($spacers, 4);
+      font-size: 15px;
+      color: $dark;
+      label {
+        margin-bottom: 28px;
+        margin-left: 20px;
       }
     }
   }

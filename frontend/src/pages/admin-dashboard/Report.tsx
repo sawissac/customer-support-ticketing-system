@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Pie, Line, Bar } from "react-chartjs-2";
+import { Pie, Line} from "react-chartjs-2";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -431,17 +431,6 @@ const Report = () => {
     ],
   };
 
-  const barData = {
-    labels: labels,
-    datasets: [
-      {
-        label: year + " Monthly Tickets",
-        data: [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec],
-        backgroundColor: "rgba(243, 112, 33, 0.5)",
-      },
-    ],
-  };
-
   return (
     <div className="admin-container">
       <Nav icon={<IconChartBar />} label={"Reports"} />
@@ -540,9 +529,26 @@ const Report = () => {
         <div className="col-6">
           <Line data={areaChartData} options={options} />
         </div>
-        <div className="col-6">
-          <Bar data={barData} options={options} />
+
+        <div className="monthly-detail col-6">
+          <div className="monthly-detail__months">
+            <label htmlFor="">January: {jan}</label>
+            <label htmlFor="">February: {feb}</label>
+            <label htmlFor="">March: {mar}</label>
+            <label htmlFor="">April: {apr}</label>
+            <label htmlFor="">May: {may}</label>
+            <label htmlFor="">June: {jun}</label>
+          </div>
+          <div className="monthly-detail__months"> 
+            <label htmlFor="">July: {jul}</label>
+            <label htmlFor="">August: {aug}</label>
+            <label htmlFor="">September: {sep}</label>
+            <label htmlFor="">October: {oct}</label>
+            <label htmlFor="">November: {nov}</label>
+            <label htmlFor="">December: {dec}</label>
+          </div>
         </div>
+
       </div>
     </div>
   );
