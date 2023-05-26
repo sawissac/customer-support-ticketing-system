@@ -17,7 +17,7 @@ const Input = ({ label, errorMessage,value, ...props }: InputProps) => {
       )}
 
       <div className="form-input__container">
-        <input {...props} value={value || ''} />
+        <input {...props} value={value} />
       </div>
     </div>
   );
