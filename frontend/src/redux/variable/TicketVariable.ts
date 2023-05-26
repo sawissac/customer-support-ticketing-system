@@ -14,6 +14,7 @@ export const TicketInit = {
   startDate: '',
   endDate: '',
   time: '',
+  page: 0,
 };
 
 export const Priority: {

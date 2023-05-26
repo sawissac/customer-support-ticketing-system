@@ -23,5 +23,6 @@ export const DefaultAuthState = {
 export const AuthRole = {
   ADMIN: "admin",
   EMPLOYEE: "employee",
-  CUSTOMER: "customer"
+  CUSTOMER: "customer",
+  RESIGN_EMPLOYEE: 'resign_employee'
 };

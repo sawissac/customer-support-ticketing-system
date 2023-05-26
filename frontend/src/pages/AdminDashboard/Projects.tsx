@@ -144,18 +144,6 @@ const Projects = () => {
         ),
         button: true,
       },
-      {
-        name: "Delete",
-        cell: (row: any) => (
-          <button
-            title="row delete"
-            className="btn btn--light btn--icon btn--no-m-bottom text-danger"
-          >
-            <IconTrashFilled />
-          </button>
-        ),
-        button: true,
-      },
     ],
     []
   );
