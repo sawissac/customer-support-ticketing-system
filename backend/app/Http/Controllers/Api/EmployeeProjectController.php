@@ -141,7 +141,7 @@ class EmployeeProjectController extends BaseController
         if($data) {
             return $this->sendResponse([], 'EmployeeProject deleted successfully.', 204);
         }else {
-            return $this->sendError('Unable to delete User', [], 400);
+            return $this->sendError('Unable to Delete User', [], 400);
         }
     }
 }
