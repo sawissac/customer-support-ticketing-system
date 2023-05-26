@@ -29,13 +29,7 @@ class UserService implements UserServiceInterface
 
     public function delete($id)
     {
-        // $data = User::where('id', $id)->first();
-
-        // return $data->delete();
-
         $data = User::find($id);
-
-        // $data = User::where('id', $id)->first();
 
         $userIsInEmployeeProject = EmployeeProject::where('user_id', $id)->exists();
         $userIsInCustomerProject = CustomerProject::where('user_id', $id)->exists();
