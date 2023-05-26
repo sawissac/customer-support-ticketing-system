@@ -1,7 +1,13 @@
 import React, { useMemo, useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
-import { IconEdit, IconMenuOrder, IconPlus, IconTrashFilled, IconUsers } from "@tabler/icons-react";
+import {
+  IconEdit,
+  IconMenuOrder,
+  IconPlus,
+  IconTrashFilled,
+  IconUsers,
+} from "@tabler/icons-react";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
@@ -135,7 +141,9 @@ const Users = () => {
             onClick={() => {
               deleteUser({ id: row.id, token: AuthRedux.token })
                 .then((res) => {
-                  dispatch(updateUserTableUrl({ message: `update: ${Date()}` }));
+                  dispatch(
+                    updateUserTableUrl({ message: `update: ${Date()}` })
+                  );
                   dispatch(
                     setAlert({
                       message: "User Deleted successful",
@@ -146,9 +154,10 @@ const Users = () => {
                 .catch(() => {
                   dispatch(
                     setAlert({
-                      message: "This user can't be delete, has relation with other part",
+                      message:
+                        "This user can't be delete, has relation with other part",
                       state: Alert.Warning,
-                      seconds: 3000
+                      seconds: 3000,
                     })
                   );
                 });
@@ -177,7 +186,10 @@ const Users = () => {
     return res;
   };
 
-  const { isFetching, data } = useQuery(["userData", UserPageRedux.state], getUsersData);
+  const { isFetching, data } = useQuery(
+    ["userData", UserPageRedux.state],
+    getUsersData
+  );
   if (isFetching)
     return (
       <div className="fetching">
@@ -198,7 +210,12 @@ const Users = () => {
 
   const debouncedSearch = debounce((value: any) => {
     const filtered = data.filter((item: any) => {
-      return item.name.toLowerCase() === value.toLowerCase();
+      if (item.name.toLowerCase().includes(value.toLowerCase())) {
+        return true;
+      }
+      if (item.email.toLowerCase().includes(value.toLowerCase())) {
+        return true;
+      }
     });
     setSearchFilter(filtered);
   }, 1000);
@@ -216,13 +233,15 @@ const Users = () => {
 
   if (filteredData.length === 0 && dropDownTitle.role.length > 0) {
     filteredData = data.filter(
-      (item: any) => item.roles[0].name.toLowerCase() === dropDownTitle.role.toLowerCase()
+      (item: any) =>
+        item.roles[0].name.toLowerCase() === dropDownTitle.role.toLowerCase()
     );
   }
 
   if (filteredData.length > 0 && dropDownTitle.role.length > 0) {
     filteredData = filteredData.filter(
-      (item: any) => item.roles[0].name.toLowerCase() === dropDownTitle.role.toLowerCase()
+      (item: any) =>
+        item.roles[0].name.toLowerCase() === dropDownTitle.role.toLowerCase()
     );
   }
 
