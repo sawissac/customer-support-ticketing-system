@@ -13,10 +13,10 @@ interface AlertBarInterface {
 }
 
 function AlertBar({ view, state }: AlertBarInterface) {
-  const [modelOpen, setModalOpen] = React.useState(false);
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
   const ticketRedux = useAppSelector((state) => state.ticket);
+  const [modelOpen, setModalOpen] = React.useState(false);
 
   return (
     <div className="alert-bar">
@@ -50,10 +50,10 @@ function AlertBar({ view, state }: AlertBarInterface) {
         
       {(view === "admin" || view === "employee") && (
         <NavLink
-          to={`/${view}-dashboard/employee-assignment`}
+          to={`/${view}-dashboard/tasks`}
           className="btn btn--outline btn--no-m-bottom"
         >
-          Go to Assign
+          Go to Tasks
         </NavLink>
       )}
 

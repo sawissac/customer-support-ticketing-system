@@ -6,6 +6,8 @@ import {
   IconCalendarCheck,
   IconCalendarEvent,
   IconCalendarStats,
+  IconCircleHalf2,
+  IconCircleMinus,
   IconEdit,
 } from "@tabler/icons-react";
 import { IconTrashFilled } from "@tabler/icons-react";
@@ -29,20 +31,22 @@ import {
 import ShowIf from "../../components/Helper";
 import EmployeeAssignCreate from "./EmployeeAssignCreate";
 import EmployeeAssignUpdate from "./EmployeeAssignUpdate";
-import { updateEmployeeAssign } from "../../requests/employeeAssignRequest";
+import {
+  deleteEmployeeAssignUser,
+  updateEmployeeAssign,
+} from "../../requests/employeeAssignRequest";
 import dayjs from "dayjs";
+import { IconCircleFilled } from "@tabler/icons-react";
+import { compareDate, textLimiter } from "../../commonFunction/common";
+import { Alert } from "../../redux/variable/AlertVariable";
+import { setAlert } from "../../redux/feature_slice/AlertSlice";
 
 const EmployeeAssign = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
   const themeRedux = useAppSelector((state) => state.theme);
   const taskRedux = useAppSelector((state) => state.tasks);
-  const [searchQuery, setSearchQuery] = useState("");
   const [dataList, setDataList] = useState([]);
-
-  function compareDate(first: any, second: any) {
-    return dayjs(first).isSame(dayjs(second));
-  }
 
   const columns = useMemo(
     () => [
@@ -50,7 +54,7 @@ const EmployeeAssign = () => {
         name: "Task",
         selector: (row: any) => row.task_name,
         sortable: true,
-        width: '300px'
+        width: "300px",
       },
       {
         name: "Employee",
@@ -69,7 +73,7 @@ const EmployeeAssign = () => {
             </div>
           );
         },
-        width: "250px"
+        width: "250px",
       },
       {
         name: "Start Date",
@@ -77,7 +81,7 @@ const EmployeeAssign = () => {
           return compareDate(row.start_date, row.end_date) ? "--" : row.start_date;
         },
         sortable: true,
-        width: "200px"
+        width: "200px",
       },
       {
         name: "Due Date",
@@ -85,17 +89,33 @@ const EmployeeAssign = () => {
           return compareDate(row.start_date, row.end_date) ? "--" : row.end_date;
         },
         sortable: true,
-        width: "200px"
+        width: "200px",
       },
       {
         name: "Status",
-        // selector: (row: any) => row.status,
+        cell: (row: any) => {
+          const color =
+            row.status === "open"
+              ? "badge--open"
+              : row.status === "processing"
+              ? "badge--processing"
+              : row.status === "done"
+              ? "badge--done"
+              : "";
+          return <div className={`badge ${color}`}>{row.status}</div>;
+        },
+        sortable: true,
+        width: "200px",
+      },
+      {
+        name: "Status Action",
         cell: (row: any) => {
           return (
             <div className="status-btn-group">
               <Button
-                icon={<IconCalendarEvent />}
+                icon={<IconCircleMinus />}
                 label=""
+                title="still open"
                 onClick={() => {
                   updateEmployeeAssign({
                     ...row,
@@ -104,11 +124,12 @@ const EmployeeAssign = () => {
                   });
                   dispatch(updateEmployeeAssignUrl({ name: `updated: ${Date()}` }));
                 }}
-                className={row.status === "open" ? "text-info" : "text-dark"}
+                className={row.status === "open" ? "status-btn-group--active" : ""}
               />
               <Button
-                icon={<IconCalendarStats />}
+                icon={<IconCircleHalf2 />}
                 label=""
+                title="processing"
                 onClick={() => {
                   updateEmployeeAssign({
                     ...row,
@@ -117,11 +138,12 @@ const EmployeeAssign = () => {
                   });
                   dispatch(updateEmployeeAssignUrl({ name: `updated: ${Date()}` }));
                 }}
-                className={row.status === "processing" ? "text-info" : "text-dark"}
+                className={row.status === "processing" ? "status-btn-group--active" : ""}
               />
               <Button
-                icon={<IconCalendarCheck />}
+                icon={<IconCircleFilled />}
                 label=""
+                title="done"
                 onClick={() => {
                   updateEmployeeAssign({
                     ...row,
@@ -130,7 +152,7 @@ const EmployeeAssign = () => {
                   });
                   dispatch(updateEmployeeAssignUrl({ name: `updated: ${Date()}` }));
                 }}
-                className={row.status === "done" ? "text-info" : "text-dark"}
+                className={row.status === "done" ? "status-btn-group--active" : ""}
               />
             </div>
           );
@@ -169,6 +191,26 @@ const EmployeeAssign = () => {
           <button
             title="row delete"
             className="btn btn--light btn--icon btn--no-m-bottom text-danger"
+            onClick={() => {
+              deleteEmployeeAssignUser({ id: row.id, token: AuthRedux.token })
+                .then(() => {
+                  dispatch(updateEmployeeAssignUrl({ name: `update: ${Date()}` }));
+                  dispatch(
+                    setAlert({
+                      message: "Customer Deleted successful",
+                      state: Alert.Success,
+                    })
+                  );
+                })
+                .catch(() => {
+                  dispatch(
+                    setAlert({
+                      message: "Fail to delete customer!",
+                      state: Alert.Warning,
+                    })
+                  );
+                });
+            }}
           >
             <IconTrashFilled />
           </button>
@@ -222,18 +264,12 @@ const EmployeeAssign = () => {
         />
       </div>
     );
-  if (error) return <p>"An error has occurs"</p>;
-
-  const debouncedSearch = debounce((value: any) => {
-    
-  }, 1000);
-
   return (
     <>
       <div className="admin-container">
         <Nav
           icon={<IconArrowLeft size={25} />}
-          label={taskRedux.subject}
+          label={textLimiter(20, taskRedux.subject)}
           onClick={() => {
             dispatch(setTaskView({ name: "" }));
             dispatch(updateTaskUrl({ name: `updated: ${Date()}` }));

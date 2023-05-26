@@ -18,7 +18,8 @@ import { AuthRole } from "../../redux/variable/AuthVariable";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 
-import logo from '../../assets/img/logo.png';
+import logo from "../../assets/img/logo.png";
+import { AuthApiResponse } from "../../responseInterface/AuthApiResponse";
 
 const LoginPage = () => {
   const dispatch = useAppDispatch();
@@ -39,28 +40,39 @@ const LoginPage = () => {
     setStatus("PROCESSING...");
     getLoginData(input)
       .then((res: any) => {
-        setStatus("Success");
-        dispatch(
-          setAlert({
-            message: `Authenticated: as ${res.user.email}`,
-            state: Alert.Success,
-          })
-        );
-        dispatch(
-          setAuth({
-            auth: true,
-            role: res.role,
-            token: res.token,
-            user: {
-              id: res.user.id,
-              email: res.user.email,
-              name: res.user.name,
-            },
-          })
-        );
+        const dataResponse: AuthApiResponse = res;
+        if (dataResponse.role === AuthRole.RESIGN_EMPLOYEE) {
+          setStatus("Fail");
+          dispatch(
+            setAlert({
+              message: `Your account has been suspended`,
+              state: Alert.Warning,
+            })
+          );
+        } else {
+          setStatus("Success");
+          dispatch(
+            setAlert({
+              message: `Authenticated: as ${dataResponse.user.email}`,
+              state: Alert.Success,
+            })
+          );
+          dispatch(
+            setAuth({
+              auth: true,
+              role: dataResponse.role,
+              token: dataResponse.token,
+              user: {
+                id: dataResponse.user.id,
+                email: dataResponse.user.email,
+                name: dataResponse.user.name,
+              },
+            })
+          );
+        }
       })
-      .catch((reason) => {
-        setStatus("Error");
+      .catch(() => {
+        setStatus("Fail");
       });
   }
 
@@ -78,45 +90,45 @@ const LoginPage = () => {
         <div className="system-name">
           <h1>Customer Support Tickets Management System</h1>
         </div>
-      <form
-        action="/auth/login"
-        className="login-form"
-        onSubmit={onSubmitHandle}
-      >
-        <img
-          src={logo}
-          alt=""
-        />
-        <LoginInput
-          icon={<IconUser size={25} />}
-          placeholder="Enter your email..."
-          onChange={(ev) => {
-            setInput({
-              ...input,
-              email: ev.target.value,
-            });
-          }}
-          value={input.email}
-        />
-        <LoginInput
-          icon={<IconKey size={25} />}
-          placeholder="Enter your password..."
-          onChange={(ev) => {
-            setInput({
-              ...input,
-              password: ev.target.value,
-            });
-          }}
-          value={input.password}
-          type="password"
-        />
-        <Button
-          className="btn btn--primary btn--block"
-          type="submit"
-          label={status}
-          onClick={onClickHandle}
-        />
-      </form>
+        <form
+          action="/auth/login"
+          className="login-form"
+          onSubmit={onSubmitHandle}
+        >
+          <img
+            src={logo}
+            alt=""
+          />
+          <LoginInput
+            icon={<IconUser size={25} />}
+            placeholder="Enter your email..."
+            onChange={(ev) => {
+              setInput({
+                ...input,
+                email: ev.target.value,
+              });
+            }}
+            value={input.email}
+          />
+          <LoginInput
+            icon={<IconKey size={25} />}
+            placeholder="Enter your password..."
+            onChange={(ev) => {
+              setInput({
+                ...input,
+                password: ev.target.value,
+              });
+            }}
+            value={input.password}
+            type="password"
+          />
+          <Button
+            className="btn btn--primary btn--block"
+            type="submit"
+            label={status}
+            onClick={onClickHandle}
+          />
+        </form>
       </div>
     </div>
   );

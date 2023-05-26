@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import Nav from "../../components/Nav";
 import TicketList from "../../components/TicketList";
-import { IconMessage2, IconPlus } from "@tabler/icons-react";
+import { IconPlus } from "@tabler/icons-react";
 import Button from "../../components/Button";
 import ShowIf from "../../components/Helper";
 import TicketCreate from "./TicketCreate";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { setTicketView, setViewData } from "../../redux/feature_slice/TicketSlice";
-import axios from "axios";
+import { setPage, setTicketView, setViewData } from "../../redux/feature_slice/TicketSlice";
 import { useQuery } from "react-query";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -17,6 +16,12 @@ import ReactPaginate from "react-paginate";
 import Input from "../../components/Input";
 import { debounce } from "debounce";
 import TicketUpdate from "./TicketUpdate";
+import { IconTicket } from "@tabler/icons-react";
+import { requestAxiosWithToken } from "../../routes/request";
+import {
+  TicketListApiResponse,
+  TicketListProps,
+} from "../../responseInterface/TicketListApiResponse";
 
 dayjs.extend(relativeTime);
 
@@ -25,40 +30,46 @@ const TicketPage = () => {
   const authRedux = useAppSelector((state) => state.auth);
   const ticketRedux = useAppSelector((state) => state.ticket);
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(ticketRedux.page);
   const [dataCount, setDataCount] = useState(0);
-  const [filteredData, setFilteredData] = useState([]);
-  const [currentData, setCurrentData] = useState([]);
+  const [ticketData, setTicketData] = useState<TicketListProps[]>([]);
+  const [ticketTempData, setTicketTempData] = useState<TicketListProps[]>([]);
   const itemsPerPage = 6;
-
   const url = "http://127.0.0.1:8000/api/ticket";
-  const getUsersData = async () => {
-    const res = await axios
-      .get(url, {
-        headers: {
-          Authorization: `Bearer ${authRedux.token}`,
-        },
-      })
-      .then((response) => {
-        return response.data;
-      });
-    return res;
-  };
 
-  const { data, isFetching } = useQuery(["tickets", ticketRedux.url], getUsersData);
+  const { data, isFetching } = useQuery<TicketListApiResponse>(
+    ["tickets", ticketRedux.url],
+    requestAxiosWithToken(url, authRedux.token)
+  );
+
+  function dataInit(data: TicketListApiResponse) {
+    const dataResponse = data;
+    const processingTicket: TicketListProps[] = [];
+    const closedTicket: TicketListProps[] = [];
+    const filteredTicket: TicketListProps[] = dataResponse.data.filter((ticket) => {
+      if (ticket.status === "close") {
+        closedTicket.push(ticket);
+        return false;
+      } else if (ticket.status === "processing") {
+        processingTicket.push(ticket);
+        return false;
+      } else {
+        return true;
+      }
+    });
+    filteredTicket.push(...processingTicket, ...closedTicket);
+    setTicketData(
+      filteredTicket.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
+    );
+    setTicketTempData(filteredTicket);
+    setDataCount(filteredTicket.length);
+  }
 
   useEffect(() => {
-    if (filteredData.length > 0) {
-      setCurrentData(
-        filteredData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
-      );
+    if (data) {
+      dataInit(data);
     }
-
-    if (data && filteredData.length === 0) {
-      setCurrentData(data.data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage));
-      setDataCount(data.data.length);
-    }
-  }, [data, filteredData, currentPage]);
+  }, [data, currentPage]);
 
   if (isFetching) {
     return (
@@ -81,23 +92,29 @@ const TicketPage = () => {
 
   const handlePageChange = ({ selected }: any) => {
     setCurrentPage(selected);
+    dispatch(setPage({ page: selected }));
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
     debouncedSearch(event.target.value);
     setCurrentPage(0);
   };
 
-  const debouncedSearch = debounce((value: any) => {
-    const filtered = data.data.filter((item: any) => {
+  const debouncedSearch = debounce((value: string) => {
+    const filtered = ticketTempData.filter((item) => {
       if (item.tickets_id.toLowerCase() === value.toLowerCase()) {
+        return true;
+      }
+      if (item.status.toLowerCase() === value.toLowerCase()) {
         return true;
       }
       if (item.priority.toLowerCase() === value.toLowerCase()) {
         return true;
       }
       if (item.customer_project.project.name.toLowerCase().includes(value.toLowerCase())) {
+        return true;
+      }
+      if (item.subject.toLowerCase().includes(value.toLowerCase())) {
         return true;
       }
       if (item.customer_project.user.name.toLowerCase().includes(value.toLowerCase())) {
@@ -107,10 +124,23 @@ const TicketPage = () => {
         return true;
       }
     });
-    setFilteredData(filtered);
-    setDataCount(filtered.length);
-  }, 1000);
 
+    if (filtered.length > 0) {
+      setTicketData(filtered);
+      setDataCount(0);
+      setCurrentPage(0);
+    }
+
+    if (filtered.length === 0) {
+      setTicketData([]);
+      setDataCount(0);
+      setCurrentPage(0);
+    }
+
+    if (data && value.length === 0) {
+      dataInit(data);
+    }
+  }, 1000);
   return (
     <>
       <ShowIf
@@ -118,7 +148,7 @@ const TicketPage = () => {
         show={
           <div className="admin-container">
             <Nav
-              icon={<IconMessage2 />}
+              icon={<IconTicket />}
               label={"Tickets"}
               rightPlacer={
                 <Button
@@ -137,7 +167,6 @@ const TicketPage = () => {
                 <Input
                   type="text"
                   placeholder="Search..."
-                  value={searchQuery}
                   onChange={handleSearchChange}
                   className="search"
                 />
@@ -148,6 +177,7 @@ const TicketPage = () => {
                   pageCount={Math.ceil(dataCount / itemsPerPage)}
                   marginPagesDisplayed={2}
                   pageRangeDisplayed={5}
+                  initialPage={currentPage}
                   onPageChange={handlePageChange}
                   containerClassName="pagination"
                   activeClassName="active"
@@ -160,20 +190,22 @@ const TicketPage = () => {
                 />
               </div>
 
-              {currentData.map((i: any, index: number) => {
+              {ticketData.map((i: any, index: number) => {
                 return (
                   <div
                     className="col-4"
                     key={index}
                   >
                     <TicketList
-                      projectName={`${i.customer_project.project.name} #${i.tickets_id}`}
+                      projectName={`${i.customer_project.project.name}`}
                       userView
                       day={dayjs(i.created_at).fromNow()}
                       description={i.subject}
                       name={i.customer_project.user.name}
                       priority={i.priority}
                       status={i.status}
+                      ticketId={`#${i.tickets_id}`}
+                      projectId={i.customer_project.project.project_id}
                       onClick={() => {
                         dispatch(
                           setViewData({

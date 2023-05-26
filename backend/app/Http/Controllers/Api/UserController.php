@@ -87,9 +87,14 @@ class UserController extends BaseController
 
     public function destroy($id)
     {
-        $this->userService->delete($id);
+        $data = $this->userService->delete($id);
 
-        return $this->sendResponse([], 'User deleted successfully.', 204);
+        if($data) {
+            return $this->sendResponse([], 'User deleted successfully.');
+        }else {
+            return $this->sendError('Unable to delete User', [], 400);
+        }
+
     }
 
 

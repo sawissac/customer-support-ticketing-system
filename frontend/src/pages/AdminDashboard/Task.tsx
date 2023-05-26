@@ -46,15 +46,15 @@ const Task = () => {
   const taskRedux = useAppSelector((state) => state.tasks);
   const themeRedux = useAppSelector((state) => state.theme);
   const [modelOpen, setModalOpen] = useState(false);
+  const [tableData, setTableTableData] = useState<TicketListProps[]>([]);
+  const [filteredData, setFilteredData] = useState<TicketListProps[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [processType, setProcessType] = useState<any>({
     name: "",
     data: {},
     status: false,
     description: "",
   });
-  const [tableData, setTableTableData] = useState<TicketListProps[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredData, setFilteredData] = useState<TicketListProps[]>([]);
 
   const url = "http://127.0.0.1:8000/api/ticket";
   const getUsersData = async () => {
@@ -124,22 +124,6 @@ const Task = () => {
         width: "150px",
       },
       {
-        name: "Tasks processing",
-        selector: (row: any) => {
-          const total = row.employee_assign.length;
-          let calculated = row.employee_assign.filter((employee: any) => {
-            if (employee.status === "processing") {
-              return true;
-            }
-          });
-          calculated = (calculated.length / total) * 100;
-
-          return total === 0 ? "0%" : Math.round(calculated) + "%";
-        },
-        sortable: true,
-        width: "180px",
-      },
-      {
         name: "Tasks Done",
         selector: (row: any) => {
           const total = row.employee_assign.length;
@@ -157,8 +141,12 @@ const Task = () => {
       },
       {
         name: "Status",
-        selector: (row: any) => row.status,
+        cell: (row: any) => {
+          const badgeColor = row.status === 'open' ? 'badge--open' : row.status === 'close' ? 'badge--done' : 'badge--processing';
+          return <div className={`badge ${badgeColor}`}>{row.status}</div>;
+        },
         sortable: true,
+        width: "200px",
       },
       {
         name: "Employees",
@@ -210,7 +198,7 @@ const Task = () => {
         button: true,
       },
       {
-        name: "Fix Complete",
+        name: "Fix",
         cell: (row: any) => (
           <button
             title="row update"
@@ -294,7 +282,7 @@ const Task = () => {
     if (data) {
       const dataResponse = data;
       const filterData = dataResponse.data.filter((i) => {
-        if (i.admin_id && i.status !== 'close') {
+        if (i.admin_id) {
           return true;
         }
       });

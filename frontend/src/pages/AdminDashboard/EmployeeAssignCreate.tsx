@@ -190,6 +190,7 @@ const EmployeeAssignCreate = () => {
                       <Button
                         type="button"
                         key={index}
+                        tabIndex={index}
                         onClick={() => {
                           setDropDownEmployee({
                             name: employee.name,

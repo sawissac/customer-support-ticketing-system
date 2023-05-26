@@ -9,4 +9,5 @@ export const AlertInit = {
   state: Alert.Info,
   message: "",
   show: false,
+  seconds: 1000
 };

@@ -22,9 +22,13 @@ const userPageSlice = createSlice({
       state.rightSidebar = action.payload.name;
       return state;
     },
+    resetUserPage: (state)=>{
+      state = userSidebarInit;
+      return state;
+    }
   },
 });
 
-export const {setUserState, updateUserTableUrl, openUserRightSidebar } = userPageSlice.actions;
+export const {setUserState, updateUserTableUrl, openUserRightSidebar, resetUserPage } = userPageSlice.actions;
 
 export default userPageSlice.reducer;
