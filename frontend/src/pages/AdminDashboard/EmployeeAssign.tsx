@@ -31,10 +31,15 @@ import {
 import ShowIf from "../../components/Helper";
 import EmployeeAssignCreate from "./EmployeeAssignCreate";
 import EmployeeAssignUpdate from "./EmployeeAssignUpdate";
-import { updateEmployeeAssign } from "../../requests/employeeAssignRequest";
+import {
+  deleteEmployeeAssignUser,
+  updateEmployeeAssign,
+} from "../../requests/employeeAssignRequest";
 import dayjs from "dayjs";
 import { IconCircleFilled } from "@tabler/icons-react";
 import { compareDate, textLimiter } from "../../commonFunction/common";
+import { Alert } from "../../redux/variable/AlertVariable";
+import { setAlert } from "../../redux/feature_slice/AlertSlice";
 
 const EmployeeAssign = () => {
   const dispatch = useAppDispatch();
@@ -186,6 +191,26 @@ const EmployeeAssign = () => {
           <button
             title="row delete"
             className="btn btn--light btn--icon btn--no-m-bottom text-danger"
+            onClick={() => {
+              deleteEmployeeAssignUser({ id: row.id, token: AuthRedux.token })
+                .then(() => {
+                  dispatch(updateEmployeeAssignUrl({ name: `update: ${Date()}` }));
+                  dispatch(
+                    setAlert({
+                      message: "Customer Deleted successful",
+                      state: Alert.Success,
+                    })
+                  );
+                })
+                .catch(() => {
+                  dispatch(
+                    setAlert({
+                      message: "Fail to delete customer!",
+                      state: Alert.Warning,
+                    })
+                  );
+                });
+            }}
           >
             <IconTrashFilled />
           </button>

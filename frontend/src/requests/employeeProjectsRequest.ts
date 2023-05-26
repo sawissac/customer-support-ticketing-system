@@ -72,3 +72,20 @@ export function updateEmployeeProject({
       });
   });
 }
+
+export function deleteEmployeeProjectUser({ id, token }: any) {
+  return new Promise((resolve, reject) => {
+    axios
+      .delete(`http://127.0.0.1:8000/api/employee-project/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}

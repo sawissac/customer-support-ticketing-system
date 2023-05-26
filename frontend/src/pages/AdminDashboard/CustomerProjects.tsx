@@ -12,6 +12,7 @@ import {
   openProjectRightSidebar,
   setProjectCustomer,
   setProjectView,
+  updateCustomerTableUrl,
 } from "../../redux/feature_slice/ProjectPageSlice";
 import Button from "../../components/Button";
 import Avatar from "react-avatar";
@@ -23,6 +24,9 @@ import { Theme } from "../../redux/variable/ThemeVariable";
 import { Oval } from "react-loader-spinner";
 import { debounce } from "debounce";
 import Input from "../../components/Input";
+import { deleteCustomerProjectUser } from "../../requests/customerProjectsRequest";
+import { setAlert } from "../../redux/feature_slice/AlertSlice";
+import { Alert } from "../../redux/variable/AlertVariable";
 
 createTheme(
   "table-dark",
@@ -106,6 +110,26 @@ const CustomerProjects = () => {
           <button
             title="row delete"
             className="btn btn--light btn--icon btn--no-m-bottom text-danger"
+            onClick={() => {
+              deleteCustomerProjectUser({ id: row.id, token: AuthRedux.token })
+                .then(() => {
+                  dispatch(updateCustomerTableUrl({ message: `update: ${Date()}` }));
+                  dispatch(
+                    setAlert({
+                      message: "Customer Deleted successful",
+                      state: Alert.Success,
+                    })
+                  );
+                })
+                .catch(() => {
+                  dispatch(
+                    setAlert({
+                      message: "Fail to delete customer!",
+                      state: Alert.Warning,
+                    })
+                  );
+                });
+            }}
           >
             <IconTrashFilled />
           </button>
@@ -131,11 +155,11 @@ const CustomerProjects = () => {
       });
     return res;
   };
-  const {  error, data, isFetching } = useQuery(
-    ["customer", projectPageRedux.customerUrlState],
+  const { error, data, isFetching } = useQuery(
+    ["customer-project", projectPageRedux.customerUrlState],
     getUsersData
   );
-    
+
   if (isFetching)
     return (
       <div className="fetching">

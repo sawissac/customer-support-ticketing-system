@@ -2,6 +2,7 @@
 
 namespace App\Service\User;
 
+use App\Models\CustomerProject;
 use App\Models\EmployeeAssign;
 use App\Models\EmployeeProject;
 use App\Models\User;
@@ -37,10 +38,12 @@ class UserService implements UserServiceInterface
         // $data = User::where('id', $id)->first();
 
         $userIsInEmployeeProject = EmployeeProject::where('user_id', $id)->exists();
+        $userIsInCustomerProject = CustomerProject::where('user_id', $id)->exists();
         $userIsInEmployeeAssign = EmployeeAssign::where('employee_id', $id)->exists();
         $userResignRole = $data->roles->contains('name','resign_employee');
+        $userAdminRole = $data->roles->contains('name','admin');
 
-        if ($userIsInEmployeeProject || $userIsInEmployeeAssign || $userResignRole) {
+        if ($userIsInEmployeeProject || $userIsInEmployeeAssign || $userResignRole || $userAdminRole || $userIsInCustomerProject) {
             return false;
         }
 
