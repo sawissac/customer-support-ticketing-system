@@ -1,10 +1,5 @@
-import {
-  PayloadAction,
-  createSlice,
-} from "@reduxjs/toolkit";
-import {
-  AlertInit,
-} from "../variable/AlertVariable";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { AlertInit } from "../variable/AlertVariable";
 
 const initialState = AlertInit;
 
@@ -17,11 +12,13 @@ const themeSlice = createSlice({
       action: PayloadAction<{
         message: string;
         state: string;
+        seconds?: number;
       }>
     ) => {
       state.show = true;
       state.message = action.payload.message;
       state.state = action.payload.state;
+      state.seconds = action.payload.seconds ? action.payload.seconds : 1000;
       return state;
     },
     closeAlert: (state) => {
@@ -30,7 +27,6 @@ const themeSlice = createSlice({
   },
 });
 
-export const { setAlert, closeAlert } =
-  themeSlice.actions;
+export const { setAlert, closeAlert } = themeSlice.actions;
 
 export default themeSlice.reducer;

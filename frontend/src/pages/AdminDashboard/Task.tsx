@@ -142,7 +142,8 @@ const Task = () => {
       {
         name: "Status",
         cell: (row: any) => {
-          return <div className={`badge badge--outline`}>{row.status}</div>;
+          const badgeColor = row.status === 'open' ? 'badge--open' : row.status === 'close' ? 'badge--done' : 'badge--processing';
+          return <div className={`badge ${badgeColor}`}>{row.status}</div>;
         },
         sortable: true,
         width: "200px",
@@ -281,7 +282,7 @@ const Task = () => {
     if (data) {
       const dataResponse = data;
       const filterData = dataResponse.data.filter((i) => {
-        if (i.admin_id && i.status !== 'close') {
+        if (i.admin_id) {
           return true;
         }
       });
