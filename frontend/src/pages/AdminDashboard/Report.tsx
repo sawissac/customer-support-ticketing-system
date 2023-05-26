@@ -28,11 +28,8 @@ import {
   IconUserExclamation,
   IconUsers,
 } from "@tabler/icons-react";
-<<<<<<< HEAD
 import Nav from "../../components/Nav";
-=======
 import dayjs from "dayjs";
->>>>>>> origin/dev-zayar
 
 const Report = () => {
   const authRedux = useAppSelector((state) => state.auth);

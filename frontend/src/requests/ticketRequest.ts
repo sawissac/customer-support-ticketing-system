@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getAxios } from "./getAxios";
 
 export function createTicket({
   customer_project_id,
@@ -81,18 +82,8 @@ export function updateTicket({
 
 export function getAllTicket({ token }: any) {
   return new Promise((resolve, reject) => {
-    axios
-      .get(`http://127.0.0.1:8000/api/ticket`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(function (response) {
-        resolve(response.data);
-      })
-      .catch((reason) => {
-        reject(reason);
-      });
+    const url = "http://127.0.0.1:8000/api/ticket";
+    getAxios(url, token, resolve, reject);
   });
 }
 
