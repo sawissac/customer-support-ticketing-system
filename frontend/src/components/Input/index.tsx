@@ -4,8 +4,9 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   onChangeText?: any;
   errorMessage?: string;
+  value?:string;
 }
-const Input = ({ label, errorMessage, ...props }: InputProps) => {
+const Input = ({ label, errorMessage,value, ...props }: InputProps) => {
   return (
     <div className="form-input">
       {label && (
@@ -16,7 +17,7 @@ const Input = ({ label, errorMessage, ...props }: InputProps) => {
       )}
 
       <div className="form-input__container">
-        <input {...props} />
+        <input {...props} value={value || ''} />
       </div>
     </div>
   );

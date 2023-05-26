@@ -10,7 +10,10 @@ import { serverRoles, userRoles } from "../../redux/variable/UserPageVariable";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import FormWarper from "../../components/FormWarper";
-import { openUserRightSidebar, updateUserTableUrl } from "../../redux/feature_slice/UserPageSlice";
+import {
+  openUserRightSidebar,
+  updateUserTableUrl,
+} from "../../redux/feature_slice/UserPageSlice";
 import { motion } from "framer-motion";
 import { Theme } from "../../redux/variable/ThemeVariable";
 const UserUpdatePage = () => {
@@ -47,7 +50,8 @@ const UserUpdatePage = () => {
 
   function onButtonSubmitHandle() {
     const isEmpty =
-      Object.values(inputField).filter((i) => i === "").length > 0 || dropdownBox.value === "";
+      Object.values(inputField).filter((i) => i === "").length > 0 ||
+      dropdownBox.value === "";
     if (isEmpty) {
       dispatch(
         setAlert({
@@ -138,9 +142,10 @@ const UserUpdatePage = () => {
             dropdownChildren={
               <>
                 <div className="form-dropdown__scroll">
-                  {Object.keys(userRoles).map((role: string) => {
+                  {Object.keys(userRoles).map((role: string, index: number) => {
                     return (
                       <Button
+                      key={index}
                         type="button"
                         onClick={() => {
                           setDropdownBox({
