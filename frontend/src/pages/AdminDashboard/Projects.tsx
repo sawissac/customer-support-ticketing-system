@@ -188,7 +188,13 @@ const Projects = () => {
 
   const debouncedSearch = debounce((value: any) => {
     const filtered = data.filter((item: any) => {
-      return item.name.toLowerCase().includes(value.toLowerCase());
+      if(item.name.toLowerCase().includes(value.toLowerCase())){
+        return true
+      }
+      if(item.project_id.toLowerCase().includes(value.toLowerCase())){
+        return true
+      }
+       
     });
     setFilteredData(filtered);
   }, 1000);
