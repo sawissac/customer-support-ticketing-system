@@ -5,7 +5,11 @@ import { IconEdit, IconMenuOrder, IconPlus, IconTrashFilled, IconUsers } from "@
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { openUserRightSidebar, setUserState } from "../../redux/feature_slice/UserPageSlice";
+import {
+  openUserRightSidebar,
+  setUserState,
+  updateUserTableUrl,
+} from "../../redux/feature_slice/UserPageSlice";
 import { serverRoles, userRoles } from "../../redux/variable/UserPageVariable";
 import Avatar from "react-avatar";
 import UserCreatePage from "./UserCreate";
@@ -128,22 +132,26 @@ const Users = () => {
           <button
             title="row delete"
             className="btn btn--light btn--icon btn--no-m-bottom text-danger"
-            onClick={()=>{
-              deleteUser({id: row.id, token: AuthRedux.token}).then((res)=>{
-                dispatch(
-                  setAlert({
-                    message: "User Deleted successful",
-                    state: Alert.Success,
-                  })
-                );
-              }).catch(()=>{
-                dispatch(
-                  setAlert({
-                    message: "This user can't be delete, has relation with other part",
-                    state: Alert.Warning,
-                  })
-                );
-              })
+            onClick={() => {
+              deleteUser({ id: row.id, token: AuthRedux.token })
+                .then((res) => {
+                  dispatch(updateUserTableUrl({ message: `update: ${Date()}` }));
+                  dispatch(
+                    setAlert({
+                      message: "User Deleted successful",
+                      state: Alert.Success,
+                    })
+                  );
+                })
+                .catch(() => {
+                  dispatch(
+                    setAlert({
+                      message: "This user can't be delete, has relation with other part",
+                      state: Alert.Warning,
+                      seconds: 3000
+                    })
+                  );
+                });
             }}
           >
             <IconTrashFilled />

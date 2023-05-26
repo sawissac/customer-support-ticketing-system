@@ -119,9 +119,4 @@
   &--done{
     background-color: $success;
   }
-  &--outline{
-    border: 2px solid $dark;
-    border-radius: $border-radius-sm;
-    color: $dark;
-  }
 }

@@ -15,7 +15,7 @@ const AppAlert = () => {
     }
     setTimeout(() => {
       dispatch(closeAlert());
-    }, 1000);
+    }, alertRedux.seconds);
   }, [alertRef]);
 
   return (
