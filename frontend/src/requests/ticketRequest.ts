@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAxios } from "./getAxios";
+import { getAxios } from "./axiosRequest";
 
 export function createTicket({
   customer_project_id,
