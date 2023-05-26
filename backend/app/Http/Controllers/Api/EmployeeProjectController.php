@@ -23,7 +23,7 @@ class EmployeeProjectController extends BaseController
         $this->middleware('permission:canUpdateEmployeeProjectList', ['only' => ['edit, update']]);
         $this->middleware('permission:canDeleteEmployeeProjectList', ['only' => ['destroy']]);
     }
-    
+
     public function index()
     {
         $data = $this->employeeprojectRepo->get();
@@ -131,8 +131,13 @@ class EmployeeProjectController extends BaseController
      */
     public function destroy($id)
     {
-        $this->employeeprojectService->delete($id);
+        $data =$this->employeeprojectService->delete($id);
 
-        return $this->sendResponse([], 'EmployeeProject deleted successfully.', 204);
+        if($data){
+            return $this->sendResponse([], 'EmployeeProject deleted successfully.', 204);
+        }else{
+            return $this->sendError('can not delete assign employee');
+        }
+
     }
 }

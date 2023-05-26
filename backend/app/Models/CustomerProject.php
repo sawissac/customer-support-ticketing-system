@@ -27,6 +27,6 @@ class CustomerProject extends Model
 
     public function ticket():HasMany
     {
-        return $this->hasMany(Ticket::class);
+        return $this->hasMany(Ticket::class,'customer_project_id');
     }
 }

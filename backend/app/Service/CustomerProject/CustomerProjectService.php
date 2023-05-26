@@ -22,6 +22,10 @@ class CustomerProjectService implements CustomerProjectServiceInterface
     {
         $data = CustomerProject::where('id', $id)->first();
 
+        if ($data->tickets()->exists()) {
+            return false;
+        }
+
         return $data->delete();
     }
 }
