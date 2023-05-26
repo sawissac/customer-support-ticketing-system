@@ -50,7 +50,9 @@ const TicketList = ({
             textSizeRatio={1.75}
             round
           />
-          <label>{name.length > 10 ? name.substring(0, 10) + "..." : name}</label>
+          <label>
+            {name.length > 10 ? name.substring(0, 10) + "..." : name}
+          </label>
         </div>
         <ShowIf
           sif={!userView}
@@ -87,25 +89,16 @@ const TicketList = ({
       </div>
       <div className="ticket-list__status">
         <div className="ticket-list__info">
-          <IconFlag3Filled
-            size={20}
-            className="text-primary"
-          />
+          <IconFlag3Filled size={20} className="text-primary" />
           <label>{status}</label>
         </div>
 
         <div className="ticket-list__info">
-          <IconAlertTriangle
-            size={20}
-            className="text-primary"
-          />
+          <IconAlertTriangle size={20} className="text-primary" />
           <label>{priority}</label>
         </div>
         <div className="ticket-list__info">
-          <IconClockHour3
-            size={20}
-            className="text-primary"
-          />
+          <IconClockHour3 size={20} className="text-primary" />
           <label>{day}</label>
         </div>
       </div>

@@ -24,12 +24,6 @@ use App\Http\Controllers\Api\CustomerProjectController;
 |
 */
 
-
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::middleware(['cors'])->group(function () {
     Route::post('/auth/login', [AuthController::class, 'loginUser']);
 });
@@ -48,4 +42,5 @@ Route::middleware(['cors', 'auth:sanctum'])->group(function () {
     Route::apiResource('/customer-project', CustomerProjectController::class);
     Route::get('/customer-paginate', [CustomerProjectController::class, 'paginate']);
     Route::get('/project-list/{id}', [CustomerProjectController::class, 'project']);
+    Route::get('/monthly-ticket', [TicketController::class, 'checkTicketList']);
 });

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Pie, Line } from "react-chartjs-2";
+import { Pie, Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -11,6 +11,7 @@ import {
   Tooltip,
   Filler,
   Legend,
+  BarElement,
 } from "chart.js";
 import axios from "axios";
 import { useAppSelector } from "../../redux/hook";
@@ -27,7 +28,11 @@ import {
   IconUserExclamation,
   IconUsers,
 } from "@tabler/icons-react";
+<<<<<<< HEAD
 import Nav from "../../components/Nav";
+=======
+import dayjs from "dayjs";
+>>>>>>> origin/dev-zayar
 
 const Report = () => {
   const authRedux = useAppSelector((state) => state.auth);
@@ -52,11 +57,29 @@ const Report = () => {
   const [customer, setCustomer] = useState(0);
   const [resign, setResign] = useState(0);
 
-  const url = "http://127.0.0.1:8000/api/ticket";
+  const [jan, setJan] = useState(0);
+  const [feb, setFeb] = useState(0);
+  const [mar, setMar] = useState(0);
+  const [apr, setApr] = useState(0);
+  const [may, setMay] = useState(0);
+  const [jun, setJun] = useState(0);
+  const [jul, setJul] = useState(0);
+  const [aug, setAug] = useState(0);
+  const [sep, setSep] = useState(0);
+  const [oct, setOct] = useState(0);
+  const [nov, setNov] = useState(0);
+  const [dec, setDec] = useState(0);
+
+  const year = dayjs().year();
+
+  const urlTicket = "http://127.0.0.1:8000/api/ticket";
+  const urlProject="http://127.0.0.1:8000/api/project";
+  const urlMonthlyTicke="http://127.0.0.1:8000/api/monthly-ticket";
+  const urlUser="http://127.0.0.1:8000/api/user";
 
   const getTicketsData = async () => {
     const res = await axios
-      .get(url, {
+      .get(urlTicket, {
         headers: {
           Authorization: `Bearer ${authRedux.token}`,
         },
@@ -113,7 +136,7 @@ const Report = () => {
 
   const getProjectData = async () => {
     const res = await axios
-      .get("http://127.0.0.1:8000/api/project", {
+      .get(urlProject, {
         headers: {
           Authorization: `Bearer ${authRedux.token}`,
         },
@@ -129,9 +152,89 @@ const Report = () => {
     getProjectData
   );
 
+  const getMonthlyTicketData = async () => {
+    const res = await axios
+      .get(urlMonthlyTicke, {
+        headers: {
+          Authorization: `Bearer ${authRedux.token}`,
+        },
+      })
+      .then((response) => {
+        return response.data;
+      });
+    return res;
+  };
+
+  const { data: monthlyTicketData, isFetching: isFetchingMonthlyTicket } =
+    useQuery(["monthly-ticket", "get"], getMonthlyTicketData);
+
+  useEffect(() => {
+    if (monthlyTicketData && monthlyTicketData.data) {
+      const janData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Jan " + year
+      );
+      setJan(janData ? janData.ticket_count : 0);
+
+      const febData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Feb " + year
+      );
+      setFeb(febData ? febData.ticket_count : 0);
+
+      const marData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Mar " + year
+      );
+      setMar(marData ? marData.ticket_count : 0);
+
+      const aprData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Apr " + year
+      );
+      setApr(aprData ? aprData.ticket_count : 0);
+
+      const mayData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "May " + year
+      );
+      setMay(mayData ? mayData.ticket_count : 0);
+
+      const junData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Jun " + year
+      );
+      setJun(junData ? junData.ticket_count : 0);
+
+      const julData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Jul " + year
+      );
+      setJul(julData ? julData.ticket_count : 0);
+
+      const augData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Aug " + year
+      );
+      setAug(augData ? augData.ticket_count : 0);
+
+      const sepData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Sep " + year
+      );
+      setSep(sepData ? sepData.ticket_count : 0);
+
+      const octData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Oct " + year
+      );
+      setOct(octData ? octData.ticket_count : 0);
+
+      const novData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Nov " + year
+      );
+      setNov(novData ? novData.ticket_count : 0);
+
+      const decData = monthlyTicketData.data.find(
+        (item: any) => item.month_year === "Dec " + year
+      );
+      setDec(decData ? decData.ticket_count : 0);
+    }
+  }, [monthlyTicketData]);
+
   const getUserData = async () => {
     const res = await axios
-      .get("http://127.0.0.1:8000/api/user", {
+      .get(urlUser, {
         headers: {
           Authorization: `Bearer ${authRedux.token}`,
         },
@@ -158,7 +261,12 @@ const Report = () => {
     }
   }, [userData]);
 
-  if (isFetchingTicket || isFetchingProject || isFetchingUser) {
+  if (
+    isFetchingTicket ||
+    isFetchingProject ||
+    isFetchingUser ||
+    isFetchingMonthlyTicket
+  ) {
     return (
       <div className="fetching">
         <Oval
@@ -177,8 +285,6 @@ const Report = () => {
     );
   }
 
-  console.log(doneTicket);
-
   ChartJS.register(
     ArcElement,
     CategoryScale,
@@ -188,7 +294,8 @@ const Report = () => {
     Title,
     Tooltip,
     Filler,
-    Legend
+    Legend,
+    BarElement
   );
   const statusData = {
     labels: ["Open", "Processing", "Done", "Fixed", "Confirm", "Close"],
@@ -201,7 +308,7 @@ const Report = () => {
           "rgba(255, 206, 86, 1)",
           "rgba(54, 162, 235, 1)",
           "rgba(153, 102, 255, 1)",
-          "rgba(0, 0,0, 1)",
+          "rgba(243, 112, 33, 1)",
           "rgba(255, 99, 132, 1)",
         ],
         borderColor: [
@@ -209,7 +316,7 @@ const Report = () => {
           "rgba(255, 206, 86, 1)",
           "rgba(54, 162, 235,1)",
           "rgba(153, 102, 255, 1)",
-          "rgba(0, 0,0, 1)",
+          "rgba(243, 112, 33, 1)",
           "rgba(255, 99, 132, 1)",
         ],
         borderWidth: 1,
@@ -236,6 +343,62 @@ const Report = () => {
           "rgba(255, 99, 132, 1)",
         ],
         borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top" as const,
+      },
+      title: {
+        display: true,
+        text: "Monthly Tickets count",
+        
+      },
+    },
+    
+  };
+
+  const labels = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const areaChartData = {
+    labels,
+    datasets: [
+      {
+        fill: true,
+        label: year + " Monthly Tickets",
+        data: [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec],
+        borderColor: "rgb(243, 112, 33)",
+        backgroundColor: "rgba(243, 112, 33, 0.5)",
+        pointBorderWidth: 1,
+        pointHoverRadius: 10,
+      },
+    ],
+  };
+
+  const barData = {
+    labels: labels,
+    datasets: [
+      {
+        label: year + " Monthly Tickets",
+        data: [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec],
+        backgroundColor: "rgba(243, 112, 33, 0.5)",
       },
     ],
   };
@@ -337,6 +500,12 @@ const Report = () => {
               </div>
             </div>
           </div>
+        </div>
+        <div className="col-6">
+          <Line data={areaChartData} options={options} />
+        </div>
+        <div className="col-6">
+          <Bar data={barData} options={options} />
         </div>
       </div>
     </div>
