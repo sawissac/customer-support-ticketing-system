@@ -391,7 +391,7 @@ const Task = () => {
           <div className="modal__desc">{processType.description}</div>
           {processType.status && (processType.name === "fix" || processType.name === "close")  && (
             <Button
-              className="btn btn--light btn--no-m-bottom"
+              className="btn btn--primary btn--no-m-bottom"
               label={processType.name === "fix" ? "Change to Fixed Status" : processType.name === "close" ? 'Change to close status' : ""}
               onClick={() => {
                 updateTicket({

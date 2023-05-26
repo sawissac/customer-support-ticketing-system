@@ -1,9 +1,14 @@
 .fieldset-timer {
   border-top: map-get($border-widths, 1) solid $gray-300;
   .legend-timer {
+    display: flex;
+    align-items: center;
     padding: map-get($spacers, 3) 20px;
     text-align: center;
     color: $dark;
+    svg{
+      margin:0px 5px;
+    }
     &--h4{
       font-size: $h4-font-size;
     }

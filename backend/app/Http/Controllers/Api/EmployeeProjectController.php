@@ -129,15 +129,15 @@ class EmployeeProjectController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($id)
     {
-        $data =$this->employeeprojectService->delete($id);
+        $data = $this->employeeprojectService->delete($id);
 
-        if($data){
+        if($data) {
             return $this->sendResponse([], 'EmployeeProject deleted successfully.', 204);
-        }else{
-            return $this->sendError('can not delete assign employee');
+        }else {
+            return $this->sendError('Unable to Delete User', [], 400);
         }
-
     }
 }

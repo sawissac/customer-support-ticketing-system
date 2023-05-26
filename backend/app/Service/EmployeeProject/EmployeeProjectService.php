@@ -21,11 +21,12 @@ class EmployeeProjectService implements EmployeeProjectServiceInterface
 
     public function delete($id)
     {
+
         $data = EmployeeProject::find($id);
 
-        $employeeAssign = EmployeeAssign::where('employee_id',$id)->exists();
+        $userIsInEmployeeAssign =  EmployeeAssign::where('employee_id', $id)->exists();
 
-        if ($employeeAssign) {
+        if($userIsInEmployeeAssign) {
             return false;
         }
 

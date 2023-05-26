@@ -4,13 +4,17 @@ import React from "react";
 interface MessageInterface {
   userName: string;
   description: string;
+  subject: string;
 }
 
-const Message = ({ userName, description }: MessageInterface) => {
+const Message = ({ userName, description, subject }: MessageInterface) => {
   return (
     <div className="message">
       <div className="message__header">From {userName}</div>
-      <div className="message__description">{description}</div>
+      <div className="message__description">
+        <h5>{subject}</h5>
+        {description}
+      </div>
     </div>
   );
 };
