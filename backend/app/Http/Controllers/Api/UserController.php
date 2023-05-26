@@ -88,15 +88,16 @@ class UserController extends BaseController
 
     public function destroy($id)
     {
-        $user =  $this->userService->delete($id);
+        $data = $this->userService->delete($id);
 
-        if (!$user) {
-            return response()->json(['error' => 'User not found'], 404);
+        if($data) {
+            return $this->sendResponse([], 'User deleted successfully.');
+        }else {
+            return $this->sendError('Unable to delete User', [], 400);
         }
 
-        return response()->json(['message' => 'User soft-deleted successfully']);
     }
-
+    
     public function employee()
     {
         $employeeData = $this->userRepo->employee();

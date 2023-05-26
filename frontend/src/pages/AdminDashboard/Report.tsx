@@ -225,9 +225,6 @@ const Report = () => {
           "rgba(0, 0,0, 1)",
           "rgba(255, 99, 132, 1)",
         ],
-<<<<<<< HEAD
-        borderColor: ["rgba(75, 192, 192, 1)", "rgba(255, 206, 86, 1)", "rgba(255, 99, 132, 1)"],
-=======
         borderColor: [
           "rgba(75, 192, 192, 1)",
           "rgba(255, 206, 86, 1)",
@@ -236,7 +233,6 @@ const Report = () => {
           "rgba(0, 0,0, 1)",
           "rgba(255, 99, 132, 1)",
         ],
->>>>>>> dev-zayar
         borderWidth: 1,
       },
     ],

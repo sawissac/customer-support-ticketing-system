@@ -13,10 +13,10 @@ interface AlertBarInterface {
 }
 
 function AlertBar({ view, state }: AlertBarInterface) {
-  const [modelOpen, setModalOpen] = React.useState(false);
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
   const ticketRedux = useAppSelector((state) => state.ticket);
+  const [modelOpen, setModalOpen] = React.useState(false);
 
   return (
     <div className="alert-bar">

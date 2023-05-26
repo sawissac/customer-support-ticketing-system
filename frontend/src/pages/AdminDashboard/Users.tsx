@@ -18,6 +18,9 @@ import { Oval } from "react-loader-spinner";
 import { debounce } from "debounce";
 import Input from "../../components/Input";
 import Dropdown from "../../components/DropDown";
+import { deleteUser } from "../../requests/userRequest";
+import { setAlert } from "../../redux/feature_slice/AlertSlice";
+import { Alert } from "../../redux/variable/AlertVariable";
 
 createTheme(
   "table-dark",
@@ -125,6 +128,23 @@ const Users = () => {
           <button
             title="row delete"
             className="btn btn--light btn--icon btn--no-m-bottom text-danger"
+            onClick={()=>{
+              deleteUser({id: row.id, token: AuthRedux.token}).then((res)=>{
+                dispatch(
+                  setAlert({
+                    message: "User Deleted successful",
+                    state: Alert.Success,
+                  })
+                );
+              }).catch(()=>{
+                dispatch(
+                  setAlert({
+                    message: "This user can't be delete, has relation with other part",
+                    state: Alert.Warning,
+                  })
+                );
+              })
+            }}
           >
             <IconTrashFilled />
           </button>
