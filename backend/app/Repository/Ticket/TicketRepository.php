@@ -24,11 +24,11 @@ class TicketRepository implements TicketRepositoryInterface
     }
     public function checkTicketList()
     {
-        $monthlyTickets = Ticket::get('MONTH(created_at) as month, YEAR(created_at) as year, COUNT(*) as ticket_count')
+        $monthlyTickets = Ticket::selectRaw('MONTH(created_at) as month, YEAR(created_at) as year, COUNT(*) as ticket_count')
             ->groupBy('month', 'year')
             ->orderBy('year', 'asc')
-            ->orderBy('month', 'asc');
-
+            ->orderBy('month', 'asc')
+            ->get();
         $checkData = $monthlyTickets->map(function ($tickets) {
             $monthYear = Carbon::create($tickets->year, $tickets->month)->format('M Y');
             return [
