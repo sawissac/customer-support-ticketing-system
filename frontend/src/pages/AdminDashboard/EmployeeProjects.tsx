@@ -1,4 +1,4 @@
-import  { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
 import { IconArrowLeft, IconEdit } from "@tabler/icons-react";
@@ -12,6 +12,7 @@ import {
   openProjectRightSidebar,
   setProjectEmployee,
   setProjectView,
+  updateEmployeeTableUrl,
 } from "../../redux/feature_slice/ProjectPageSlice";
 import { motion } from "framer-motion";
 import Avatar from "react-avatar";
@@ -22,27 +23,34 @@ import { Theme } from "../../redux/variable/ThemeVariable";
 import { Oval } from "react-loader-spinner";
 import { debounce } from "debounce";
 import Input from "../../components/Input";
-createTheme('table-dark', {
-  text: {
-    primary: 'white',
-    secondary: 'white',
+import { deleteEmployeeProjectUser } from "../../requests/employeeProjectsRequest";
+import { setAlert } from "../../redux/feature_slice/AlertSlice";
+import { Alert } from "../../redux/variable/AlertVariable";
+createTheme(
+  "table-dark",
+  {
+    text: {
+      primary: "white",
+      secondary: "white",
+    },
+    background: {
+      default: "#313338",
+    },
+    context: {
+      background: "#cb4b16",
+      text: "#FFFFFF",
+    },
+    divider: {
+      default: "white",
+    },
+    action: {
+      button: "rgba(0,0,0,.54)",
+      hover: "rgba(0,0,0,.08)",
+      disabled: "rgba(0,0,0,.12)",
+    },
   },
-  background: {
-    default: '#313338',
-  },
-  context: {
-    background: '#cb4b16',
-    text: '#FFFFFF',
-  },
-  divider: {
-    default: 'white',
-  },
-  action: {
-    button: 'rgba(0,0,0,.54)',
-    hover: 'rgba(0,0,0,.08)',
-    disabled: 'rgba(0,0,0,.12)',
-  },
-}, 'dark');
+  "dark"
+);
 
 const EmployeeProjects = () => {
   const dispatch = useAppDispatch();
@@ -51,7 +59,7 @@ const EmployeeProjects = () => {
   const themeRedux = useAppSelector((state) => state.theme);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  
+
   const columns = useMemo(
     () => [
       {
@@ -100,6 +108,26 @@ const EmployeeProjects = () => {
           <button
             title="row delete"
             className="btn btn--light btn--icon btn--no-m-bottom text-danger"
+            onClick={() => {
+              deleteEmployeeProjectUser({ id: row.id, token: AuthRedux.token })
+                .then(() => {
+                  dispatch(updateEmployeeTableUrl({ message: `update: ${Date()}` }));
+                  dispatch(
+                    setAlert({
+                      message: "Employee Deleted successful",
+                      state: Alert.Success,
+                    })
+                  );
+                })
+                .catch(() => {
+                  dispatch(
+                    setAlert({
+                      message: "Fail to delete customer!",
+                      state: Alert.Warning,
+                    })
+                  );
+                });
+            }}
           >
             <IconTrashFilled />
           </button>
@@ -126,10 +154,15 @@ const EmployeeProjects = () => {
     return res;
   };
 
-  const {  error, data, isFetching } = useQuery(["employee", projectPageRedux.employeeUrlState], getUsersData);
+  const { error, data, isFetching } = useQuery(
+    ["employee", projectPageRedux.employeeUrlState],
+    getUsersData
+  );
 
-  if (isFetching) return <div className="fetching">
-    <Oval
+  if (isFetching)
+    return (
+      <div className="fetching">
+        <Oval
           height={50}
           width={50}
           color="#F37021"
@@ -141,7 +174,8 @@ const EmployeeProjects = () => {
           strokeWidth={2}
           strokeWidthSecondary={2}
         />
-  </div>;
+      </div>
+    );
   if (error) return <p>"An error has occurs"</p>;
 
   const debouncedSearch = debounce((value: any) => {
@@ -182,7 +216,7 @@ const EmployeeProjects = () => {
           className="admin-container__inner"
         >
           <div className="admin-container__inner">
-          <Input
+            <Input
               type="text"
               placeholder="Search..."
               value={searchQuery}

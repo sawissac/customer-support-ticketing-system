@@ -75,37 +75,24 @@ const Report = () => {
     if (ticketData) {
       setOpenTicket(ticketData.data.filter((item: any) => item.status === "open").length);
       setProcessingTicket(
-        ticketData.data.filter((item: any) => item.status === "processing")
-          .length
+        ticketData.data.filter((item: any) => item.status === "processing").length
       );
       setDoneTicket(
         ticketData.data.filter(
           (item: any) =>
-          item.status ==="processing" &&
+            item.status === "processing" &&
             item.employee_assign.length > 0 &&
             item.employee_assign.every((assign: any) => {
               return assign.status === "done";
             })
         ).length
       );
-      setFixedTicket(
-        ticketData.data.filter((item: any) => item.status === "fixed").length
-      );
-      setConfirmTicket(
-        ticketData.data.filter((item: any) => item.status === "confirm").length
-      );
-      setCloseTicket(
-        ticketData.data.filter((item: any) => item.status === "close").length
-      );
-      setLowPriority(
-        ticketData.data.filter((item: any) => item.priority === "low").length
-      );
-      setMediumPriority(
-        ticketData.data.filter((item: any) => item.priority === "medium").length
-      );
-      setHighPriority(
-        ticketData.data.filter((item: any) => item.priority === "high").length
-      );
+      setFixedTicket(ticketData.data.filter((item: any) => item.status === "fixed").length);
+      setConfirmTicket(ticketData.data.filter((item: any) => item.status === "confirm").length);
+      setCloseTicket(ticketData.data.filter((item: any) => item.status === "close").length);
+      setLowPriority(ticketData.data.filter((item: any) => item.priority === "low").length);
+      setMediumPriority(ticketData.data.filter((item: any) => item.priority === "medium").length);
+      setHighPriority(ticketData.data.filter((item: any) => item.priority === "high").length);
       setCloseTicket(ticketData.data.filter((item: any) => item.status === "close").length);
       setLowPriority(ticketData.data.filter((item: any) => item.priority === "low").length);
       setMediumPriority(ticketData.data.filter((item: any) => item.priority === "medium").length);
@@ -118,8 +105,7 @@ const Report = () => {
       );
       setAssignTicket(
         ticketData.data.filter(
-          (item: any) =>
-            item.status !== "close" && item.employee_assign.length > 0
+          (item: any) => item.status !== "close" && item.employee_assign.length > 0
         ).length
       );
     }
@@ -209,14 +195,7 @@ const Report = () => {
     datasets: [
       {
         label: "Tickets",
-        data: [
-          openTicket,
-          processingTicket,
-          doneTicket,
-          fixedTicket,
-          confirmTicket,
-          closeTicket,
-        ],
+        data: [openTicket, processingTicket, doneTicket, fixedTicket, confirmTicket, closeTicket],
         backgroundColor: [
           "rgba(75, 192, 192, 1)",
           "rgba(255, 206, 86, 1)",
@@ -325,34 +304,37 @@ const Report = () => {
           />
         </div>
 
-        <div className="piechart-container">
-          <div className="piechart-container__inner">
-            <div className="piechart-container__inner__piechart--chart">
-              <Pie data={statusData} />
-            </div>
-            <div className="piechart-container__inner__piechart piechart-container__inner__piechart--border">
-              <h3>Status</h3>
-              <label htmlFor="">Open: {openTicket}</label>
-              <label htmlFor="">Processing: {processingTicket}</label>
-              <label htmlFor="">Done: {doneTicket}</label>
-              <label htmlFor="">Fixed: {fixedTicket}</label>
-              <label htmlFor="">Confirm: {confirmTicket}</label>
-              <label htmlFor="">Close: {closeTicket}</label>
+        <div className="col-6">
+          <div className="piechart-container">
+            <div className="piechart-container__inner">
+              <div className="piechart-container__inner__piechart--chart">
+                <Pie data={statusData} />
+              </div>
+              <div className="piechart-container__inner__piechart piechart-container__inner__piechart--border">
+                <h3>Status</h3>
+                <label htmlFor="">Open: {openTicket}</label>
+                <label htmlFor="">Processing: {processingTicket}</label>
+                <label htmlFor="">Done: {doneTicket}</label>
+                <label htmlFor="">Fixed: {fixedTicket}</label>
+                <label htmlFor="">Confirm: {confirmTicket}</label>
+                <label htmlFor="">Close: {closeTicket}</label>
+              </div>
             </div>
           </div>
         </div>
-
-        <div className="piechart-container">
-          <div className="piechart-container__inner">
-            <div className="piechart-container__inner__piechart--chart">
-              <Pie data={priorityData} />
-            </div>
-            <div className="piechart-container__inner__piechart piechart-container__inner__piechart--border">
-              <h3>Priority</h3>
-              <label htmlFor="">Low: {lowPriority}</label>
-              <label htmlFor="">Medium: {mediumPriority}</label>
-              <label htmlFor="">High: {highPriority}</label>
-              <label htmlFor="">Critical: {criticalPriority}</label>
+        <div className="col-6">
+          <div className="piechart-container">
+            <div className="piechart-container__inner">
+              <div className="piechart-container__inner__piechart--chart">
+                <Pie data={priorityData} />
+              </div>
+              <div className="piechart-container__inner__piechart piechart-container__inner__piechart--border">
+                <h3>Priority</h3>
+                <label htmlFor="">Low: {lowPriority}</label>
+                <label htmlFor="">Medium: {mediumPriority}</label>
+                <label htmlFor="">High: {highPriority}</label>
+                <label htmlFor="">Critical: {criticalPriority}</label>
+              </div>
             </div>
           </div>
         </div>

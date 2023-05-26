@@ -104,7 +104,7 @@ const TicketView = () => {
               userName={ticketData.customer_project.user.name}
               description={ticketData.description}
             />
-            {ticketRedux.driveLink && (
+            {ticketData.drive_link && (
               <Message.FileAttachment
                 link={ticketData.drive_link}
                 label="Error Report Drive Link"

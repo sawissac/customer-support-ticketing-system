@@ -17,6 +17,7 @@ import {
   CustomerProjectListApiResponse,
   CustomerProjectListProps,
 } from "../../responseInterface/CustomerProjectListApiResponse";
+import { textLimiter } from "../../commonFunction/common";
 
 const TicketCreate = () => {
   const dispatch = useAppDispatch();
@@ -156,7 +157,7 @@ const TicketCreate = () => {
                   placement="bottom"
                   buttonClassName="form-dropdown-btn"
                   offset={[70, 0]}
-                  buttonChildren={<>{projectDropDown.name}</>}
+                  buttonChildren={<>{textLimiter(20,projectDropDown.name)}</>}
                   dropdownClassName="form-dropdown"
                   width="350px"
                   dropdownChildren={
