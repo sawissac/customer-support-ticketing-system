@@ -24,6 +24,7 @@ class TicketService implements TicketServiceInterface
     public function delete($id)
     {
         $data = Ticket::where('id', $id)->first();
+        
         return $data->delete();
     }
 }

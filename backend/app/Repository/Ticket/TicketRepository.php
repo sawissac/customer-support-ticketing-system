@@ -22,6 +22,7 @@ class TicketRepository implements TicketRepositoryInterface
 
         return $result;
     }
+
     
     public function checkTicketList()
     {
