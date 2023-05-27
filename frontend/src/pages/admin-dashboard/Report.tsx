@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Pie, Line, Bar } from "react-chartjs-2";
+import { Pie, Line} from "react-chartjs-2";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -28,8 +28,13 @@ import {
   IconUserExclamation,
   IconUsers,
 } from "@tabler/icons-react";
+<<<<<<< HEAD:frontend/src/pages/AdminDashboard/Report.tsx
 import Nav from "../../components/Nav";
 import dayjs from "dayjs";
+=======
+import dayjs from "dayjs";
+import Nav from "../../components/Nav";
+>>>>>>> main:frontend/src/pages/admin-dashboard/Report.tsx
 
 const Report = () => {
   const authRedux = useAppSelector((state) => state.auth);
@@ -70,9 +75,9 @@ const Report = () => {
   const year = dayjs().year();
 
   const urlTicket = "http://127.0.0.1:8000/api/ticket";
-  const urlProject="http://127.0.0.1:8000/api/project";
-  const urlMonthlyTicke="http://127.0.0.1:8000/api/monthly-ticket";
-  const urlUser="http://127.0.0.1:8000/api/user";
+  const urlProject = "http://127.0.0.1:8000/api/project";
+  const urlMonthlyTicke = "http://127.0.0.1:8000/api/monthly-ticket";
+  const urlUser = "http://127.0.0.1:8000/api/user";
 
   const getTicketsData = async () => {
     const res = await axios
@@ -93,9 +98,12 @@ const Report = () => {
 
   useEffect(() => {
     if (ticketData) {
-      setOpenTicket(ticketData.data.filter((item: any) => item.status === "open").length);
+      setOpenTicket(
+        ticketData.data.filter((item: any) => item.status === "open").length
+      );
       setProcessingTicket(
-        ticketData.data.filter((item: any) => item.status === "processing").length
+        ticketData.data.filter((item: any) => item.status === "processing")
+          .length
       );
       setDoneTicket(
         ticketData.data.filter(
@@ -107,25 +115,48 @@ const Report = () => {
             })
         ).length
       );
-      setFixedTicket(ticketData.data.filter((item: any) => item.status === "fixed").length);
-      setConfirmTicket(ticketData.data.filter((item: any) => item.status === "confirm").length);
-      setCloseTicket(ticketData.data.filter((item: any) => item.status === "close").length);
-      setLowPriority(ticketData.data.filter((item: any) => item.priority === "low").length);
-      setMediumPriority(ticketData.data.filter((item: any) => item.priority === "medium").length);
-      setHighPriority(ticketData.data.filter((item: any) => item.priority === "high").length);
-      setCloseTicket(ticketData.data.filter((item: any) => item.status === "close").length);
-      setLowPriority(ticketData.data.filter((item: any) => item.priority === "low").length);
-      setMediumPriority(ticketData.data.filter((item: any) => item.priority === "medium").length);
-      setHighPriority(ticketData.data.filter((item: any) => item.priority === "high").length);
+      setFixedTicket(
+        ticketData.data.filter((item: any) => item.status === "fixed").length
+      );
+      setConfirmTicket(
+        ticketData.data.filter((item: any) => item.status === "confirm").length
+      );
+      setCloseTicket(
+        ticketData.data.filter((item: any) => item.status === "close").length
+      );
+      setLowPriority(
+        ticketData.data.filter((item: any) => item.priority === "low").length
+      );
+      setMediumPriority(
+        ticketData.data.filter((item: any) => item.priority === "medium").length
+      );
+      setHighPriority(
+        ticketData.data.filter((item: any) => item.priority === "high").length
+      );
+      setCloseTicket(
+        ticketData.data.filter((item: any) => item.status === "close").length
+      );
+      setLowPriority(
+        ticketData.data.filter((item: any) => item.priority === "low").length
+      );
+      setMediumPriority(
+        ticketData.data.filter((item: any) => item.priority === "medium").length
+      );
+      setHighPriority(
+        ticketData.data.filter((item: any) => item.priority === "high").length
+      );
       setCriticalPriority(
-        ticketData.data.filter((item: any) => item.priority === "critical").length
+        ticketData.data.filter((item: any) => item.priority === "critical")
+          .length
       );
       setUnassignTicket(
-        ticketData.data.filter((item: any) => item.employee_assign.length === 0).length
+        ticketData.data.filter((item: any) => item.employee_assign.length === 0)
+          .length
       );
       setAssignTicket(
         ticketData.data.filter(
-          (item: any) => item.status !== "close" && item.employee_assign.length > 0
+          (item: any) =>
+            item.status !== "close" && item.employee_assign.length > 0
         ).length
       );
     }
@@ -249,11 +280,22 @@ const Report = () => {
 
   useEffect(() => {
     if (userData) {
-      setAdmin(userData.data.filter((item: any) => item.roles[0].name === "admin").length);
-      setEmployee(userData.data.filter((item: any) => item.roles[0].name === "employee").length);
-      setCustomer(userData.data.filter((item: any) => item.roles[0].name === "customer").length);
+      setAdmin(
+        userData.data.filter((item: any) => item.roles[0].name === "admin")
+          .length
+      );
+      setEmployee(
+        userData.data.filter((item: any) => item.roles[0].name === "employee")
+          .length
+      );
+      setCustomer(
+        userData.data.filter((item: any) => item.roles[0].name === "customer")
+          .length
+      );
       setResign(
-        userData.data.filter((item: any) => item.roles[0].name === "resign_employee").length
+        userData.data.filter(
+          (item: any) => item.roles[0].name === "resign_employee"
+        ).length
       );
     }
   }, [userData]);
@@ -299,7 +341,14 @@ const Report = () => {
     datasets: [
       {
         label: "Tickets",
-        data: [openTicket, processingTicket, doneTicket, fixedTicket, confirmTicket, closeTicket],
+        data: [
+          openTicket,
+          processingTicket,
+          doneTicket,
+          fixedTicket,
+          confirmTicket,
+          closeTicket,
+        ],
         backgroundColor: [
           "rgba(75, 192, 192, 1)",
           "rgba(255, 206, 86, 1)",
@@ -353,10 +402,8 @@ const Report = () => {
       title: {
         display: true,
         text: "Monthly Tickets count",
-        
       },
     },
-    
   };
 
   const labels = [
@@ -389,23 +436,9 @@ const Report = () => {
     ],
   };
 
-  const barData = {
-    labels: labels,
-    datasets: [
-      {
-        label: year + " Monthly Tickets",
-        data: [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec],
-        backgroundColor: "rgba(243, 112, 33, 0.5)",
-      },
-    ],
-  };
-
   return (
     <div className="admin-container">
-      <Nav
-        icon={<IconChartBar />}
-        label={"Reports"}
-      />
+      <Nav icon={<IconChartBar />} label={"Reports"} />
       <div className="admin-container__inner row row--gap-1 admin-container--pb-5">
         <div className="col-3">
           <ReportCard
@@ -501,9 +534,26 @@ const Report = () => {
         <div className="col-6">
           <Line data={areaChartData} options={options} />
         </div>
-        <div className="col-6">
-          <Bar data={barData} options={options} />
+
+        <div className="monthly-detail col-6">
+          <div className="monthly-detail__months">
+            <label htmlFor="">January: {jan}</label>
+            <label htmlFor="">February: {feb}</label>
+            <label htmlFor="">March: {mar}</label>
+            <label htmlFor="">April: {apr}</label>
+            <label htmlFor="">May: {may}</label>
+            <label htmlFor="">June: {jun}</label>
+          </div>
+          <div className="monthly-detail__months"> 
+            <label htmlFor="">July: {jul}</label>
+            <label htmlFor="">August: {aug}</label>
+            <label htmlFor="">September: {sep}</label>
+            <label htmlFor="">October: {oct}</label>
+            <label htmlFor="">November: {nov}</label>
+            <label htmlFor="">December: {dec}</label>
+          </div>
         </div>
+
       </div>
     </div>
   );

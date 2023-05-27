@@ -16,6 +16,7 @@ import { requestAxiosWithToken } from "../../routes/request";
 import { Oval } from "react-loader-spinner";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { IconClockHour3, IconFolder } from "@tabler/icons-react";
 
 dayjs.extend(relativeTime);
 
@@ -98,9 +99,13 @@ const TicketView = () => {
         />
         <div className="admin-container__inner">
           <fieldset className="fieldset-timer">
-            <legend className="legend-timer">{dayjs(ticketData.created_at).fromNow()}</legend>
-
+            <legend className="legend-timer">
+              <IconFolder size={25} />
+              {ticketData.customer_project.project.name} <IconClockHour3 size={25} />
+              {dayjs(ticketData.created_at).fromNow()}
+            </legend>
             <Message
+              subject={ticketData.subject}
               userName={ticketData.customer_project.user.name}
               description={ticketData.description}
             />

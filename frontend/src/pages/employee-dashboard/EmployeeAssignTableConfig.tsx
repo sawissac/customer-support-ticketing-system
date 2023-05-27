@@ -1,7 +1,7 @@
 import Avatar from "react-avatar";
 import { compareDate } from "../../commonFunction/common";
 import Button from "../../components/Button";
-import { IconCalendarCheck, IconCalendarEvent, IconCalendarStats } from "@tabler/icons-react";
+import { IconCalendarCheck, IconCalendarEvent, IconCalendarStats, IconCircleFilled, IconCircleHalf2, IconCircleMinus } from "@tabler/icons-react";
 import { AssignTicketListEmployeeAssignProps } from "../../responseInterface/AssignTicketListApiResponse";
 
 export const EmployeeAssignTableConfig = (
@@ -53,32 +53,51 @@ export const EmployeeAssignTableConfig = (
   },
   {
     name: "Status",
+    cell: (row: any) => {
+      const color =
+        row.status === "open"
+          ? "badge--open"
+          : row.status === "processing"
+          ? "badge--processing"
+          : row.status === "done"
+          ? "badge--done"
+          : "";
+      return <div className={`badge ${color}`}>{row.status}</div>;
+    },
+    sortable: true,
+    width: "200px",
+  },
+  {
+    name: "Status",
     cell: (row: AssignTicketListEmployeeAssignProps) => {
       return (
         <div className="status-btn-group">
           <Button
-            icon={<IconCalendarEvent />}
+            icon={<IconCircleMinus />}
             label=""
+            title="still open"
             onClick={() => {
-              if(row.employee_id === userId) openClickHandler(row);
+              if (row.employee_id === userId) openClickHandler(row);
             }}
-            className={row.status === "open" ? "text-info" : "text-dark"}
+            className={row.status === "open" ? "status-btn-group--active" : ""}
           />
           <Button
-            icon={<IconCalendarStats />}
+            icon={<IconCircleHalf2 />}
             label=""
+            title="processing"
             onClick={() => {
-              if(row.employee_id === userId) processingClickHandler(row);
+              if (row.employee_id === userId) processingClickHandler(row);
             }}
-            className={row.status === "processing" ? "text-info" : "text-dark"}
+            className={row.status === "processing" ? "status-btn-group--active" : ""}
           />
           <Button
-            icon={<IconCalendarCheck />}
+            icon={<IconCircleFilled />}
             label=""
+            title="done"
             onClick={() => {
-              if(row.employee_id === userId) doneClickHandler(row);
+              if (row.employee_id === userId) doneClickHandler(row);
             }}
-            className={row.status === "done" ? "text-info" : "text-dark"}
+            className={row.status === "done" ? "status-btn-group--active" : ""}
           />
         </div>
       );

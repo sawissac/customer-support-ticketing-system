@@ -106,7 +106,6 @@ class CustomerProjectController extends BaseController
 
     public function destroy($id)
     {
-
         $this->customerProjectService->delete($id);
 
         return $this->sendResponse([], 'CustomerProject Delete successfully.', 204);

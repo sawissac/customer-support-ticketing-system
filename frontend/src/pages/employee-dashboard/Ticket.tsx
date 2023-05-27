@@ -8,7 +8,7 @@ import { debounce } from "debounce";
 import { Oval } from "react-loader-spinner";
 import { IconMessage2 } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { setTicketView, setViewData } from "../../redux/feature_slice/TicketSlice";
+import { setPage, setTicketView, setViewData } from "../../redux/feature_slice/TicketSlice";
 import { requestAxiosWithToken } from "../../routes/request";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -28,8 +28,8 @@ const Ticket = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [dataCount, setDataCount] = useState(0);
-  const [filteredData, setFilteredData] = useState<AssignEmployeeListTicketProps[]>([]);
-  const [currentData, setCurrentData] = useState<AssignEmployeeListTicketProps[]>([]);
+  const [ticketData, setTicketData] = useState<AssignEmployeeListTicketProps[]>([]);
+  const [ticketTempData, setTicketTempData] = useState<AssignEmployeeListTicketProps[]>([]);
   const itemsPerPage = 6;
 
   const url = `http://127.0.0.1:8000/api/assign-employee-list/${authRedux.user.id}`;
@@ -39,31 +39,37 @@ const Ticket = () => {
     requestAxiosWithToken(url, authRedux.token)
   );
 
+  const dataInit = (data: AssignEmployeeListApiResponse) => {
+    const dataResponse = data;
+    const temp: number[] = [];
+    const closedTicket: AssignEmployeeListTicketProps[] = [];
+    const processingTicket: AssignEmployeeListTicketProps[] = [];
+    const filteredTicket = dataResponse.data.reduce<AssignEmployeeListTicketProps[]>((pre, cur) => {
+      if (!temp.includes(cur.ticket.id)) {
+        temp.push(cur.ticket.id);
+        if (cur.ticket.status === "close") {
+          closedTicket.push(cur.ticket);
+        } else if (cur.ticket.status === "processing") {
+          processingTicket.push(cur.ticket);
+        } else {
+          pre.push(cur.ticket);
+        }
+      }
+      return pre;
+    }, []);
+    filteredTicket.push(...processingTicket, ...closedTicket);
+    setTicketData(
+      filteredTicket.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
+    );
+    setTicketTempData(filteredTicket);
+    setDataCount(filteredTicket.length);
+  };
+
   useEffect(() => {
-    if (filteredData.length > 0) {
-      setCurrentData(
-        filteredData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
-      );
+    if (data) {
+      dataInit(data);
     }
-    if (data && filteredData.length === 0) {
-      const dataResponse = data;
-      const temp: number[] = [];
-      const filteredTicket = dataResponse.data.reduce<AssignEmployeeListTicketProps[]>(
-        (pre, cur) => {
-          if (!temp.includes(cur.ticket.id)) {
-            temp.push(cur.ticket.id);
-            pre.push(cur.ticket);
-          }
-          return pre;
-        },
-        []
-      );
-      setCurrentData(
-        filteredTicket.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
-      );
-      setDataCount(filteredTicket.length);
-    }
-  }, [data, filteredData, currentPage]);
+  }, [data, currentPage]);
 
   if (isFetching) {
     return (
@@ -86,6 +92,7 @@ const Ticket = () => {
 
   const handlePageChange = ({ selected }: any) => {
     setCurrentPage(selected);
+    dispatch(setPage({ page: selected }));
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,31 +102,42 @@ const Ticket = () => {
   };
 
   const debouncedSearch = debounce((value: string) => {
-    if (data) {
-      const filtered = currentData.filter((item: any) => {
-        if (item.tickets_id.toLowerCase() === value.toLowerCase()) {
-          return true;
-        }
-        if (item.priority.toLowerCase() === value.toLowerCase()) {
-          return true;
-        }
-        if (item.customer_project.project.name.toLowerCase().includes(value.toLowerCase())) {
-          return true;
-        }
-        if (item.customer_project.user.name.toLowerCase().includes(value.toLowerCase())) {
-          return true;
-        }
-        if (item.customer_project.project.project_id.toLowerCase() === value.toLowerCase()) {
-          return true;
-        }
-      });
-      setFilteredData(filtered);
-      setDataCount(filtered.length);
-    }
+    const filtered = ticketData.filter((item) => {
+      if (item.tickets_id.toLowerCase() === value.toLowerCase()) {
+        return true;
+      }
+      if (item.status.toLowerCase() === value.toLowerCase()) {
+        return true;
+      }
+      if (item.priority.toLowerCase() === value.toLowerCase()) {
+        return true;
+      }
+      if (item.customer_project.project.name.toLowerCase().includes(value.toLowerCase())) {
+        return true;
+      }
+      if (item.subject.toLowerCase() === value.toLowerCase()) {
+        return true;
+      }
+      if (item.customer_project.user.name.toLowerCase().includes(value.toLowerCase())) {
+        return true;
+      }
+      if (item.customer_project.project.project_id.toLowerCase() === value.toLowerCase()) {
+        return true;
+      }
+    });
 
-    if (value.length === 0) {
-      setFilteredData([]);
+    if (filtered.length > 0) {
+      setTicketData(filtered);
       setDataCount(0);
+      setCurrentPage(0);
+    }
+    if (filtered.length === 0) {
+      setTicketData([]);
+      setDataCount(0);
+      setCurrentPage(0);
+    }
+    if (data && value.length === 0) {
+      dataInit(data);
     }
   }, 1000);
 
@@ -161,14 +179,16 @@ const Ticket = () => {
                 />
               </div>
 
-              {currentData.map((i, index: number) => {
+              {ticketData.map((i, index: number) => {
                 return (
                   <div
                     className="col-4"
                     key={index}
                   >
                     <TicketList
-                      projectName={`${i.customer_project.project.name} #${i.tickets_id}`}
+                      ticketId={i.tickets_id}
+                      projectId={i.customer_project.project.project_id}
+                      projectName={`${i.customer_project.project.name}`}
                       userView
                       day={dayjs(i.created_at).fromNow()}
                       description={i.subject}
@@ -178,6 +198,8 @@ const Ticket = () => {
                       onClick={() => {
                         dispatch(
                           setViewData({
+                            ticketId: i.id,
+                            customerProjectId: i.customer_project.id,
                             customerProjectName: i.customer_project.project.name,
                             subject: i.subject,
                             description: i.description,
@@ -186,6 +208,8 @@ const Ticket = () => {
                             status: i.status,
                             time: dayjs(i.created_at).fromNow(),
                             userName: i.customer_project.user.name,
+                            endDate: i.end_date,
+                            startDate: i.start_date,
                           })
                         );
                         dispatch(setTicketView({ name: "ticket-view" }));
@@ -198,7 +222,10 @@ const Ticket = () => {
           </div>
         }
       />
-      <ShowIf sif={ticketRedux.view === "ticket-view"} show={<TicketView />} />
+      <ShowIf
+        sif={ticketRedux.view === "ticket-view"}
+        show={<TicketView />}
+      />
     </>
   );
 };

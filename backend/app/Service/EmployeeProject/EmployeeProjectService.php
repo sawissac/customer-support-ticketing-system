@@ -20,10 +20,8 @@ class EmployeeProjectService implements EmployeeProjectServiceInterface
 
     public function delete($id)
     {
-        $data = EmployeeProject::where('id', $id)->first();
+        $data = EmployeeProject::where('id',$id)->first();
 
         return $data->delete();
     }
-
-
 }
