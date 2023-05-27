@@ -36,7 +36,6 @@ class TicketRepository implements TicketRepositoryInterface
                 'ticket_count' => $tickets->ticket_count,
             ];
         });
-
         return $checkData;
     }
 }
