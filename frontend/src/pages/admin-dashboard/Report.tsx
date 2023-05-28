@@ -28,13 +28,8 @@ import {
   IconUserExclamation,
   IconUsers,
 } from "@tabler/icons-react";
-<<<<<<< HEAD:frontend/src/pages/AdminDashboard/Report.tsx
-import Nav from "../../components/Nav";
-import dayjs from "dayjs";
-=======
 import dayjs from "dayjs";
 import Nav from "../../components/Nav";
->>>>>>> main:frontend/src/pages/admin-dashboard/Report.tsx
 
 const Report = () => {
   const authRedux = useAppSelector((state) => state.auth);
