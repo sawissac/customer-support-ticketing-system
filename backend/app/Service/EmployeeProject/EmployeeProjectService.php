@@ -2,9 +2,7 @@
 
 namespace App\Service\EmployeeProject;
 
-use App\Models\EmployeeAssign;
 use App\Models\EmployeeProject;
-use App\Models\Project;
 
 class EmployeeProjectService implements EmployeeProjectServiceInterface
 {
