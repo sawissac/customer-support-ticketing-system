@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import AdminDashboard from "./pages/AdminDashboard";
+import AdminDashboard from "./pages/admin-dashboard";
 import LoginPage from "./pages/LoginPage";
 import UiBoot from "./components/UiBoot";
 import { useAppSelector } from "./redux/hook";
@@ -9,7 +9,7 @@ import ShowIf from "./components/Helper";
 import { Theme } from "./redux/variable/ThemeVariable";
 import { PageNotFound } from "./pages/404Page";
 import EmployeeDashboard from "./pages/employee-dashboard";
-import CustomerDashboard from "./pages/CustomerDashboard";
+import CustomerDashboard from "./pages/customer-dashboard";
 
 function App() {
   const authRedux = useAppSelector((state) => state.auth);

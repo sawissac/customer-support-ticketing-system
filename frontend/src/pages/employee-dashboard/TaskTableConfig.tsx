@@ -52,21 +52,6 @@ export const TaskTableConfig = (employeeClickHandler: any) => [
     width: "150px",
   },
   {
-    name: "Tasks processing",
-    selector: (row: AssignEmployeeListTicketProps) => {
-      const total = row.employee_assign.length;
-      const processingEmployee = row.employee_assign.filter((employee) => {
-        if (employee.status === "processing") {
-          return true;
-        }
-      });
-      const calculated = (processingEmployee.length / total) * 100;
-      return total === 0 ? "0%" : Math.round(calculated) + "%";
-    },
-    sortable: true,
-    width: "180px",
-  },
-  {
     name: "Tasks Done",
     selector: (row: AssignEmployeeListTicketProps) => {
       const total = row.employee_assign.length;
@@ -83,8 +68,12 @@ export const TaskTableConfig = (employeeClickHandler: any) => [
   },
   {
     name: "Status",
-    selector: (row: AssignEmployeeListTicketProps) => row.status,
+    cell: (row: any) => {
+      const badgeColor = row.status === 'open' ? 'badge--open' : row.status === 'close' ? 'badge--done' : 'badge--processing';
+      return <div className={`badge ${badgeColor}`}>{row.status}</div>;
+    },
     sortable: true,
+    width: "200px",
   },
   {
     name: "Employees",

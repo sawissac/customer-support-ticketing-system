@@ -6,24 +6,26 @@ import Nav from "../../components/Nav";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
-import { updateEmployeeProject } from "../../requests/employeeProjectsRequest";
+import { createEmployeeProject } from "../../requests/employeeProjectsRequest";
 import FormWarper from "../../components/FormWarper";
 import { getAllEmployee } from "../../requests/userRequest";
+import { motion } from "framer-motion";
 import {
   openProjectRightSidebar,
-  updateEmployeeTableUrl,
+  updateProjectTableUrl,
 } from "../../redux/feature_slice/ProjectPageSlice";
-import { motion } from "framer-motion";
 import Input from "../../components/Input";
 import { UserApiResponse } from "../../responseInterface/UserApiResponse";
 import { EmployeeListApiResponse } from "../../responseInterface/EmployeeListApiResponse";
 import { debounce } from "debounce";
-const EmployeeProjectsUpdate = () => {
+const EmployeeProjectsCreate = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
   const ProjectPageRedux = useAppSelector((state) => state.projectSidebar);
   const [employeeList, setEmployeeList] = useState<UserApiResponse[]>([]);
-  const [tempEmployeeList, setTempEmployeeList] = useState<UserApiResponse[]>([]);
+  const [tempEmployeeList, setTempEmployeeList] = useState<UserApiResponse[]>(
+    []
+  );
   const [filterEmployeeInput, setFilterEmployeeInput] = useState("");
   const [dropdownEmployee, setDropDownEmployee] = React.useState({
     name: "Select",
@@ -40,13 +42,6 @@ const EmployeeProjectsUpdate = () => {
     });
   }, []);
 
-  useEffect(() => {
-    setDropDownEmployee({
-      name: ProjectPageRedux.employee_name,
-      value: ProjectPageRedux.employee_id,
-    });
-  }, [ProjectPageRedux.employee_id]);
-
   function onClickHandle() {
     const isEmpty = dropdownEmployee.value === 0;
     if (isEmpty) {
@@ -57,8 +52,7 @@ const EmployeeProjectsUpdate = () => {
         })
       );
     } else {
-      updateEmployeeProject({
-        id: ProjectPageRedux.id,
+      createEmployeeProject({
         project_id: ProjectPageRedux.project_id,
         user_id: dropdownEmployee.value,
         token: AuthRedux.token,
@@ -66,18 +60,17 @@ const EmployeeProjectsUpdate = () => {
         .then(() => {
           dispatch(
             setAlert({
-              message: "Updated Successfully",
+              message: "Created Successfully",
               state: Alert.Success,
             })
           );
           dispatch(
-            updateEmployeeTableUrl({
+            updateProjectTableUrl({
               message: `updated:${Date()}`,
             })
           );
         })
         .catch((reason) => {
-          console.log(reason);
           dispatch(
             setAlert({
               message: "Fail to create",
@@ -114,7 +107,7 @@ const EmployeeProjectsUpdate = () => {
   return (
     <div className="admin-container admin-container--no-flex-grow admin-container--form">
       <Nav.BackButton
-        label="Employee Update"
+        label="Employee Create"
         onClick={() => {
           dispatch(openProjectRightSidebar({ name: "" }));
         }}
@@ -154,9 +147,10 @@ const EmployeeProjectsUpdate = () => {
                   />
                 </div>
                 <div className="form-dropdown__scroll form-dropdown__scroll--height">
-                  {employeeList.map((employee) => {
+                  {employeeList.map((employee, index) => {
                     return (
                       <Button
+                        key={index}
                         type="button"
                         onClick={() => {
                           setDropDownEmployee({
@@ -174,7 +168,7 @@ const EmployeeProjectsUpdate = () => {
           />
           <Button
             type="button"
-            label="Update"
+            label="Add"
             className="btn btn--form"
             onClick={onClickHandle}
           />
@@ -184,4 +178,4 @@ const EmployeeProjectsUpdate = () => {
   );
 };
 
-export default EmployeeProjectsUpdate;
+export default EmployeeProjectsCreate;

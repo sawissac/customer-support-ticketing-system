@@ -21,7 +21,7 @@ interface TicketListInterface {
   status: string;
   day: string;
   userView?: boolean | undefined;
-  projectId?: number;
+  projectId?: string;
   projectName: string;
   onClick?: any;
 }
