@@ -2,9 +2,7 @@
 
 namespace App\Service\EmployeeProject;
 
-use App\Models\EmployeeAssign;
 use App\Models\EmployeeProject;
-use App\Models\Project;
 
 class EmployeeProjectService implements EmployeeProjectServiceInterface
 {
@@ -22,11 +20,8 @@ class EmployeeProjectService implements EmployeeProjectServiceInterface
 
     public function delete($id)
     {
+        $data = EmployeeProject::where('id',$id)->first();
 
-        $user = EmployeeProject::where('id',$id)->first();
-
-        return $user->delete();
+        return $data->delete();
     }
-
-
 }

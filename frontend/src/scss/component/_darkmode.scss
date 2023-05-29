@@ -180,16 +180,16 @@ $hover-dark: $gray-800;
     &__inner {
       background-color: #2b2d31;
       &__piechart {
-        &--chart {
-        }
         &--border * {
           color: $white !important;
         }
       }
+      
     }
-    // &--border *{
-    //   color: $white !important;
-    // }
+    
+  }
+  &--dark .monthly-detail *{
+    color: $white !important;
   }
 
   &--dark {

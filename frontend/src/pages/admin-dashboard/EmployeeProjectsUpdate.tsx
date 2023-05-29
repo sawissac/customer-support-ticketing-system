@@ -4,58 +4,51 @@ import Button from "../../components/Button";
 import { IconMenuOrder, IconUserUp } from "@tabler/icons-react";
 import Nav from "../../components/Nav";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { useNavigate } from "react-router-dom";
-import { getAllProject } from "../../requests/projectRequest";
-import {
-  createCustomerProject,
-  updateCustomerProject,
-} from "../../requests/customerProjectsRequest";
-import { Alert } from "../../redux/variable/AlertVariable";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
+import { Alert } from "../../redux/variable/AlertVariable";
+import { updateEmployeeProject } from "../../requests/employeeProjectsRequest";
 import FormWarper from "../../components/FormWarper";
-import { getAllCustomer } from "../../requests/userRequest";
-import { motion } from "framer-motion";
+import { getAllEmployee } from "../../requests/userRequest";
 import {
   openProjectRightSidebar,
-  updateCustomerTableUrl,
+  updateEmployeeTableUrl,
 } from "../../redux/feature_slice/ProjectPageSlice";
-import { UserApiResponse } from "../../responseInterface/UserApiResponse";
-import { CustomerListApiResponse } from "../../responseInterface/CustomerListApiResponse";
+import { motion } from "framer-motion";
 import Input from "../../components/Input";
+import { UserApiResponse } from "../../responseInterface/UserApiResponse";
+import { EmployeeListApiResponse } from "../../responseInterface/EmployeeListApiResponse";
 import { debounce } from "debounce";
-
-const CustomerProjectsUpdate = () => {
-  const navigate = useNavigate();
+const EmployeeProjectsUpdate = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
-  const projectPageRedux = useAppSelector((state) => state.projectSidebar);
-  const [customerList, setCustomerList] = useState<UserApiResponse[]>([]);
-  const [tempCustomerList, setTempCustomerList] = useState<UserApiResponse[]>([]);
-  const [filterCustomerInput, setFilterCustomerInput] = useState("");
-  const [dropdownCustomer, setDropDownCustomer] = React.useState({
-    name: "Customer",
+  const ProjectPageRedux = useAppSelector((state) => state.projectSidebar);
+  const [employeeList, setEmployeeList] = useState<UserApiResponse[]>([]);
+  const [tempEmployeeList, setTempEmployeeList] = useState<UserApiResponse[]>([]);
+  const [filterEmployeeInput, setFilterEmployeeInput] = useState("");
+  const [dropdownEmployee, setDropDownEmployee] = React.useState({
+    name: "Select",
     value: 0,
   });
 
   useEffect(() => {
-    getAllCustomer({
+    getAllEmployee({
       token: AuthRedux.token,
     }).then((res: any) => {
-      const dataResponse: CustomerListApiResponse = res;
-      setCustomerList(dataResponse.data);
-      setTempCustomerList(dataResponse.data);
+      const dataResponse: EmployeeListApiResponse = res;
+      setEmployeeList(dataResponse.data);
+      setTempEmployeeList(dataResponse.data);
     });
   }, []);
 
   useEffect(() => {
-    setDropDownCustomer({
-      name: projectPageRedux.customer_name,
-      value: projectPageRedux.customer_id,
+    setDropDownEmployee({
+      name: ProjectPageRedux.employee_name,
+      value: ProjectPageRedux.employee_id,
     });
-  }, [projectPageRedux.customer_id]);
+  }, [ProjectPageRedux.employee_id]);
 
   function onClickHandle() {
-    const isEmpty = dropdownCustomer.value === 0;
+    const isEmpty = dropdownEmployee.value === 0;
     if (isEmpty) {
       dispatch(
         setAlert({
@@ -64,26 +57,27 @@ const CustomerProjectsUpdate = () => {
         })
       );
     } else {
-      updateCustomerProject({
-        id: projectPageRedux.id,
-        project_id: projectPageRedux.project_id,
-        user_id: dropdownCustomer.value,
+      updateEmployeeProject({
+        id: ProjectPageRedux.id,
+        project_id: ProjectPageRedux.project_id,
+        user_id: dropdownEmployee.value,
         token: AuthRedux.token,
       })
         .then(() => {
           dispatch(
             setAlert({
-              message: "Created Successfully",
+              message: "Updated Successfully",
               state: Alert.Success,
             })
           );
           dispatch(
-            updateCustomerTableUrl({
+            updateEmployeeTableUrl({
               message: `updated:${Date()}`,
             })
           );
         })
         .catch((reason) => {
+          console.log(reason);
           dispatch(
             setAlert({
               message: "Fail to create",
@@ -95,12 +89,12 @@ const CustomerProjectsUpdate = () => {
   }
 
   function handleCustomerSearch(ev: React.ChangeEvent<HTMLInputElement>) {
-    setFilterCustomerInput(ev.target.value);
+    setFilterEmployeeInput(ev.target.value);
     debouncedCustomerProjectSearch(ev.target.value);
   }
 
   const debouncedCustomerProjectSearch = debounce((value: string) => {
-    const filteredCustomer = tempCustomerList.filter((project) => {
+    const filteredCustomer = tempEmployeeList.filter((project) => {
       if (project.name.toLowerCase().includes(value.toLocaleLowerCase())) {
         return true;
       }
@@ -110,17 +104,17 @@ const CustomerProjectsUpdate = () => {
     });
 
     if (filteredCustomer.length > 0) {
-      setCustomerList(filteredCustomer);
+      setEmployeeList(filteredCustomer);
     }
     if (filteredCustomer.length === 0) {
-      setCustomerList(tempCustomerList);
+      setEmployeeList(tempEmployeeList);
     }
   }, 1000);
 
   return (
     <div className="admin-container admin-container--no-flex-grow admin-container--form">
       <Nav.BackButton
-        label="Customer Update"
+        label="Employee Update"
         onClick={() => {
           dispatch(openProjectRightSidebar({ name: "" }));
         }}
@@ -129,9 +123,9 @@ const CustomerProjectsUpdate = () => {
         initial={{ x: "20px", opacity: 0 }}
         animate={{ x: "0px", opacity: 1 }}
       >
-        <FormWarper route="/api/customer-project">
+        <FormWarper route="/api/employee-project">
           <div className="form-dropdown-label">
-            <label htmlFor="">Customer</label>
+            <label htmlFor="">Employee</label>
             <span>*require</span>
           </div>
           <Dropdown
@@ -139,7 +133,7 @@ const CustomerProjectsUpdate = () => {
             buttonClassName="form-dropdown-btn"
             buttonChildren={
               <>
-                {dropdownCustomer.name} <IconMenuOrder size={20} />
+                {dropdownEmployee.name} <IconMenuOrder size={20} />
               </>
             }
             dropdownClassName="form-dropdown"
@@ -154,23 +148,24 @@ const CustomerProjectsUpdate = () => {
                     onFocus={(ev) => {
                       ev.target.setAttribute("autocomplete", "off");
                     }}
-                    placeholder="[customer name] #id"
-                    value={filterCustomerInput}
+                    placeholder="[employee name] #id"
+                    value={filterEmployeeInput}
                     onChange={handleCustomerSearch}
                   />
                 </div>
                 <div className="form-dropdown__scroll form-dropdown__scroll--height">
-                  {customerList.map((customer) => {
+                  {employeeList.map((employee,index) => {
                     return (
                       <Button
+                      key={index}
                         type="button"
                         onClick={() => {
-                          setDropDownCustomer({
-                            name: customer.name,
-                            value: customer.id,
+                          setDropDownEmployee({
+                            name: employee.name,
+                            value: employee.id,
                           });
                         }}
-                        label={customer.name + `#${customer.id}`}
+                        label={employee.name + `#${employee.id}`}
                       />
                     );
                   })}
@@ -180,7 +175,7 @@ const CustomerProjectsUpdate = () => {
           />
           <Button
             type="button"
-            label="Create"
+            label="Update"
             className="btn btn--form"
             onClick={onClickHandle}
           />
@@ -190,4 +185,4 @@ const CustomerProjectsUpdate = () => {
   );
 };
 
-export default CustomerProjectsUpdate;
+export default EmployeeProjectsUpdate;

@@ -15,7 +15,7 @@ const EmployeeDashboard = () => {
           element={<TicketsPage />}
         />
         <Route
-          path="/employee-assignment"
+          path="/tasks"
           element={<Task />}
         />
         <Route

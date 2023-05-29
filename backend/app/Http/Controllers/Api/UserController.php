@@ -41,7 +41,7 @@ class UserController extends BaseController
             [
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|max:255|email|unique:users,email',
-                'password' => 'required|confirmed',
+                'password' => 'required|confirmed|min:8',
                 'role' => 'required'
             ]
         );

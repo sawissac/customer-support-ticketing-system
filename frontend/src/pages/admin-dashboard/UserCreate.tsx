@@ -130,9 +130,10 @@ const UserCreatePage = () => {
             dropdownChildren={
               <>
                 <div className="form-dropdown__scroll">
-                  {Object.keys(userRoles).map((role: string) => {
+                  {Object.keys(userRoles).map((role: string,index:number) => {
                     return (
                       <Button
+                      key={index}
                         type="button"
                         onClick={() => {
                           setDropDownBox({

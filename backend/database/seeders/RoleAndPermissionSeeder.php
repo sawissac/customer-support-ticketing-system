@@ -96,6 +96,7 @@ class RoleAndPermissionSeeder extends Seeder
         ]);
 
         $employee->givePermissionTo([
+            $canShowTickets,
             $canShowAssignEmployee,
             $canUpdateAssignEmployee
         ]);
