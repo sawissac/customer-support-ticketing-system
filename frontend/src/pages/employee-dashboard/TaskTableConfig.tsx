@@ -75,7 +75,7 @@ export const TaskTableConfig = (employeeClickHandler: any) => [
       ? "badge--close"
       : row.status === "processing"
       ? "badge--processing"
-      : row.status === "fixed"
+      : row.status === "fixed1"
       ? "badge--fixed"
       : "badge--confirm";
       return <div className={`badge ${badgeColor}`}>{row.status}</div>;
