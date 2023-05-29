@@ -46,7 +46,15 @@ class TicketController extends BaseController
         $validator = Validator::make(
             $validate,
             [
-               
+                'customer_project_id' => 'required',
+                'subject' => 'required',
+                'description' => 'required',
+                'status' => 'nullable',
+                'priority' => 'nullable',
+                'drive_link' => 'nullable',
+                'admin_id' => 'nullabe',
+                'start_date' => 'nullable|date',
+                'end_date' => 'nullable|date|after:start_date',
             ]
         );
 
@@ -78,6 +86,15 @@ class TicketController extends BaseController
         $validator = Validator::make(
             $validate,
             [
+                'customer_project_id' => 'required',
+                'subject' => 'required',
+                'description' => 'required',
+                'status' => 'required',
+                'priority' => 'nullable',
+                'drive_link' => 'nullable',
+                'admin_id' => 'nullable',
+                'start_date' => 'nullable|date',
+                'end_date' => 'nullable|date|after:start_date',
             ]
         );
 
