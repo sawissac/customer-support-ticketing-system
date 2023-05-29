@@ -37,7 +37,7 @@ const TicketPage = () => {
   const itemsPerPage = 6;
   const url = "http://127.0.0.1:8000/api/ticket";
 
-  const { data, isFetching } = useQuery<TicketListApiResponse>(
+  const { data, isFetching,isLoading} = useQuery<TicketListApiResponse>(
     ["tickets", ticketRedux.url],
     requestAxiosWithToken(url, authRedux.token)
   );
@@ -89,6 +89,7 @@ const TicketPage = () => {
       </div>
     );
   }
+ 
 
   const handlePageChange = ({ selected }: any) => {
     setCurrentPage(selected);
