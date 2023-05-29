@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Nav from "../../components/Nav";
 import { motion } from "framer-motion";
-import { IconCalendarEvent, IconPlus } from "@tabler/icons-react";
+import { IconCalendarEvent} from "@tabler/icons-react";
 import ShowIf from "../../components/Helper";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { useQuery } from "react-query";
