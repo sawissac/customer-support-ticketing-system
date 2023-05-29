@@ -36,7 +36,10 @@ import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import Input from "../../components/Input";
 import { debounce } from "debounce";
-import { TicketListApiResponse, TicketListProps } from "../../responseInterface/TicketListApiResponse";
+import {
+  TicketListApiResponse,
+  TicketListProps,
+} from "../../responseInterface/TicketListApiResponse";
 
 dayjs.extend(relativeTime);
 
@@ -110,7 +113,9 @@ const Task = () => {
       {
         name: "Start Date",
         selector: (row: any) => {
-          return compareDate(row.start_date, row.end_date) ? "--" : row.start_date;
+          return compareDate(row.start_date, row.end_date)
+            ? "--"
+            : row.start_date;
         },
         sortable: true,
         width: "150px",
@@ -118,7 +123,9 @@ const Task = () => {
       {
         name: "Due Date",
         selector: (row: any) => {
-          return compareDate(row.start_date, row.end_date) ? "--" : row.end_date;
+          return compareDate(row.start_date, row.end_date)
+            ? "--"
+            : row.end_date;
         },
         sortable: true,
         width: "150px",
@@ -142,7 +149,16 @@ const Task = () => {
       {
         name: "Status",
         cell: (row: any) => {
-          const badgeColor = row.status === 'open' ? 'badge--open' : row.status === 'close' ? 'badge--done' : 'badge--processing';
+          const badgeColor =
+            row.status === "open"
+              ? "badge--open"
+              : row.status === "close"
+              ? "badge--close"
+              : row.status === "processing"
+              ? "badge--processing"
+              : row.status === "fixed"
+              ? "badge--fixed"
+              : "badge--confirm";
           return <div className={`badge ${badgeColor}`}>{row.status}</div>;
         },
         sortable: true,
@@ -276,7 +292,10 @@ const Task = () => {
     []
   );
 
-  const { data, isFetching } = useQuery<TicketListApiResponse>(["tasks", taskRedux.url], getUsersData);
+  const { data, isFetching } = useQuery<TicketListApiResponse>(
+    ["tasks", taskRedux.url],
+    getUsersData
+  );
 
   useEffect(() => {
     if (data) {
@@ -354,7 +373,7 @@ const Task = () => {
               />
               <DataTable
                 columns={columns}
-                data={searchQuery.length===0 ? tableData : filteredData}
+                data={searchQuery.length === 0 ? tableData : filteredData}
                 responsive
                 pagination
                 theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}
@@ -386,32 +405,41 @@ const Task = () => {
       >
         <div className="modal">
           <div className="modal__title">
-            {processType.name === "fix" ? "Fix Confirmation" : "Close Confirmation"}
+            {processType.name === "fix"
+              ? "Fix Confirmation"
+              : "Close Confirmation"}
           </div>
           <div className="modal__desc">{processType.description}</div>
-          {processType.status && (processType.name === "fix" || processType.name === "close")  && (
-            <Button
-              className="btn btn--primary btn--no-m-bottom"
-              label={processType.name === "fix" ? "Change to Fixed Status" : processType.name === "close" ? 'Change to close status' : ""}
-              onClick={() => {
-                updateTicket({
-                  ...processType.data,
-                  ticketId: processType.data.id,
-                  status: processType.name === "fix" ? "fixed" : "close",
-                  token: authRedux.token,
-                }).then(() => {
-                  dispatch(
-                    setAlert({
-                      message: "Created Successfully",
-                      state: Alert.Success,
-                    })
-                  );
-                  dispatch(updateTaskUrl({ name: `updated: ${Date()}` }));
-                  setModalOpen(false);
-                });
-              }}
-            />
-          )}
+          {processType.status &&
+            (processType.name === "fix" || processType.name === "close") && (
+              <Button
+                className="btn btn--primary btn--no-m-bottom"
+                label={
+                  processType.name === "fix"
+                    ? "Change to Fixed Status"
+                    : processType.name === "close"
+                    ? "Change to close status"
+                    : ""
+                }
+                onClick={() => {
+                  updateTicket({
+                    ...processType.data,
+                    ticketId: processType.data.id,
+                    status: processType.name === "fix" ? "fixed" : "close",
+                    token: authRedux.token,
+                  }).then(() => {
+                    dispatch(
+                      setAlert({
+                        message: "Created Successfully",
+                        state: Alert.Success,
+                      })
+                    );
+                    dispatch(updateTaskUrl({ name: `updated: ${Date()}` }));
+                    setModalOpen(false);
+                  });
+                }}
+              />
+            )}
         </div>
       </Modal>
     </>
