@@ -113,10 +113,18 @@ class TicketController extends BaseController
 
         return $this->sendResponse([], 'Ticket deleted successfully.', 204);
     }
+
     public function checkTicketList()
     {
         $result = $this->ticketRepo->checkTicketList();
 
-        return $this->sendResponse($result,'Monthly Tickets successfully.', 201);
+        return $this->sendResponse($result,'Monthly Tickets successfully.');
+    }
+
+    public function checkDate($id)
+    {
+        $result = $this->ticketRepo->checkDate($id);
+
+        return $this->sendResponse($result, 'Tickets of Date successfully.');
     }
 }
