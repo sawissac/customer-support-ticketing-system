@@ -4,8 +4,6 @@ import Nav from "../../components/Nav";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { useQuery } from "react-query";
-import Button from "../../components/Button";
-import { IconPlus } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { Theme } from "../../redux/variable/ThemeVariable";
 import { Oval } from "react-loader-spinner";

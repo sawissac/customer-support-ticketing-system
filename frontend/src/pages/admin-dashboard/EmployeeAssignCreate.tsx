@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { motion } from "framer-motion";
 import {
   setRightSidebar,
+  setTaskView,
   updateEmployeeAssignUrl,
 } from "../../redux/feature_slice/EmployeeAssignmentSlice";
 import { IconMenuOrder } from "@tabler/icons-react";
@@ -81,6 +82,7 @@ const EmployeeAssignCreate = () => {
         token: authRedux.token,
       })
         .then(() => {
+          dispatch(setRightSidebar({ name: "" }));
           dispatch(
             setAlert({
               message: "Created Successfully",
