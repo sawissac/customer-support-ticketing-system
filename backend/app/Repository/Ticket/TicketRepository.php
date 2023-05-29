@@ -7,7 +7,7 @@ use Illuminate\Support\Carbon;
 
 class TicketRepository implements TicketRepositoryInterface
 {
-    public function get($perPage = 10)
+    public function get()
     {
         $data = Ticket::with('admin', 'customer_project.user', 'customer_project.project', 'customer_project.project.employee_project.user', 'employee_assign')
             ->orderBy('id', 'desc')
@@ -23,7 +23,7 @@ class TicketRepository implements TicketRepositoryInterface
         return $result;
     }
 
-    
+
     public function checkTicketList()
     {
         $monthlyTickets = Ticket::selectRaw('MONTH(created_at) as month, YEAR(created_at) as year, COUNT(*) as ticket_count')
