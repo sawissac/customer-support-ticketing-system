@@ -14,9 +14,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CustomerProject extends Model
 {
     use HasFactory,SoftDeletes;
+    
     protected $fillable = ['user_id', 'project_id'];
-
-    protected $dates = ['deleted_at'];
 
     public function user():BelongsTo
     {

@@ -12,9 +12,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class EmployeeAssign extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $fillable = ['ticket_id', 'employee_id', 'status', 'task_name', 'start_date', 'end_date' ];
 
-    protected $dates = ['deleted_at'];
+    protected $fillable = ['ticket_id', 'employee_id', 'status', 'task_name', 'start_date', 'end_date' ];
 
     public function employee():BelongsTo
     {

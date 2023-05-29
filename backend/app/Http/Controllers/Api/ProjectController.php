@@ -46,9 +46,7 @@ class ProjectController extends BaseController
      */
     public function store(Request $request)
     {
-
         $validate = $request->all();
-
 
         $validator = Validator::make(
             $validate,

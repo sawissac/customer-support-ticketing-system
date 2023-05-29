@@ -25,11 +25,9 @@ class UserController extends BaseController
 
     public function index()
     {
-
         $data = $this->userRepo->get();
 
         return $this->sendResponse($data, 'User retrieved successfully.');
-
     }
 
     public function store(Request $request)
@@ -54,6 +52,7 @@ class UserController extends BaseController
 
         return $this->sendResponse($data, 'User created successfully.', 201);
     }
+
     public function show($id)
     {
         $result = $this->userRepo->show($id);
@@ -64,6 +63,7 @@ class UserController extends BaseController
 
         return $this->sendResponse($result, 'User retrieved successfully.');
     }
+
     public function update(Request $request, $id)
     {
         $validate = $request->all();
@@ -95,9 +95,8 @@ class UserController extends BaseController
         }else {
             return $this->sendError('Unable to delete User', [], 400);
         }
-
     }
-    
+
     public function employee()
     {
         $employeeData = $this->userRepo->employee();

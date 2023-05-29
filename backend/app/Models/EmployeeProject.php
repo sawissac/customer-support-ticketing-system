@@ -15,8 +15,6 @@ class EmployeeProject extends Model
 
     protected $fillable = ['project_id', 'user_id'];
 
-    protected $dates = ['deleted_at'];
-
     public function user():BelongsTo
     {
         return $this->belongsTo(User::class,'user_id');
@@ -29,6 +27,6 @@ class EmployeeProject extends Model
 
     public function employeeAssign():BelongsTo
     {
-        return $this->belongsTo(EmployeeAssign::class,);
+        return $this->belongsTo(EmployeeAssign::class);
     }
 }
