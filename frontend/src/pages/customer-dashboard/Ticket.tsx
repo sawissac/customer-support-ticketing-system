@@ -44,7 +44,7 @@ const TicketPage = () => {
 
   function dataInit(data: TicketListApiResponse) {
     const dataResponse = data;
-    const processingTicket: TicketListProps[] = [];
+    const openTicket: TicketListProps[] = [];
     const closedTicket: TicketListProps[] = [];
     const filteredTicket: TicketListProps[] = dataResponse.data.filter((ticket) => {
       if (ticket.customer_project.user_id === authRedux.user.id && ticket.status === "close") {
@@ -52,15 +52,15 @@ const TicketPage = () => {
         return false;
       } else if (
         ticket.customer_project.user_id === authRedux.user.id &&
-        ticket.status === "processing"
+        ticket.status === "open"
       ) {
-        processingTicket.push(ticket);
+        openTicket.push(ticket);
         return false;
       } else if (ticket.customer_project.user_id === authRedux.user.id) {
         return true;
       }
     });
-    filteredTicket.push(...processingTicket, ...closedTicket);
+    filteredTicket.push(...openTicket, ...closedTicket);
     setTicketData(
       filteredTicket.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
     );
