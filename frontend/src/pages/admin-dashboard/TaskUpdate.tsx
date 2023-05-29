@@ -6,8 +6,15 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { motion } from "framer-motion";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
-import { setRightSidebar, updateTaskUrl } from "../../redux/feature_slice/EmployeeAssignmentSlice";
-import { getAllTicket, getTicket, updateTicket } from "../../requests/ticketRequest";
+import {
+  setRightSidebar,
+  updateTaskUrl,
+} from "../../redux/feature_slice/EmployeeAssignmentSlice";
+import {
+  getAllTicket,
+  getTicket,
+  updateTicket,
+} from "../../requests/ticketRequest";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { debounce } from "debounce";
@@ -26,7 +33,9 @@ const TaskUpdate = () => {
   const [startDate, setStartDate] = useState(new Date(taskRedux.startDate));
   const [dueDate, setDueDate] = useState(new Date(taskRedux.dueDate));
   const [ticketList, setTicketList] = React.useState<TicketListProps[]>([]);
-  const [tempTicketList, setTempTicketList] = React.useState<TicketListProps[]>([]);
+  const [tempTicketList, setTempTicketList] = React.useState<TicketListProps[]>(
+    []
+  );
   const [filterTicketInput, setFilterTicketInput] = React.useState("");
   const [ticketDropDown, setTicketDropDown] = React.useState({
     name: "Select",
@@ -55,15 +64,17 @@ const TaskUpdate = () => {
     });
   }, []);
 
-  const CustomDatePickerInput = forwardRef(({ value, onClick }: any, ref: any) => (
-    <button
-      className="btn btn--light btn--block btn--no-m-bottom"
-      onClick={onClick}
-      ref={ref}
-    >
-      {value}
-    </button>
-  ));
+  const CustomDatePickerInput = forwardRef(
+    ({ value, onClick }: any, ref: any) => (
+      <button
+        className="btn btn--light btn--block btn--no-m-bottom"
+        onClick={onClick}
+        ref={ref}
+      >
+        {value}
+      </button>
+    )
+  );
 
   function onSubmitHandler() {
     dispatch(
@@ -74,7 +85,7 @@ const TaskUpdate = () => {
     );
     getTicket({
       id: taskRedux.ticketId,
-      token: authRedux.token, 
+      token: authRedux.token,
     }).then((res: any) => {
       updateTicket({
         ...res.data,
@@ -86,10 +97,10 @@ const TaskUpdate = () => {
         token: authRedux.token,
       });
     });
-    
+
     getTicket({
       id: ticketDropDown.value,
-      token: authRedux.token, 
+      token: authRedux.token,
     }).then((res: any) => {
       updateTicket({
         ...res.data,
@@ -163,7 +174,7 @@ const TaskUpdate = () => {
               placement="bottom"
               buttonClassName="form-dropdown-btn"
               offset={[0, 0]}
-              buttonChildren={<>{textLimiter(20,ticketDropDown.name)}</>}
+              buttonChildren={<>{textLimiter(20, ticketDropDown.name)}</>}
               dropdownClassName="form-dropdown"
               width="350px"
               dropdownChildren={
@@ -191,11 +202,18 @@ const TaskUpdate = () => {
                           title={ticket.subject + " #" + ticket.tickets_id}
                           onClick={() => {
                             setTicketDropDown({
-                              name: textLimiter(10, ticket.subject) + " #" + ticket.tickets_id,
+                              name:
+                                textLimiter(10, ticket.subject) +
+                                " #" +
+                                ticket.tickets_id,
                               value: ticket.id,
                             });
                           }}
-                          label={textLimiter(10, ticket.subject) + " #" + ticket.tickets_id}
+                          label={
+                            textLimiter(10, ticket.subject) +
+                            " #" +
+                            ticket.tickets_id
+                          }
                         />
                       );
                     })}

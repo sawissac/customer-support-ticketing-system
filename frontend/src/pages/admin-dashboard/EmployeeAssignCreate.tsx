@@ -21,10 +21,9 @@ import { UserApiResponse } from "../../responseInterface/UserApiResponse";
 import { debounce } from "debounce";
 import { EmployeeListApiResponse } from "../../responseInterface/EmployeeListApiResponse";
 
-const EmployeeAssignCreate = () => {
+const EmployeeAssignCreate = ({ticketId}:{ticketId:any}) => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
-  const themeRedux = useAppSelector((state) => state.theme);
   const taskRedux = useAppSelector((state) => state.tasks);
   const [employeeList, setEmployeeList] = useState<UserApiResponse[]>([]);
   const [tempEmployeeList, setTempEmployeeList] = useState<UserApiResponse[]>([]);
@@ -32,6 +31,7 @@ const EmployeeAssignCreate = () => {
   const [inputField, setInputField] = React.useState({
     task: "",
   });
+  console.log(ticketId)
   const [dropdownEmployee, setDropDownEmployee] = React.useState({
     name: "Select",
     value: 0,
@@ -214,6 +214,8 @@ const EmployeeAssignCreate = () => {
             dateFormat="yyyy-MM-dd"
             onChange={(date: any) => setStartDate(date)}
             customInput={<CustomDatePickerInput />}
+            // minDate={}
+            // maxDate={}
           />
           <div className="form-dropdown-label">
             <label htmlFor="">Due Date</label>

@@ -3,9 +3,6 @@ import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
 import {
   IconArrowLeft,
-  IconCalendarCheck,
-  IconCalendarEvent,
-  IconCalendarStats,
   IconCircleHalf2,
   IconCircleMinus,
   IconEdit,
@@ -41,13 +38,13 @@ import { compareDate, textLimiter } from "../../commonFunction/common";
 import { Alert } from "../../redux/variable/AlertVariable";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 
-const EmployeeAssign = () => {
+const EmployeeAssign = ({ ticketId }:{ticketId:any}) => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
   const themeRedux = useAppSelector((state) => state.theme);
   const taskRedux = useAppSelector((state) => state.tasks);
   const [dataList, setDataList] = useState([]);
-
+  
   const columns = useMemo(
     () => [
       {
@@ -236,7 +233,7 @@ const EmployeeAssign = () => {
     return res;
   };
 
-  const { error, data, isFetching } = useQuery(
+  const { data, isFetching } = useQuery(
     ["employee-assign", taskRedux.employeeUrl],
     getUsersData
   );
@@ -303,7 +300,7 @@ const EmployeeAssign = () => {
       </div>
       <ShowIf
         sif={taskRedux.rightSideBar === "employee-assign-create"}
-        show={<EmployeeAssignCreate />}
+        show={<EmployeeAssignCreate ticketId={ticketId}/>}
       />
       <ShowIf
         sif={taskRedux.rightSideBar === "employee-assign-update"}
