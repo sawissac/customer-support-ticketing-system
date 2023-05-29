@@ -12,6 +12,9 @@ use App\Repository\Ticket\TicketRepositoryInterface;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Events\Validated;
+use Nette\Utils\Json;
+use PhpParser\Node\Expr;
+use Symfony\Component\CssSelector\Node\FunctionNode;
 
 class TicketController extends BaseController
 {
@@ -117,6 +120,24 @@ class TicketController extends BaseController
     {
         $result = $this->ticketRepo->checkTicketList();
 
-        return $this->sendResponse($result,'Monthly Tickets successfully.', 201);
+        return $this->sendResponse($result, 'Monthly Tickets successfully.', 201);
+    }
+    public function checkDate(Request $request, $id)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'start_date' => 'nullable|date',
+                'end_date' => 'nullable|date',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
+        }
+
+        $result = $this->ticketRepo->checkDate($id);
+
+        return $this->sendResponse($result, 'Start date and end date checked successfully.', 201);
     }
 }
