@@ -3,7 +3,10 @@ import Button from "../../components/Button";
 import Input from "../../components/Input";
 import FormWarper from "../../components/FormWarper";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { setTicketView, updateTicketUrl } from "../../redux/feature_slice/TicketSlice";
+import {
+  setTicketView,
+  updateTicketUrl,
+} from "../../redux/feature_slice/TicketSlice";
 import { motion } from "framer-motion";
 import Dropdown from "../../components/DropDown";
 import React, { useState } from "react";
@@ -28,9 +31,14 @@ const TicketUpdate = () => {
     description: ticketRedux.description,
     drive_link: ticketRedux.driveLink,
   });
-  const [filterCustomerProjectInput, setFilterCustomerProjectInput] = React.useState("");
-  const [projectList, setProjectList] = React.useState<CustomerProjectListProps[]>([]);
-  const [tempProjectList, setTempProjectList] = React.useState<CustomerProjectListProps[]>([]);
+  const [filterCustomerProjectInput, setFilterCustomerProjectInput] =
+    React.useState("");
+  const [projectList, setProjectList] = React.useState<
+    CustomerProjectListProps[]
+  >([]);
+  const [tempProjectList, setTempProjectList] = React.useState<
+    CustomerProjectListProps[]
+  >([]);
   const [projectDropDown, setProjectDropDown] = React.useState({
     name: ticketRedux.customerProjectName,
     value: ticketRedux.customerProjectId,
@@ -97,14 +105,18 @@ const TicketUpdate = () => {
     });
   }, []);
 
-  function handleCustomerProjectSearch(ev: React.ChangeEvent<HTMLInputElement>) {
+  function handleCustomerProjectSearch(
+    ev: React.ChangeEvent<HTMLInputElement>
+  ) {
     setFilterCustomerProjectInput(ev.target.value);
     debouncedCustomerProjectSearch(ev.target.value);
   }
 
   const debouncedCustomerProjectSearch = debounce((value: string) => {
     const filteredCustomerProject = tempProjectList.filter((project) => {
-      if (project.project.name.toLowerCase().includes(value.toLocaleLowerCase())) {
+      if (
+        project.project.name.toLowerCase().includes(value.toLocaleLowerCase())
+      ) {
         return true;
       }
       if (project.user.name.toLowerCase().includes(value.toLocaleLowerCase())) {
@@ -211,21 +223,23 @@ const TicketUpdate = () => {
                   dropdownChildren={
                     <>
                       <div className="form-dropdown__scroll">
-                        {Object.values(Priority).map((priority: string, index: number) => {
-                          return (
-                            <Button
-                              key={index}
-                              type="button"
-                              onClick={() => {
-                                setPriorityDropDown({
-                                  name: priority,
-                                  value: priority,
-                                });
-                              }}
-                              label={priority}
-                            />
-                          );
-                        })}
+                        {Object.values(Priority).map(
+                          (priority: string, index: number) => {
+                            return (
+                              <Button
+                                key={index}
+                                type="button"
+                                onClick={() => {
+                                  setPriorityDropDown({
+                                    name: priority,
+                                    value: priority,
+                                  });
+                                }}
+                                label={priority}
+                              />
+                            );
+                          }
+                        )}
                       </div>
                     </>
                   }
@@ -237,7 +251,11 @@ const TicketUpdate = () => {
                   errorMessage="*optional"
                   placeholder="https://drive.google.com/file/.."
                   id="drive_link"
-                  value={inputField.drive_link}
+                  value={
+                    inputField.drive_link
+                      ? inputField.drive_link
+                      : ""
+                  }
                   onChange={onChangeHandler}
                 />
               </div>

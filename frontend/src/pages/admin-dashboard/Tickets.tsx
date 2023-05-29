@@ -44,20 +44,20 @@ const TicketPage = () => {
 
   function dataInit(data: TicketListApiResponse) {
     const dataResponse = data;
-    const processingTicket: TicketListProps[] = [];
+    const openTicket: TicketListProps[] = [];
     const closedTicket: TicketListProps[] = [];
     const filteredTicket: TicketListProps[] = dataResponse.data.filter((ticket) => {
       if (ticket.status === "close") {
         closedTicket.push(ticket);
         return false;
-      } else if (ticket.status === "processing") {
-        processingTicket.push(ticket);
+      } else if (ticket.status === "open") {
+        openTicket.push(ticket);
         return false;
       } else {
         return true;
       }
     });
-    filteredTicket.push(...processingTicket, ...closedTicket);
+    filteredTicket.push(...openTicket, ...closedTicket);
     setTicketData(
       filteredTicket.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
     );
