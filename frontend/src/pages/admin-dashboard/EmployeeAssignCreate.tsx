@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import Nav from "../../components/Nav";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -20,18 +20,24 @@ import { createEmployeeAssign } from "../../requests/employeeAssignRequest";
 import { UserApiResponse } from "../../responseInterface/UserApiResponse";
 import { debounce } from "debounce";
 import { EmployeeListApiResponse } from "../../responseInterface/EmployeeListApiResponse";
+import axios from "axios";
+import { useQuery } from "react-query";
+import { getTicketDate } from "../../requests/ticketRequest";
 
-const EmployeeAssignCreate = ({ticketId}:{ticketId:any}) => {
+const EmployeeAssignCreate = () => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
   const taskRedux = useAppSelector((state) => state.tasks);
   const [employeeList, setEmployeeList] = useState<UserApiResponse[]>([]);
-  const [tempEmployeeList, setTempEmployeeList] = useState<UserApiResponse[]>([]);
+  const [tempEmployeeList, setTempEmployeeList] = useState<UserApiResponse[]>(
+    []
+  );
   const [filterEmployeeInput, setFilterEmployeeInput] = useState("");
   const [inputField, setInputField] = React.useState({
     task: "",
   });
-  console.log(ticketId)
+  
+  
   const [dropdownEmployee, setDropDownEmployee] = React.useState({
     name: "Select",
     value: 0,
@@ -41,15 +47,21 @@ const EmployeeAssignCreate = ({ticketId}:{ticketId:any}) => {
   };
   const [startDate, setStartDate] = useState(new Date());
   const [dueDate, setDueDate] = useState(new Date());
-  const CustomDatePickerInput = forwardRef(({ value, onClick }: any, ref: any) => (
-    <button
-      className="btn btn--light btn--block btn--no-m-bottom"
-      onClick={onClick}
-      ref={ref}
-    >
-      {value}
-    </button>
-  ));
+
+  const [minDate, setMinDate] = useState("");
+  const [maxDate, setMaxDate] = useState("");
+
+  const CustomDatePickerInput = forwardRef(
+    ({ value, onClick }: any, ref: any) => (
+      <button
+        className="btn btn--light btn--block btn--no-m-bottom"
+        onClick={onClick}
+        ref={ref}
+      >
+        {value}
+      </button>
+    )
+  );
   React.useEffect(() => {
     getAllEmployee({
       token: authRedux.token,
@@ -59,6 +71,21 @@ const EmployeeAssignCreate = ({ticketId}:{ticketId:any}) => {
       setTempEmployeeList(dataResponse.data);
     });
   }, []);
+
+  const getTicketDateFetch = async () => {
+    try {
+      const res: any = await getTicketDate({
+        id: taskRedux.ticketId,
+        token: authRedux.token,
+      });
+      setMaxDate(res.data.end_date);
+      setMinDate(res.data.start_date);
+      return res;
+    } catch (error) {
+      
+    }
+  };
+  getTicketDateFetch();
 
   function onButtonSubmitHandle() {
     const isEmpty = inputField.task === "" || dropdownEmployee.value === 0;
@@ -214,8 +241,9 @@ const EmployeeAssignCreate = ({ticketId}:{ticketId:any}) => {
             dateFormat="yyyy-MM-dd"
             onChange={(date: any) => setStartDate(date)}
             customInput={<CustomDatePickerInput />}
-            // minDate={}
-            // maxDate={}
+            minDate={new Date(minDate)}
+            maxDate={new Date(maxDate)}
+            disabled={!minDate&&!maxDate}
           />
           <div className="form-dropdown-label">
             <label htmlFor="">Due Date</label>
@@ -226,6 +254,9 @@ const EmployeeAssignCreate = ({ticketId}:{ticketId:any}) => {
             dateFormat="yyyy-MM-dd"
             onChange={(date: any) => setDueDate(date)}
             customInput={<CustomDatePickerInput />}
+            minDate={new Date(minDate)}
+            maxDate={new Date(maxDate)}
+            disabled={!minDate&&!maxDate}
           />
           <Button
             type="button"

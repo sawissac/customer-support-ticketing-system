@@ -38,7 +38,7 @@ import { compareDate, textLimiter } from "../../commonFunction/common";
 import { Alert } from "../../redux/variable/AlertVariable";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 
-const EmployeeAssign = ({ ticketId }:{ticketId:any}) => {
+const EmployeeAssign = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
   const themeRedux = useAppSelector((state) => state.theme);
@@ -291,7 +291,7 @@ const EmployeeAssign = ({ ticketId }:{ticketId:any}) => {
             <DataTable
               columns={columns}
               data={dataList}
-              // responsive
+              responsive
               pagination
               theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}
             />
@@ -300,11 +300,11 @@ const EmployeeAssign = ({ ticketId }:{ticketId:any}) => {
       </div>
       <ShowIf
         sif={taskRedux.rightSideBar === "employee-assign-create"}
-        show={<EmployeeAssignCreate ticketId={ticketId}/>}
+        show={<EmployeeAssignCreate/>}
       />
       <ShowIf
         sif={taskRedux.rightSideBar === "employee-assign-update"}
-        show={<EmployeeAssignUpdate />}
+        show={<EmployeeAssignUpdate/>}
       />
     </>
   );
