@@ -9,7 +9,6 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { motion } from "framer-motion";
 import {
   setRightSidebar,
-  setTaskView,
   updateEmployeeAssignUrl,
 } from "../../redux/feature_slice/EmployeeAssignmentSlice";
 import { IconMenuOrder } from "@tabler/icons-react";
@@ -21,8 +20,6 @@ import { createEmployeeAssign } from "../../requests/employeeAssignRequest";
 import { UserApiResponse } from "../../responseInterface/UserApiResponse";
 import { debounce } from "debounce";
 import { EmployeeListApiResponse } from "../../responseInterface/EmployeeListApiResponse";
-import axios from "axios";
-import { useQuery } from "react-query";
 import { getTicketDate } from "../../requests/ticketRequest";
 
 const EmployeeAssignCreate = () => {
@@ -81,9 +78,13 @@ const EmployeeAssignCreate = () => {
       setMaxDate(res.data.end_date);
       setMinDate(res.data.start_date);
       return res;
+<<<<<<< HEAD
     } catch (error) {
 
     }
+=======
+    } catch (error) {}
+>>>>>>> main
   }, [taskRedux.ticketId, authRedux.token]);
 
   useEffect(() => {
@@ -114,7 +115,7 @@ const EmployeeAssignCreate = () => {
           dispatch(setRightSidebar({ name: "" }));
           dispatch(
             setAlert({
-              message: "Created Successfully",
+              message: "Employee Assign Created Successfully",
               state: Alert.Success,
             })
           );
@@ -127,7 +128,7 @@ const EmployeeAssignCreate = () => {
         .catch(() => {
           dispatch(
             setAlert({
-              message: "Fail to create",
+              message: "Fail to create employee assign",
               state: Alert.Warning,
             })
           );

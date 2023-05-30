@@ -3,7 +3,6 @@ import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
 import {
   IconEdit,
-  IconMenuOrder,
   IconPlus,
   IconTrashFilled,
   IconUsers,
@@ -140,7 +139,7 @@ const Users = () => {
             className="btn btn--light btn--icon btn--no-m-bottom text-danger"
             onClick={() => {
               deleteUser({ id: row.id, token: AuthRedux.token })
-                .then((res) => {
+                .then(() => {
                   dispatch(
                     updateUserTableUrl({ message: `update: ${Date()}` })
                   );
@@ -190,6 +189,7 @@ const Users = () => {
     ["userData", UserPageRedux.state],
     getUsersData
   );
+  
   if (isFetching)
     return (
       <div className="fetching">

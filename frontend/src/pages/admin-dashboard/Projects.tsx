@@ -1,9 +1,7 @@
-import React, { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
-import { IconEdit, IconFile, IconPlus, IconUser } from "@tabler/icons-react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { IconTrashFilled } from "@tabler/icons-react";
+import { IconEdit, IconPlus, IconUser } from "@tabler/icons-react";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
@@ -188,13 +186,12 @@ const Projects = () => {
 
   const debouncedSearch = debounce((value: any) => {
     const filtered = data.filter((item: any) => {
-      if(item.name.toLowerCase().includes(value.toLowerCase())){
-        return true
+      if (item.name.toLowerCase().includes(value.toLowerCase())) {
+        return true;
       }
-      if(item.project_id.toLowerCase().includes(value.toLowerCase())){
-        return true
+      if (item.project_id.toLowerCase().includes(value.toLowerCase())) {
+        return true;
       }
-       
     });
     setFilteredData(filtered);
   }, 1000);

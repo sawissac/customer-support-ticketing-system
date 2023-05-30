@@ -122,7 +122,7 @@ const EmployeeProjects = () => {
                 .catch(() => {
                   dispatch(
                     setAlert({
-                      message: "Fail to delete customer!",
+                      message: "Fail to delete employee",
                       state: Alert.Warning,
                     })
                   );

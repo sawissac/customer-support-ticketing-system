@@ -6,20 +6,16 @@ import FormWarper from "../../components/FormWarper";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { createProject } from "../../requests/projectRequest";
 import { motion } from "framer-motion";
 import {
   setRightSidebar,
-  setTaskView,
   updateEmployeeAssignUrl,
 } from "../../redux/feature_slice/EmployeeAssignmentSlice";
 import { IconMenuOrder } from "@tabler/icons-react";
 import Dropdown from "../../components/DropDown";
 import { getAllEmployee } from "../../requests/userRequest";
-import dayjs from "dayjs";
 import ReactDatePicker from "react-datepicker";
 import {
-  createEmployeeAssign,
   updateEmployeeAssign,
 } from "../../requests/employeeAssignRequest";
 import { UserApiResponse } from "../../responseInterface/UserApiResponse";
@@ -91,9 +87,7 @@ const EmployeeAssignUpdate = () => {
       setMaxDate(res.data.end_date);
       setMinDate(res.data.start_date);
       return res;
-    } catch (error) {
-
-    }
+    } catch (error) {}
   }, [taskRedux.ticketId, authRedux.token]);
 
   useEffect(() => {
@@ -124,7 +118,7 @@ const EmployeeAssignUpdate = () => {
           dispatch(setRightSidebar({ name: "" }));
           dispatch(
             setAlert({
-              message: "Created Successfully",
+              message: "Employee Assign Update Successfully",
               state: Alert.Success,
             })
           );
@@ -134,10 +128,10 @@ const EmployeeAssignUpdate = () => {
             })
           );
         })
-        .catch((reason) => {
+        .catch(() => {
           dispatch(
             setAlert({
-              message: "Fail to create",
+              message: "Fail to update employee assign",
               state: Alert.Warning,
             })
           );

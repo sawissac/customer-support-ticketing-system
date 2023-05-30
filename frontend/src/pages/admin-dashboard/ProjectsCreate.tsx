@@ -5,17 +5,14 @@ import Button from "../../components/Button";
 import FormWarper from "../../components/FormWarper";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
-import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { createProject } from "../../requests/projectRequest";
 import { openProjectRightSidebar, updateProjectTableUrl } from "../../redux/feature_slice/ProjectPageSlice";
 import { motion } from "framer-motion";
-import { Theme } from "../../redux/variable/ThemeVariable";
 
 const ProjectCreate = () => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
-  const themeRedux = useAppSelector((state) => state.theme);
   const [inputField, setInputField] = React.useState({
     name: "",
   });
@@ -38,16 +35,16 @@ const ProjectCreate = () => {
           dispatch(openProjectRightSidebar({name: ""}));
           dispatch(
             setAlert({
-              message: "Created Successfully",
+              message: "Project Created Successfully",
               state: Alert.Success,
             })
           );
           dispatch(updateProjectTableUrl({message: inputField.name}));
         })
-        .catch((reason) => {
+        .catch(() => {
           dispatch(
             setAlert({
-              message: "Fail to create",
+            message: "Fail to create project",
               state: Alert.Warning,
             })
           );

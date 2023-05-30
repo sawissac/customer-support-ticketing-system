@@ -1,13 +1,12 @@
 import { ReactNode } from "react";
 
 interface CardProps{
-    disabled?: boolean;
     icon?: ReactNode;
     label: string;
     total:number;
   }
   
-  const ReportCard = ({ disabled, label,icon,total}: CardProps) => {
+  const ReportCard = ({label,icon,total}: CardProps) => {
     return (
       <div className="report-card">
             <div className="report-card__icon">
