@@ -1,5 +1,4 @@
 import { IconHelpCircle } from "@tabler/icons-react";
-import React from "react";
 export const PageNotFound = () => {
   return (
     <div className="notfound">

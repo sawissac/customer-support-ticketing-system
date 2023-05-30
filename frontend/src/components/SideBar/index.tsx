@@ -24,12 +24,14 @@ interface SideBarInterface extends SideBarList {}
 export interface SideBarList {
   route: string;
   subRoutes: SideBarLink[];
+  onClick?: any;
 }
 
 export interface SideBarLink {
   routeName: string;
   label?: string;
   icon?: any;
+  reset?:any;
 }
 
 const SideBar = (props: SideBarInterface) => {
@@ -41,7 +43,10 @@ const SideBar = (props: SideBarInterface) => {
         <IconHash size={24} />
         <h5>Welcome User</h5>
       </div>
-      <SideBar.List route={props.route} subRoutes={props.subRoutes} />
+      <SideBar.List
+        route={props.route}
+        subRoutes={props.subRoutes}
+      />
       <SideBar.Profile
         name={authRedux.user.name}
         email={authRedux.user.email}
@@ -54,13 +59,14 @@ SideBar.List = function (props: SideBarList) {
   return (
     <div className="sidebar__list">
       <h5>Manage</h5>
-      {props.subRoutes.map((subRoute,index) => {
+      {props.subRoutes.map((subRoute, index) => {
         return (
           <SideBar.Link
             key={index}
             routeName={props.route + subRoute.routeName}
             icon={subRoute.icon}
             label={subRoute.label}
+            reset={subRoute.reset}
           />
         );
       })}
@@ -69,12 +75,18 @@ SideBar.List = function (props: SideBarList) {
 };
 
 SideBar.Link = function (props: SideBarLink) {
+  const dispatch = useAppDispatch();
   return (
     <NavLink
       to={props.routeName}
       className={({ isActive }) => {
         let className = isActive ? "sidebar__list--active " : "";
         return className;
+      }}
+      onClick={() => {
+        if(props.reset){
+          dispatch(props.reset());
+        }
       }}
     >
       {props.icon}
@@ -102,16 +114,8 @@ SideBar.Profile = function (props: SideBarProfile) {
         round
       />
       <div>
-        <h5>
-          {props.name.length > 10
-            ? props.name.substring(0, 10) + "..."
-            : props.name}
-        </h5>
-        <h6>
-          {props.email.length > 15
-            ? props.email.substring(0, 15) + "..."
-            : props.email}
-        </h6>
+        <h5>{props.name.length > 10 ? props.name.substring(0, 10) + "..." : props.name}</h5>
+        <h6>{props.email.length > 15 ? props.email.substring(0, 15) + "..." : props.email}</h6>
       </div>
       <Dropdown
         offset={[0, 30]}
@@ -123,26 +127,30 @@ SideBar.Profile = function (props: SideBarProfile) {
             <h6>Ui Mode</h6>
             <Button
               type="button"
-              className={
-                themeRedux === Theme.Dark ? "sidebar-dropdown--active" : ""
-              }
+              className={themeRedux === Theme.Dark ? "sidebar-dropdown--active" : ""}
               onClick={() => {
                 dispatch(darkTheme());
               }}
               icon={
-                <IconMoonFilled size={20} style={{ marginRight: "10px" }} />
+                <IconMoonFilled
+                  size={20}
+                  style={{ marginRight: "10px" }}
+                />
               }
               label="Dark"
             />
             <Button
               type="button"
-              className={
-                themeRedux === Theme.Light ? "sidebar-dropdown--active" : ""
-              }
+              className={themeRedux === Theme.Light ? "sidebar-dropdown--active" : ""}
               onClick={() => {
                 dispatch(lightTheme());
               }}
-              icon={<IconSunFilled size={20} style={{ marginRight: "10px" }} />}
+              icon={
+                <IconSunFilled
+                  size={20}
+                  style={{ marginRight: "10px" }}
+                />
+              }
               label="Light"
             />
             <h6>Account</h6>

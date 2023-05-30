@@ -67,6 +67,8 @@ const UserUpdatePage = () => {
         token: authRedux.token,
       })
         .then(() => {
+          dispatch(openUserRightSidebar({name: ""}))
+
           dispatch(
             setAlert({
               message: "Updated Successfully",

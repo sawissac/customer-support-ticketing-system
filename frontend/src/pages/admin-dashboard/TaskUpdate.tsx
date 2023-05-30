@@ -6,7 +6,11 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { motion } from "framer-motion";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
-import { setRightSidebar, updateTaskUrl } from "../../redux/feature_slice/EmployeeAssignmentSlice";
+import {
+  setRightSidebar,
+  setTaskView,
+  updateTaskUrl,
+} from "../../redux/feature_slice/EmployeeAssignmentSlice";
 import { getAllTicket, getTicket, updateTicket } from "../../requests/ticketRequest";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -74,7 +78,7 @@ const TaskUpdate = () => {
     );
     getTicket({
       id: taskRedux.ticketId,
-      token: authRedux.token, 
+      token: authRedux.token,
     }).then((res: any) => {
       updateTicket({
         ...res.data,
@@ -86,10 +90,10 @@ const TaskUpdate = () => {
         token: authRedux.token,
       });
     });
-    
+
     getTicket({
       id: ticketDropDown.value,
-      token: authRedux.token, 
+      token: authRedux.token,
     }).then((res: any) => {
       updateTicket({
         ...res.data,
@@ -101,6 +105,8 @@ const TaskUpdate = () => {
         token: authRedux.token,
       })
         .then(() => {
+          dispatch(setRightSidebar({ name: "" }));
+
           dispatch(
             setAlert({
               message: "Updated Successfully",
@@ -163,7 +169,7 @@ const TaskUpdate = () => {
               placement="bottom"
               buttonClassName="form-dropdown-btn"
               offset={[0, 0]}
-              buttonChildren={<>{textLimiter(20,ticketDropDown.name)}</>}
+              buttonChildren={<>{textLimiter(20, ticketDropDown.name)}</>}
               dropdownClassName="form-dropdown"
               width="350px"
               dropdownChildren={

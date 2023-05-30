@@ -29,11 +29,6 @@ use App\Repository\Ticket\TicketRepositoryInterface;
 use App\Service\Ticket\TicketService;
 use App\Service\Ticket\TicketServiceInterface;
 
-use App\Repository\EmployeeReport\EmployeeReportRepository;
-use App\Repository\EmployeeReport\EmployeeReportRepositoryInterface;
-use App\Service\EmployeeReport\EmployeeReportService;
-use App\Service\EmployeeReport\EmployeeReportServiceInterface;
-
 use App\Repository\EmployeeAssign\EmployeeAssignRepository;
 use App\Repository\EmployeeAssign\EmployeeAssignRepoInterface;
 use App\Service\EmployeeAssign\EmployeeAssignService;
@@ -72,9 +67,6 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(TicketRepositoryInterface::class, TicketRepository::class);
         $this->app->bind(TicketServiceInterface::class, TicketService::class);
-
-        $this->app->bind(EmployeeReportRepositoryInterface::class, EmployeeReportRepository::class);
-        $this->app->bind(EmployeeReportServiceInterface::class, EmployeeReportService::class);
 
         $this->app->bind(EmployeeAssignRepoInterface::class, EmployeeAssignRepository::class);
         $this->app->bind(EmployeeAssignServiceInterface::class, EmployeeAssignService::class);

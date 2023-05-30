@@ -59,6 +59,8 @@ const UserCreatePage = () => {
         token: authRedux.token,
       })
         .then(() => {
+          dispatch(openUserRightSidebar({name: ""}))
+
           dispatch(
             updateUserTableUrl({
               message: inputField.name + inputField.email + dropdownBox.name,

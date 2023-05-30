@@ -18,6 +18,7 @@ import Input from "../../components/Input";
 import { UserApiResponse } from "../../responseInterface/UserApiResponse";
 import { EmployeeListApiResponse } from "../../responseInterface/EmployeeListApiResponse";
 import { debounce } from "debounce";
+import { setRightSidebar } from "../../redux/feature_slice/EmployeeAssignmentSlice";
 const EmployeeProjectsCreate = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
@@ -58,6 +59,8 @@ const EmployeeProjectsCreate = () => {
         token: AuthRedux.token,
       })
         .then(() => {
+          dispatch(openProjectRightSidebar({name: ""}))
+
           dispatch(
             setAlert({
               message: "Created Successfully",
