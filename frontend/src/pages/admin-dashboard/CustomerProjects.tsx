@@ -1,8 +1,7 @@
-import React, { useCallback, useMemo, useState } from "react";
+import{ useMemo, useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
-import { IconEdit, IconPlus, IconUsers } from "@tabler/icons-react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { IconEdit, IconPlus} from "@tabler/icons-react";
 import { IconTrashFilled } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import axios from "axios";

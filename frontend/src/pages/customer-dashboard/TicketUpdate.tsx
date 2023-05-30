@@ -78,7 +78,7 @@ const TicketUpdate = () => {
         .then(() => {
           dispatch(
             setAlert({
-              message: "Created Successfully",
+              message: "Ticket Update Successfully",
               state: Alert.Success,
             })
           );
@@ -91,7 +91,7 @@ const TicketUpdate = () => {
         })
         .catch(() => {
           setAlert({
-            message: "Fail to create...",
+            message: "Fail to update ticket...",
             state: Alert.Warning,
           });
         });

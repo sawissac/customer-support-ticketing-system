@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useEffect, useState, useCallback } from "react";
 import Nav from "../../components/Nav";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -6,19 +6,18 @@ import FormWarper from "../../components/FormWarper";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { createProject } from "../../requests/projectRequest";
 import { motion } from "framer-motion";
 import {
   setRightSidebar,
-  setTaskView,
   updateEmployeeAssignUrl,
 } from "../../redux/feature_slice/EmployeeAssignmentSlice";
 import { IconMenuOrder } from "@tabler/icons-react";
 import Dropdown from "../../components/DropDown";
 import { getAllEmployee } from "../../requests/userRequest";
-import dayjs from "dayjs";
 import ReactDatePicker from "react-datepicker";
-import { createEmployeeAssign, updateEmployeeAssign } from "../../requests/employeeAssignRequest";
+import {
+  updateEmployeeAssign,
+} from "../../requests/employeeAssignRequest";
 import { UserApiResponse } from "../../responseInterface/UserApiResponse";
 import { EmployeeListApiResponse } from "../../responseInterface/EmployeeListApiResponse";
 import { formatDateTime } from "../../commonFunction/common";
@@ -30,7 +29,9 @@ const EmployeeAssignUpdate = () => {
   const authRedux = useAppSelector((state) => state.auth);
   const taskRedux = useAppSelector((state) => state.tasks);
   const [employeeList, setEmployeeList] = useState<UserApiResponse[]>([]);
-  const [tempEmployeeList, setTempEmployeeList] = useState<UserApiResponse[]>([]);
+  const [tempEmployeeList, setTempEmployeeList] = useState<UserApiResponse[]>(
+    []
+  );
   const [filterEmployeeInput, setFilterEmployeeInput] = useState("");
   const [inputField, setInputField] = React.useState({
     task: "",
@@ -43,16 +44,18 @@ const EmployeeAssignUpdate = () => {
   const [dueDate, setDueDate] = useState(new Date());
   const [minDate, setMinDate] = useState("");
   const [maxDate, setMaxDate] = useState("");
-  const CustomDatePickerInput = forwardRef(({ value, onClick }: any, ref: any) => (
-    <button
-      className="btn btn--light btn--block btn--no-m-bottom"
-      onClick={onClick}
-      ref={ref}
-    >
-      {value}
-    </button>
-  ));
-  
+  const CustomDatePickerInput = forwardRef(
+    ({ value, onClick }: any, ref: any) => (
+      <button
+        className="btn btn--light btn--block btn--no-m-bottom"
+        onClick={onClick}
+        ref={ref}
+      >
+        {value}
+      </button>
+    )
+  );
+
   React.useEffect(() => {
     getAllEmployee({
       token: authRedux.token,
@@ -75,8 +78,7 @@ const EmployeeAssignUpdate = () => {
     });
   }, [taskRedux]);
 
-
-  const getTicketDateFetch = async () => {
+  const getTicketDateFetch = useCallback(async () => {
     try {
       const res: any = await getTicketDate({
         id: taskRedux.ticketId,
@@ -85,11 +87,12 @@ const EmployeeAssignUpdate = () => {
       setMaxDate(res.data.end_date);
       setMinDate(res.data.start_date);
       return res;
-    } catch (error) {
-      
-    }
-  };
-  getTicketDateFetch();
+    } catch (error) {}
+  }, [taskRedux.ticketId, authRedux.token]);
+
+  useEffect(() => {
+    getTicketDateFetch();
+  }, [getTicketDateFetch]);
 
   function onButtonSubmitHandle() {
     const isEmpty = inputField.task === "" || dropdownEmployee.value === 0;
@@ -115,7 +118,7 @@ const EmployeeAssignUpdate = () => {
           dispatch(setRightSidebar({ name: "" }));
           dispatch(
             setAlert({
-              message: "Created Successfully",
+              message: "Employee Assign Update Successfully",
               state: Alert.Success,
             })
           );
@@ -124,12 +127,11 @@ const EmployeeAssignUpdate = () => {
               name: `updated: ${Date()}`,
             })
           );
-
         })
-        .catch((reason) => {
+        .catch(() => {
           dispatch(
             setAlert({
-              message: "Fail to create",
+              message: "Fail to update employee assign",
               state: Alert.Warning,
             })
           );
@@ -169,9 +171,8 @@ const EmployeeAssignUpdate = () => {
   const handleDateChange = (date: any) => {
     if (!minDate && !maxDate) {
       setStartDate(date);
-    }
-    else{
-      'loading'
+    } else {
+      ("loading");
     }
   };
   return (
@@ -256,7 +257,7 @@ const EmployeeAssignUpdate = () => {
             customInput={<CustomDatePickerInput />}
             minDate={new Date(minDate)}
             maxDate={new Date(maxDate)}
-            disabled={!minDate&&!maxDate}
+            disabled={!minDate && !maxDate}
           />
           <div className="form-dropdown-label">
             <label htmlFor="">Due Date</label>
@@ -269,7 +270,7 @@ const EmployeeAssignUpdate = () => {
             customInput={<CustomDatePickerInput />}
             minDate={new Date(minDate)}
             maxDate={new Date(maxDate)}
-            disabled={!minDate&&!maxDate}
+            disabled={!minDate && !maxDate}
           />
           <Button
             type="button"
