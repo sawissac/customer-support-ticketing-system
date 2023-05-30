@@ -9,13 +9,10 @@ import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import {
   setRightSidebar,
+  setTaskView,
   updateTaskUrl,
 } from "../../redux/feature_slice/EmployeeAssignmentSlice";
-import {
-  getAllTicket,
-  getTicket,
-  updateTicket,
-} from "../../requests/ticketRequest";
+import { getAllTicket, getTicket, updateTicket } from "../../requests/ticketRequest";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
