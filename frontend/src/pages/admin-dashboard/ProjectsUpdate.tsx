@@ -46,6 +46,7 @@ const ProjectUpdate = () => {
         token: authRedux.token,
       })
         .then(() => {
+          dispatch(openProjectRightSidebar({name: ""}));
           dispatch(
             setAlert({
               message: "Updated Successfully",

@@ -10,6 +10,7 @@ import { createProject } from "../../requests/projectRequest";
 import { motion } from "framer-motion";
 import {
   setRightSidebar,
+  setTaskView,
   updateEmployeeAssignUrl,
 } from "../../redux/feature_slice/EmployeeAssignmentSlice";
 import { IconMenuOrder } from "@tabler/icons-react";
@@ -111,6 +112,7 @@ const EmployeeAssignUpdate = () => {
         token: authRedux.token,
       })
         .then(() => {
+          dispatch(setRightSidebar({ name: "" }));
           dispatch(
             setAlert({
               message: "Created Successfully",
@@ -122,6 +124,7 @@ const EmployeeAssignUpdate = () => {
               name: `updated: ${Date()}`,
             })
           );
+
         })
         .catch((reason) => {
           dispatch(

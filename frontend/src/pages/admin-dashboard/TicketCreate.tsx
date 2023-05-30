@@ -68,6 +68,7 @@ const TicketCreate = () => {
         token: authRedux.token,
       })
         .then(() => {
+          dispatch(setTicketView({ name: "" }));
           dispatch(
             setAlert({
               message: "Created Successfully",
@@ -79,7 +80,6 @@ const TicketCreate = () => {
               name: `updated:${Date()}`,
             })
           );
-          dispatch(setTicketView({ name: "" }));
         })
         .catch(() => {
           setAlert({
