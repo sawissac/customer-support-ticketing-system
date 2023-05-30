@@ -92,7 +92,7 @@ function AlertBar({ view, state }: AlertBarInterface) {
                   ticketId: res.data.id,
                   status: "confirm",
                   token: authRedux.token,
-                }).then((res: any) => {
+                }).then(() => {
                   setModalOpen(false);
                   dispatch(
                     setAlert({

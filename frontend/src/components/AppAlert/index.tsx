@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { closeAlert } from "../../redux/feature_slice/AlertSlice";
@@ -23,7 +23,9 @@ const AppAlert = () => {
       initial={{ y: "10px" }}
       animate={{ y: "0px" }}
       ref={alertRef}
-      className={`alert ${alertRedux.state} ${alertRedux.show ? "alert--show" : ""}`}
+      className={`alert ${alertRedux.state} ${
+        alertRedux.show ? "alert--show" : ""
+      }`}
       onClick={() => {
         dispatch(closeAlert());
       }}

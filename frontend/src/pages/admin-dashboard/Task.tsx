@@ -59,7 +59,6 @@ const Task = () => {
     description: "",
   });
 
-
   const url = "http://127.0.0.1:8000/api/ticket";
   const getUsersData = async () => {
     const res = await axios
@@ -169,8 +168,9 @@ const Task = () => {
         name: "Employees",
         cell: (row: any) => (
           <button
-            title="row update"
+            title="Assign Employee"
             className="btn btn--light btn--icon btn--no-m-bottom text-primary"
+            disabled={row.status === "close" || row.status === "confirm"}
             onClick={() => {
               dispatch(
                 setTaskUpdate({
@@ -184,7 +184,6 @@ const Task = () => {
               dispatch(setTaskView({ name: "task-employee" }));
               dispatch(setRightSidebar({ name: "" }));
             }}
-            
           >
             <IconUser size={25} />
           </button>
@@ -195,8 +194,9 @@ const Task = () => {
         name: "Update",
         cell: (row: any) => (
           <button
-            title="row update"
+            title="Update"
             className="btn btn--light btn--icon btn--no-m-bottom text-success"
+            disabled={row.status === "close" || row.status === "confirm"}
             onClick={() => {
               dispatch(
                 setTaskUpdate({
@@ -219,8 +219,9 @@ const Task = () => {
         name: "Fix",
         cell: (row: any) => (
           <button
-            title="row update"
+            title="Fix"
             className="btn btn--light btn--icon btn--no-m-bottom"
+            disabled={row.status === "close" || row.status === "confirm"}
             onClick={() => {
               const total = row.employee_assign.length;
               let calculated = row.employee_assign.filter((employee: any) => {
@@ -260,8 +261,9 @@ const Task = () => {
         name: "Close",
         cell: (row: any) => (
           <button
-            title="row update"
+            title="Close"
             className="btn btn--light btn--icon btn--no-m-bottom"
+            disabled={row.status === "close"}
             onClick={() => {
               setModalOpen(true);
 
@@ -303,11 +305,18 @@ const Task = () => {
     if (data) {
       const dataResponse = data;
       const filterData = dataResponse.data.filter((i) => {
-        if (i.admin_id) {
+        if (i.admin_id && i.status !== "close") {
           return true;
         }
       });
-      setTableData(filterData);
+      
+
+      const closeFilterData = dataResponse.data.filter((i) => {
+        if (i.admin_id && i.status === "close") {
+          return true;
+        }
+      });
+      setTableData([...filterData, ...closeFilterData]);
     }
   }, [data]);
 
@@ -332,7 +341,12 @@ const Task = () => {
 
   const debouncedSearch = debounce((value: any) => {
     const filtered = tableData.filter((item: any) => {
-      return item.tickets_id.toLowerCase().includes(value.toLowerCase());
+      if (item.tickets_id.toLowerCase().includes(value.toLowerCase())) {
+        return true;
+      }
+      if (item.status.toLowerCase().includes(value.toLowerCase())) {
+        return true;
+      }
     });
     setFilteredData(filtered);
   }, 1000);
@@ -387,7 +401,7 @@ const Task = () => {
       <ShowIf sif={taskRedux.view === "task-create"} show={<TaskCreate />} />
       <ShowIf
         sif={taskRedux.view === "task-employee"}
-        show={<EmployeeAssign ticketId={taskRedux.ticketId}/>}
+        show={<EmployeeAssign />}
       />
       <ShowIf
         sif={taskRedux.rightSideBar === "task-create"}
@@ -432,7 +446,7 @@ const Task = () => {
                   }).then(() => {
                     dispatch(
                       setAlert({
-                        message: "Created Successfully",
+                        message: "Fix Successfully",
                         state: Alert.Success,
                       })
                     );
