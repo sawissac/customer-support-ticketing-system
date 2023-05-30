@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState, useCallback } from "react";
 import Nav from "../../components/Nav";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -9,7 +9,6 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { motion } from "framer-motion";
 import {
   setRightSidebar,
-  setTaskView,
   updateEmployeeAssignUrl,
 } from "../../redux/feature_slice/EmployeeAssignmentSlice";
 import { IconMenuOrder } from "@tabler/icons-react";
@@ -21,8 +20,6 @@ import { createEmployeeAssign } from "../../requests/employeeAssignRequest";
 import { UserApiResponse } from "../../responseInterface/UserApiResponse";
 import { debounce } from "debounce";
 import { EmployeeListApiResponse } from "../../responseInterface/EmployeeListApiResponse";
-import axios from "axios";
-import { useQuery } from "react-query";
 import { getTicketDate } from "../../requests/ticketRequest";
 
 const EmployeeAssignCreate = () => {
@@ -37,8 +34,7 @@ const EmployeeAssignCreate = () => {
   const [inputField, setInputField] = React.useState({
     task: "",
   });
-  
-  
+
   const [dropdownEmployee, setDropDownEmployee] = React.useState({
     name: "Select",
     value: 0,
@@ -73,7 +69,7 @@ const EmployeeAssignCreate = () => {
     });
   }, []);
 
-  const getTicketDateFetch = async () => {
+  const getTicketDateFetch = useCallback(async () => {
     try {
       const res: any = await getTicketDate({
         id: taskRedux.ticketId,
@@ -82,11 +78,12 @@ const EmployeeAssignCreate = () => {
       setMaxDate(res.data.end_date);
       setMinDate(res.data.start_date);
       return res;
-    } catch (error) {
-      
-    }
-  };
-  getTicketDateFetch();
+    } catch (error) {}
+  }, [taskRedux.ticketId, authRedux.token]);
+
+  useEffect(() => {
+    getTicketDateFetch();
+  }, [getTicketDateFetch]);
 
   function onButtonSubmitHandle() {
     const isEmpty = inputField.task === "" || dropdownEmployee.value === 0;
@@ -112,7 +109,7 @@ const EmployeeAssignCreate = () => {
           dispatch(setRightSidebar({ name: "" }));
           dispatch(
             setAlert({
-              message: "Created Successfully",
+              message: "Employee Assign Created Successfully",
               state: Alert.Success,
             })
           );
@@ -125,7 +122,7 @@ const EmployeeAssignCreate = () => {
         .catch(() => {
           dispatch(
             setAlert({
-              message: "Fail to create",
+              message: "Fail to create employee assign",
               state: Alert.Warning,
             })
           );
@@ -245,7 +242,7 @@ const EmployeeAssignCreate = () => {
             customInput={<CustomDatePickerInput />}
             minDate={new Date(minDate)}
             maxDate={new Date(maxDate)}
-            disabled={!minDate&&!maxDate}
+            disabled={!minDate && !maxDate}
           />
           <div className="form-dropdown-label">
             <label htmlFor="">Due Date</label>
@@ -258,7 +255,7 @@ const EmployeeAssignCreate = () => {
             customInput={<CustomDatePickerInput />}
             minDate={new Date(minDate)}
             maxDate={new Date(maxDate)}
-            disabled={!minDate&&!maxDate}
+            disabled={!minDate && !maxDate}
           />
           <Button
             type="button"

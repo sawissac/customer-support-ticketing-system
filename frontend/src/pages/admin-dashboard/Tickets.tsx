@@ -37,7 +37,7 @@ const TicketPage = () => {
   const itemsPerPage = 6;
   const url = "http://127.0.0.1:8000/api/ticket";
 
-  const { data, isFetching,isLoading} = useQuery<TicketListApiResponse>(
+  const { data, isFetching} = useQuery<TicketListApiResponse>(
     ["tickets", ticketRedux.url],
     requestAxiosWithToken(url, authRedux.token)
   );
