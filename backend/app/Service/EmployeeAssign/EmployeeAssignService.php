@@ -2,6 +2,7 @@
 
 namespace App\Service\EmployeeAssign;
 
+use App\Models\Ticket;
 use App\Models\EmployeeAssign;
 use App\Models\EmployeeProject;
 

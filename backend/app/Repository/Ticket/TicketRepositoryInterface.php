@@ -9,4 +9,6 @@ interface TicketRepositoryInterface
     public function show($id);
 
     public function checkTicketList();
+
+    public function checkDate($id);
 }

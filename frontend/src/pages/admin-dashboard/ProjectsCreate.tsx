@@ -35,6 +35,7 @@ const ProjectCreate = () => {
         token: authRedux.token,
       })
         .then(() => {
+          dispatch(openProjectRightSidebar({name: ""}));
           dispatch(
             setAlert({
               message: "Created Successfully",

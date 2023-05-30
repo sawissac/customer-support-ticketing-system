@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('priority');
             $table->string('drive_link')->nullable();
             $table->foreignId('admin_id')->nullable();
-            $table->string('employee_report')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->timestamps();
