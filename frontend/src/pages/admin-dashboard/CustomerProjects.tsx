@@ -111,14 +111,25 @@ const CustomerProjects = () => {
             className="btn btn--light btn--icon btn--no-m-bottom text-danger"
             onClick={() => {
               deleteCustomerProjectUser({ id: row.id, token: AuthRedux.token })
-                .then(() => {
-                  dispatch(updateCustomerTableUrl({ message: `update: ${Date()}` }));
-                  dispatch(
-                    setAlert({
-                      message: "Customer Deleted successful",
-                      state: Alert.Success,
-                    })
-                  );
+                .then((res:any) => {
+                  console.log(res);
+                  if(res.status===200){
+                    dispatch(updateCustomerTableUrl({ message: `update: ${Date()}` }));
+                    dispatch(
+                      setAlert({
+                        message: "Customer Deleted successful",
+                        state: Alert.Success,
+                      })
+                    );
+                  }
+                  else{
+                    dispatch(
+                      setAlert({
+                        message: "Can't Delete it has relation",
+                        state: Alert.Warning,
+                      })
+                    );
+                  }
                 })
                 .catch(() => {
                   dispatch(

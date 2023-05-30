@@ -78,13 +78,7 @@ const EmployeeAssignCreate = () => {
       setMaxDate(res.data.end_date);
       setMinDate(res.data.start_date);
       return res;
-<<<<<<< HEAD
-    } catch (error) {
-
-    }
-=======
     } catch (error) {}
->>>>>>> main
   }, [taskRedux.ticketId, authRedux.token]);
 
   useEffect(() => {
