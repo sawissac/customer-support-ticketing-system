@@ -49,7 +49,7 @@ const Task = () => {
   const taskRedux = useAppSelector((state) => state.tasks);
   const themeRedux = useAppSelector((state) => state.theme);
   const [modelOpen, setModalOpen] = useState(false);
-  const [tableData, setTableTableData] = useState<TicketListProps[]>([]);
+  const [tableData, setTableData] = useState<TicketListProps[]>([]);
   const [filteredData, setFilteredData] = useState<TicketListProps[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [processType, setProcessType] = useState<any>({
@@ -58,6 +58,7 @@ const Task = () => {
     status: false,
     description: "",
   });
+
 
   const url = "http://127.0.0.1:8000/api/ticket";
   const getUsersData = async () => {
@@ -183,6 +184,7 @@ const Task = () => {
               dispatch(setTaskView({ name: "task-employee" }));
               dispatch(setRightSidebar({ name: "" }));
             }}
+            
           >
             <IconUser size={25} />
           </button>
@@ -305,7 +307,7 @@ const Task = () => {
           return true;
         }
       });
-      setTableTableData(filterData);
+      setTableData(filterData);
     }
   }, [data]);
 
@@ -385,7 +387,7 @@ const Task = () => {
       <ShowIf sif={taskRedux.view === "task-create"} show={<TaskCreate />} />
       <ShowIf
         sif={taskRedux.view === "task-employee"}
-        show={<EmployeeAssign />}
+        show={<EmployeeAssign ticketId={taskRedux.ticketId}/>}
       />
       <ShowIf
         sif={taskRedux.rightSideBar === "task-create"}

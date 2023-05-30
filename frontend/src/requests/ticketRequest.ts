@@ -103,3 +103,21 @@ export function getTicket({ id, token }: any) {
       });
   });
 }
+
+export function getTicketDate({ id, token }:any) {
+  return new Promise((resolve, reject) => {
+    const url = `http://127.0.0.1:8000/api/ticket-date/${id}`;
+    axios
+      .get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(function (response) {
+        resolve(response.data);
+      })
+      .catch(function (error) {
+        reject(error);
+      });
+  });
+}

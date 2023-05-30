@@ -57,6 +57,7 @@ const CustomerProjectsCreate = () => {
         token: AuthRedux.token,
       })
         .then(() => {
+          dispatch(openProjectRightSidebar({name: ""}))
           dispatch(
             setAlert({
               message: "Created Successfully",

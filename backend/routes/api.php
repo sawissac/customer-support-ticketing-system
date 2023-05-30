@@ -43,5 +43,9 @@ Route::middleware(['cors', 'auth:sanctum'])->group(function () {
     Route::get('/customer-paginate', [CustomerProjectController::class, 'paginate']);
     Route::get('/project-list/{id}', [CustomerProjectController::class, 'project']);
     Route::get('/monthly-ticket', [TicketController::class, 'checkTicketList']);
+<<<<<<< HEAD
     Route::get('/checkDate/{id}', [TicketController::class, 'checkDate']);
+=======
+    Route::get('/ticket-date/{id}', [TicketController::class, 'checkDate']);
+>>>>>>> main
 });

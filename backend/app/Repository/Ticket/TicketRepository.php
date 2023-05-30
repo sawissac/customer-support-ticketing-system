@@ -22,6 +22,7 @@ class TicketRepository implements TicketRepositoryInterface
 
         return $result;
     }
+
     public function checkTicketList()
     {
         $monthlyTickets = Ticket::selectRaw('MONTH(created_at) as month, YEAR(created_at) as year, COUNT(*) as ticket_count')
@@ -38,11 +39,22 @@ class TicketRepository implements TicketRepositoryInterface
         });
         return $checkData;
     }
+<<<<<<< HEAD
     public function checkDate($id)
     {
         $checkDate = Ticket::selectRaw('MIN(start_date) as start_date, MAX(end_date) as end_date')
         ->where('id', $id)
         ->first();
         return $checkDate;
+=======
+
+    public function checkDate($id)
+    {
+        $result = Ticket::selectRaw('MIN(start_date) as start_date, MAX(end_date) as end_date')
+            ->where('id', $id)
+            ->first();
+
+        return $result;
+>>>>>>> main
     }
 }

@@ -10,6 +10,7 @@ import { createProject } from "../../requests/projectRequest";
 import { motion } from "framer-motion";
 import {
   setRightSidebar,
+  setTaskView,
   updateEmployeeAssignUrl,
 } from "../../redux/feature_slice/EmployeeAssignmentSlice";
 import { IconMenuOrder } from "@tabler/icons-react";
@@ -22,6 +23,7 @@ import { UserApiResponse } from "../../responseInterface/UserApiResponse";
 import { EmployeeListApiResponse } from "../../responseInterface/EmployeeListApiResponse";
 import { formatDateTime } from "../../commonFunction/common";
 import { debounce } from "debounce";
+import { getTicketDate } from "../../requests/ticketRequest";
 
 const EmployeeAssignUpdate = () => {
   const dispatch = useAppDispatch();
@@ -39,6 +41,8 @@ const EmployeeAssignUpdate = () => {
   });
   const [startDate, setStartDate] = useState(new Date());
   const [dueDate, setDueDate] = useState(new Date());
+  const [minDate, setMinDate] = useState("");
+  const [maxDate, setMaxDate] = useState("");
   const CustomDatePickerInput = forwardRef(({ value, onClick }: any, ref: any) => (
     <button
       className="btn btn--light btn--block btn--no-m-bottom"
@@ -48,7 +52,7 @@ const EmployeeAssignUpdate = () => {
       {value}
     </button>
   ));
-
+  
   React.useEffect(() => {
     getAllEmployee({
       token: authRedux.token,
@@ -71,6 +75,22 @@ const EmployeeAssignUpdate = () => {
     });
   }, [taskRedux]);
 
+
+  const getTicketDateFetch = async () => {
+    try {
+      const res: any = await getTicketDate({
+        id: taskRedux.ticketId,
+        token: authRedux.token,
+      });
+      setMaxDate(res.data.end_date);
+      setMinDate(res.data.start_date);
+      return res;
+    } catch (error) {
+      
+    }
+  };
+  getTicketDateFetch();
+
   function onButtonSubmitHandle() {
     const isEmpty = inputField.task === "" || dropdownEmployee.value === 0;
     if (isEmpty) {
@@ -92,6 +112,7 @@ const EmployeeAssignUpdate = () => {
         token: authRedux.token,
       })
         .then(() => {
+          dispatch(setRightSidebar({ name: "" }));
           dispatch(
             setAlert({
               message: "Created Successfully",
@@ -103,6 +124,7 @@ const EmployeeAssignUpdate = () => {
               name: `updated: ${Date()}`,
             })
           );
+
         })
         .catch((reason) => {
           dispatch(
@@ -143,6 +165,15 @@ const EmployeeAssignUpdate = () => {
       setEmployeeList(tempEmployeeList);
     }
   }, 1000);
+
+  const handleDateChange = (date: any) => {
+    if (!minDate && !maxDate) {
+      setStartDate(date);
+    }
+    else{
+      'loading'
+    }
+  };
   return (
     <div className="admin-container admin-container admin-container--no-flex-grow admin-container--form">
       <Nav.BackButton
@@ -223,6 +254,9 @@ const EmployeeAssignUpdate = () => {
             dateFormat="yyyy-MM-dd"
             onChange={(date: any) => setStartDate(date)}
             customInput={<CustomDatePickerInput />}
+            minDate={new Date(minDate)}
+            maxDate={new Date(maxDate)}
+            disabled={!minDate&&!maxDate}
           />
           <div className="form-dropdown-label">
             <label htmlFor="">Due Date</label>
@@ -231,8 +265,11 @@ const EmployeeAssignUpdate = () => {
           <ReactDatePicker
             selected={dueDate}
             dateFormat="yyyy-MM-dd"
-            onChange={(date: any) => setDueDate(date)}
+            onChange={handleDateChange}
             customInput={<CustomDatePickerInput />}
+            minDate={new Date(minDate)}
+            maxDate={new Date(maxDate)}
+            disabled={!minDate&&!maxDate}
           />
           <Button
             type="button"
