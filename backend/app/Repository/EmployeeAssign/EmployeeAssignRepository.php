@@ -15,7 +15,9 @@ class EmployeeAssignRepository implements EmployeeAssignRepoInterface
 
     public function show($id)
     {
-        $result = EmployeeAssign::with('user', 'ticket')->where('id', $id)->first();
+        $result = EmployeeAssign::with('user', 'ticket')
+                    ->where('id', $id)
+                    ->first();
 
         return $result;
     }
@@ -32,8 +34,8 @@ class EmployeeAssignRepository implements EmployeeAssignRepoInterface
     public function employeeByEmployee($id)
     {
         $data = EmployeeAssign::where('employee_id', $id)
-            ->with('ticket.customer_project.user', 'ticket.customer_project.project', 'ticket.admin', 'ticket.employee_assign', 'ticket.employee_assign.employee')
-            ->get();
+                ->with('ticket.customer_project.user', 'ticket.customer_project.project', 'ticket.admin', 'ticket.employee_assign', 'ticket.employee_assign.employee')
+                ->get();
 
         return $data;
     }

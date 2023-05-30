@@ -20,7 +20,7 @@ class CustomerProjectService implements CustomerProjectServiceInterface
 
     public function delete($id)
     {
-        $data = CustomerProject::find($id);
+        $data = CustomerProject::where('id',$id)->first();
 
         if ($data->tickets()->exists()) {
             return false;

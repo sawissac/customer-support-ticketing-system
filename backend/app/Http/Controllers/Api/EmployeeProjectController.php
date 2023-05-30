@@ -28,7 +28,7 @@ class EmployeeProjectController extends BaseController
     {
         $data = $this->employeeprojectRepo->get();
 
-        return $this->sendResponse($data, 'EmployeeProjects retrieved successfully.');
+        return $this->sendResponse($data, 'EmployeeProjects retrieved successfully.',200);
     }
 
     /**
@@ -56,8 +56,8 @@ class EmployeeProjectController extends BaseController
         $validated = $validator->validated();
 
         $existingData = EmployeeProject::where('project_id', $validated['project_id'])
-            ->where('user_id', $validated['user_id'])
-            ->first();
+                        ->where('user_id', $validated['user_id'])
+                        ->first();
 
         if ($existingData) {
             return $this->sendError('Validation Error.', 'The combination of project_id and user_id already exists.');
@@ -82,7 +82,7 @@ class EmployeeProjectController extends BaseController
             return $this->sendError('Project not found.', [], 500);
         }
 
-        return $this->sendResponse($result, 'EmployeeProject retrieved successfully.');
+        return $this->sendResponse($result, 'EmployeeProject retrieved successfully.',200);
     }
 
     /**
@@ -111,8 +111,8 @@ class EmployeeProjectController extends BaseController
         $validated = $validator->validated();
 
         $existingData = EmployeeProject::where('project_id', $validated['project_id'])
-            ->where('user_id', $validated['user_id'])
-            ->first();
+                        ->where('user_id', $validated['user_id'])
+                        ->first();
 
         if ($existingData) {
             return $this->sendError('Validation Error.', 'The combination of project_id and user_id already exists.');
@@ -135,6 +135,5 @@ class EmployeeProjectController extends BaseController
         $this->employeeprojectService->delete($id);
 
         return $this->sendResponse([], 'EmployeeProject deleted successfully.', 204);
-
     }
 }

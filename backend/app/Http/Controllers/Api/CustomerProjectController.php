@@ -15,7 +15,6 @@ use Exception;
 
 class CustomerProjectController extends BaseController
 {
-
     private $customerProjectRepo, $customerProjectService;
 
     public function __construct(CustomerProjectRepoInterface $customerProjectRepo, CustomerProjectServiceInterface $customerProjectService)
@@ -32,7 +31,7 @@ class CustomerProjectController extends BaseController
     {
         $data = $this->customerProjectRepo->get();
 
-        return $this->sendResponse($data, 'CustomerProject retrieved successfully.');
+        return $this->sendResponse($data, 'CustomerProject retrieved successfully.',200);
     }
 
     public function store(Request $request)
@@ -50,9 +49,9 @@ class CustomerProjectController extends BaseController
 
         $validated = $validator->validated();
 
-        $existingData = CustomerProject::where('project_id', $validated['project_id'])
-            ->where('user_id', $validated['user_id'])
-            ->first();
+        $existingData = CustomerProject::where('user_id', $validated['user_id'])
+                        ->where('project_id', $validated['project_id'])
+                        ->first();
 
         if ($existingData) {
             return $this->sendError('Validation Error.', 'The combination of project_id and user_id already exists.');
@@ -73,7 +72,7 @@ class CustomerProjectController extends BaseController
             return $this->sendError('CustomerProject not found.', [], 500);
         }
 
-        return $this->sendResponse($data, 'CustomerProject Show successfully.');
+        return $this->sendResponse($data, 'CustomerProject Show successfully.',200);
     }
 
     public function update(Request $request, $id)
@@ -91,9 +90,9 @@ class CustomerProjectController extends BaseController
 
         $validated = $validator->validated();
 
-        $existingData = CustomerProject::where('project_id', $validated['project_id'])
-            ->where('user_id', $validated['user_id'])
-            ->first();
+        $existingData = CustomerProject::where('user_id', $validated['user_id'])
+                        ->where('project_id', $validated['project_id'])
+                        ->first();
 
         if ($existingData) {
             return $this->sendError('Validation Error.', 'The combination of project_id and user_id already exists.');
@@ -101,7 +100,7 @@ class CustomerProjectController extends BaseController
 
         $result = $this->customerProjectService->update($id, $data);
 
-        return $this->sendResponse($result, 'CustomerProject Update successfully.');
+        return $this->sendResponse($result, 'CustomerProject Update successfully.',201);
     }
 
     public function destroy($id)
@@ -115,14 +114,13 @@ class CustomerProjectController extends BaseController
     {
         $data = $this->customerProjectRepo->paginate();
 
-        return $this->sendResponse($data, 'CustomerProject retrieved successfully.');
+        return $this->sendResponse($data, 'CustomerProject retrieved successfully.',200);
     }
-
 
     public function project($id)
     {
         $data = $this->customerProjectRepo->projectByUserID($id);
 
-        return $this->sendResponse($data, 'Project retrieved successfully.');
+        return $this->sendResponse($data, 'Project retrieved successfully.',201);
     }
 }

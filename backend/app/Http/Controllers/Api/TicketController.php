@@ -6,12 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
-use App\Models\Ticket;
 use App\Service\Ticket\TicketServiceInterface;
 use App\Repository\Ticket\TicketRepositoryInterface;
-use Carbon\Carbon;
-use Exception;
-use Illuminate\Auth\Events\Validated;
 
 class TicketController extends BaseController
 {
@@ -89,7 +85,7 @@ class TicketController extends BaseController
                 'customer_project_id' => 'required',
                 'subject' => 'required',
                 'description' => 'required',
-                'status' => 'required',
+                'status' => 'nullable',
                 'priority' => 'nullable',
                 'drive_link' => 'nullable',
                 'admin_id' => 'nullable',
@@ -104,7 +100,7 @@ class TicketController extends BaseController
 
         $data = $this->ticketService->update($id, $validate);
 
-        return $this->sendResponse($data, 'Ticket updated successfully.');
+        return $this->sendResponse($data, 'Ticket updated successfully.',200);
     }
 
     public function destroy($id)
@@ -118,13 +114,13 @@ class TicketController extends BaseController
     {
         $result = $this->ticketRepo->checkTicketList();
 
-        return $this->sendResponse($result,'Monthly Tickets successfully.');
+        return $this->sendResponse($result,'Monthly Tickets successfully.',200);
     }
 
     public function checkDate($id)
     {
         $result = $this->ticketRepo->checkDate($id);
 
-        return $this->sendResponse($result, 'Tickets of Date successfully.');
+        return $this->sendResponse($result, 'Tickets of Date successfully.',200);
     }
 }

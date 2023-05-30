@@ -2,11 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use Exception;
 use Illuminate\Http\Request;
-
-use App\Http\Controllers\Controller;
-use App\Http\Requests\ProjectRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
 use App\Service\Project\ProjectServiceInterface;
@@ -80,7 +76,7 @@ class ProjectController extends BaseController
             return $this->sendError('Project not found.', [], 500);
         }
 
-        return $this->sendResponse($result, 'Project retrieved successfully.');
+        return $this->sendResponse($result, 'Project retrieved successfully.',200);
 
 
     }
@@ -109,7 +105,7 @@ class ProjectController extends BaseController
 
         $data = $this->projectServcie->update($id, $validate);
 
-        return $this->sendResponse($data, 'Project updated successfully.');
+        return $this->sendResponse($data, 'Project updated successfully.',201);
 
     }
 
