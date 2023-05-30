@@ -37,8 +37,7 @@ const EmployeeAssignCreate = () => {
   const [inputField, setInputField] = React.useState({
     task: "",
   });
-  
-  
+
   const [dropdownEmployee, setDropDownEmployee] = React.useState({
     name: "Select",
     value: 0,
@@ -82,11 +81,11 @@ const EmployeeAssignCreate = () => {
       setMaxDate(res.data.end_date);
       setMinDate(res.data.start_date);
       return res;
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
-  getTicketDateFetch();
+  useEffect(() => {
+    getTicketDateFetch();
+  }, [taskRedux.ticketId, authRedux.token]);
 
   function onButtonSubmitHandle() {
     const isEmpty = inputField.task === "" || dropdownEmployee.value === 0;
@@ -245,7 +244,7 @@ const EmployeeAssignCreate = () => {
             customInput={<CustomDatePickerInput />}
             minDate={new Date(minDate)}
             maxDate={new Date(maxDate)}
-            disabled={!minDate&&!maxDate}
+            disabled={!minDate && !maxDate}
           />
           <div className="form-dropdown-label">
             <label htmlFor="">Due Date</label>
@@ -258,7 +257,7 @@ const EmployeeAssignCreate = () => {
             customInput={<CustomDatePickerInput />}
             minDate={new Date(minDate)}
             maxDate={new Date(maxDate)}
-            disabled={!minDate&&!maxDate}
+            disabled={!minDate && !maxDate}
           />
           <Button
             type="button"
