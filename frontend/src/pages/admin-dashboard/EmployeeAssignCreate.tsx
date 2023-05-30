@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState, useCallback } from "react";
 import Nav from "../../components/Nav";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -72,20 +72,23 @@ const EmployeeAssignCreate = () => {
     });
   }, []);
 
-  const getTicketDateFetch = async () => {
+  const getTicketDateFetch = useCallback(async () => {
     try {
-      const res: any = await getTicketDate({
+      const res:any = await getTicketDate({
         id: taskRedux.ticketId,
         token: authRedux.token,
       });
       setMaxDate(res.data.end_date);
       setMinDate(res.data.start_date);
       return res;
-    } catch (error) {}
-  };
+    } catch (error) {
+
+    }
+  }, [taskRedux.ticketId, authRedux.token]);
+
   useEffect(() => {
     getTicketDateFetch();
-  }, [taskRedux.ticketId, authRedux.token]);
+  }, [getTicketDateFetch]);
 
   function onButtonSubmitHandle() {
     const isEmpty = inputField.task === "" || dropdownEmployee.value === 0;
