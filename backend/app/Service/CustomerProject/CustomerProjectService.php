@@ -3,6 +3,7 @@
 namespace App\Service\CustomerProject;
 
 use App\Models\CustomerProject;
+use App\Models\Ticket;
 
 class CustomerProjectService implements CustomerProjectServiceInterface
 {
@@ -22,7 +23,9 @@ class CustomerProjectService implements CustomerProjectServiceInterface
     {
         $data = CustomerProject::where('id',$id)->first();
 
-        if ($data->tickets()->exists()) {
+        $customer = Ticket::where('customer_project_id', $data->id)->exists();
+
+        if ($customer) {
             return false;
         }
 

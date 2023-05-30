@@ -15,6 +15,7 @@ use Exception;
 
 class CustomerProjectController extends BaseController
 {
+
     private $customerProjectRepo, $customerProjectService;
 
     public function __construct(CustomerProjectRepoInterface $customerProjectRepo, CustomerProjectServiceInterface $customerProjectService)
