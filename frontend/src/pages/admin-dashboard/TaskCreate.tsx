@@ -9,10 +9,13 @@ import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import {
   setRightSidebar,
-  setTaskView,
   updateTaskUrl,
 } from "../../redux/feature_slice/EmployeeAssignmentSlice";
-import { getAllTicket, getTicket, updateTicket } from "../../requests/ticketRequest";
+import {
+  getAllTicket,
+  getTicket,
+  updateTicket,
+} from "../../requests/ticketRequest";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
@@ -30,22 +33,26 @@ const TaskCreate = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [dueDate, setDueDate] = useState(new Date());
   const [ticketList, setTicketList] = React.useState<TicketListProps[]>([]);
-  const [tempTicketList, setTempTicketList] = React.useState<TicketListProps[]>([]);
+  const [tempTicketList, setTempTicketList] = React.useState<TicketListProps[]>(
+    []
+  );
   const [filterTicketInput, setFilterTicketInput] = React.useState("");
   const [ticketDropDown, setTicketDropDown] = React.useState({
     name: "Select",
     value: 0,
   });
 
-  const CustomDatePickerInput = forwardRef(({ value, onClick }: any, ref: any) => (
-    <button
-      className="btn btn--light btn--block btn--no-m-bottom"
-      onClick={onClick}
-      ref={ref}
-    >
-      {value}
-    </button>
-  ));
+  const CustomDatePickerInput = forwardRef(
+    ({ value, onClick }: any, ref: any) => (
+      <button
+        className="btn btn--light btn--block btn--no-m-bottom"
+        onClick={onClick}
+        ref={ref}
+      >
+        {value}
+      </button>
+    )
+  );
 
   function onSubmitHandler() {
     const isEmpty = ticketDropDown.value === 0;
@@ -130,7 +137,6 @@ const TaskCreate = () => {
       setTicketList(tempTicketList);
     }
   }, 1000);
-
   return (
     <>
       <div className="admin-container admin-container--no-flex-grow admin-container--form">
@@ -181,11 +187,18 @@ const TaskCreate = () => {
                           title={ticket.subject + " #" + ticket.tickets_id}
                           onClick={() => {
                             setTicketDropDown({
-                              name: textLimiter(10, ticket.subject) + " #" + ticket.tickets_id,
+                              name:
+                                textLimiter(10, ticket.subject) +
+                                " #" +
+                                ticket.tickets_id,
                               value: ticket.id,
                             });
                           }}
-                          label={textLimiter(10, ticket.subject) + " #" + ticket.tickets_id}
+                          label={
+                            textLimiter(10, ticket.subject) +
+                            " #" +
+                            ticket.tickets_id
+                          }
                         />
                       );
                     })}
