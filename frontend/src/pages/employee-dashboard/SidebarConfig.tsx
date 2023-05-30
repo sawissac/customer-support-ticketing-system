@@ -1,6 +1,6 @@
 import { IconCalendarEvent, IconTicket } from "@tabler/icons-react";
 import { SideBarLink } from "../../components/SideBar";
-import { resetEmployeeAssignPage, setTaskView } from "../../redux/feature_slice/EmployeeAssignmentSlice";
+import { resetEmployeeAssignPage } from "../../redux/feature_slice/EmployeeAssignmentSlice";
 import { resetTicketPage } from "../../redux/feature_slice/TicketSlice";
 
 export const sidebarConfig: SideBarLink[] = [

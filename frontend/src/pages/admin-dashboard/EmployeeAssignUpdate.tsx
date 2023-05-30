@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState, useCallback } from "react";
 import Nav from "../../components/Nav";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -6,20 +6,16 @@ import FormWarper from "../../components/FormWarper";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { createProject } from "../../requests/projectRequest";
 import { motion } from "framer-motion";
 import {
   setRightSidebar,
-  setTaskView,
   updateEmployeeAssignUrl,
 } from "../../redux/feature_slice/EmployeeAssignmentSlice";
 import { IconMenuOrder } from "@tabler/icons-react";
 import Dropdown from "../../components/DropDown";
 import { getAllEmployee } from "../../requests/userRequest";
-import dayjs from "dayjs";
 import ReactDatePicker from "react-datepicker";
 import {
-  createEmployeeAssign,
   updateEmployeeAssign,
 } from "../../requests/employeeAssignRequest";
 import { UserApiResponse } from "../../responseInterface/UserApiResponse";
@@ -82,7 +78,7 @@ const EmployeeAssignUpdate = () => {
     });
   }, [taskRedux]);
 
-  const getTicketDateFetch = async () => {
+  const getTicketDateFetch = useCallback(async () => {
     try {
       const res: any = await getTicketDate({
         id: taskRedux.ticketId,
@@ -92,10 +88,11 @@ const EmployeeAssignUpdate = () => {
       setMinDate(res.data.start_date);
       return res;
     } catch (error) {}
-  };
+  }, [taskRedux.ticketId, authRedux.token]);
+
   useEffect(() => {
     getTicketDateFetch();
-  }, [taskRedux.ticketId, authRedux.token]);
+  }, [getTicketDateFetch]);
 
   function onButtonSubmitHandle() {
     const isEmpty = inputField.task === "" || dropdownEmployee.value === 0;
@@ -121,7 +118,7 @@ const EmployeeAssignUpdate = () => {
           dispatch(setRightSidebar({ name: "" }));
           dispatch(
             setAlert({
-              message: "Created Successfully",
+              message: "Employee Assign Update Successfully",
               state: Alert.Success,
             })
           );
@@ -131,10 +128,10 @@ const EmployeeAssignUpdate = () => {
             })
           );
         })
-        .catch((reason) => {
+        .catch(() => {
           dispatch(
             setAlert({
-              message: "Fail to create",
+              message: "Fail to update employee assign",
               state: Alert.Warning,
             })
           );

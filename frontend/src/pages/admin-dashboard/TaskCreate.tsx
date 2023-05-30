@@ -9,13 +9,11 @@ import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 import {
   setRightSidebar,
-  setTaskView,
   updateTaskUrl,
 } from "../../redux/feature_slice/EmployeeAssignmentSlice";
 import { getAllTicket, getTicket, updateTicket } from "../../requests/ticketRequest";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import dayjs from "dayjs";
 import Input from "../../components/Input";
 import { debounce } from "debounce";
 import { formatDateTime, textLimiter } from "../../commonFunction/common";
@@ -79,7 +77,7 @@ const TaskCreate = () => {
             dispatch(setRightSidebar({ name: "" }));
             dispatch(
               setAlert({
-                message: "Created Successfully",
+                message: "Task Created Successfully",
                 state: Alert.Success,
               })
             );
@@ -91,7 +89,7 @@ const TaskCreate = () => {
           })
           .catch(() => {
             setAlert({
-              message: "Fail to create...",
+              message: "Fail to create task...",
               state: Alert.Warning,
             });
           });

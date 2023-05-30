@@ -1,6 +1,6 @@
 import { IconTicket } from "@tabler/icons-react";
 import { SideBarLink } from "../../components/SideBar";
-import { resetTicketPage, setTicketView } from "../../redux/feature_slice/TicketSlice";
+import { resetTicketPage} from "../../redux/feature_slice/TicketSlice";
 
 export const sidebarConfig: SideBarLink[] = [
   {
