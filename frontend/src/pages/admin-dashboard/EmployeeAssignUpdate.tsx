@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import Nav from "../../components/Nav";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -18,7 +18,10 @@ import Dropdown from "../../components/DropDown";
 import { getAllEmployee } from "../../requests/userRequest";
 import dayjs from "dayjs";
 import ReactDatePicker from "react-datepicker";
-import { createEmployeeAssign, updateEmployeeAssign } from "../../requests/employeeAssignRequest";
+import {
+  createEmployeeAssign,
+  updateEmployeeAssign,
+} from "../../requests/employeeAssignRequest";
 import { UserApiResponse } from "../../responseInterface/UserApiResponse";
 import { EmployeeListApiResponse } from "../../responseInterface/EmployeeListApiResponse";
 import { formatDateTime } from "../../commonFunction/common";
@@ -30,7 +33,9 @@ const EmployeeAssignUpdate = () => {
   const authRedux = useAppSelector((state) => state.auth);
   const taskRedux = useAppSelector((state) => state.tasks);
   const [employeeList, setEmployeeList] = useState<UserApiResponse[]>([]);
-  const [tempEmployeeList, setTempEmployeeList] = useState<UserApiResponse[]>([]);
+  const [tempEmployeeList, setTempEmployeeList] = useState<UserApiResponse[]>(
+    []
+  );
   const [filterEmployeeInput, setFilterEmployeeInput] = useState("");
   const [inputField, setInputField] = React.useState({
     task: "",
@@ -43,16 +48,18 @@ const EmployeeAssignUpdate = () => {
   const [dueDate, setDueDate] = useState(new Date());
   const [minDate, setMinDate] = useState("");
   const [maxDate, setMaxDate] = useState("");
-  const CustomDatePickerInput = forwardRef(({ value, onClick }: any, ref: any) => (
-    <button
-      className="btn btn--light btn--block btn--no-m-bottom"
-      onClick={onClick}
-      ref={ref}
-    >
-      {value}
-    </button>
-  ));
-  
+  const CustomDatePickerInput = forwardRef(
+    ({ value, onClick }: any, ref: any) => (
+      <button
+        className="btn btn--light btn--block btn--no-m-bottom"
+        onClick={onClick}
+        ref={ref}
+      >
+        {value}
+      </button>
+    )
+  );
+
   React.useEffect(() => {
     getAllEmployee({
       token: authRedux.token,
@@ -75,7 +82,6 @@ const EmployeeAssignUpdate = () => {
     });
   }, [taskRedux]);
 
-
   const getTicketDateFetch = async () => {
     try {
       const res: any = await getTicketDate({
@@ -85,11 +91,11 @@ const EmployeeAssignUpdate = () => {
       setMaxDate(res.data.end_date);
       setMinDate(res.data.start_date);
       return res;
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
-  getTicketDateFetch();
+  useEffect(() => {
+    getTicketDateFetch();
+  }, [taskRedux.ticketId, authRedux.token]);
 
   function onButtonSubmitHandle() {
     const isEmpty = inputField.task === "" || dropdownEmployee.value === 0;
@@ -124,7 +130,6 @@ const EmployeeAssignUpdate = () => {
               name: `updated: ${Date()}`,
             })
           );
-
         })
         .catch((reason) => {
           dispatch(
@@ -169,9 +174,8 @@ const EmployeeAssignUpdate = () => {
   const handleDateChange = (date: any) => {
     if (!minDate && !maxDate) {
       setStartDate(date);
-    }
-    else{
-      'loading'
+    } else {
+      ("loading");
     }
   };
   return (
@@ -256,7 +260,7 @@ const EmployeeAssignUpdate = () => {
             customInput={<CustomDatePickerInput />}
             minDate={new Date(minDate)}
             maxDate={new Date(maxDate)}
-            disabled={!minDate&&!maxDate}
+            disabled={!minDate && !maxDate}
           />
           <div className="form-dropdown-label">
             <label htmlFor="">Due Date</label>
@@ -269,7 +273,7 @@ const EmployeeAssignUpdate = () => {
             customInput={<CustomDatePickerInput />}
             minDate={new Date(minDate)}
             maxDate={new Date(maxDate)}
-            disabled={!minDate&&!maxDate}
+            disabled={!minDate && !maxDate}
           />
           <Button
             type="button"
