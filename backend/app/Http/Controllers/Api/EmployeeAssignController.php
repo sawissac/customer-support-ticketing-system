@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use Exception;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\Api\BaseController;
 
+use App\Http\Controllers\Api\BaseController;
 use App\Repository\EmployeeAssign\EmployeeAssignRepoInterface;
 use App\Service\EmployeeAssign\EmployeeAssignServiceInterface;
 
@@ -43,13 +44,14 @@ class EmployeeAssignController extends BaseController
             'ticket_id' => 'required',
             'status' => 'required',
             'task_name' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
+            'start_date' => 'nullable',
+            'end_date' => 'nullable',
         ]);
 
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
+
 
         $result = $this->employeeAssignService->store($data);
 
@@ -79,6 +81,8 @@ class EmployeeAssignController extends BaseController
             'ticket_id' => 'required',
             'status' => 'required|string',
             'task_name' => 'required',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after:start_date',
         ]);
 
         if ($validator->fails()) {
