@@ -39,14 +39,12 @@ class TicketRepository implements TicketRepositoryInterface
         });
         return $checkData;
     }
-<<<<<<< HEAD
-    public function checkDate($id)
-    {
-        $checkDate = Ticket::selectRaw('MIN(start_date) as start_date, MAX(end_date) as end_date')
-        ->where('id', $id)
-        ->first();
-        return $checkDate;
-=======
+    // public function checkDate($id)
+    // {
+    //     $checkDate = Ticket::selectRaw('MIN(start_date) as start_date, MAX(end_date) as end_date')
+    //     ->where('id', $id)
+    //     ->first();
+    //     return $checkDate;
 
     public function checkDate($id)
     {
@@ -55,6 +53,5 @@ class TicketRepository implements TicketRepositoryInterface
             ->first();
 
         return $result;
->>>>>>> main
     }
 }
