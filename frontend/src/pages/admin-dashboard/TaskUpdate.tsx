@@ -30,7 +30,9 @@ const TaskUpdate = () => {
   const [startDate, setStartDate] = useState(new Date(taskRedux.startDate));
   const [dueDate, setDueDate] = useState(new Date(taskRedux.dueDate));
   const [ticketList, setTicketList] = React.useState<TicketListProps[]>([]);
-  const [tempTicketList, setTempTicketList] = React.useState<TicketListProps[]>([]);
+  const [tempTicketList, setTempTicketList] = React.useState<TicketListProps[]>(
+    []
+  );
   const [filterTicketInput, setFilterTicketInput] = React.useState("");
   const [ticketDropDown, setTicketDropDown] = React.useState({
     name: "Select",
@@ -59,15 +61,17 @@ const TaskUpdate = () => {
     });
   }, []);
 
-  const CustomDatePickerInput = forwardRef(({ value, onClick }: any, ref: any) => (
-    <button
-      className="btn btn--light btn--block btn--no-m-bottom"
-      onClick={onClick}
-      ref={ref}
-    >
-      {value}
-    </button>
-  ));
+  const CustomDatePickerInput = forwardRef(
+    ({ value, onClick }: any, ref: any) => (
+      <button
+        className="btn btn--light btn--block btn--no-m-bottom"
+        onClick={onClick}
+        ref={ref}
+      >
+        {value}
+      </button>
+    )
+  );
 
   function onSubmitHandler() {
     dispatch(
@@ -197,11 +201,18 @@ const TaskUpdate = () => {
                           title={ticket.subject + " #" + ticket.tickets_id}
                           onClick={() => {
                             setTicketDropDown({
-                              name: textLimiter(10, ticket.subject) + " #" + ticket.tickets_id,
+                              name:
+                                textLimiter(10, ticket.subject) +
+                                " #" +
+                                ticket.tickets_id,
                               value: ticket.id,
                             });
                           }}
-                          label={textLimiter(10, ticket.subject) + " #" + ticket.tickets_id}
+                          label={
+                            textLimiter(10, ticket.subject) +
+                            " #" +
+                            ticket.tickets_id
+                          }
                         />
                       );
                     })}
