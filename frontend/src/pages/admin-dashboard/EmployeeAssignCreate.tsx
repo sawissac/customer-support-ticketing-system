@@ -71,14 +71,20 @@ const EmployeeAssignCreate = () => {
 
   const getTicketDateFetch = useCallback(async () => {
     try {
-      const res: any = await getTicketDate({
+      const res:any = await getTicketDate({
         id: taskRedux.ticketId,
         token: authRedux.token,
       });
       setMaxDate(res.data.end_date);
       setMinDate(res.data.start_date);
       return res;
+<<<<<<< HEAD
+    } catch (error) {
+
+    }
+=======
     } catch (error) {}
+>>>>>>> main
   }, [taskRedux.ticketId, authRedux.token]);
 
   useEffect(() => {
