@@ -91,7 +91,7 @@ const Task = () => {
         row.tickets_id,
         sortable: true,
         width: "150px",
-      },
+    },
       {
         name: "Admin Name",
         cell: (row: any) => {
