@@ -19,7 +19,8 @@ class ProjectFactory extends Factory
     {
         return [
             'project_id' => Str::lower(Str::random(3)) . mt_rand(1000, 9999),
-            'name' => $this->faker->sentence(2),
+            'name' => $this->faker->company(),
+
         ];
     }
 }

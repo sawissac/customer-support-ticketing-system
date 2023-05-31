@@ -21,14 +21,21 @@ class EmployeeProjectService implements EmployeeProjectServiceInterface
 
     public function delete($id)
     {
-        $data = EmployeeProject::where('id',$id)->first();
+        // $data = EmployeeProject::where('id',$id)->first();
 
-        $employeeAssign = EmployeeAssign::where('employee_id', $data->user_id)->exists();
+        // return $data->delete();
 
-        if ($employeeAssign) {
-            return false;
+        $data = EmployeeProject::where('id', $id)->first();
+
+        $isAssigned = EmployeeAssign::where('employee_id', $data->user_id)->exists();
+
+        if(!$isAssigned) {
+
+            return $data->delete();
         }
 
-        return $data->delete();
+        // return false;
+
+
     }
 }
