@@ -173,7 +173,7 @@ const TaskUpdate = () => {
             animate={{ x: "0px", opacity: 1 }}
           >
             <Dropdown
-            disable={false}
+            disable={true}
               placement="bottom"
               buttonClassName="form-dropdown-btn"
               offset={[0, 0]}

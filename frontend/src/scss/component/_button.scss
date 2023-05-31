@@ -107,7 +107,6 @@
   padding: 2px 8px;
   color: $white;
   border-radius: $border-radius-sm;
-  text-transform: capitalize;
   font-weight: bold;
   text-align: center;
   &--open{
@@ -127,5 +126,9 @@
   }
   &--close{
     background-color: rgba(255, 99, 132, 1);
+  }
+
+  &--ticket-id{
+    background-color: $gray-600;
   }
 }
