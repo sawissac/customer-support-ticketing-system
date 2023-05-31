@@ -10,7 +10,11 @@ import {
   setRightSidebar,
   updateTaskUrl,
 } from "../../redux/feature_slice/EmployeeAssignmentSlice";
-import { getAllTicket, getTicket, updateTicket } from "../../requests/ticketRequest";
+import {
+  getAllTicket,
+  getTicket,
+  updateTicket,
+} from "../../requests/ticketRequest";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { debounce } from "debounce";
@@ -169,6 +173,7 @@ const TaskUpdate = () => {
             animate={{ x: "0px", opacity: 1 }}
           >
             <Dropdown
+            disable={true}
               placement="bottom"
               buttonClassName="form-dropdown-btn"
               offset={[0, 0]}
