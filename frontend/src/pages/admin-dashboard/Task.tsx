@@ -314,6 +314,7 @@ const Task = () => {
           return true;
         }
       });
+
       setTableData([...filterData, ...closeFilterData]);
     }
   }, [data]);
@@ -400,7 +401,7 @@ const Task = () => {
       <ShowIf sif={taskRedux.view === "task-create"} show={<TaskCreate />} />
       <ShowIf
         sif={taskRedux.view === "task-employee"}
-        show={<EmployeeAssign />}
+        show={<EmployeeAssign/>}
       />
       <ShowIf
         sif={taskRedux.rightSideBar === "task-create"}
