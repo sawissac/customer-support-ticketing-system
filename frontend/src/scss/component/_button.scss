@@ -75,6 +75,9 @@
   &--sm {
     padding: map-get($spacers, 1);
   }
+  &--disable{
+    opacity: 50%;
+  }
 }
 
 .status-btn-group {
