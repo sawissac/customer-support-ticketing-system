@@ -85,7 +85,7 @@ const LoginPage = () => {
         <div className="system-name">
           <img src={loginbg} alt="" />
           <div className="color-tran"></div>
-          <h1>Customer Support Tickets Management System</h1>
+          <h1>Customer Ticketing System Resolve Support Tickets Faster</h1>
         </div>
         <form
           action="/auth/login"
