@@ -87,7 +87,10 @@ const Task = () => {
       },
       {
         name: "Ticket ID",
-        selector: (row: any) => row.tickets_id,
+        selector: (row: any) => {
+          
+          return <div className={`badge badge--ticket-id`}>{row.tickets_id}</div>;
+        },
         sortable: true,
         width: "150px",
       },
@@ -401,7 +404,7 @@ const Task = () => {
       <ShowIf sif={taskRedux.view === "task-create"} show={<TaskCreate />} />
       <ShowIf
         sif={taskRedux.view === "task-employee"}
-        show={<EmployeeAssign/>}
+        show={<EmployeeAssign />}
       />
       <ShowIf
         sif={taskRedux.rightSideBar === "task-create"}
