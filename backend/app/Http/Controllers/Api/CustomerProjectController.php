@@ -5,17 +5,12 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\CustomerProject;
-
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\Api\BaseController;
-
 use App\Repository\CustomerProject\CustomerProjectRepoInterface;
 use App\Service\CustomerProject\CustomerProjectServiceInterface;
-use Exception;
 
 class CustomerProjectController extends BaseController
 {
-
     private $customerProjectRepo, $customerProjectService;
 
     public function __construct(CustomerProjectRepoInterface $customerProjectRepo, CustomerProjectServiceInterface $customerProjectService)
@@ -65,7 +60,6 @@ class CustomerProjectController extends BaseController
 
     public function show($id)
     {
-
         $data = $this->customerProjectRepo->show($id);
 
         if (is_null($data)) {
@@ -125,6 +119,10 @@ class CustomerProjectController extends BaseController
     public function project($id)
     {
         $data = $this->customerProjectRepo->projectByUserID($id);
+
+        if (is_null($data)) {
+            return $this->sendError('Project not found.', [], 500);
+        }
 
         return $this->sendResponse($data, 'Project retrieved successfully.',201);
     }

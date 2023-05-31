@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Models\EmployeeProject;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 use App\Http\Controllers\Api\BaseController;
@@ -79,7 +78,7 @@ class EmployeeProjectController extends BaseController
         $result = $this->employeeprojectRepo->show($id);
 
         if (is_null($result)) {
-            return $this->sendError('Project not found.', [], 500);
+            return $this->sendError('Employee Project not found.', [], 500);
         }
 
         return $this->sendResponse($result, 'EmployeeProject retrieved successfully.',200);
@@ -132,8 +131,12 @@ class EmployeeProjectController extends BaseController
 
     public function destroy($id)
     {
-        $this->employeeprojectService->delete($id);
+        $data = $this->employeeprojectService->delete($id);
 
-        return $this->sendResponse([], 'EmployeeProject deleted successfully.', 204);
+        if($data) {
+            return $this->sendResponse([], 'Employee project deleted successfully.');
+        }else {
+            return $this->sendError('Unable to delete employee project', [], 400);
+        }
     }
 }

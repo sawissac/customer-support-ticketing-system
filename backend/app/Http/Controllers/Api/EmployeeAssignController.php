@@ -63,7 +63,6 @@ class EmployeeAssignController extends BaseController
         $data = $this->employeeAssignRepo->show($id);
 
         if (is_null($id)) {
-
             return $this->sendError('Employee Assgin not found.', [], 500);
         }
 
@@ -77,7 +76,7 @@ class EmployeeAssignController extends BaseController
         $validator = Validator::make($data, [
             'employee_id' => 'required',
             'ticket_id' => 'required',
-            'status' => 'required|string',
+            'status' => 'required',
             'task_name' => 'required',
             'start_date' => 'nullable',
             'end_date' => 'nullable',
@@ -96,12 +95,20 @@ class EmployeeAssignController extends BaseController
     {
         $data = $this->employeeAssignService->delete($id);
 
-        return $this->sendResponse($data,'Employee Assgin Delete successfully.');
+        if($data){
+            return $this->sendResponse($data,'Employee Assgin Delete successfully.');
+        }else{
+            return $this->sendError('Unable to delete employee assign', [], 400);
+        }
     }
 
     public function ticket($id)
     {
         $data = $this->employeeAssignRepo->employeeByTicketID($id);
+
+        if (is_null($data)) {
+            return $this->sendError('Ticket not found.', [], 500);
+        }
 
         return $this->sendResponse($data, 'Ticket retrieved successfully.');
     }
@@ -110,6 +117,10 @@ class EmployeeAssignController extends BaseController
     {
         $data = $this->employeeAssignRepo->employeeByEmployee($id);
 
-        return $this->sendResponse($data, 'Ticket retrieved successfully.');
+        if (is_null($data)) {
+            return $this->sendError('Employee not found.', [], 500);
+        }
+
+        return $this->sendResponse($data, 'Employee retrieved successfully.');
     }
 }

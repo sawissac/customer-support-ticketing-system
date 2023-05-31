@@ -105,22 +105,34 @@ class TicketController extends BaseController
 
     public function destroy($id)
     {
-        $this->ticketService->delete($id);
+        $data = $this->ticketService->delete($id);
 
-        return $this->sendResponse([], 'Ticket deleted successfully.', 204);
+        if($data){
+            return $this->sendResponse([], 'Ticket deleted successfully.', 204);
+        }else{
+            return $this->sendError('Unable to delete ticket', [], 400);
+        }
     }
 
     public function checkTicketList()
     {
         $result = $this->ticketRepo->checkTicketList();
 
-        return $this->sendResponse($result,'Monthly Tickets successfully.',200);
+        if($result){
+            return $this->sendResponse($result,'Monthly Tickets successfully.',200);
+        }else{
+            return $this->sendError('Unable monthly tickets', [], 400);
+        }
     }
 
     public function checkDate($id)
     {
         $result = $this->ticketRepo->checkDate($id);
 
-        return $this->sendResponse($result, 'Tickets of Date successfully.',200);
+        if($result){
+            return $this->sendResponse($result, 'Tickets of Date successfully.',200);
+        }else{
+            return $this->sendError('Unable ticktets date', [], 400);
+        }
     }
 }

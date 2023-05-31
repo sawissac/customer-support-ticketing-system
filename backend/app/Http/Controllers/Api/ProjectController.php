@@ -48,7 +48,7 @@ class ProjectController extends BaseController
             $validate,
             [
                 'project_id' => 'string',
-                'name' => 'required|string',
+                'name' => 'required',
             ]);
 
         if ($validator->fails()) {
@@ -58,7 +58,6 @@ class ProjectController extends BaseController
         $data = $this->projectServcie->store($validate);
 
         return $this->sendResponse($data, 'Project created successfully.', 201);
-
     }
 
     /**
@@ -69,7 +68,6 @@ class ProjectController extends BaseController
      */
     public function show($id)
     {
-
         $result = $this->projectRepo->show($id);
 
         if (is_null($result)) {
@@ -77,8 +75,6 @@ class ProjectController extends BaseController
         }
 
         return $this->sendResponse($result, 'Project retrieved successfully.',200);
-
-
     }
 
     /**
@@ -96,7 +92,7 @@ class ProjectController extends BaseController
             $validate,
             [
                 'project_id' => 'string',
-                'name' => 'required|string',
+                'name' => 'required',
             ]);
 
         if ($validator->fails()) {
@@ -106,7 +102,6 @@ class ProjectController extends BaseController
         $data = $this->projectServcie->update($id, $validate);
 
         return $this->sendResponse($data, 'Project updated successfully.',201);
-
     }
 
     /**
@@ -117,8 +112,12 @@ class ProjectController extends BaseController
      */
     public function destroy($id)
     {
-        $this->projectServcie->delete($id);
+        $data = $this->projectServcie->delete($id);
 
-        return $this->sendResponse([], 'Project deleted successfully.', 204);
+        if($data){
+            return $this->sendResponse([], 'Project deleted successfully.', 204);
+        }else{
+            return $this->sendError('Unable to delete project', [], 400);
+        }
     }
 }

@@ -16,8 +16,6 @@ class Project extends Model
     protected $fillable = [
         'project_id',
         'name',
-        'manage_start_date',
-        'manage_end_date',
     ];
 
     public function employee_project():HasMany

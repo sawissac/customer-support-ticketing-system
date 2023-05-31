@@ -9,7 +9,6 @@ use App\Repository\User\UserRepositoryInterface;
 
 class UserController extends BaseController
 {
-
     private $userRepo, $userService;
 
     public function __construct(UserRepositoryInterface $userRepo, UserServiceInterface $userService)

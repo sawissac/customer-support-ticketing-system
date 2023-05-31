@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Database\QueryException;
-use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\Controller as Controller;
-
 class BaseController extends Controller
 {
     /**
