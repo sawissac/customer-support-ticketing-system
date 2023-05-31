@@ -24,12 +24,15 @@ class EmployeeProjectService implements EmployeeProjectServiceInterface
 
         $data = EmployeeProject::where('id', $id)->first();
 
-        $isAssigned = EmployeeAssign::where('employee_id', $data->user_id)->exists();
+        if($data){
+            $isAssigned = EmployeeAssign::where('employee_id', $data->user_id)->exists();
 
-        if(!$isAssigned) {
-
-            return $data->delete();
+            if(!$isAssigned) {
+                return $data->delete();
+            }
         }
+
+        return false;
 
     }
 }
