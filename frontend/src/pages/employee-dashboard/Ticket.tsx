@@ -29,7 +29,7 @@ const Ticket = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [dataCount, setDataCount] = useState(0);
   const [ticketData, setTicketData] = useState<AssignEmployeeListTicketProps[]>([]);
-  const [ticketTempData, setTicketTempData] = useState<AssignEmployeeListTicketProps[]>([]);
+  const [ticketTempDat, setTicketTempData] = useState<AssignEmployeeListTicketProps[]>([]);
   const itemsPerPage = 6;
 
   const url = `http://127.0.0.1:8000/api/assign-employee-list/${authRedux.user.id}`;
