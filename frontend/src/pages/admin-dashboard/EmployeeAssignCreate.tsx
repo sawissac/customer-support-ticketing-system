@@ -71,7 +71,7 @@ const EmployeeAssignCreate = () => {
 
   const getTicketDateFetch = useCallback(async () => {
     try {
-      const res: any = await getTicketDate({
+      const res:any = await getTicketDate({
         id: taskRedux.ticketId,
         token: authRedux.token,
       });
