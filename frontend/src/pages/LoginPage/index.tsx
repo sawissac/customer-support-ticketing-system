@@ -2,14 +2,9 @@ import React from "react";
 import LoginInput from "../../components/LoginInput";
 import Button from "../../components/Button";
 import {
-  IconMoon2,
-  IconSunFilled,
   IconKey,
   IconUser,
-  IconMoonFilled,
-  IconTicket,
 } from "@tabler/icons-react";
-import DropDown from "../../components/DropDown";
 import { getLoginData } from "../../requests/loginRequest";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { setAuth } from "../../redux/feature_slice/AuthSlice";
@@ -19,8 +14,8 @@ import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 
 import logo from "../../assets/img/logo.png";
+import loginbg from "../../assets/img/loginbg.jpg";
 import { AuthApiResponse } from "../../responseInterface/AuthApiResponse";
-
 const LoginPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -88,6 +83,8 @@ const LoginPage = () => {
     <div className="login_container">
       <div className="login_container__inner">
         <div className="system-name">
+          <img src={loginbg} alt="" />
+          <div className="color-tran"></div>
           <h1>Customer Support Tickets Management System</h1>
         </div>
         <form
