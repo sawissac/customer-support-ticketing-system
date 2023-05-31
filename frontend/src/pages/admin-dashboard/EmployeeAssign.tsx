@@ -318,11 +318,15 @@ const EmployeeAssign = () => {
               disabled={statusClose === "close" || statusClose === "confirm"}
               label={
                 statusClose === "close" || statusClose === "confirm"
-                  ? "Can't Assign"
-                  : "Add Employee"
+                  ? "Can't Assign Employee"
+                  : "Assign Employee"
               }
               icon={<IconPlus size={20} />}
-              className="btn btn--light btn--block btn--no-m-bottom btn--sm"
+              className={
+                statusClose === "close" || statusClose === "confirm"
+                  ? "btn btn--light btn--block btn--no-m-bottom btn--sm btn--disable"
+                  : "btn btn--light btn--block btn--no-m-bottom btn--sm"
+              }
               onClick={() => {
                 dispatch(setRightSidebar({ name: "employee-assign-create" }));
               }}
