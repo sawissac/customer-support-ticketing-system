@@ -1,7 +1,7 @@
 import Avatar from "react-avatar";
 import { compareDate } from "../../commonFunction/common";
 import Button from "../../components/Button";
-import { IconCalendarCheck, IconCalendarEvent, IconCalendarStats, IconCircleFilled, IconCircleHalf2, IconCircleMinus } from "@tabler/icons-react";
+import { IconCircleFilled, IconCircleHalf2, IconCircleMinus } from "@tabler/icons-react";
 import { AssignTicketListEmployeeAssignProps } from "../../responseInterface/AssignTicketListApiResponse";
 
 export const EmployeeAssignTableConfig = (

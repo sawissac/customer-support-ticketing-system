@@ -55,7 +55,7 @@ const ProjectUpdate = () => {
           );
           dispatch(updateProjectTableUrl({ message: inputField.name }));
         })
-        .catch((reason) => {
+        .catch(() => {
           dispatch(
             setAlert({
               message: "Fail to create",

@@ -3,7 +3,10 @@ import Button from "../../components/Button";
 import Input from "../../components/Input";
 import FormWarper from "../../components/FormWarper";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { setTicketView, updateTicketUrl } from "../../redux/feature_slice/TicketSlice";
+import {
+  setTicketView,
+  updateTicketUrl,
+} from "../../redux/feature_slice/TicketSlice";
 import { motion } from "framer-motion";
 import Dropdown from "../../components/DropDown";
 import React, { useState } from "react";
@@ -22,14 +25,19 @@ import { textLimiter } from "../../commonFunction/common";
 const TicketCreate = () => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((s) => s.auth);
-  const [filterCustomerProjectInput, setFilterCustomerProjectInput] = React.useState("");
+  const [filterCustomerProjectInput, setFilterCustomerProjectInput] =
+    React.useState("");
   const [inputField, setInputField] = useState({
     subject: "",
     description: "",
     drive_link: "",
   });
-  const [projectList, setProjectList] = React.useState<CustomerProjectListProps[]>([]);
-  const [tempProjectList, setTempProjectList] = React.useState<CustomerProjectListProps[]>([]);
+  const [projectList, setProjectList] = React.useState<
+    CustomerProjectListProps[]
+  >([]);
+  const [tempProjectList, setTempProjectList] = React.useState<
+    CustomerProjectListProps[]
+  >([]);
   const [projectDropDown, setProjectDropDown] = React.useState({
     name: "Select",
     value: 0,
@@ -81,6 +89,7 @@ const TicketCreate = () => {
             })
           );
         })
+        
         .catch(() => {
           setAlert({
             message: "Fail to create ticket...",
@@ -98,14 +107,18 @@ const TicketCreate = () => {
     });
   }, []);
 
-  function handleCustomerProjectSearch(ev: React.ChangeEvent<HTMLInputElement>) {
+  function handleCustomerProjectSearch(
+    ev: React.ChangeEvent<HTMLInputElement>
+  ) {
     setFilterCustomerProjectInput(ev.target.value);
     debouncedCustomerProjectSearch(ev.target.value);
   }
 
   const debouncedCustomerProjectSearch = debounce((value: string) => {
     const filteredCustomerProject = tempProjectList.filter((project) => {
-      if (project.project.name.toLowerCase().includes(value.toLocaleLowerCase())) {
+      if (
+        project.project.name.toLowerCase().includes(value.toLocaleLowerCase())
+      ) {
         return true;
       }
       if (project.user.name.toLowerCase().includes(value.toLocaleLowerCase())) {
@@ -157,7 +170,7 @@ const TicketCreate = () => {
                   placement="bottom"
                   buttonClassName="form-dropdown-btn"
                   offset={[70, 0]}
-                  buttonChildren={<>{textLimiter(20,projectDropDown.name)}</>}
+                  buttonChildren={<>{textLimiter(20, projectDropDown.name)}</>}
                   dropdownClassName="form-dropdown"
                   width="350px"
                   dropdownChildren={
@@ -214,21 +227,23 @@ const TicketCreate = () => {
                   dropdownChildren={
                     <>
                       <div className="form-dropdown__scroll">
-                        {Object.values(Priority).map((priority: string, index: number) => {
-                          return (
-                            <Button
-                              key={index}
-                              type="button"
-                              onClick={() => {
-                                setPriorityDropDown({
-                                  name: priority,
-                                  value: priority,
-                                });
-                              }}
-                              label={priority}
-                            />
-                          );
-                        })}
+                        {Object.values(Priority).map(
+                          (priority: string, index: number) => {
+                            return (
+                              <Button
+                                key={index}
+                                type="button"
+                                onClick={() => {
+                                  setPriorityDropDown({
+                                    name: priority,
+                                    value: priority,
+                                  });
+                                }}
+                                label={priority}
+                              />
+                            );
+                          }
+                        )}
                       </div>
                     </>
                   }
