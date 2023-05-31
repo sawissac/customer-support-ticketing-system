@@ -174,7 +174,7 @@ const EmployeeAssign = () => {
         name: "Update",
         cell: (row: any) => (
           <button
-            title="row update"
+            title="Update"
             className="btn btn--light btn--icon btn--no-m-bottom text-success"
             onClick={() => {
               dispatch(
@@ -200,7 +200,7 @@ const EmployeeAssign = () => {
         name: "Delete",
         cell: (row: any) => (
           <button
-            title="row delete"
+            title="Delete"
             className="btn btn--light btn--icon btn--no-m-bottom text-danger"
             onClick={() => {
               deleteEmployeeAssignUser({ id: row.id, token: AuthRedux.token })
@@ -285,8 +285,6 @@ const EmployeeAssign = () => {
     }
   }, [taskRedux.ticketId, Ticket]);
 
-  console.log(statusClose);
-
   if (assignTicketFetch || TicketFetch)
     return (
       <div className="fetching">
@@ -305,7 +303,8 @@ const EmployeeAssign = () => {
       </div>
     );
 
-
+    
+      
   return (
     <>
       <div className="admin-container">
@@ -318,7 +317,8 @@ const EmployeeAssign = () => {
           }}
           rightPlacer={
             <Button
-              label="Add Employee"
+              disabled={statusClose==='close'}
+              label={statusClose==='close'? "Can't Assign" : "Add Employee"}
               icon={<IconPlus size={20} />}
               className="btn btn--light btn--block btn--no-m-bottom btn--sm"
               onClick={() => {
@@ -346,7 +346,7 @@ const EmployeeAssign = () => {
       </div>
       <ShowIf
         sif={taskRedux.rightSideBar === "employee-assign-create"}
-        show={<EmployeeAssignCreate />}
+        show={<EmployeeAssignCreate/>}
       />
       <ShowIf
         sif={taskRedux.rightSideBar === "employee-assign-update"}
