@@ -71,7 +71,7 @@ const TicketCreate = () => {
           dispatch(setTicketView({ name: "" }));
           dispatch(
             setAlert({
-              message: "Created Successfully",
+              message: "Ticket Created Successfully",
               state: Alert.Success,
             })
           );
@@ -83,7 +83,7 @@ const TicketCreate = () => {
         })
         .catch(() => {
           setAlert({
-            message: "Fail to create...",
+            message: "Fail to create ticket...",
             state: Alert.Warning,
           });
         });

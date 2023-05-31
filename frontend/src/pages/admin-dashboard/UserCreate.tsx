@@ -68,15 +68,15 @@ const UserCreatePage = () => {
           );
           dispatch(
             setAlert({
-              message: "Created Successfully",
+              message: "User Account Created Successfully",
               state: Alert.Success,
             })
           );
         })
-        .catch((reason) => {
+        .catch(() => {
           dispatch(
             setAlert({
-              message: "Fail to create",
+              message: "Fail to create account",
               state: Alert.Warning,
             })
           );

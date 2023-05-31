@@ -2,9 +2,8 @@ import React from "react";
 import Nav from "../../components/Nav";
 import Message from "../../components/Message";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { setTicketView, setViewData, updateTicketUrl } from "../../redux/feature_slice/TicketSlice";
+import { setTicketView, updateTicketUrl } from "../../redux/feature_slice/TicketSlice";
 import AlertBar from "../../components/AlertBar";
-import Button from "../../components/Button";
 import { textLimiter } from "../../commonFunction/common";
 import { useState } from "react";
 import {

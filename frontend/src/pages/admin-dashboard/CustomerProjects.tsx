@@ -1,8 +1,7 @@
-import React, { useCallback, useMemo, useState } from "react";
+import{ useMemo, useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
-import { IconEdit, IconPlus, IconUsers } from "@tabler/icons-react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { IconEdit, IconPlus} from "@tabler/icons-react";
 import { IconTrashFilled } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import axios from "axios";
@@ -112,14 +111,25 @@ const CustomerProjects = () => {
             className="btn btn--light btn--icon btn--no-m-bottom text-danger"
             onClick={() => {
               deleteCustomerProjectUser({ id: row.id, token: AuthRedux.token })
-                .then(() => {
-                  dispatch(updateCustomerTableUrl({ message: `update: ${Date()}` }));
-                  dispatch(
-                    setAlert({
-                      message: "Customer Deleted successful",
-                      state: Alert.Success,
-                    })
-                  );
+                .then((res:any) => {
+                  console.log(res);
+                  if(res.status===200){
+                    dispatch(updateCustomerTableUrl({ message: `update: ${Date()}` }));
+                    dispatch(
+                      setAlert({
+                        message: "Customer Deleted successful",
+                        state: Alert.Success,
+                      })
+                    );
+                  }
+                  else{
+                    dispatch(
+                      setAlert({
+                        message: "Can't Delete it has relation",
+                        state: Alert.Warning,
+                      })
+                    );
+                  }
                 })
                 .catch(() => {
                   dispatch(

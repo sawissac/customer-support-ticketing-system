@@ -1,5 +1,3 @@
-import React from "react";
-
 interface ShowIfInterface {
   sif: boolean;
   show: any;

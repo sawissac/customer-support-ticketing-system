@@ -29,7 +29,6 @@ const TicketPage = () => {
   const dispatch = useAppDispatch();
   const authRedux = useAppSelector((state) => state.auth);
   const ticketRedux = useAppSelector((state) => state.ticket);
-  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(ticketRedux.page);
   const [dataCount, setDataCount] = useState(0);
   const [ticketData, setTicketData] = useState<TicketListProps[]>([]);

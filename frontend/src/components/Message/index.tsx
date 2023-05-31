@@ -1,5 +1,4 @@
 import { IconFileDownload } from "@tabler/icons-react";
-import React from "react";
 
 interface MessageInterface {
   userName: string;
