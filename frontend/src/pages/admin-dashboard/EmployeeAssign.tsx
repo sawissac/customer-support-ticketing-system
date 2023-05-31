@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import DataTable, { createTheme } from "react-data-table-component";
+import DataTable from "react-data-table-component";
 import Nav from "../../components/Nav";
 import {
   IconArrowLeft,
@@ -17,7 +17,6 @@ import { motion } from "framer-motion";
 import Avatar from "react-avatar";
 import { Theme } from "../../redux/variable/ThemeVariable";
 import { Oval } from "react-loader-spinner";
-import { debounce } from "debounce";
 import {
   setEmployeeAssignUpdate,
   setRightSidebar,
@@ -32,7 +31,6 @@ import {
   deleteEmployeeAssignUser,
   updateEmployeeAssign,
 } from "../../requests/employeeAssignRequest";
-import dayjs from "dayjs";
 import { IconCircleFilled } from "@tabler/icons-react";
 import { compareDate, textLimiter } from "../../commonFunction/common";
 import { Alert } from "../../redux/variable/AlertVariable";
@@ -44,7 +42,7 @@ const EmployeeAssign = () => {
   const themeRedux = useAppSelector((state) => state.theme);
   const taskRedux = useAppSelector((state) => state.tasks);
   const [dataList, setDataList] = useState([]);
-  
+  const [statusClose, setStatusClose] = useState({});
   const columns = useMemo(
     () => [
       {
@@ -75,7 +73,9 @@ const EmployeeAssign = () => {
       {
         name: "Start Date",
         selector: (row: any) => {
-          return compareDate(row.start_date, row.end_date) ? "--" : row.start_date;
+          return compareDate(row.start_date, row.end_date)
+            ? "--"
+            : row.start_date;
         },
         sortable: true,
         width: "200px",
@@ -83,7 +83,9 @@ const EmployeeAssign = () => {
       {
         name: "Due Date",
         selector: (row: any) => {
-          return compareDate(row.start_date, row.end_date) ? "--" : row.end_date;
+          return compareDate(row.start_date, row.end_date)
+            ? "--"
+            : row.end_date;
         },
         sortable: true,
         width: "200px",
@@ -119,9 +121,13 @@ const EmployeeAssign = () => {
                     status: "open",
                     token: AuthRedux.token,
                   });
-                  dispatch(updateEmployeeAssignUrl({ name: `updated: ${Date()}` }));
+                  dispatch(
+                    updateEmployeeAssignUrl({ name: `updated: ${Date()}` })
+                  );
                 }}
-                className={row.status === "open" ? "status-btn-group--active" : ""}
+                className={
+                  row.status === "open" ? "status-btn-group--active" : ""
+                }
               />
               <Button
                 icon={<IconCircleHalf2 />}
@@ -133,9 +139,13 @@ const EmployeeAssign = () => {
                     status: "processing",
                     token: AuthRedux.token,
                   });
-                  dispatch(updateEmployeeAssignUrl({ name: `updated: ${Date()}` }));
+                  dispatch(
+                    updateEmployeeAssignUrl({ name: `updated: ${Date()}` })
+                  );
                 }}
-                className={row.status === "processing" ? "status-btn-group--active" : ""}
+                className={
+                  row.status === "processing" ? "status-btn-group--active" : ""
+                }
               />
               <Button
                 icon={<IconCircleFilled />}
@@ -147,9 +157,13 @@ const EmployeeAssign = () => {
                     status: "done",
                     token: AuthRedux.token,
                   });
-                  dispatch(updateEmployeeAssignUrl({ name: `updated: ${Date()}` }));
+                  dispatch(
+                    updateEmployeeAssignUrl({ name: `updated: ${Date()}` })
+                  );
                 }}
-                className={row.status === "done" ? "status-btn-group--active" : ""}
+                className={
+                  row.status === "done" ? "status-btn-group--active" : ""
+                }
               />
             </div>
           );
@@ -160,7 +174,7 @@ const EmployeeAssign = () => {
         name: "Update",
         cell: (row: any) => (
           <button
-            title="row update"
+            title="Update"
             className="btn btn--light btn--icon btn--no-m-bottom text-success"
             onClick={() => {
               dispatch(
@@ -186,12 +200,14 @@ const EmployeeAssign = () => {
         name: "Delete",
         cell: (row: any) => (
           <button
-            title="row delete"
+            title="Delete"
             className="btn btn--light btn--icon btn--no-m-bottom text-danger"
             onClick={() => {
               deleteEmployeeAssignUser({ id: row.id, token: AuthRedux.token })
                 .then(() => {
-                  dispatch(updateEmployeeAssignUrl({ name: `update: ${Date()}` }));
+                  dispatch(
+                    updateEmployeeAssignUrl({ name: `update: ${Date()}` })
+                  );
                   dispatch(
                     setAlert({
                       message: "Customer Deleted successful",
@@ -220,7 +236,7 @@ const EmployeeAssign = () => {
 
   const url = `http://127.0.0.1:8000/api/assign-ticket-list/${taskRedux.ticketId}`;
 
-  const getUsersData = async () => {
+  const getAssignTicketData = async () => {
     const res = await axios
       .get(url, {
         headers: {
@@ -232,19 +248,44 @@ const EmployeeAssign = () => {
       });
     return res;
   };
-
-  const { data, isFetching } = useQuery(
+  const { data: assignTicket, isFetching: assignTicketFetch } = useQuery(
     ["employee-assign", taskRedux.employeeUrl],
-    getUsersData
+    getAssignTicketData
+  );
+
+  const getTicketData = async () => {
+    const res = await axios
+      .get("http://127.0.0.1:8000/api/ticket", {
+        headers: {
+          Authorization: `Bearer ${AuthRedux.token}`,
+        },
+      })
+      .then((response) => {
+        return response.data;
+      });
+    return res;
+  };
+  const { data: Ticket, isFetching: TicketFetch } = useQuery(
+    ["ticket", "get"],
+    getTicketData
   );
 
   React.useEffect(() => {
-    if (data) {
-      setDataList(data.data);
+    if (assignTicket) {
+      setDataList(assignTicket.data);
     }
-  }, [data]);
+  }, [taskRedux.ticketId, assignTicket]);
 
-  if (isFetching)
+  React.useEffect(() => {
+    if (Ticket) {
+      const closeStatus = Ticket.data
+        .filter((i: any) => taskRedux.ticketId === i.id)
+        .map((i: any) => i.status);
+      setStatusClose(closeStatus.join(', '));
+    }
+  }, [taskRedux.ticketId, Ticket]);
+
+  if (assignTicketFetch || TicketFetch)
     return (
       <div className="fetching">
         <Oval
@@ -261,6 +302,9 @@ const EmployeeAssign = () => {
         />
       </div>
     );
+
+    
+      
   return (
     <>
       <div className="admin-container">
@@ -273,7 +317,8 @@ const EmployeeAssign = () => {
           }}
           rightPlacer={
             <Button
-              label="Add Employee"
+              disabled={statusClose==='close'}
+              label={statusClose==='close'? "Can't Assign" : "Add Employee"}
               icon={<IconPlus size={20} />}
               className="btn btn--light btn--block btn--no-m-bottom btn--sm"
               onClick={() => {
@@ -289,6 +334,7 @@ const EmployeeAssign = () => {
         >
           <div className="admin-container__inner">
             <DataTable
+              disabled={statusClose==="close"}
               columns={columns}
               data={dataList}
               responsive
@@ -304,7 +350,7 @@ const EmployeeAssign = () => {
       />
       <ShowIf
         sif={taskRedux.rightSideBar === "employee-assign-update"}
-        show={<EmployeeAssignUpdate/>}
+        show={<EmployeeAssignUpdate />}
       />
     </>
   );

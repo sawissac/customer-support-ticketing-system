@@ -56,11 +56,13 @@ Nav.Back = ({ label, link }: NavBack) => {
 interface NavBackButton {
   label: string;
   onClick: any;
+  disable?:boolean
 }
-Nav.BackButton = ({ label, onClick }: NavBackButton) => {
+Nav.BackButton = ({ label, onClick,disable }: NavBackButton) => {
   return (
     <div className="nav_container">
       <Button
+      disabled={disable}
         label={label}
         icon={<IconArrowLeft size={25} />}
         onClick={onClick}
