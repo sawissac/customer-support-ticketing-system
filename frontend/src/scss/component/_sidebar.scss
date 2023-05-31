@@ -103,6 +103,7 @@
       outline-color: transparent;
       border-radius: $border-radius-sm;
       border: map-get($border-widths, 1) solid $gray-200;
+     
     }
   }
   &__profile-list {
