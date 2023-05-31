@@ -10,9 +10,11 @@ interface DropdownInterface {
   offset?: any;
   toggle?: boolean;
   width?: string;
+  disable?:boolean;
 }
 
 function Dropdown({
+  disable,
   placement,
   buttonChildren,
   dropdownChildren,
@@ -52,6 +54,7 @@ function Dropdown({
   return (
     <>
       <button
+      disabled={disable}
         className={buttonClassName}
         ref={setReferenceElement}
         onClick={toggleDropdown}
