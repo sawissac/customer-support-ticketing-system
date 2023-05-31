@@ -2,7 +2,11 @@ import React from "react";
 import Nav from "../../components/Nav";
 import Message from "../../components/Message";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { setTicketView, setViewData, updateTicketUrl } from "../../redux/feature_slice/TicketSlice";
+import {
+  setTicketView,
+  setViewData,
+  updateTicketUrl,
+} from "../../redux/feature_slice/TicketSlice";
 import AlertBar from "../../components/AlertBar";
 import Button from "../../components/Button";
 import { textLimiter } from "../../commonFunction/common";
@@ -64,14 +68,18 @@ const TicketView = () => {
           back
           rightPlacer={
             <Button
-              label="Edit Ticket"
+              disabled={ticketData.status === "close"}
+              label={
+                ticketData.status === "close" ? "Can't Edit" : "Ticket Edit"
+              }
               className="btn btn--light btn--block btn--no-m-bottom btn--sm"
               onClick={() => {
                 dispatch(
                   setViewData({
                     ticketId: ticketData.id,
                     customerProjectId: ticketData.customer_project.id,
-                    customerProjectName: ticketData.customer_project.project.name,
+                    customerProjectName:
+                      ticketData.customer_project.project.name,
                     subject: ticketData.subject,
                     description: ticketData.description,
                     priority: ticketData.priority,
@@ -93,15 +101,13 @@ const TicketView = () => {
             dispatch(updateTicketUrl({ name: `updated ${Date()}` }));
           }}
         />
-        <AlertBar
-          view="customer"
-          state={ticketData.status}
-        />
+        <AlertBar view="customer" state={ticketData.status} />
         <div className="admin-container__inner">
           <fieldset className="fieldset-timer">
             <legend className="legend-timer">
               <IconFolder size={25} />
-              {ticketData.customer_project.project.name} <IconClockHour3 size={25} />
+              {ticketData.customer_project.project.name}{" "}
+              <IconClockHour3 size={25} />
               {dayjs(ticketData.created_at).fromNow()}
             </legend>
             <Message

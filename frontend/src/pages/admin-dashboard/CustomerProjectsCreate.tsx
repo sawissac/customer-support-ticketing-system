@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Dropdown from "../../components/DropDown";
 import Button from "../../components/Button";
-import { IconMenuOrder, IconUserUp } from "@tabler/icons-react";
+import { IconMenuOrder} from "@tabler/icons-react";
 import Nav from "../../components/Nav";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { createCustomerProject } from "../../requests/customerProjectsRequest";
@@ -60,7 +60,7 @@ const CustomerProjectsCreate = () => {
           dispatch(openProjectRightSidebar({name: ""}))
           dispatch(
             setAlert({
-              message: "Created Successfully",
+              message: "Customer Project Created Successfully",
               state: Alert.Success,
             })
           );
@@ -70,10 +70,10 @@ const CustomerProjectsCreate = () => {
             })
           );
         })
-        .catch((reason) => {
+        .catch(() => {
           dispatch(
             setAlert({
-              message: "Fail to create",
+              message: "Fail to create customer project",
               state: Alert.Warning,
             })
           );
