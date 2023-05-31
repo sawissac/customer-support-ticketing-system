@@ -269,7 +269,7 @@ const EmployeeAssign = () => {
     ["ticket", "get"],
     getTicketData
   );
-
+  
   React.useEffect(() => {
     if (assignTicket) {
       setDataList(assignTicket.data);
