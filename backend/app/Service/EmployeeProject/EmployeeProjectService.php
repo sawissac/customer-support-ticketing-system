@@ -22,7 +22,7 @@ class EmployeeProjectService implements EmployeeProjectServiceInterface
     public function delete($id)
     {
         $data = EmployeeProject::where('id', $id)->first();
-        
+
         $employeeAssign = EmployeeAssign::where('employee_id', $data->user_id)->exists();
 
         if ($employeeAssign) {
