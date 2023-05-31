@@ -28,6 +28,7 @@ class CustomerProjectService implements CustomerProjectServiceInterface
         if(!$isTicket) {
             return $data->delete();
         }
+
         return false;
     }
 }

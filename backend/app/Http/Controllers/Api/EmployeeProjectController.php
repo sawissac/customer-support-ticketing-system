@@ -136,9 +136,13 @@ class EmployeeProjectController extends BaseController
 
     public function destroy($id)
     {
-        $this->employeeprojectService->delete($id);
+        $data = $this->employeeprojectService->delete($id);
 
-        return $this->sendResponse([], 'EmployeeProject deleted successfully.', 204);
+        if($data) {
+            return $this->sendResponse([], 'EmployeeProject deleted successfully.', 204);
+        }else {
+            return $this->sendError('Unable to delete EmployeeProject', [], 400);
+        }
 
     }
 }

@@ -60,7 +60,7 @@ const Task = () => {
   });
 
   const url = "http://127.0.0.1:8000/api/ticket";
-  const getUsersData = async () => {
+  const getTicketData = async () => {
     const res = await axios
       .get(url, {
         headers: {
@@ -170,7 +170,6 @@ const Task = () => {
           <button
             title="Assign Employee"
             className="btn btn--light btn--icon btn--no-m-bottom text-primary"
-            disabled={row.status === "close" || row.status === "confirm"}
             onClick={() => {
               dispatch(
                 setTaskUpdate({
@@ -298,7 +297,7 @@ const Task = () => {
 
   const { data, isFetching } = useQuery<TicketListApiResponse>(
     ["tasks", taskRedux.url],
-    getUsersData
+    getTicketData
   );
 
   useEffect(() => {
@@ -309,7 +308,6 @@ const Task = () => {
           return true;
         }
       });
-      
 
       const closeFilterData = dataResponse.data.filter((i) => {
         if (i.admin_id && i.status === "close") {
@@ -355,6 +353,7 @@ const Task = () => {
     setSearchQuery(event.target.value);
     debouncedSearch(event.target.value);
   };
+
   return (
     <>
       <ShowIf
