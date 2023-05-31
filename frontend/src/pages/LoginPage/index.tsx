@@ -14,7 +14,8 @@ import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import { Alert } from "../../redux/variable/AlertVariable";
 
 import logo from "../../assets/img/logo.png";
-import loginbg from "../../assets/img/loginbg.jpg";
+// import loginbg from "../../assets/img/loginbg.jpg";
+import picture from "../../assets/img/picture.jpg";
 import { AuthApiResponse } from "../../responseInterface/AuthApiResponse";
 const LoginPage = () => {
   const dispatch = useAppDispatch();
@@ -83,7 +84,7 @@ const LoginPage = () => {
     <div className="login_container">
       <div className="login_container__inner">
         <div className="system-name">
-          <img src={loginbg} alt="" />
+          <img src={picture} alt="" />
           <div className="color-tran"></div>
           <h1>Customer Support Tickets Management System</h1>
         </div>

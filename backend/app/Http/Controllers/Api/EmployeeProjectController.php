@@ -119,6 +119,10 @@ class EmployeeProjectController extends BaseController
 
         $data = $this->employeeprojectService->update($id, $validate);
 
+        if($data){
+            return $this->sendError('Unable to update employee project', [], 422);
+        }
+
         return $this->sendResponse($data, 'EmployeeProject updated successfully.');
     }
 
