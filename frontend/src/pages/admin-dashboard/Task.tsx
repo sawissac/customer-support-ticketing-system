@@ -87,10 +87,8 @@ const Task = () => {
       },
       {
         name: "Ticket ID",
-        selector: (row: any) => {
-          
-          return <div className={`badge badge--ticket-id`}>{row.tickets_id}</div>;
-        },
+        selector: (row: any) => 
+        row.tickets_id,
         sortable: true,
         width: "150px",
       },
