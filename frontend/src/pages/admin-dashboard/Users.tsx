@@ -112,7 +112,7 @@ const Users = () => {
         name: "Update",
         cell: (row: any) => (
           <button
-            title="row update"
+            title="Update"
             className="btn btn--light btn--icon btn--no-m-bottom text-success"
             onClick={() => {
               dispatch(
@@ -135,7 +135,7 @@ const Users = () => {
         name: "Delete",
         cell: (row: any) => (
           <button
-            title="row delete"
+            title="Delete"
             className="btn btn--light btn--icon btn--no-m-bottom text-danger"
             onClick={() => {
               deleteUser({ id: row.id, token: AuthRedux.token })

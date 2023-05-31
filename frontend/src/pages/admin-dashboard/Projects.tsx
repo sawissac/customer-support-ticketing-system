@@ -81,7 +81,7 @@ const Projects = () => {
         name: "Customers",
         cell: (row: any) => (
           <button
-            title="row update"
+            title="Customers"
             className="btn btn--light btn--icon btn--no-m-bottom text-info"
             onClick={() => {
               dispatch(
@@ -103,7 +103,7 @@ const Projects = () => {
         name: "Employees",
         cell: (row: any) => (
           <button
-            title="row update"
+            title="Employees"
             className="btn btn--light btn--icon btn--no-m-bottom text-primary"
             onClick={() => {
               dispatch(
@@ -125,7 +125,7 @@ const Projects = () => {
         name: "Update",
         cell: (row: any) => (
           <button
-            title="row update"
+            title="Project Update"
             className="btn btn--light btn--icon btn--no-m-bottom text-success"
             onClick={() => {
               dispatch(

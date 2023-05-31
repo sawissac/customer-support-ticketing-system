@@ -13,11 +13,8 @@ import {
   setTaskUpdate,
   setTaskView,
 } from "../../redux/feature_slice/EmployeeAssignmentSlice";
-// import TaskCreate from "./TaskCreate";
 import DataTable from "react-data-table-component";
 import { Theme } from "../../redux/variable/ThemeVariable";
-// import TaskUpdate from "./TaskUpdate";
-// import EmployeeAssign from "./EmployeeAssign";
 import "react-responsive-modal/styles.css";
 import { requestAxiosWithToken } from "../../routes/request";
 import {
