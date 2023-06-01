@@ -3,18 +3,19 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
-use App\Models\Ticket;
 use App\Service\Ticket\TicketServiceInterface;
 use App\Repository\Ticket\TicketRepositoryInterface;
+<<<<<<< HEAD
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Events\Validated;
 use Nette\Utils\Json;
 use PhpParser\Node\Expr;
 use Symfony\Component\CssSelector\Node\FunctionNode;
+=======
+>>>>>>> main
 
 class TicketController extends BaseController
 {
@@ -93,7 +94,7 @@ class TicketController extends BaseController
                 'description' => 'required',
                 'status' => 'required',
                 'priority' => 'nullable',
-                'drive_link' => 'nullable',
+                'drive_link' => 'nullable|url',
                 'admin_id' => 'nullable',
                 'start_date' => 'nullable',
                 'end_date' => 'nullable',

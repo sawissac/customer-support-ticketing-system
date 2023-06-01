@@ -6,7 +6,11 @@ import Button from "../../components/Button";
 import ShowIf from "../../components/Helper";
 import TicketCreate from "./TicketCreate";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { setPage, setTicketView, setViewData } from "../../redux/feature_slice/TicketSlice";
+import {
+  setPage,
+  setTicketView,
+  setViewData,
+} from "../../redux/feature_slice/TicketSlice";
 import { useQuery } from "react-query";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -37,7 +41,7 @@ const TicketPage = () => {
   const itemsPerPage = 6;
   const url = "http://127.0.0.1:8000/api/ticket";
 
-  const { data, isFetching} = useQuery<TicketListApiResponse>(
+  const { data, isFetching } = useQuery<TicketListApiResponse>(
     ["tickets", ticketRedux.url],
     requestAxiosWithToken(url, authRedux.token)
   );
@@ -46,20 +50,25 @@ const TicketPage = () => {
     const dataResponse = data;
     const openTicket: TicketListProps[] = [];
     const closedTicket: TicketListProps[] = [];
-    const filteredTicket: TicketListProps[] = dataResponse.data.filter((ticket) => {
-      if (ticket.status === "close") {
-        closedTicket.push(ticket);
-        return false;
-      } else if (ticket.status === "open") {
-        openTicket.push(ticket);
-        return false;
-      } else {
-        return true;
+    const filteredTicket: TicketListProps[] = dataResponse.data.filter(
+      (ticket) => {
+        if (ticket.status === "close") {
+          closedTicket.push(ticket);
+          return false;
+        } else if (ticket.status === "open") {
+          openTicket.push(ticket);
+          return false;
+        } else {
+          return true;
+        }
       }
-    });
+    );
     filteredTicket.push(...openTicket, ...closedTicket);
     setTicketData(
-      filteredTicket.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
+      filteredTicket.slice(
+        currentPage * itemsPerPage,
+        (currentPage + 1) * itemsPerPage
+      )
     );
     setTicketTempData(filteredTicket);
     setDataCount(filteredTicket.length);
@@ -89,7 +98,6 @@ const TicketPage = () => {
       </div>
     );
   }
- 
 
   const handlePageChange = ({ selected }: any) => {
     setCurrentPage(selected);
@@ -113,16 +121,27 @@ const TicketPage = () => {
       if (item.priority.toLowerCase() === value.toLowerCase()) {
         return true;
       }
-      if (item.customer_project.project.name.toLowerCase().includes(value.toLowerCase())) {
+      if (
+        item.customer_project.project.name
+          .toLowerCase()
+          .includes(value.toLowerCase())
+      ) {
         return true;
       }
       if (item.subject.toLowerCase().includes(value.toLowerCase())) {
         return true;
       }
-      if (item.customer_project.user.name.toLowerCase().includes(value.toLowerCase())) {
+      if (
+        item.customer_project.user.name
+          .toLowerCase()
+          .includes(value.toLowerCase())
+      ) {
         return true;
       }
-      if (item.customer_project.project.project_id.toLowerCase() === value.toLowerCase()) {
+      if (
+        item.customer_project.project.project_id.toLowerCase() ===
+        value.toLowerCase()
+      ) {
         return true;
       }
     });
@@ -143,6 +162,7 @@ const TicketPage = () => {
       dataInit(data);
     }
   }, 1000);
+
   return (
     <>
       <ShowIf
@@ -193,12 +213,13 @@ const TicketPage = () => {
                 />
               </div>
 
-              {ticketData.map((i: any, index: number) => {
-                return (
-                  <div
-                    className="col-4"
-                    key={index}
-                  >
+              {ticketData.length === 0 && searchQuery.length === 0 ? (
+                <div className="nodata">
+                  <h5>There is no ticket</h5>
+                </div>
+              ) : (
+                ticketData.map((i: any, index: number) => (
+                  <div className="col-4" key={index}>
                     <TicketList
                       projectName={`${i.customer_project.project.name}`}
                       userView
@@ -214,7 +235,8 @@ const TicketPage = () => {
                           setViewData({
                             ticketId: i.id,
                             customerProjectId: i.customer_project.id,
-                            customerProjectName: i.customer_project.project.name,
+                            customerProjectName:
+                              i.customer_project.project.name,
                             subject: i.subject,
                             description: i.description,
                             priority: i.priority,
@@ -230,8 +252,8 @@ const TicketPage = () => {
                       }}
                     />
                   </div>
-                );
-              })}
+                ))
+              )}
             </div>
           </div>
         }
@@ -240,10 +262,7 @@ const TicketPage = () => {
         sif={ticketRedux.view === "ticket-create"}
         show={<TicketCreate />}
       />
-      <ShowIf
-        sif={ticketRedux.view === "ticket-view"}
-        show={<TicketView />}
-      />
+      <ShowIf sif={ticketRedux.view === "ticket-view"} show={<TicketView />} />
       <ShowIf
         sif={ticketRedux.view === "ticket-update"}
         show={<TicketUpdate />}

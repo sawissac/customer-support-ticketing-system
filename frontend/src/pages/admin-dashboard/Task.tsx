@@ -458,7 +458,7 @@ const Task = () => {
                   }).then(() => {
                     dispatch(
                       setAlert({
-                        message: "Fix Successfully",
+                        message: "Status Change Successfully",
                         state: Alert.Success,
                       })
                     );
