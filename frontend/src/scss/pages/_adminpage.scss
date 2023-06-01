@@ -23,6 +23,10 @@
   }
   &__inner {
     padding: map-get($spacers, 3) map-get($spacers, 4);
+    .nodata{
+      width: 100%;
+      text-align: center;
+    }
   }
   &__header{
     display: flex;
