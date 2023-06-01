@@ -3,11 +3,12 @@ import DataTable from "react-data-table-component";
 import Nav from "../../components/Nav";
 import {
   IconArrowLeft,
-  IconCircleHalf2,
-  IconCircleMinus,
+  IconDotsCircleHorizontal,
+  IconCodeCircle,
+  IconCircleCheck,
   IconEdit,
 } from "@tabler/icons-react";
-import { IconTrashFilled } from "@tabler/icons-react";
+import { IconTrashFilled} from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { useQuery } from "react-query";
 import axios from "axios";
@@ -112,7 +113,7 @@ const EmployeeAssign = () => {
           return (
             <div className="status-btn-group">
               <Button
-                icon={<IconCircleMinus />}
+                icon={<IconDotsCircleHorizontal />}
                 label=""
                 title="still open"
                 onClick={() => {
@@ -130,7 +131,7 @@ const EmployeeAssign = () => {
                 }
               />
               <Button
-                icon={<IconCircleHalf2 />}
+                icon={<IconCodeCircle/>}
                 label=""
                 title="processing"
                 onClick={() => {
@@ -148,7 +149,7 @@ const EmployeeAssign = () => {
                 }
               />
               <Button
-                icon={<IconCircleFilled />}
+                icon={<IconCircleCheck />}
                 label=""
                 title="done"
                 onClick={() => {

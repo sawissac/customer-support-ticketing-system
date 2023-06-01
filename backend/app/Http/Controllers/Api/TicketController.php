@@ -47,7 +47,7 @@ class TicketController extends BaseController
                 'description' => 'required',
                 'status' => 'nullable',
                 'priority' => 'nullable',
-                'drive_link' => 'nullable',
+                'drive_link' => 'nullable|url',
                 'admin_id' => 'nullabe',
                 'start_date' => 'nullable',
                 'end_date' => 'nullable',
@@ -55,7 +55,7 @@ class TicketController extends BaseController
         );
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors(), 422);
+            return $this->sendError('Validation Error.', $validator->errors(), 400);
         }
 
         $data = $this->ticketService->store($validate);
@@ -87,15 +87,15 @@ class TicketController extends BaseController
                 'description' => 'required',
                 'status' => 'nullable',
                 'priority' => 'nullable',
-                'drive_link' => 'nullable',
+                'drive_link' => 'nullable|url',
                 'admin_id' => 'nullable',
                 'start_date' => 'nullable',
                 'end_date' => 'nullable',
             ]
         );
 
-        if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors(), 422);
+        if ($validator->has('drive_link')) {
+            return $this->sendError('Unable to create ticket', [], 400);
         }
 
         $data = $this->ticketService->update($id, $validate);

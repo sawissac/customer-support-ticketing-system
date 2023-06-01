@@ -47,11 +47,6 @@ class RoleAndPermissionSeeder extends Seeder
         $canDeleteTickets = Permission::create(['name' => 'canDeleteTickets']);
         $canShowTickets = Permission::create(['name' => 'canShowTickets']);
 
-        $canCreateReport = Permission::create(['name' => 'canCreateReport']);
-        $canUpdateReport = Permission::create(['name' => 'canUpdateReport']);
-        $canDeleteReport = Permission::create(['name' => 'canDeleteReportHistory']);
-        $canShowReport = Permission::create(['name' => 'canShowReport']);
-
         $canCreateAssignEmployee = Permission::create(['name' => 'canCreateAssignEmployee']);
         $canUpdateAssignEmployee = Permission::create(['name' => 'canUpdateAssignEmployee']);
         $canDeleteAssignEmployee = Permission::create(['name' => 'canDeleteAssignEmployee']);
@@ -83,11 +78,6 @@ class RoleAndPermissionSeeder extends Seeder
             $canUpdateTickets,
             $canDeleteTickets,
             $canShowTickets,
-
-            $canShowReport,
-            $canCreateReport,
-            $canUpdateReport,
-            $canDeleteReport,
 
             $canCreateAssignEmployee,
             $canUpdateAssignEmployee,
