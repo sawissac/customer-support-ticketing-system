@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
 use App\Service\Ticket\TicketServiceInterface;
@@ -93,8 +92,8 @@ class TicketController extends BaseController
             ]
         );
 
-        if ($validator->has('drive_link')) {
-            return $this->sendError('Unable to create ticket', [], 400);
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors(), 400);
         }
 
         $data = $this->ticketService->update($id, $validate);
@@ -117,21 +116,14 @@ class TicketController extends BaseController
     {
         $result = $this->ticketRepo->checkTicketList();
 
-        if($result){
-            return $this->sendResponse($result,'Monthly Tickets successfully.',200);
-        }else{
-            return $this->sendError('Unable monthly tickets', [], 400);
-        }
+        return $this->sendResponse($result,'Monthly Tickets successfully.',200);
+
     }
 
     public function checkDate($id)
     {
         $result = $this->ticketRepo->checkDate($id);
 
-        if($result){
-            return $this->sendResponse($result, 'Tickets of Date successfully.',200);
-        }else{
-            return $this->sendError('Unable ticktets date', [], 400);
-        }
+        return $this->sendResponse($result, 'Tickets of Date successfully.',200);
     }
 }
