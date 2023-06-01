@@ -163,8 +163,6 @@ const TicketPage = () => {
     }
   }, 1000);
 
-  console.log(ticketData);
-
   return (
     <>
       <ShowIf
