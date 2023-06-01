@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\CustomerProject;
-
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Api\BaseController;
-
 use App\Repository\CustomerProject\CustomerProjectRepoInterface;
 use App\Service\CustomerProject\CustomerProjectServiceInterface;
 use Exception;
