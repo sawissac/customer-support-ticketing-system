@@ -192,7 +192,7 @@ const TicketPage = () => {
                 />
               </div>
 
-              {ticketData.length === 0 && handleSearchChange.length === 0 ? (
+              {ticketData.length === 0 && debouncedSearch.length === 0 ? (
                 <div className="nodata">
                   <h5>There is no ticket</h5>
                 </div>
