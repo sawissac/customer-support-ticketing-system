@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Dropdown from "../../components/DropDown";
 import Button from "../../components/Button";
-import { IconMenuOrder, IconUserUp } from "@tabler/icons-react";
+import { IconMenuOrder } from "@tabler/icons-react";
 import Nav from "../../components/Nav";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { useNavigate } from "react-router-dom";
-import { getAllProject } from "../../requests/projectRequest";
-import {
-  createCustomerProject,
-  updateCustomerProject,
-} from "../../requests/customerProjectsRequest";
+import { updateCustomerProject } from "../../requests/customerProjectsRequest";
 import { Alert } from "../../redux/variable/AlertVariable";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
 import FormWarper from "../../components/FormWarper";
@@ -25,7 +20,6 @@ import Input from "../../components/Input";
 import { debounce } from "debounce";
 
 const CustomerProjectsUpdate = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
   const projectPageRedux = useAppSelector((state) => state.projectSidebar);
@@ -85,7 +79,7 @@ const CustomerProjectsUpdate = () => {
             })
           );
         })
-        .catch((reason) => {
+        .catch(() => {
           dispatch(
             setAlert({
               message: "Fail to create",

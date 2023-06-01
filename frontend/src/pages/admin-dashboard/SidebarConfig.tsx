@@ -1,9 +1,9 @@
 import { IconCalendarEvent, IconChartBar, IconTicket, IconUsers } from "@tabler/icons-react";
 import { SideBarLink } from "../../components/SideBar";
 import { IconFolder } from "@tabler/icons-react";
-import { resetTicketPage, setTicketView } from "../../redux/feature_slice/TicketSlice";
-import { resetEmployeeAssignPage, setTaskView } from "../../redux/feature_slice/EmployeeAssignmentSlice";
-import { resetProjectPage, setProjectView } from "../../redux/feature_slice/ProjectPageSlice";
+import { resetTicketPage } from "../../redux/feature_slice/TicketSlice";
+import { resetEmployeeAssignPage } from "../../redux/feature_slice/EmployeeAssignmentSlice";
+import { resetProjectPage } from "../../redux/feature_slice/ProjectPageSlice";
 import { resetUserPage } from "../../redux/feature_slice/UserPageSlice";
 
 

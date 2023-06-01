@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Dropdown from "../../components/DropDown";
 import Button from "../../components/Button";
-import { IconMenuOrder, IconUserUp } from "@tabler/icons-react";
+import { IconMenuOrder } from "@tabler/icons-react";
 import Nav from "../../components/Nav";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { setAlert } from "../../redux/feature_slice/AlertSlice";
@@ -18,7 +18,6 @@ import Input from "../../components/Input";
 import { UserApiResponse } from "../../responseInterface/UserApiResponse";
 import { EmployeeListApiResponse } from "../../responseInterface/EmployeeListApiResponse";
 import { debounce } from "debounce";
-import { setRightSidebar } from "../../redux/feature_slice/EmployeeAssignmentSlice";
 const EmployeeProjectsUpdate = () => {
   const dispatch = useAppDispatch();
   const AuthRedux = useAppSelector((state) => state.auth);
