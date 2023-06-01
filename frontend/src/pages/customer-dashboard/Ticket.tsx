@@ -192,12 +192,13 @@ const TicketPage = () => {
                 />
               </div>
 
-              {ticketData.map((i: any, index: number) => {
-                return (
-                  <div
-                    className="col-4"
-                    key={index}
-                  >
+              {ticketData.length === 0 && handleSearchChange.length === 0 ? (
+                <div className="nodata">
+                  <h5>There is no ticket</h5>
+                </div>
+              ) : (
+                ticketData.map((i: any, index: number) => (
+                  <div className="col-4" key={index}>
                     <TicketList
                       projectName={`${i.customer_project.project.name}`}
                       userView
@@ -213,7 +214,8 @@ const TicketPage = () => {
                           setViewData({
                             ticketId: i.id,
                             customerProjectId: i.customer_project.id,
-                            customerProjectName: i.customer_project.project.name,
+                            customerProjectName:
+                              i.customer_project.project.name,
                             subject: i.subject,
                             description: i.description,
                             priority: i.priority,
@@ -229,8 +231,8 @@ const TicketPage = () => {
                       }}
                     />
                   </div>
-                );
-              })}
+                ))
+              )}
             </div>
           </div>
         }
