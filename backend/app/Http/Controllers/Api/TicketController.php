@@ -63,7 +63,6 @@ class TicketController extends BaseController
         }
 
         $data = $this->ticketService->store($validate);
-
         return $this->sendResponse($data, 'Ticket created successfully.', 201);
     }
 
@@ -118,7 +117,7 @@ class TicketController extends BaseController
     {
         $result = $this->ticketRepo->checkTicketList();
 
-        return $this->sendResponse($result,'Monthly Tickets successfully.');
+        return $this->sendResponse($result, 'Monthly Tickets successfully.');
     }
 
     public function checkDate($id)

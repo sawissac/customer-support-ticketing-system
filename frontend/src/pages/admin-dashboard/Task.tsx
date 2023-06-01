@@ -87,11 +87,10 @@ const Task = () => {
       },
       {
         name: "Ticket ID",
-        selector: (row: any) => 
-        row.tickets_id,
+        selector: (row: any) => row.tickets_id,
         sortable: true,
         width: "150px",
-    },
+      },
       {
         name: "Admin Name",
         cell: (row: any) => {
@@ -195,7 +194,11 @@ const Task = () => {
         cell: (row: any) => (
           <button
             title="Update"
-            className="btn btn--light btn--icon btn--no-m-bottom text-success"
+            className={
+              row.status === "close" || row.status === "confirm"
+                ? "btn btn--light btn--icon btn--no-m-bottom text-success btn--disable"
+                : "btn btn--light btn--icon btn--no-m-bottom text-success"
+            }
             disabled={row.status === "close" || row.status === "confirm"}
             onClick={() => {
               dispatch(
@@ -220,7 +223,11 @@ const Task = () => {
         cell: (row: any) => (
           <button
             title="Fix"
-            className="btn btn--light btn--icon btn--no-m-bottom"
+            className={
+              row.status === "close" || row.status === "confirm"
+                ? "btn btn--light btn--icon btn--no-m-bottom btn--disable"
+                : "btn btn--light btn--icon btn--no-m-bottom"
+            }
             disabled={row.status === "close" || row.status === "confirm"}
             onClick={() => {
               const total = row.employee_assign.length;
@@ -262,7 +269,11 @@ const Task = () => {
         cell: (row: any) => (
           <button
             title="Close"
-            className="btn btn--light btn--icon btn--no-m-bottom"
+            className={
+              row.status === "close"
+                ? "btn btn--light btn--icon btn--no-m-bottom btn--disable"
+                : "btn btn--light btn--icon btn--no-m-bottom"
+            }
             disabled={row.status === "close"}
             onClick={() => {
               setModalOpen(true);

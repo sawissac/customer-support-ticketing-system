@@ -269,7 +269,7 @@ const EmployeeAssign = () => {
     ["ticket", "get"],
     getTicketData
   );
-  
+
   React.useEffect(() => {
     if (assignTicket) {
       setDataList(assignTicket.data);
@@ -281,7 +281,7 @@ const EmployeeAssign = () => {
       const closeStatus = Ticket.data
         .filter((i: any) => taskRedux.ticketId === i.id)
         .map((i: any) => i.status);
-      setStatusClose(closeStatus.join(', '));
+      setStatusClose(closeStatus.join(", "));
     }
   }, [taskRedux.ticketId, Ticket]);
 
@@ -303,8 +303,6 @@ const EmployeeAssign = () => {
       </div>
     );
 
-    
-      
   return (
     <>
       <div className="admin-container">
@@ -317,10 +315,18 @@ const EmployeeAssign = () => {
           }}
           rightPlacer={
             <Button
-              disabled={statusClose==='close'}
-              label={statusClose==='close'? "Can't Assign" : "Add Employee"}
+              disabled={statusClose === "close" || statusClose === "confirm"}
+              label={
+                statusClose === "close" || statusClose === "confirm"
+                  ? "Can't Assign Employee"
+                  : "Assign Employee"
+              }
               icon={<IconPlus size={20} />}
-              className="btn btn--light btn--block btn--no-m-bottom btn--sm"
+              className={
+                statusClose === "close" || statusClose === "confirm"
+                  ? "btn btn--light btn--block btn--no-m-bottom btn--sm btn--disable"
+                  : "btn btn--light btn--block btn--no-m-bottom btn--sm"
+              }
               onClick={() => {
                 dispatch(setRightSidebar({ name: "employee-assign-create" }));
               }}
@@ -334,7 +340,7 @@ const EmployeeAssign = () => {
         >
           <div className="admin-container__inner">
             <DataTable
-              disabled={statusClose==="close"}
+              disabled={statusClose === "close" || statusClose === "confirm"}
               columns={columns}
               data={dataList}
               responsive
@@ -346,7 +352,7 @@ const EmployeeAssign = () => {
       </div>
       <ShowIf
         sif={taskRedux.rightSideBar === "employee-assign-create"}
-        show={<EmployeeAssignCreate/>}
+        show={<EmployeeAssignCreate />}
       />
       <ShowIf
         sif={taskRedux.rightSideBar === "employee-assign-update"}
