@@ -168,7 +168,7 @@
         }
     }
     .badge {
-        <<<<<<< HEAD display: inline-block;
+        display: inline-block;
         width: 100px;
         color: $white;
         border-radius: $border-radius-lg;
@@ -197,30 +197,5 @@
             color: $black;
             font-weight: normal;
         }
-    }
-    display: inline-block;
-    width: 100px;
-    padding: 2px 8px;
-    color: $white;
-    border-radius: $border-radius-sm;
-    font-weight: bold;
-    text-align: center;
-    &--open {
-        background-color: rgba(75, 192, 192);
-    }
-    &--processing {
-        background-color: rgba(255, 206, 86);
-    }
-    &--done {
-        background-color: rgba(54, 162, 235, 1);
-    }
-    &--fixed {
-        background-color: rgba(153, 102, 255, 1);
-    }
-    &--confirm {
-        background-color: rgba(243, 112, 33, 1);
-    }
-    &--close {
-        background-color: rgba(255, 99, 132, 1);
     }
 }
