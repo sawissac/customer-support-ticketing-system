@@ -59,7 +59,6 @@ class TicketController extends BaseController
         }
 
         $data = $this->ticketService->store($validate);
-
         return $this->sendResponse($data, 'Ticket created successfully.', 201);
     }
 

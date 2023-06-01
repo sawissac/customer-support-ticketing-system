@@ -8,7 +8,6 @@ import { motion } from "framer-motion";
 import { Theme } from "../../redux/variable/ThemeVariable";
 import { Oval } from "react-loader-spinner";
 import {
-  setRightSidebar,
   setTaskView,
   updateEmployeeAssignUrl,
   updateTaskUrl,

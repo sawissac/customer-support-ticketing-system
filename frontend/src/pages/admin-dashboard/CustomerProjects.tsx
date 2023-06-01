@@ -112,7 +112,7 @@ const CustomerProjects = () => {
             onClick={() => {
               deleteCustomerProjectUser({ id: row.id, token: AuthRedux.token })
                 .then((res:any) => {
-                  console.log(res);
+                  
                   if(res.status===200){
                     dispatch(updateCustomerTableUrl({ message: `update: ${Date()}` }));
                     dispatch(
