@@ -197,7 +197,7 @@ const TicketCreate = () => {
                                   value: i.id,
                                 });
                               }}
-                              label={`${i.project.name}:#${i.user.name}`}
+                              label={`${i.project.name}`}
                             />
                           );
                         })}
