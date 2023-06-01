@@ -3,9 +3,8 @@ import DataTable from "react-data-table-component";
 import Nav from "../../components/Nav";
 import {
   IconArrowLeft,
-  IconDotsCircleHorizontal,
-  IconCodeCircle,
-  IconCircleCheck,
+  IconCircleHalf2,
+  IconCircleMinus,
   IconEdit,
 } from "@tabler/icons-react";
 import { IconTrashFilled} from "@tabler/icons-react";
@@ -113,7 +112,7 @@ const EmployeeAssign = () => {
           return (
             <div className="status-btn-group">
               <Button
-                icon={<IconDotsCircleHorizontal />}
+                icon={<IconCircleMinus/>}
                 label=""
                 title="still open"
                 onClick={() => {
@@ -131,7 +130,7 @@ const EmployeeAssign = () => {
                 }
               />
               <Button
-                icon={<IconCodeCircle/>}
+                icon={<IconCircleHalf2/>}
                 label=""
                 title="processing"
                 onClick={() => {
@@ -149,7 +148,7 @@ const EmployeeAssign = () => {
                 }
               />
               <Button
-                icon={<IconCircleCheck />}
+                icon={<IconCircleFilled />}
                 label=""
                 title="done"
                 onClick={() => {

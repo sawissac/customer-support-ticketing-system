@@ -41,8 +41,8 @@ class EmployeeAssignController extends BaseController
             'project_id' => 'required',
             'employee_id' => 'required',
             'ticket_id' => 'required',
-            'status' => 'required',
-            'task_name' => 'required',
+            'status' => 'nullable',
+            'task_name' => 'nullable',
             'start_date' => 'nullable',
             'end_date' => 'nullable',
         ]);
@@ -76,8 +76,8 @@ class EmployeeAssignController extends BaseController
         $validator = Validator::make($data, [
             'employee_id' => 'required',
             'ticket_id' => 'required',
-            'status' => 'required',
-            'task_name' => 'required',
+            'status' => 'nullable',
+            'task_name' => 'nullable',
             'start_date' => 'nullable',
             'end_date' => 'nullable',
         ]);
