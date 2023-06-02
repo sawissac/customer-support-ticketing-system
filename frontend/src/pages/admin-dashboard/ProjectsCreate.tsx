@@ -70,7 +70,7 @@ const ProjectCreate = () => {
         initial={{ x: "20px", opacity: 0 }}
         animate={{ x: "0px", opacity: 1 }}
       >
-        <FormWarper route="/api/project">
+        <FormWarper route="projects">
           <Input
             label="Name"
             errorMessage="*require"
