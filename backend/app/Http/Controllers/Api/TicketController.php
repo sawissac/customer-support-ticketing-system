@@ -7,15 +7,6 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
 use App\Service\Ticket\TicketServiceInterface;
 use App\Repository\Ticket\TicketRepositoryInterface;
-<<<<<<< HEAD
-use Carbon\Carbon;
-use Exception;
-use Illuminate\Auth\Events\Validated;
-use Nette\Utils\Json;
-use PhpParser\Node\Expr;
-use Symfony\Component\CssSelector\Node\FunctionNode;
-=======
->>>>>>> main
 
 class TicketController extends BaseController
 {
