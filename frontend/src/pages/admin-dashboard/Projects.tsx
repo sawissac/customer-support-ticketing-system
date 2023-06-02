@@ -65,7 +65,7 @@ const Projects = () => {
         cell: (row: any) => (
           <div className="avatar-profile">
             <div className={`avatar-profile__circle`}>
-              <IconFolder size={20} />
+              <a href=""><IconFolder size={20} /></a>
             </div>
             {row.name}
           </div>

@@ -1,0 +1,24 @@
+.progress-wrapper {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.progress-container {
+  background-color: $gray-200;
+  width: 100px;
+  &--dark {
+    background-color: #2b2d31;
+    width: 100px;
+  }
+}
+
+.progress-label {
+  font-size: 13px;
+  padding: 20px;
+  color: $dark;
+  &--dark {
+    color: $white;
+    font-size: 13px;
+    padding: 20px;
+  }
+}
