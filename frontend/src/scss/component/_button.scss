@@ -1,130 +1,174 @@
-.btn_container {
-    display: flex;
-}
-
-.btn {
-    cursor: pointer;
-    border-color: transparent;
-    outline-color: transparent;
-    width: max-content;
-    font-size: $h6-font-size;
-    border-radius: $border-radius-sm;
-    padding: 1rem * 0.7;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: map-get($spacers, 2);
-    text-decoration: none;
-    font-weight: $font-weight-normal;
-    font-family: $font-family-roboto;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    &--no-m-bottom {
-        margin-bottom: 0;
+        .btn_container {
+        display: flex;
     }
-    &--primary {
-        @include interactive("orange");
-        color: $white;
-    }
-    &--light {
-        @include interactive("gray");
-        border: 1px solid $gray-300;
-        color: $dark;
-    }
-    &--block {
-        width: 100%;
-    }
-    &--form {
-        @include interactive("orange");
-        background-color: $orange;
-        color: $white;
-        width: 150px;
-        height: 45px;
-        margin-top: map-get($spacers, 3);
-    }
-    &--outline {
-        margin: 0px map-get($spacers, 2);
-        border: 1px solid $white;
-        color: $white;
-        background: $primary;
-    }
-    &--assign-employee {
-        background-color: $orange;
-        color: $white;
-        width: 80%;
-        @include interactive("orange");
-    }
-    &--ticket-view {
-        width: 80px;
-        @include interactive("gray");
-    }
-    &--icon {
-        aspect-ratio: 1/1;
-        padding: map-get($spacers, 2);
-        border-radius: $border-radius-pill;
-        background-color: transparent;
-        border: 0px;
-    }
-    &--sm {
-        padding: map-get($spacers, 1);
-    }
-    &--disable {
-        opacity: 50%;
-    }
-}
-
-.status-btn-group {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    white-space: nowrap;
-    /* Prevent line breaks */
-    overflow: hidden;
-    /* Hide the overflowing text */
-    white-space: pre-wrap;
-    width: 300px;
-    button {
-        @include interactive("gray");
-        flex: 1;
-        padding: map-get($spacers, 2);
+    
+    .btn {
+        cursor: pointer;
         border-color: transparent;
         outline-color: transparent;
-        svg {
+        width: max-content;
+        font-size: $h6-font-size;
+        border-radius: $border-radius-sm;
+        padding: 1rem * 0.7;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: map-get($spacers, 2);
+        text-decoration: none;
+        font-weight: $font-weight-normal;
+        font-family: $font-family-roboto;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        &--no-m-bottom {
+            margin-bottom: 0;
+        }
+        &--primary {
+            @include interactive("orange");
+            color: $white;
+        }
+        &--light {
+            @include interactive("gray");
+            border: 1px solid $gray-300;
             color: $dark;
         }
-    }
-    &--active {
-        svg {
-            color: $info !important;
+        &--block {
+            width: 100%;
         }
-    }
-}
-
-.badge {
-    display: inline-block;
-    width: 100px;
-    padding: 2px 8px;
-    color: $white;
-    border-radius: $border-radius-sm;
-    font-weight: bold;
-    text-align: center;
-    &--open {
-        background-color: rgba(75, 192, 192);
-    }
-    &--processing {
-        background-color: rgba(255, 206, 86);
-    }
-    &--done {
-        background-color: rgba(54, 162, 235, 1);
-    }
-    &--fixed {
-        background-color: rgba(153, 102, 255, 1);
-    }
-    &--confirm {
-        background-color: rgba(243, 112, 33, 1);
-    }
-    &--close {
-        background-color: rgba(255, 99, 132, 1);
-    }
-}
+        &--form {
+            @include interactive("orange");
+            background-color: $orange;
+            color: $white;
+            width: 150px;
+            height: 45px;
+            margin-top: map-get($spacers, 3);
+        }
+        &--outline {
+            margin: 0px map-get($spacers, 2);
+            color: $dark;
+            background: $white;
+        }
+        .btn {
+            cursor: pointer;
+            border-color: transparent;
+            outline-color: transparent;
+            width: max-content;
+            font-size: $h6-font-size;
+            border-radius: $border-radius-sm;
+            padding: 1rem * 0.7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: map-get($spacers, 2);
+            text-decoration: none;
+            font-weight: $font-weight-normal;
+            font-family: $font-family-roboto;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            &--no-m-bottom {
+                margin-bottom: 0;
+            }
+            &--primary {
+                @include interactive("orange");
+                color: $white;
+            }
+            &--light {
+                @include interactive("gray");
+                border: 1px solid $gray-300;
+                color: $dark;
+            }
+            &--block {
+                width: 100%;
+            }
+            &--form {
+                @include interactive("orange");
+                background-color: $orange;
+                color: $white;
+                width: 150px;
+                height: 45px;
+                margin-top: map-get($spacers, 3);
+            }
+            &--outline {
+                margin: 0px map-get($spacers, 2);
+                border: 1px solid $white;
+                color: $white;
+                background: $primary;
+            }
+            &--assign-employee {
+                background-color: $orange;
+                color: $white;
+                width: 80%;
+                @include interactive("orange");
+            }
+            &--ticket-view {
+                width: 80px;
+                @include interactive("gray");
+            }
+            &--icon {
+                aspect-ratio: 1/1;
+                padding: map-get($spacers, 2);
+                border-radius: $border-radius-pill;
+                background-color: transparent;
+                border: 0px;
+            }
+            &--sm {
+                padding: map-get($spacers, 1);
+            }
+            &--disable {
+                opacity: 50%;
+            }
+        }
+        .status-btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            white-space: nowrap;
+            /* Prevent line breaks */
+            overflow: hidden;
+            /* Hide the overflowing text */
+            white-space: pre-wrap;
+            width: 300px;
+            button {
+                @include interactive("gray");
+                flex: 1;
+                padding: map-get($spacers, 2);
+                border-color: transparent;
+                outline-color: transparent;
+                svg {
+                    color: $dark;
+                }
+            }
+            &--active {
+                svg {
+                    color: $info !important;
+                }
+            }
+        }
+        .badge {
+            display: inline-block;
+            width: 100px;
+            padding: 2px 8px;
+            color: $white;
+            border-radius: $border-radius-sm;
+            font-weight: bold;
+            text-align: center;
+            &--open {
+                background-color: rgba(75, 192, 192);
+            }
+            &--processing {
+                background-color: rgba(255, 206, 86);
+            }
+            &--done {
+                background-color: rgba(54, 162, 235, 1);
+            }
+            &--fixed {
+                background-color: rgba(153, 102, 255, 1);
+            }
+            &--confirm {
+                background-color: rgba(243, 112, 33, 1);
+            }
+            &--close {
+                background-color: rgba(255, 99, 132, 1);
+            }
+        }

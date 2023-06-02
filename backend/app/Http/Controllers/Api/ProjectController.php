@@ -95,9 +95,13 @@ class ProjectController extends BaseController
                 'name' => 'required',
             ]);
 
-        if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors(), 422);
-        }
+            $validator = Validator::make(
+                $validate,
+                [
+                    'project_id' => 'string',
+                    'name' => 'required|string',
+                ]
+            );
 
         $data = $this->projectServcie->update($id, $validate);
 

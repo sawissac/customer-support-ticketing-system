@@ -88,8 +88,10 @@ export const TaskTableConfig = (employeeClickHandler: any) => [
     cell: (row: AssignEmployeeListTicketProps) => (
       <button
         title="Assigned Employee"
-        className="btn btn--light btn--icon btn--no-m-bottom text-primary"
-        disabled={row.status==="close"}
+        className={row.status==="close" || row.status==="confirm"?
+        "btn btn--light btn--icon btn--no-m-bottom text-primary btn--disable" :
+        "btn btn--light btn--icon btn--no-m-bottom text-primary"}
+        disabled={row.status==="close" || row.status==="confirm"}
         onClick={() => {
           employeeClickHandler(row);
         }}

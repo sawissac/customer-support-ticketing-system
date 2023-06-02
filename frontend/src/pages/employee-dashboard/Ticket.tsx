@@ -8,7 +8,11 @@ import { debounce } from "debounce";
 import { Oval } from "react-loader-spinner";
 import { IconMessage2 } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { setPage, setTicketView, setViewData } from "../../redux/feature_slice/TicketSlice";
+import {
+  setPage,
+  setTicketView,
+  setViewData,
+} from "../../redux/feature_slice/TicketSlice";
 import { requestAxiosWithToken } from "../../routes/request";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -28,8 +32,12 @@ const Ticket = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [dataCount, setDataCount] = useState(0);
-  const [ticketData, setTicketData] = useState<AssignEmployeeListTicketProps[]>([]);
-  const [ticketTempDat, setTicketTempData] = useState<AssignEmployeeListTicketProps[]>([]);
+  const [ticketData, setTicketData] = useState<AssignEmployeeListTicketProps[]>(
+    []
+  );
+  const [ticketTempDat, setTicketTempData] = useState<
+    AssignEmployeeListTicketProps[]
+  >([]);
   const itemsPerPage = 6;
 
   const url = `http://127.0.0.1:8000/api/assign-employee-list/${authRedux.user.id}`;
@@ -44,7 +52,9 @@ const Ticket = () => {
     const temp: number[] = [];
     const closedTicket: AssignEmployeeListTicketProps[] = [];
     const processingTicket: AssignEmployeeListTicketProps[] = [];
-    const filteredTicket = dataResponse.data.reduce<AssignEmployeeListTicketProps[]>((pre, cur) => {
+    const filteredTicket = dataResponse.data.reduce<
+      AssignEmployeeListTicketProps[]
+    >((pre, cur) => {
       if (!temp.includes(cur.ticket.id)) {
         temp.push(cur.ticket.id);
         if (cur.ticket.status === "close") {
@@ -59,7 +69,10 @@ const Ticket = () => {
     }, []);
     filteredTicket.push(...processingTicket, ...closedTicket);
     setTicketData(
-      filteredTicket.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
+      filteredTicket.slice(
+        currentPage * itemsPerPage,
+        (currentPage + 1) * itemsPerPage
+      )
     );
     setTicketTempData(filteredTicket);
     setDataCount(filteredTicket.length);
@@ -112,16 +125,27 @@ const Ticket = () => {
       if (item.priority.toLowerCase() === value.toLowerCase()) {
         return true;
       }
-      if (item.customer_project.project.name.toLowerCase().includes(value.toLowerCase())) {
+      if (
+        item.customer_project.project.name
+          .toLowerCase()
+          .includes(value.toLowerCase())
+      ) {
         return true;
       }
       if (item.subject.toLowerCase() === value.toLowerCase()) {
         return true;
       }
-      if (item.customer_project.user.name.toLowerCase().includes(value.toLowerCase())) {
+      if (
+        item.customer_project.user.name
+          .toLowerCase()
+          .includes(value.toLowerCase())
+      ) {
         return true;
       }
-      if (item.customer_project.project.project_id.toLowerCase() === value.toLowerCase()) {
+      if (
+        item.customer_project.project.project_id.toLowerCase() ===
+        value.toLowerCase()
+      ) {
         return true;
       }
     });
@@ -147,10 +171,7 @@ const Ticket = () => {
         sif={ticketRedux.view === ""}
         show={
           <div className="admin-container">
-            <Nav
-              icon={<IconMessage2 />}
-              label={"Ticket"}
-            />
+            <Nav icon={<IconMessage2 />} label={"Ticket"} />
             <div className="admin-container__inner row row--gap-1 admin-container--pb-5">
               <div className="ticket-paginate col-12">
                 <Input
@@ -179,15 +200,14 @@ const Ticket = () => {
                 />
               </div>
 
-              {ticketData.map((i, index: number) => {
-                return (
-                  <div
-                    className="col-4"
-                    key={index}
-                  >
+              {ticketData.length === 0 && searchQuery.length === 0 ? (
+                <div className="nodata">
+                  <h5>There is no ticket</h5>
+                </div>
+              ) : (
+                ticketData.map((i: any, index: number) => (
+                  <div className="col-4" key={index}>
                     <TicketList
-                      ticketId={i.tickets_id}
-                      projectId={i.customer_project.project.project_id}
                       projectName={`${i.customer_project.project.name}`}
                       userView
                       day={dayjs(i.created_at).fromNow()}
@@ -195,12 +215,15 @@ const Ticket = () => {
                       name={i.customer_project.user.name}
                       priority={i.priority}
                       status={i.status}
+                      ticketId={`#${i.tickets_id}`}
+                      projectId={i.customer_project.project.project_id}
                       onClick={() => {
                         dispatch(
                           setViewData({
                             ticketId: i.id,
                             customerProjectId: i.customer_project.id,
-                            customerProjectName: i.customer_project.project.name,
+                            customerProjectName:
+                              i.customer_project.project.name,
                             subject: i.subject,
                             description: i.description,
                             priority: i.priority,
@@ -216,16 +239,13 @@ const Ticket = () => {
                       }}
                     />
                   </div>
-                );
-              })}
+                ))
+              )}
             </div>
           </div>
         }
       />
-      <ShowIf
-        sif={ticketRedux.view === "ticket-view"}
-        show={<TicketView />}
-      />
+      <ShowIf sif={ticketRedux.view === "ticket-view"} show={<TicketView />} />
     </>
   );
 };

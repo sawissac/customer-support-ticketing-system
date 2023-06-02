@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+
 use App\Service\User\UserServiceInterface;
 use App\Http\Controllers\Api\BaseController;
 use App\Repository\User\UserRepositoryInterface;
+
 
 class UserController extends BaseController
 {

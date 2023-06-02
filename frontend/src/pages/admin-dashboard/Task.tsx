@@ -296,6 +296,15 @@ const Task = () => {
                   status: true,
                 });
               }
+              if (row.status === "processing") {
+                setProcessType({
+                  name: "close",
+                  data: row,
+                  description:
+                    "Do you want to close sure?",
+                  status: true,
+                });
+              }
             }}
           >
             <IconFolderPause size={25} />
@@ -366,7 +375,6 @@ const Task = () => {
     setSearchQuery(event.target.value);
     debouncedSearch(event.target.value);
   };
-
   return (
     <>
       <ShowIf
@@ -458,7 +466,7 @@ const Task = () => {
                   }).then(() => {
                     dispatch(
                       setAlert({
-                        message: "Fix Successfully",
+                        message: "Status Change Successfully",
                         state: Alert.Success,
                       })
                     );
