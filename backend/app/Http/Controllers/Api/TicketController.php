@@ -85,7 +85,7 @@ class TicketController extends BaseController
                 'description' => 'required',
                 'status' => 'required',
                 'priority' => 'nullable',
-                'drive_link' => 'nullable|url',
+                'drive_link' => 'nullable',
                 'admin_id' => 'nullable',
                 'start_date' => 'nullable',
                 'end_date' => 'nullable',
