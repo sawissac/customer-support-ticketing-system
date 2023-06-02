@@ -13,6 +13,9 @@
 - Customer: customer@gmail.com
 <br/> Password: password
 
+- ResignEmployee: guest@gmail.com 
+<br/> Password: password
+
 # Introduction
   A Ticketing System is a management tool that processes and catalogs customer service requests. 
   Tickets, also known as cases or issues need to be properly stored alongside relevant user information.
