@@ -83,7 +83,7 @@ function AlertBar({ view, state }: AlertBarInterface) {
           </div>
           <Button
             className="btn btn--primary btn--no-m-bottom"
-            label="Change to Fixed Status"
+            label="Change to Confirm Status"
             onClick={() => {
               setModalOpen(false);
               getTicket({ id: ticketRedux.ticketId, token: authRedux.token }).then((res: any) => {

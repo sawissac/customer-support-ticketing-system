@@ -9,7 +9,6 @@ $hover-dark: $gray-800;
 
   &--dark * {
     border-color: $gray-900 !important;
-    // color: $white !important;
   }
   &--dark .btn--light {
     background-color: $secondary-dark !important;
