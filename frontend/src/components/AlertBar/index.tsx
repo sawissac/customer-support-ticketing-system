@@ -46,7 +46,10 @@ function AlertBar({ view, state }: AlertBarInterface) {
         "Your ticket has been completed. Now you can leave"}
       {state === "close" &&
         view === "customer" &&
-        "This is the closed ticket it will will remain as history!"}
+        "This is the closed ticket it will remain as history!"}
+      {state === "close" &&
+        view === "admin" &&
+        "This is the closed ticket it will remain as history!"}
         
       {(view === "admin" || view === "employee") && (
         <NavLink
