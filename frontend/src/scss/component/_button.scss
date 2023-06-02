@@ -50,9 +50,8 @@
 
   &--outline {
     margin: 0px map-get($spacers, 2);
-    border: 1px solid $white;
-    color: $white;
-    background: $primary;
+    color: $dark;
+    background: $white;
   }
 
   &--assign-employee {
