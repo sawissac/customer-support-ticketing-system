@@ -4,7 +4,6 @@
 - Clone the repository with git clone
 
 # Demo Credentials
-
 - Admin: admin@gmail.com
 <br/> Password: password
 
