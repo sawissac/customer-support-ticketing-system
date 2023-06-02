@@ -7,20 +7,20 @@
   and adminstrators, customer service representatives should all have easy access to the ticketing system.
 
 # How To Use
-- Clone the repository with **git clone**
+- Clone the repository with `git clone`
 
 # Backend
-- Copy **.env.example** file to **.env** and edit database credentials there (**cp .env.example .env**)
-- Run **composer install**
-- Run **php artisan key:generate**
-- Run **php artisan config:clear**
-- Run **php artisan cache:clear**
-- Run **php aritsan migrate:fresh --seed**
-- Run **php artisan serve**
+- Copy **.env.example** file to **.env** and edit database credentials there (`cp .env.example .env`)
+- Run `composer install`
+- Run `php artisan key:generate`
+- Run `php artisan config:clear`
+- Run `php artisan cache:clear`
+- Run `php aritsan migrate:fresh --seed`
+- Run `php artisan serve`
 
 # Frontend
-- Run **npm install**
-- Run **npm run dev**
+- Run `npm install`
+- Run `npm run dev`
 
 # Demo Credentials
 **Admin:** admin@gmail.com
