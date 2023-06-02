@@ -26,7 +26,7 @@
 - Run php artisan key:generate
 - Run php artisan config:clear
 - Run php artisan cache:clear
-- Run php aritsan migrate
+- Run php aritsan migrate:fresh --seed
 - Run php artisan serve
 
 # Frontend
