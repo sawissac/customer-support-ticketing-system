@@ -7,7 +7,7 @@
   and adminstrators, customer service representatives should all have easy access to the ticketing system.
 
 # How To Use
-- Clone the repository with git clone
+- Clone the repository with **git clone**
 
 # Backend
 - Copy **.env.example** file to **.env** and edit database credentials there (**cp .env.example .env**)
