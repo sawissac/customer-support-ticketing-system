@@ -34,7 +34,6 @@ class EmployeeAssignController extends BaseController
 
     public function store(Request $request)
     {
-
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -59,7 +58,6 @@ class EmployeeAssignController extends BaseController
 
     public function show($id)
     {
-
         $data = $this->employeeAssignRepo->show($id);
 
         if (is_null($id)) {
