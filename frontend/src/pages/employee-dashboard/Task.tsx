@@ -64,13 +64,18 @@ const Task = () => {
         (pre, cur) => {
           if (!temp.includes(cur.ticket.id)) {
             temp.push(cur.ticket.id);
-            pre.push(cur.ticket);
+            if (cur.ticket.status === 'close') {
+              pre.push(cur.ticket);
+            } else {
+              pre.unshift(cur.ticket);
+            }
           }
           return pre;
         },
         []
       );
       setCurrentData(filteredTicket);
+      
     }
   }, [data]);
 
