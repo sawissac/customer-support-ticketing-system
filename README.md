@@ -23,16 +23,16 @@
 - Run **npm run dev**
 
 # Demo Credentials
-- **Admin:** admin@gmail.com
+**Admin:** admin@gmail.com
 <br/> **Password:** password
 
-- **Employee:** employee@gmail.com
+**Employee:** employee@gmail.com
 <br/> **Password:** password
 
-- **Customer:** customer@gmail.com
+**Customer:** customer@gmail.com
 <br/> **Password:** password
 
-- **ResignEmployee:** guest@gmail.com 
+**ResignEmployee:** guest@gmail.com 
 <br/> **Password:** password
 
  # License
