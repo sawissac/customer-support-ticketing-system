@@ -26,23 +26,19 @@
     &__project-detail {
       margin: 0 auto;
       margin-top: 30px;
-      
       width: 70%;
       display: flex;
       justify-content: space-around;
       height: auto;
 
       &__detail-customers {
-        overflow: scroll;
-        scroll-behavior: smooth;
         width: 45%;
-        height: 450px;
         display: flex;
         flex-direction: column;
         align-items: center;
         background-color: $gray-100;
-        align-items: center;
-        
+        border-radius: 7px;
+        overflow: hidden;
         .title1 {
           position: sticky;
           top: 0;
@@ -54,20 +50,21 @@
           width: 100%;
           padding: 15px;
         }
-        .list{
+        .list {
+          height: 400px;
+          overflow-y: scroll;
           width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
+          padding: 10px;
         }
       }
       &__detail-employees {
-        overflow: scroll;
         display: flex;
         flex-direction: column;
         width: 45%;
         background-color: $gray-100;
         align-items: center;
+        border-radius: 7px;
+        overflow: hidden;
         .title2 {
           position: sticky;
           top: 0;
@@ -79,11 +76,11 @@
           width: 100%;
           padding: 15px;
         }
-        .list{
+        .list {
+          height: 400px;
+          overflow-y: scroll;
           width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
+          padding: 10px;
         }
       }
     }

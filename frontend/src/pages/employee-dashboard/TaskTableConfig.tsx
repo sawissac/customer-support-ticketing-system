@@ -2,8 +2,12 @@ import Avatar from "react-avatar";
 import { AssignEmployeeListTicketProps } from "../../responseInterface/AssignEmployeeListApiResponse";
 import { compareDate } from "../../commonFunction/common";
 import { IconUser } from "@tabler/icons-react";
+import  ProgressBar  from "@ramonak/react-progress-bar";
+import { Theme } from "../../redux/variable/ThemeVariable";
 
-export const TaskTableConfig = (employeeClickHandler: any) => [
+
+
+export const TaskTableConfig = (employeeClickHandler: any,themeRedux:any) => [
   {
     name: "Ticket Subject",
     selector: (row: AssignEmployeeListTicketProps) => row.subject,
@@ -61,7 +65,27 @@ export const TaskTableConfig = (employeeClickHandler: any) => [
         }
       });
       const calculated = (doneEmployee.length / total) * 100;
-      return total === 0 ? "0%" : Math.round(calculated) + "%";
+      // return total === 0 ? "0%" : Math.round(calculated) + "%";
+      return (
+        <ProgressBar
+          completed={total === 0 ? 0 : Math.round(calculated)}
+          bgColor="#F37021"
+          height="18px"
+          animateOnRender={true}
+          labelAlignment="center"
+          className="progress-wrapper"
+          barContainerClassName={`${
+            themeRedux === Theme.Dark
+              ? "progress-container--dark"
+              : "progress-container"
+          }`}
+          labelClassName={`${
+            themeRedux === Theme.Dark
+              ? "progress-label--dark"
+              : "progress-label"
+          }`}
+        />
+      );
     },
     sortable: true,
     width: "150px",
