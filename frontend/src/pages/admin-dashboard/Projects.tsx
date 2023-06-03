@@ -1,7 +1,12 @@
 import { useMemo, useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Nav from "../../components/Nav";
-import { IconEdit, IconPlus, IconUser } from "@tabler/icons-react";
+import {
+  IconEdit,
+  IconListDetails,
+  IconPlus,
+  IconUser,
+} from "@tabler/icons-react";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
@@ -22,6 +27,9 @@ import ProjectUpdate from "./ProjectsUpdate";
 import { Oval } from "react-loader-spinner";
 import { debounce } from "debounce";
 import Input from "../../components/Input";
+import { ProjectView } from "./ProjectView";
+
+
 
 createTheme(
   "table-dark",
@@ -138,6 +146,27 @@ const Projects = () => {
             }}
           >
             <IconEdit size={25} />
+          </button>
+        ),
+        button: true,
+      },
+      {
+        name: "Detail",
+        cell: (row: any) => (
+          <button
+            title="Project Detail"
+            className="btn btn--light btn--icon btn--no-m-bottom text-danger"
+            onClick={() => {
+              dispatch(
+                setProjectState({
+                  project_id: row.id,
+                  project_name: row.name,
+                })
+              );
+              dispatch(setProjectView({ name: "project-view" }));
+            }}
+          >
+            <IconListDetails size={25} />
           </button>
         ),
         button: true,
@@ -259,6 +288,10 @@ const Projects = () => {
       <ShowIf
         sif={projectPageRedux.view === "customer-view"}
         show={<CustomerProjects />}
+      />
+      <ShowIf
+        sif={projectPageRedux.view === "project-view"}
+        show={<ProjectView />}
       />
       <ShowIf
         sif={projectPageRedux.rightSidebar === "project-create"}
