@@ -36,8 +36,7 @@ export const ProjectView = () => {
       setDetail(data);
     }
   }, [data, projectPageRedux.id]);
-
-  console.log(detail);
+  
   if (isFetching) {
     return (
       <div className="fetching">
@@ -87,7 +86,7 @@ export const ProjectView = () => {
                 {detail?.data?.customer_project?.map(
                   (item: any, index: number) => {
                     return (
-                      <ProjectDetailCard name={item.user_id} id={index + 1} key={index}/>
+                      <ProjectDetailCard name={item.user.name} id={index + 1} key={index}/>
                     );
                   }
                 )}
@@ -100,11 +99,11 @@ export const ProjectView = () => {
                 <IconUsersGroup size={35} />
               </div>
               <div className="list">
-                {}
+                
                 {detail?.data?.employee_project?.map(
                   (item: any, index: number) => {
                     return (
-                      <ProjectDetailCard name={item.user_id} id={index + 1} key={index}/>
+                      <ProjectDetailCard name={item.user.name} id={index + 1} key={index}/>
                     );
                   }
                 )}

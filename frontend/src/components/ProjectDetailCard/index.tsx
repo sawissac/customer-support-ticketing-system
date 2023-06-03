@@ -11,7 +11,7 @@ const ProjectDetailCard = ({ id, name }: Card) => {
   return (
     <>
       <div className="project-detail-card-container">
-        <p>{id}</p>
+        <p>{id}.</p>
         <label htmlFor="">{name}</label>
       </div>
     </>
