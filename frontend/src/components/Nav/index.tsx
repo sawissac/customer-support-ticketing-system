@@ -15,17 +15,11 @@ interface NavProps {
 const Nav = ({ label, icon, rightPlacer, links, onClick, back }: NavProps) => {
   return (
     <div className="nav_container">
-      <div
-        className="icon"
-        onClick={onClick}
-      >
+      <div className="icon" onClick={onClick}>
         {back && <IconArrowLeft size={25} />}
         {icon}
       </div>
-      <div
-        className="text"
-        onClick={onClick}
-      >
+      <div className="text" onClick={onClick}>
         {label}
       </div>
       <div className="placer">{rightPlacer}</div>
@@ -42,10 +36,7 @@ interface NavBack {
 Nav.Back = ({ label, link }: NavBack) => {
   return (
     <div className="nav_container">
-      <NavLink
-        to={link}
-        className="text text--link"
-      >
+      <NavLink to={link} className="text text--link">
         <IconArrowLeft size={25} />
         {label}
       </NavLink>
@@ -56,13 +47,13 @@ Nav.Back = ({ label, link }: NavBack) => {
 interface NavBackButton {
   label: string;
   onClick: any;
-  disable?:boolean
+  disable?: boolean;
 }
-Nav.BackButton = ({ label, onClick,disable }: NavBackButton) => {
+Nav.BackButton = ({ label, onClick, disable }: NavBackButton) => {
   return (
     <div className="nav_container">
       <Button
-      disabled={disable}
+        disabled={disable}
         label={label}
         icon={<IconArrowLeft size={25} />}
         onClick={onClick}

@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 interface CardProps{
     icon?: ReactNode;
     label: string;
-    total:number;
+    total?:number;
   }
   
   const ReportCard = ({label,icon,total}: CardProps) => {
