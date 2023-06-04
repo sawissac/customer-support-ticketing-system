@@ -40,6 +40,7 @@ import {
   TicketListApiResponse,
   TicketListProps,
 } from "../../responseInterface/TicketListApiResponse";
+import ProgressBar from "@ramonak/react-progress-bar";
 
 dayjs.extend(relativeTime);
 
@@ -141,10 +142,29 @@ const Task = () => {
           });
           calculated = (calculated.length / total) * 100;
 
-          return total === 0 ? "0%" : Math.round(calculated) + "%";
+          return (
+            <ProgressBar
+              completed={total === 0 ? 0 : Math.round(calculated)}
+              bgColor="#F37021"
+              height="18px"
+              animateOnRender={true}
+              labelAlignment="outside"
+              className="progress-wrapper"
+              barContainerClassName={`${
+                themeRedux === Theme.Dark
+                  ? "progress-container progress-container--dark"
+                  : "progress-container"
+              }`}
+              labelClassName={`${
+                themeRedux === Theme.Dark
+                  ? "progress-label progress-container--dark"
+                  : "progress-label"
+              }`}
+            />
+          );
         },
         sortable: true,
-        width: "150px",
+        width: "200px",
       },
       {
         name: "Status",
@@ -162,7 +182,7 @@ const Task = () => {
           return <div className={`badge ${badgeColor}`}>{row.status}</div>;
         },
         sortable: true,
-        width: "200px",
+        width: "300px",
       },
       {
         name: "Employees",
@@ -296,12 +316,11 @@ const Task = () => {
                   status: true,
                 });
               }
-              if (row.status === "processing") {
+              if (row.status === "processing" && row.employee_assign.length===0) {
                 setProcessType({
                   name: "close",
                   data: row,
-                  description:
-                    "Do you want to close sure?",
+                  description: "Do you want to close sure?",
                   status: true,
                 });
               }

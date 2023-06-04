@@ -6,6 +6,9 @@
     padding: map-get($spacers, 3) 20px;
     text-align: center;
     color: $dark;
+    &--project{
+      font-size: 30px;
+    }
     svg{
       margin:0px 5px;
     }

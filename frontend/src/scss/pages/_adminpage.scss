@@ -3,7 +3,7 @@
   overflow-x: hidden;
   overflow-y: scroll;
   position: relative;
-  .search-area{
+  .search-area {
     display: flex;
     align-items: start;
     gap: 10px;
@@ -23,12 +23,73 @@
   }
   &__inner {
     padding: map-get($spacers, 3) map-get($spacers, 4);
-    .nodata{
+    &__project-detail {
+      margin: 0 auto;
+      margin-top: 30px;
+      width: 70%;
+      display: flex;
+      justify-content: space-around;
+      height: auto;
+
+      &__detail-customers {
+        width: 45%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: $gray-100;
+        border-radius: 7px;
+        overflow: hidden;
+        .title1 {
+          position: sticky;
+          top: 0;
+          color: $white;
+          background-color: $info;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          width: 100%;
+          padding: 15px;
+        }
+        .list {
+          height: 400px;
+          overflow-y: scroll;
+          width: 100%;
+          padding: 10px;
+        }
+      }
+      &__detail-employees {
+        display: flex;
+        flex-direction: column;
+        width: 45%;
+        background-color: $gray-100;
+        align-items: center;
+        border-radius: 7px;
+        overflow: hidden;
+        .title2 {
+          position: sticky;
+          top: 0;
+          color: $white;
+          background-color: $warning;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          width: 100%;
+          padding: 15px;
+        }
+        .list {
+          height: 400px;
+          overflow-y: scroll;
+          width: 100%;
+          padding: 10px;
+        }
+      }
+    }
+    .nodata {
       width: 100%;
       text-align: center;
     }
   }
-  &__header{
+  &__header {
     display: flex;
     align-items: center;
     font-size: $h5-font-size;
@@ -37,11 +98,11 @@
     color: $dark;
     padding: map-get($spacers, 3) 0px;
   }
-  &--pb-5{
+  &--pb-5 {
     padding-bottom: map-get($spacers, 5);
   }
-  
-  .ticket-paginate{
+
+  .ticket-paginate {
     display: flex;
     justify-content: space-between;
   }
