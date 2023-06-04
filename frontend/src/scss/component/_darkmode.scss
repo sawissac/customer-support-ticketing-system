@@ -73,6 +73,23 @@ $hover-dark: $gray-800;
   &--dark .admin-container {
     background-color: $primary-dark;
     color: $white;
+    &__inner{
+       &__project-detail {
+        
+        &__detail-customers {
+          background-color: #313338;
+          .list{
+            background-color: #313338;
+          }
+        }
+        &__detail-employees {
+          background-color: #313338;
+          .list{
+            background-color: #313338
+          }
+        }
+      }
+    }
   }
   &--dark .text {
     color: white !important;
@@ -177,6 +194,7 @@ $hover-dark: $gray-800;
   &--dark .piechart-container {
     &__inner {
       background-color: #2b2d31;
+
       &__piechart {
         &--border * {
           color: $white !important;
@@ -187,10 +205,10 @@ $hover-dark: $gray-800;
   &--dark .monthly-detail * {
     color: $white !important;
   }
-  &--dark .project-detail-card-container{
-    background: #343a40;
+  &--dark .project-detail-card-container {
+    background: #2b2d31;
   }
-
+  
   &--dark {
     /* Firefox */
 
@@ -206,7 +224,7 @@ $hover-dark: $gray-800;
     }
     *::-webkit-scrollbar-track {
       border-radius: 5px;
-      background-color: $secondary-dark;
+      background-color: #2e2f34;
     }
 
     *::-webkit-scrollbar-track:hover {

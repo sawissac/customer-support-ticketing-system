@@ -16,7 +16,7 @@ class ProjectRepository implements ProjectRepositoryInterface
 
     public function show($id)
     {
-        $result = Project::with('employee_project', 'customer_project')->where('id', $id)->first();
+        $result = Project::with('employee_project.user', 'customer_project.user')->where('id', $id)->first();
 
         return $result;
     }

@@ -49,7 +49,7 @@ const Task = () => {
     dispatch(setRightSidebar({ name: "" }));
   }
   
-  const columns = useMemo(() => TaskTableConfig(employeeClickHandler), []);
+  const columns:any = useMemo(() => TaskTableConfig(employeeClickHandler,themeRedux), []);
 
 
   const { data, isFetching } = useQuery<AssignEmployeeListApiResponse>(
