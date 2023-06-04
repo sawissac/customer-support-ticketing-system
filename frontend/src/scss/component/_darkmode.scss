@@ -208,7 +208,14 @@ $hover-dark: $gray-800;
   &--dark .project-detail-card-container {
     background: #2b2d31;
   }
-  
+  &--dark .progress-container {
+    background-color: #2b2d31;
+  }
+  &--dark .progress-label{
+    color: $white;
+   
+  }
+
   &--dark {
     /* Firefox */
 
