@@ -104,13 +104,13 @@ const TicketPage = () => {
 
   const debouncedSearch = debounce((value: string) => {
     const filtered = ticketTempData.filter((item) => {
-      if (item.tickets_id.toLowerCase() === value.toLowerCase()) {
+      if (item.tickets_id.toLowerCase().includes(value.toLowerCase())) {
         return true;
       }
-      if (item.status.toLowerCase() === value.toLowerCase()) {
+      if (item.status.toLowerCase().includes(value.toLowerCase())) {
         return true;
       }
-      if (item.priority.toLowerCase() === value.toLowerCase()) {
+      if (item.priority.toLowerCase().includes(value.toLowerCase())) {
         return true;
       }
       if (item.customer_project.project.name.toLowerCase().includes(value.toLowerCase())) {
@@ -122,7 +122,7 @@ const TicketPage = () => {
       if (item.customer_project.user.name.toLowerCase().includes(value.toLowerCase())) {
         return true;
       }
-      if (item.customer_project.project.project_id.toLowerCase() === value.toLowerCase()) {
+      if (item.customer_project.project.project_id.toLowerCase().includes(value.toLowerCase())) {
         return true;
       }
     });
