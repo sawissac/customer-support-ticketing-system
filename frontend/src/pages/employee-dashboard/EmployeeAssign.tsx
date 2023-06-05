@@ -25,7 +25,10 @@ const EmployeeAssign = () => {
   const authRedux = useAppSelector((state) => state.auth);
   const themeRedux = useAppSelector((state) => state.theme);
   const taskRedux = useAppSelector((state) => state.tasks);
-  const [currentData, setCurrentData] = useState<AssignTicketListEmployeeAssignProps[]>([]);
+  const [currentData, setCurrentData] = useState<
+    AssignTicketListEmployeeAssignProps[]
+  >([]);
+  const [statusClose, setStatusClose] = useState<any>();
 
   const openClickHandler = (row: any) => {
     updateEmployeeAssign({
@@ -67,22 +70,32 @@ const EmployeeAssign = () => {
 
   const url = `http://127.0.0.1:8000/api/assign-ticket-list/${taskRedux.ticketId}`;
 
-  const { data, isFetching } = useQuery<AssignTicketListApiResponse>(
-    ["employee-dashboard-assign", taskRedux.employeeUrl],
-    requestAxiosWithToken(url, authRedux.token)
+  const { data: assignData, isFetching: assignDataFetch } =
+    useQuery<AssignTicketListApiResponse>(
+      ["employee-dashboard-assign", taskRedux.employeeUrl],
+      requestAxiosWithToken(url, authRedux.token)
+    );
+
+  const ticketurl = `http://127.0.0.1:8000/api/ticket/${taskRedux.ticketId}`;
+  const { data: ticketData, isFetching: ticketDataFetch } = useQuery(
+    ["ticket-data", "get"],
+    requestAxiosWithToken(ticketurl, authRedux.token)
   );
 
   React.useEffect(() => {
-    if (data) {
-      const dataResponse = data;
-      const filteredEmployee = dataResponse.data.filter((employee) => {
+    if (assignData && ticketData) {
+      const assignDataResponse = assignData;
+      const filteredEmployee = assignDataResponse.data.filter((employee) => {
         return employee.employee_id === authRedux.user.id;
       });
       setCurrentData(filteredEmployee);
-    }
-  }, [data]);
 
-  if (isFetching)
+      const ticketDataResponse = ticketData;
+      setStatusClose(ticketDataResponse.data.status);
+    }
+  }, [assignData, ticketData]);
+
+  if (assignDataFetch || ticketDataFetch)
     return (
       <div className="fetching">
         <Oval
@@ -120,7 +133,8 @@ const EmployeeAssign = () => {
             <DataTable
               columns={columns}
               data={currentData}
-              // responsive
+              disabled={statusClose === "close" || statusClose === "confirm"}
+              responsive
               pagination
               theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}
             />

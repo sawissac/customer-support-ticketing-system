@@ -8,7 +8,6 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\EmployeeProjectController;
 use App\Http\Controllers\Api\TicketController;
-use App\Http\Controllers\Api\EmployeeReportController;
 use App\Http\Controllers\Api\EmployeeAssignController;
 use App\Http\Controllers\Api\CustomerProjectController;
 
