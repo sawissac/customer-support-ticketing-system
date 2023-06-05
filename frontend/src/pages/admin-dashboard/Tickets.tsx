@@ -145,6 +145,7 @@ const TicketPage = () => {
       ) {
         return true;
       }
+      
     });
 
     if (filtered.length > 0) {
