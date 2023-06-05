@@ -161,7 +161,7 @@ function AlertBar({ view, state }: AlertBarInterface) {
             className="btn btn--primary btn--no-m-bottom"
             label="Change to Unconfirm Status"
             onClick={() => {
-              setModalOpen(false);
+              setUnModalOpen(false);
               getTicket({
                 id: ticketRedux.ticketId,
                 token: authRedux.token,
@@ -172,11 +172,11 @@ function AlertBar({ view, state }: AlertBarInterface) {
                   status: "unconfirm",
                   token: authRedux.token,
                 }).then(() => {
-                  setModalOpen(false);
+                  setUnModalOpen(false);
                   dispatch(
                     setAlert({
                       message: "Your Ticket is Uncomfirmed",
-                      state: Alert.Success,
+                      state: Alert.Warning,
                     })
                   );
                 });
