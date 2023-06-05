@@ -112,7 +112,6 @@ const EmployeeAssign = () => {
         />
       </div>
     );
-  console.log(statusClose);
 
   return (
     <>
