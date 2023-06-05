@@ -17,7 +17,9 @@ class TicketRepository implements TicketRepositoryInterface
 
     public function show($id)
     {
-        $result = Ticket::with('admin', 'customer_project.user', 'customer_project.project', 'customer_project.project.employee_project.user')->where('id', $id)->first();
+        $result = Ticket::with('admin', 'customer_project.user', 'customer_project.project', 'customer_project.project.employee_project.user')
+                    ->where('id', $id)
+                    ->first();
 
         return $result;
     }
@@ -25,10 +27,10 @@ class TicketRepository implements TicketRepositoryInterface
     public function checkTicketList()
     {
         $monthlyTickets = Ticket::selectRaw('MONTH(created_at) as month, YEAR(created_at) as year, COUNT(*) as ticket_count')
-            ->groupBy('month', 'year')
-            ->orderBy('year', 'asc')
-            ->orderBy('month', 'asc')
-            ->get();
+                            ->groupBy('month', 'year')
+                            ->orderBy('year', 'asc')
+                            ->orderBy('month', 'asc')
+                            ->get();
 
         $checkData = $monthlyTickets->map(function ($tickets) {
             $monthYear = Carbon::create($tickets->year, $tickets->month)->format('M Y');
@@ -44,8 +46,8 @@ class TicketRepository implements TicketRepositoryInterface
     public function checkDate($id)
     {
         $result = Ticket::selectRaw('MIN(start_date) as start_date, MAX(end_date) as end_date')
-            ->where('id', $id)
-            ->first();
+                    ->where('id', $id)
+                    ->first();
 
         return $result;
     }

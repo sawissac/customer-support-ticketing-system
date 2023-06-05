@@ -14,7 +14,9 @@ class UserRepository implements UserRepositoryInterface
 
     public function show($id)
     {
-        $result = User::with('roles')->where('id', $id)->first();
+        $result = User::with('roles')
+                    ->where('id', $id)
+                    ->first();
 
         return $result;
     }

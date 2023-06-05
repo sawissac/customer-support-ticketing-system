@@ -7,7 +7,8 @@ class EmployeeAssignRepository implements EmployeeAssignRepoInterface
 {
     public function get()
     {
-        $data = EmployeeAssign::with('employee', 'ticket')->get();
+        $data = EmployeeAssign::with('employee', 'ticket')
+                ->get();
 
         return $data;
     }
