@@ -16,7 +16,7 @@ class CustomerProjectRepository implements CustomerProjectRepoInterface
     public function show($id)
     {
         $result = CustomerProject::with('user', 'project', 'ticket')->where('id', $id)->first();
-        
+
         return $result;
     }
 
