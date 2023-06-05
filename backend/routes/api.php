@@ -27,7 +27,6 @@ use App\Http\Controllers\Api\CustomerProjectController;
 Route::middleware(['cors'])->group(function () {
     Route::post('/auth/login', [AuthController::class, 'loginUser']);
 });
-
 Route::middleware(['cors', 'auth:sanctum'])->group(function () {
     Route::apiResource('/user', UserController::class);
     Route::get('/employee', [UserController::class, 'employee']);
@@ -35,7 +34,6 @@ Route::middleware(['cors', 'auth:sanctum'])->group(function () {
     Route::apiResource('/project', ProjectController::class);
     Route::apiResource('/employee-project', EmployeeProjectController::class);
     Route::apiResource('/ticket', TicketController::class);
-    Route::apiResource('/employee-report', EmployeeReportController::class);
     Route::apiResource('/employee-assign', EmployeeAssignController::class);
     Route::get('/assign-ticket-list/{id}', [EmployeeAssignController::class, 'ticket']);
     Route::get('/assign-employee-list/{id}', [EmployeeAssignController::class, 'employee']);
