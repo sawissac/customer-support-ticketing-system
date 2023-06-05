@@ -182,7 +182,7 @@ const Task = () => {
           return <div className={`badge ${badgeColor}`}>{row.status}</div>;
         },
         sortable: true,
-        width: "300px",
+        width: "150px",
       },
       {
         name: "Employees",
