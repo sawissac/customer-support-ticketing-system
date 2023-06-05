@@ -76,12 +76,12 @@ export const TaskTableConfig = (employeeClickHandler: any,themeRedux:any) => [
           className="progress-wrapper"
           barContainerClassName={`${
             themeRedux === Theme.Dark
-              ? "progress-container--dark"
+              ? "progress-container progress-container--dark"
               : "progress-container"
           }`}
           labelClassName={`${
             themeRedux === Theme.Dark
-              ? "progress-label--dark"
+              ? "progress-label progress-label--dark"
               : "progress-label"
           }`}
         />
