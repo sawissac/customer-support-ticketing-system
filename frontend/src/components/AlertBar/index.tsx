@@ -176,7 +176,7 @@ function AlertBar({ view, state }: AlertBarInterface) {
                   dispatch(
                     setAlert({
                       message: "Your Ticket is Uncomfirmed",
-                      state: Alert.Success,
+                      state: Alert.Warning,
                     })
                   );
                 });
