@@ -38,7 +38,7 @@ Route::middleware(['cors', 'auth:sanctum'])->group(function () {
 
     Route::apiResource('/ticket', TicketController::class);
 
-    Route::apiResource('/employee-report', EmployeeReportController::class);
+    // Route::apiResource('/employee-report', EmployeeReportController::class);
 
     Route::apiResource('/employee-assign', EmployeeAssignController::class);
 
@@ -51,5 +51,4 @@ Route::middleware(['cors', 'auth:sanctum'])->group(function () {
 
     Route::get('/monthly-ticket', [TicketController::class, 'checkTicketList']);
     Route::get('/ticket-date/{id}', [TicketController::class, 'checkDate']);
-
 });
