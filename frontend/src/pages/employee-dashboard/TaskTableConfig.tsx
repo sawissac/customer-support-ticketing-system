@@ -112,10 +112,8 @@ export const TaskTableConfig = (employeeClickHandler: any,themeRedux:any) => [
     cell: (row: AssignEmployeeListTicketProps) => (
       <button
         title="Assigned Employee"
-        className={row.status==="close" || row.status==="confirm"?
-        "btn btn--light btn--icon btn--no-m-bottom text-primary btn--disable" :
+        className={
         "btn btn--light btn--icon btn--no-m-bottom text-primary"}
-        // disabled={row.status==="close" || row.status==="confirm"}
         onClick={() => {
           employeeClickHandler(row);
         }}
