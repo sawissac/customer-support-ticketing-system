@@ -76,12 +76,12 @@ export const TaskTableConfig = (employeeClickHandler: any,themeRedux:any) => [
           className="progress-wrapper"
           barContainerClassName={`${
             themeRedux === Theme.Dark
-              ? "progress-container--dark"
+              ? "progress-container progress-container--dark"
               : "progress-container"
           }`}
           labelClassName={`${
             themeRedux === Theme.Dark
-              ? "progress-label--dark"
+              ? "progress-label progress-label--dark"
               : "progress-label"
           }`}
         />
@@ -115,7 +115,7 @@ export const TaskTableConfig = (employeeClickHandler: any,themeRedux:any) => [
         className={row.status==="close" || row.status==="confirm"?
         "btn btn--light btn--icon btn--no-m-bottom text-primary btn--disable" :
         "btn btn--light btn--icon btn--no-m-bottom text-primary"}
-        disabled={row.status==="close" || row.status==="confirm"}
+        // disabled={row.status==="close" || row.status==="confirm"}
         onClick={() => {
           employeeClickHandler(row);
         }}
