@@ -42,6 +42,7 @@ const Report = () => {
   const [doneTicket, setDoneTicket] = useState(0);
   const [fixedTicket, setFixedTicket] = useState(0);
   const [confirmTicket, setConfirmTicket] = useState(0);
+  const [unconfirmTicket, setUnConfirmTicket] = useState(0);
 
   const [unassignTicket, setUnassignTicket] = useState(0);
   const [assignTicket, setAssignTicket] = useState(0);
@@ -117,6 +118,9 @@ const Report = () => {
       );
       setConfirmTicket(
         ticketData.data.filter((item: any) => item.status === "confirm").length
+      );
+      setUnConfirmTicket(
+        ticketData.data.filter((item: any) => item.status === "unconfirm").length
       );
       setCloseTicket(
         ticketData.data.filter((item: any) => item.status === "close").length
@@ -507,6 +511,7 @@ const Report = () => {
                 <label htmlFor="">Done: {doneTicket}</label>
                 <label htmlFor="">Fixed: {fixedTicket}</label>
                 <label htmlFor="">Confirm: {confirmTicket}</label>
+                <label htmlFor="">UnConfirm: {unconfirmTicket}</label>
                 <label htmlFor="">Close: {closeTicket}</label>
               </div>
             </div>
