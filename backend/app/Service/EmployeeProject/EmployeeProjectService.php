@@ -4,7 +4,6 @@ namespace App\Service\EmployeeProject;
 
 use App\Models\EmployeeAssign;
 use App\Models\EmployeeProject;
-
 class EmployeeProjectService implements EmployeeProjectServiceInterface
 {
     public function store($data)

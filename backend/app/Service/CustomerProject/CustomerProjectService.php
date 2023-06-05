@@ -4,7 +4,6 @@ namespace App\Service\CustomerProject;
 
 use App\Models\Ticket;
 use App\Models\CustomerProject;
-
 class CustomerProjectService implements CustomerProjectServiceInterface
 {
     public function store($data)

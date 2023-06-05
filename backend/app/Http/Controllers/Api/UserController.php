@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Validator;
 use App\Service\User\UserServiceInterface;
 use App\Http\Controllers\Api\BaseController;
 use App\Repository\User\UserRepositoryInterface;
-
 class UserController extends BaseController
 {
     private $userRepo, $userService;

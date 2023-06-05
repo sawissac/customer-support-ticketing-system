@@ -4,7 +4,6 @@ namespace App\Repository\Project;
 
 use App\Models\Project;
 
-
 class ProjectRepository implements ProjectRepositoryInterface
 {
     public function get()

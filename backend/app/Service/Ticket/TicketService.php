@@ -4,7 +4,6 @@ namespace App\Service\Ticket;
 
 use App\Models\Ticket;
 use Illuminate\Support\Str;
-
 class TicketService implements TicketServiceInterface
 {
     public function store($data)

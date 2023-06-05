@@ -4,7 +4,6 @@ namespace App\Service\Project;
 
 use App\Models\Project;
 use Illuminate\Support\Str;
-
 class ProjectService implements ProjectServiceInterface
 {
     public function store($data)

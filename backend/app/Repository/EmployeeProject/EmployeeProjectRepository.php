@@ -3,7 +3,6 @@
 namespace App\Repository\EmployeeProject;
 
 use App\Models\EmployeeProject;
-
 class EmployeeProjectRepository implements EmployeeProjectRepositoryInterface
 {
     public function get()

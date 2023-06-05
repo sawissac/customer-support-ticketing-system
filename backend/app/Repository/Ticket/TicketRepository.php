@@ -4,7 +4,6 @@ namespace App\Repository\Ticket;
 
 use App\Models\Ticket;
 use Illuminate\Support\Carbon;
-
 class TicketRepository implements TicketRepositoryInterface
 {
     public function get()

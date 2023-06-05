@@ -7,7 +7,6 @@ use App\Models\EmployeeAssign;
 use App\Models\EmployeeProject;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-
 class UserService implements UserServiceInterface
 {
     public function store($data)

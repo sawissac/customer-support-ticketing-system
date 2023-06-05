@@ -8,7 +8,6 @@ use App\Models\CustomerProject;
 use App\Http\Controllers\Api\BaseController;
 use App\Repository\CustomerProject\CustomerProjectRepoInterface;
 use App\Service\CustomerProject\CustomerProjectServiceInterface;
-
 class CustomerProjectController extends BaseController
 {
     private $customerProjectRepo, $customerProjectService;

@@ -3,7 +3,6 @@
 namespace App\Repository\User;
 
 use App\Models\User;
-
 class UserRepository implements UserRepositoryInterface
 {
     public function get()

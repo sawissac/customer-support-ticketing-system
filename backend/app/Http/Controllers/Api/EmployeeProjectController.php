@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
 use App\Service\EmployeeProject\EmployeeProjectServiceInterface;
 use App\Repository\EmployeeProject\EmployeeProjectRepositoryInterface;
-
 class EmployeeProjectController extends BaseController
 {
     private $employeeprojectRepo, $employeeprojectService;

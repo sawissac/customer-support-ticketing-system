@@ -3,7 +3,6 @@
 namespace App\Repository\EmployeeAssign;
 
 use App\Models\EmployeeAssign;
-
 class EmployeeAssignRepository implements EmployeeAssignRepoInterface
 {
     public function get()
