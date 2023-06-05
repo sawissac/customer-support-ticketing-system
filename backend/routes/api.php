@@ -8,7 +8,6 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\EmployeeProjectController;
 use App\Http\Controllers\Api\TicketController;
-use App\Http\Controllers\Api\EmployeeReportController;
 use App\Http\Controllers\Api\EmployeeAssignController;
 use App\Http\Controllers\Api\CustomerProjectController;
 
@@ -37,9 +36,6 @@ Route::middleware(['cors', 'auth:sanctum'])->group(function () {
     Route::apiResource('/employee-project', EmployeeProjectController::class);
 
     Route::apiResource('/ticket', TicketController::class);
-
-    // Route::apiResource('/employee-report', EmployeeReportController::class);
-
     Route::apiResource('/employee-assign', EmployeeAssignController::class);
 
     Route::get('/assign-ticket-list/{id}', [EmployeeAssignController::class, 'ticket']);
