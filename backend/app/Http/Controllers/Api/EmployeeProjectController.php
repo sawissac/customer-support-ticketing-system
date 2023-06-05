@@ -30,12 +30,6 @@ class EmployeeProjectController extends BaseController
         return $this->sendResponse($data, 'EmployeeProjects retrieved successfully.',200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $validate = $request->all();
@@ -67,12 +61,6 @@ class EmployeeProjectController extends BaseController
         return $this->sendResponse($data, 'EmployeeProject created successfully.', 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $result = $this->employeeprojectRepo->show($id);
@@ -84,13 +72,6 @@ class EmployeeProjectController extends BaseController
         return $this->sendResponse($result, 'EmployeeProject retrieved successfully.',200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $validate = $request->all();
@@ -125,13 +106,6 @@ class EmployeeProjectController extends BaseController
 
         return $this->sendResponse($data, 'EmployeeProject updated successfully.');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
 
     public function destroy($id)
     {

@@ -53,22 +53,6 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
-        $this->app->bind(UserServiceInterface::class, UserService::class);
 
-        $this->app->bind(ProjectRepositoryInterface::class, ProjectRepository::class);
-        $this->app->bind(ProjectServiceInterface::class, ProjectService::class);
-
-        $this->app->bind(EmployeeProjectRepositoryInterface::class, EmployeeProjectRepository::class);
-        $this->app->bind(EmployeeProjectServiceInterface::class, EmployeeProjectService::class);
-
-        $this->app->bind(CustomerProjectRepoInterface::class, CustomerProjectRepository::class);
-        $this->app->bind(CustomerProjectServiceInterface::class, CustomerProjectService::class);
-
-        $this->app->bind(TicketRepositoryInterface::class, TicketRepository::class);
-        $this->app->bind(TicketServiceInterface::class, TicketService::class);
-
-        $this->app->bind(EmployeeAssignRepoInterface::class, EmployeeAssignRepository::class);
-        $this->app->bind(EmployeeAssignServiceInterface::class, EmployeeAssignService::class);
     }
 }

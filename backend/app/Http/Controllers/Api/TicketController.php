@@ -22,11 +22,6 @@ class TicketController extends BaseController
         $this->middleware('permission:canDeleteTickets', ['only' => ['destroy']]);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $data = $this->ticketRepo->get();
