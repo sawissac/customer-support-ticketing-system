@@ -120,7 +120,7 @@ const EmployeeAssign = () => {
             <DataTable
               columns={columns}
               data={currentData}
-              // responsive
+              responsive
               pagination
               theme={`${themeRedux === Theme.Dark ? "table-dark" : ""}`}
             />
