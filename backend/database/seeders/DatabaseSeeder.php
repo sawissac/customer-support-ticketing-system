@@ -22,10 +22,11 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleAndPermissionSeeder::class);
         $this->call(AdminSeeder::class);
 
-        Project::factory()->count(10)->create();
-        CustomerProject::factory()->count(10)->create();
-        Ticket::factory()->count(10)->create();
-        EmployeeProject::factory()->count(10)->create();
+        // Project::factory()->count(10)->create();
+        // CustomerProject::factory()->count(10)->create();
+        // Ticket::factory()->count(10)->create();
+        // EmployeeProject::factory()->count(10)->create();
 
     }
 }
+

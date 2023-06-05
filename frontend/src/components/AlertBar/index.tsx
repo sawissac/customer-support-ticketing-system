@@ -25,7 +25,8 @@ function AlertBar({ view, state }: AlertBarInterface) {
         "Your ticket has been open, wait for the staff to take action."}
       {state === "open" &&
         view === "admin" &&
-        "The customer ticket has been open please assign employee"}
+        "The customer ticket has been open please assign employee."}
+
       {state === "processing" &&
         view === "customer" &&
         "Your ticket has been processing, wait for the staff to take complete."}
@@ -35,22 +36,37 @@ function AlertBar({ view, state }: AlertBarInterface) {
       {state === "processing" &&
         view === "employee" &&
         "Please fix the bugs, By completing the task that was given to you."}
+
       {state === "fixed" &&
         view === "customer" &&
         "Your ticket has been complete, Please check your app and confirm, So the staff can know you are satisfy. "}
       {state === "fixed" &&
         view === "admin" &&
-        "Please wait for the customer to confirm his or her app"}
+        "Please wait for the customer to confirm his or her app."}
+      {state === "fixed" &&
+        view === "employee" &&
+        "Ticket has been fixed please wait confirmation from customer."}
+
       {state === "confirm" &&
         view === "customer" &&
-        "Your ticket has been completed. Now you can leave"}
+        "Your ticket has been completed. Now you can leave."}
+      {state === "confirm" &&
+        view === "admin" &&
+        "Ticket has been confirmed by customer.Now you can close ticket"}
+      {state === "confirm" &&
+        view === "employee" &&
+        "Ticket has been confirmed by customer.Now you can leave."}
+
       {state === "close" &&
         view === "customer" &&
-        "This is the closed ticket it will remain as history!"}
+        "Ticket has been closed it will remain as history!"}
       {state === "close" &&
         view === "admin" &&
-        "This is the closed ticket it will remain as history!"}
-        
+        "Ticket has been closed it will remain as history!"}
+      {state === "close" &&
+        view === "employee" &&
+        "Ticket has been closed it will remain as history!"}
+
       {(view === "admin" || view === "employee") && (
         <NavLink
           to={`/${view}-dashboard/tasks`}
@@ -81,15 +97,18 @@ function AlertBar({ view, state }: AlertBarInterface) {
         <div className="modal">
           <div className="modal__title">Confirmation</div>
           <div className="modal__desc">
-            We have marked your ticket as fixed. Please check your app and confirm the status to
-            indicate your satisfaction.
+            We have marked your ticket as fixed. Please check your app and
+            confirm the status to indicate your satisfaction.
           </div>
           <Button
             className="btn btn--primary btn--no-m-bottom"
             label="Change to Confirm Status"
             onClick={() => {
               setModalOpen(false);
-              getTicket({ id: ticketRedux.ticketId, token: authRedux.token }).then((res: any) => {
+              getTicket({
+                id: ticketRedux.ticketId,
+                token: authRedux.token,
+              }).then((res: any) => {
                 updateTicket({
                   ...res.data,
                   ticketId: res.data.id,
