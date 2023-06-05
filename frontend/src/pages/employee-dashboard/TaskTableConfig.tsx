@@ -88,7 +88,7 @@ export const TaskTableConfig = (employeeClickHandler: any,themeRedux:any) => [
       );
     },
     sortable: true,
-    width: "150px",
+    width: "200px",
   },
   {
     name: "Status",
