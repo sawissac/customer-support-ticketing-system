@@ -1,5 +1,5 @@
 import Nav from "../../components/Nav";
-import { IconArrowLeft, IconUsersGroup } from "@tabler/icons-react";
+import { IconArrowLeft, IconUserCog, IconUsersGroup } from "@tabler/icons-react";
 import { useDispatch } from "react-redux";
 import { setProjectView } from "../../redux/feature_slice/ProjectPageSlice";
 import { useAppSelector } from "../../redux/hook";
@@ -96,7 +96,7 @@ export const ProjectView = () => {
             <div className="admin-container__inner__project-detail__detail-employees">
               <div className="title2">
                 <h5>{detail?.data?.employee_project?.length ? "Employees" : "No Employees List"}</h5>
-                <IconUsersGroup size={35} />
+                <IconUserCog size={35} />
               </div>
               <div className="list">
                 
