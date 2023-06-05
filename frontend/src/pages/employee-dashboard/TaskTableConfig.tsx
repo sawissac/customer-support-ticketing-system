@@ -76,19 +76,19 @@ export const TaskTableConfig = (employeeClickHandler: any,themeRedux:any) => [
           className="progress-wrapper"
           barContainerClassName={`${
             themeRedux === Theme.Dark
-              ? "progress-container progress-container--dark"
+              ? "progress-container--dark"
               : "progress-container"
           }`}
           labelClassName={`${
             themeRedux === Theme.Dark
-              ? "progress-label progress-label--dark"
+              ? "progress-label--dark"
               : "progress-label"
           }`}
         />
       );
     },
     sortable: true,
-    width: "200px",
+    width: "150px",
   },
   {
     name: "Status",
@@ -112,8 +112,10 @@ export const TaskTableConfig = (employeeClickHandler: any,themeRedux:any) => [
     cell: (row: AssignEmployeeListTicketProps) => (
       <button
         title="Assigned Employee"
-        className={"btn btn--light btn--icon btn--no-m-bottom text-primary"}
-        // disabled={row.status==="close" || row.status==="confirm"}
+        className={row.status==="close" || row.status==="confirm"?
+        "btn btn--light btn--icon btn--no-m-bottom text-primary btn--disable" :
+        "btn btn--light btn--icon btn--no-m-bottom text-primary"}
+        disabled={row.status==="close" || row.status==="confirm"}
         onClick={() => {
           employeeClickHandler(row);
         }}
