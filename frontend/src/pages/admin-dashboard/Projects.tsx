@@ -155,7 +155,7 @@ const Projects = () => {
         cell: (row: any) => (
           <button
             title="Project Detail"
-            className="btn btn--light btn--icon btn--no-m-bottom text-danger"
+            className="btn btn--light btn--icon btn--no-m-bottom text-secondary"
             onClick={() => {
               dispatch(
                 setProjectState({
