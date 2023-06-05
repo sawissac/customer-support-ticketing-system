@@ -11,13 +11,14 @@
     text-transform: capitalize;
     overflow: hidden;
     margin-bottom: map-get($spacers, 3);
+    padding-top: 10px;
+    padding-bottom:10px;
   }
   &__sub-desc{
     text-align: left;
     font-size: $h6-font-size;
     font-weight: $font-weight-normal;
     font-family: $font-family-roboto;
-    // text-transform: capitalize;
     padding:0px map-get($spacers, 1);
     margin-top: map-get($spacers, 2);
     color: $gray-800;
