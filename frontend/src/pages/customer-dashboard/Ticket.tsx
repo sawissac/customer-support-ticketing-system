@@ -125,6 +125,7 @@ const TicketPage = () => {
       if (item.customer_project.project.project_id.toLowerCase().includes(value.toLowerCase())) {
         return true;
       }
+      
     });
 
     if (filtered.length > 0) {
