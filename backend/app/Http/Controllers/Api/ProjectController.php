@@ -17,8 +17,8 @@ class ProjectController extends BaseController
         $this->projectRepo = $projectRepo;
         $this->projectServcie = $projectServcie;
         $this->middleware('permission:canShowProjectList', ['only' => ['index', 'show']]);
-        $this->middleware('permission:canCreateProjectList', ['only' => ['create,store']]);
-        $this->middleware('permission:canUpdateProjectList', ['only' => ['edit,update']]);
+        $this->middleware('permission:canCreateProjectList', ['only' => ['store']]);
+        $this->middleware('permission:canUpdateProjectList', ['only' => ['update']]);
         $this->middleware('permission:canDeleteProjectList', ['only' => ['destroy']]);
     }
 

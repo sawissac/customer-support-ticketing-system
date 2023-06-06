@@ -16,8 +16,8 @@ class TicketController extends BaseController
         $this->ticketRepo = $ticketRepo;
         $this->ticketService = $ticketService;
         $this->middleware('permission:canShowTickets', ['only' => ['index', 'show', 'getTickets']]);
-        $this->middleware('permission:canCreateTickets', ['only' => ['create,store']]);
-        $this->middleware('permission:canUpdateTickets', ['only' => ['edit,update']]);
+        $this->middleware('permission:canCreateTickets', ['only' => ['store']]);
+        $this->middleware('permission:canUpdateTickets', ['only' => ['update']]);
         $this->middleware('permission:canDeleteTickets', ['only' => ['destroy']]);
     }
 

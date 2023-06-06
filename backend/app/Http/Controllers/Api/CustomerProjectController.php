@@ -17,8 +17,8 @@ class CustomerProjectController extends BaseController
         $this->customerProjectRepo = $customerProjectRepo;
         $this->customerProjectService = $customerProjectService;
         $this->middleware('permission:canShowCustomerProjectList', ['only' => ['index', 'show']]);
-        $this->middleware('permission:canCreateCustomerProjectList', ['only' => ['create,store']]);
-        $this->middleware('permission:canUpdateCustomerProjectList', ['only' => ['edit,update']]);
+        $this->middleware('permission:canCreateCustomerProjectList', ['only' => ['store']]);
+        $this->middleware('permission:canUpdateCustomerProjectList', ['only' => ['update']]);
         $this->middleware('permission:canDeleteCustomerProjectList', ['only' => ['destroy']]);
     }
 
@@ -62,7 +62,6 @@ class CustomerProjectController extends BaseController
         $data = $this->customerProjectRepo->show($id);
 
         if (is_null($data)) {
-
             return $this->sendError('CustomerProject not found.', [], 500);
         }
 

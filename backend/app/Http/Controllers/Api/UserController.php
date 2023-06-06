@@ -17,8 +17,8 @@ class UserController extends BaseController
         $this->userRepo = $userRepo;
         $this->userService = $userService;
         $this->middleware('permission:canShowUser', ['only' => ['index', 'show', 'employee', 'customer']]);
-        $this->middleware('permission:canCreateUser', ['only' => ['create,store']]);
-        $this->middleware('permission:canUpdateUser', ['only' => ['edit,update']]);
+        $this->middleware('permission:canCreateUser', ['only' => ['store']]);
+        $this->middleware('permission:canUpdateUser', ['only' => ['update']]);
         $this->middleware('permission:canDeleteUser', ['only' => ['destroy']]);
     }
 
