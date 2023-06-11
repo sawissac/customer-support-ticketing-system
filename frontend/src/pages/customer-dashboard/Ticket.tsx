@@ -210,6 +210,7 @@ const TicketPage = () => {
                       status={i.status}
                       ticketId={`#${i.tickets_id}`}
                       projectId={i.customer_project.project.project_id}
+                      createDate={i.created_at}
                       onClick={() => {
                         dispatch(
                           setViewData({

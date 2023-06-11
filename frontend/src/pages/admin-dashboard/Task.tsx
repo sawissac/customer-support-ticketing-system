@@ -185,7 +185,7 @@ const Task = () => {
         width: "150px",
       },
       {
-        name: "Employees",
+        name: "Assign",
         cell: (row: any) => (
           <button
             title="Assign Employee"
@@ -402,10 +402,10 @@ const Task = () => {
           <div className="admin-container">
             <Nav
               icon={<IconCalendarEvent />}
-              label={"Tasks"}
+              label={"In-Process"}
               rightPlacer={
                 <Button
-                  label="Create Tasks"
+                  label="Add Ticket"
                   icon={<IconPlus size={20} />}
                   className="btn btn--light btn--block btn--no-m-bottom btn--sm"
                   onClick={() => {

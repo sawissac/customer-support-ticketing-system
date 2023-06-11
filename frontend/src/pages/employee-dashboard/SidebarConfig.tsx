@@ -13,7 +13,7 @@ export const sidebarConfig: SideBarLink[] = [
   {
     routeName: "/tasks",
     icon: <IconCalendarEvent />,
-    label: "Tasks",
+    label: "In-Process",
     reset: resetEmployeeAssignPage
   },
 ];

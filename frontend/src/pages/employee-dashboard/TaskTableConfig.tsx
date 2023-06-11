@@ -65,7 +65,6 @@ export const TaskTableConfig = (employeeClickHandler: any,themeRedux:any) => [
         }
       });
       const calculated = (doneEmployee.length / total) * 100;
-      // return total === 0 ? "0%" : Math.round(calculated) + "%";
       return (
         <ProgressBar
           completed={total === 0 ? 0 : Math.round(calculated)}
@@ -108,7 +107,7 @@ export const TaskTableConfig = (employeeClickHandler: any,themeRedux:any) => [
     width: "200px",
   },
   {
-    name: "Employees",
+    name: "Assign",
     cell: (row: AssignEmployeeListTicketProps) => (
       <button
         title="Assigned Employee"

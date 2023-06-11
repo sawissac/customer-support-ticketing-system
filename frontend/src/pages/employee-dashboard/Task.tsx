@@ -107,7 +107,7 @@ const Task = () => {
           <div className="admin-container">
             <Nav
               icon={<IconCalendarEvent />}
-              label={"Tasks"}
+              label={"In-Process"}
             />
             <motion.div
               initial={{ y: "30px", opacity: 0 }}

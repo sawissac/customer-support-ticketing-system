@@ -11,6 +11,7 @@ import { Theme } from "../../redux/variable/ThemeVariable";
 import Button from "../Button";
 import { textLimiter } from "../../commonFunction/common";
 import { IconTicket } from "@tabler/icons-react";
+import { IconCalendar } from "@tabler/icons-react";
 
 interface TicketListInterface {
   description: string;
@@ -23,6 +24,7 @@ interface TicketListInterface {
   projectId?: string;
   projectName: string;
   onClick?: any;
+  createDate?:string;
 }
 
 const TicketList = ({
@@ -36,8 +38,13 @@ const TicketList = ({
   projectName,
   ticketId,
   projectId,
+  createDate
 }: TicketListInterface) => {
   const themeRedux = useAppSelector((state) => state.theme);
+  const formatCreatedAt = (createdAt:any) => {
+    const date = new Date(createdAt);
+    return date.toLocaleDateString();
+  };
   return (
     <div className={`ticket-list ${themeRedux === Theme.Dark ? "ticket-list--dark" : ""}`}>
       <div className="ticket-list__status ticket-list__status--mt-0">
@@ -84,7 +91,16 @@ const TicketList = ({
         }`}
       >
         <IconFolder size={25} />
-        {textLimiter(20, projectName)} #{projectId}
+        {textLimiter(20, projectName)} #{projectId}  
+      </div>
+
+      <div
+        className={`ticket-list__sub-desc ${
+          themeRedux === Theme.Dark ? "ticket-list__sub-desc--dark" : ""
+        }`}
+      >
+        <IconCalendar size={25} />
+        {formatCreatedAt(createDate)}  
       </div>
       <div className="ticket-list__status">
         <div className="ticket-list__info">
