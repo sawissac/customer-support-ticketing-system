@@ -30,7 +30,7 @@ const AdminDashboard = () => {
           element={<Task />}
         />
         <Route
-          path="/reports"
+          path="/dashboard"
           element={<Report/>}
         />
         <Route

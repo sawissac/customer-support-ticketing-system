@@ -211,6 +211,7 @@ const TicketPage = () => {
                       ticketId={`#${i.tickets_id}`}
                       projectId={i.customer_project.project.project_id}
                       createDate={i.created_at}
+                      assignEmployee={i.employee_assign.length===0?"not assign yet":i.employee_assign.length}
                       onClick={() => {
                         dispatch(
                           setViewData({

@@ -162,7 +162,7 @@ const TaskUpdate = () => {
     <>
       <div className="admin-container admin-container--no-flex-grow admin-container--form">
         <Nav.BackButton
-          label="Task Update"
+          label="Add Ticket Update"
           onClick={() => {
             dispatch(setRightSidebar({ name: "" }));
           }}

@@ -143,8 +143,9 @@ const Ticket = () => {
         return true;
       }
       if (
-        item.customer_project.project.project_id.toLowerCase().includes
-        (value.toLowerCase())
+        item.customer_project.project.project_id
+          .toLowerCase()
+          .includes(value.toLowerCase())
       ) {
         return true;
       }
@@ -218,6 +219,11 @@ const Ticket = () => {
                       ticketId={`#${i.tickets_id}`}
                       projectId={i.customer_project.project.project_id}
                       createDate={i.created_at}
+                      assignEmployee={
+                        i.employee_assign.length === 0
+                          ? "not assign yet"
+                          : i.employee_assign.length
+                      }
                       onClick={() => {
                         dispatch(
                           setViewData({

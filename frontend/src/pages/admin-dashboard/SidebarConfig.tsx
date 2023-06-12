@@ -9,6 +9,11 @@ import { resetUserPage } from "../../redux/feature_slice/UserPageSlice";
 
 export const sidebarConfig: SideBarLink[] = [
   {
+    routeName: "/dashboard",
+    icon: <IconChartBar />,
+    label: "Dashboard",
+  },
+  {
     routeName: "/tickets",
     icon: <IconTicket />,
     label: "Tickets",
@@ -32,9 +37,5 @@ export const sidebarConfig: SideBarLink[] = [
     label: "Projects",
     reset: resetProjectPage
   },
-  {
-    routeName: "/reports",
-    icon: <IconChartBar />,
-    label: "Reports",
-  },
+  
 ];

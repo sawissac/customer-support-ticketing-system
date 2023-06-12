@@ -3,6 +3,7 @@ import {
   IconClockHour3,
   IconFlag3Filled,
   IconFolder,
+  IconUsersGroup,
 } from "@tabler/icons-react";
 import Avatar from "react-avatar";
 import ShowIf from "../Helper";
@@ -25,6 +26,7 @@ interface TicketListInterface {
   projectName: string;
   onClick?: any;
   createDate?:string;
+  assignEmployee?:number|string;
 }
 
 const TicketList = ({
@@ -38,7 +40,8 @@ const TicketList = ({
   projectName,
   ticketId,
   projectId,
-  createDate
+  createDate,
+  assignEmployee
 }: TicketListInterface) => {
   const themeRedux = useAppSelector((state) => state.theme);
   const formatCreatedAt = (createdAt:any) => {
@@ -102,6 +105,16 @@ const TicketList = ({
         <IconCalendar size={25} />
         {formatCreatedAt(createDate)}  
       </div>
+
+      <div
+        className={`ticket-list__sub-desc ${
+          themeRedux === Theme.Dark ? "ticket-list__sub-desc--dark" : ""
+        }`}
+      >
+        <IconUsersGroup size={25} />
+        {assignEmployee}  
+      </div>
+
       <div className="ticket-list__status">
         <div className="ticket-list__info">
           <IconFlag3Filled size={20} className="text-primary" />
@@ -116,6 +129,7 @@ const TicketList = ({
           <IconClockHour3 size={20} className="text-primary" />
           <label>{day}</label>
         </div>
+        
       </div>
 
       <Button
