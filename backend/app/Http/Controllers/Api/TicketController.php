@@ -121,4 +121,13 @@ class TicketController extends BaseController
 
         return $this->sendResponse($result, 'Tickets of Date successfully.');
     }
+
+
+    public function customerMonthlyTicket($id)
+    {
+        $data = $this->ticketRepo->customerMonthlyTicket($id);
+
+        return $this->sendResponse($data, 'Monthly Ticksts of Customer successfully');
+    }
+
 }

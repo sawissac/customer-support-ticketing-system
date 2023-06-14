@@ -11,4 +11,7 @@ interface TicketRepositoryInterface
     public function checkTicketList();
 
     public function checkDate($id);
+
+    public function customerMonthlyTicket($id);
+
 }
